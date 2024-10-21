@@ -1,0 +1,2238 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="272.26706mm"
+   height="165.80276mm"
+   viewBox="0 0 272.26706 165.80276"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25)"
+   sodipodi:docname="gpu_architecture.svg"
+   inkscape:export-filename="gpu_architecture.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="0.44986644"
+     inkscape:cx="211.17379"
+     inkscape:cy="374.55562"
+     inkscape:window-width="1920"
+     inkscape:window-height="950"
+     inkscape:window-x="0"
+     inkscape:window-y="25"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1"
+     showgrid="false" />
+  <defs
+     id="defs1">
+    <linearGradient
+       id="linearGradient216"
+       inkscape:collect="always">
+      <stop
+         style="stop-color:#ff8696;stop-opacity:1;"
+         offset="0"
+         id="stop215" />
+      <stop
+         style="stop-color:#ff6931;stop-opacity:1;"
+         offset="1"
+         id="stop216" />
+    </linearGradient>
+    <marker
+       style="overflow:visible"
+       id="marker210"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Concave triangle arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.7)"
+         d="M -2,-4 9,0 -2,4 c 2,-2.33 2,-5.66 0,-8 z"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:none"
+         id="path210" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="ConcaveTriangle"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Concave triangle arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.7)"
+         d="M -2,-4 9,0 -2,4 c 2,-2.33 2,-5.66 0,-8 z"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:none"
+         id="path7" />
+    </marker>
+    <linearGradient
+       id="linearGradient10"
+       inkscape:collect="always">
+      <stop
+         style="stop-color:#05c100;stop-opacity:1;"
+         offset="0"
+         id="stop10" />
+      <stop
+         style="stop-color:#77ff47;stop-opacity:1;"
+         offset="1"
+         id="stop11" />
+    </linearGradient>
+    <rect
+       x="291.32343"
+       y="79.214958"
+       width="129.76662"
+       height="60.453518"
+       id="rect5" />
+    <rect
+       x="300.18298"
+       y="256.40631"
+       width="153.2184"
+       height="34.395973"
+       id="rect4" />
+    <linearGradient
+       id="linearGradient3"
+       inkscape:collect="always">
+      <stop
+         style="stop-color:#ff649f;stop-opacity:1;"
+         offset="0"
+         id="stop3" />
+      <stop
+         style="stop-color:#ff5d5d;stop-opacity:1;"
+         offset="1"
+         id="stop4" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3"
+       id="linearGradient4"
+       x1="14.116115"
+       y1="66.291786"
+       x2="64.116112"
+       y2="66.291786"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.0032984,0,0,0.70650739,-0.12901962,17.324152)" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient10"
+       id="linearGradient14"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.1684797,0,0,2.1844201,-4.2526597,-19.617957)"
+       x1="21.277353"
+       y1="20.417725"
+       x2="33.98605"
+       y2="24.301281" />
+    <rect
+       x="300.18298"
+       y="256.40631"
+       width="153.2184"
+       height="34.395973"
+       id="rect6" />
+    <rect
+       x="300.18298"
+       y="256.40631"
+       width="153.2184"
+       height="34.395973"
+       id="rect9" />
+    <rect
+       x="300.18298"
+       y="256.40631"
+       width="153.2184"
+       height="34.395973"
+       id="rect12" />
+    <rect
+       x="300.18298"
+       y="256.40631"
+       width="153.2184"
+       height="34.395973"
+       id="rect16" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient10"
+       id="linearGradient16"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.1684797,0,0,2.1844201,18.501513,-19.617957)"
+       x1="21.277353"
+       y1="20.417725"
+       x2="33.98605"
+       y2="24.301281" />
+    <rect
+       x="300.18298"
+       y="256.40631"
+       width="153.2184"
+       height="34.395973"
+       id="rect19" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient10"
+       id="linearGradient19"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.1684797,0,0,2.1844201,-4.2526597,-0.03878376)"
+       x1="21.277353"
+       y1="20.417725"
+       x2="33.98605"
+       y2="24.301281" />
+    <rect
+       x="300.18298"
+       y="256.40631"
+       width="153.2184"
+       height="34.395973"
+       id="rect22" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient10"
+       id="linearGradient22"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.1684797,0,0,2.1844201,18.501513,-0.03878376)"
+       x1="21.277353"
+       y1="20.417725"
+       x2="33.98605"
+       y2="24.301281" />
+    <rect
+       x="300.18298"
+       y="256.40631"
+       width="153.2184"
+       height="34.395973"
+       id="rect35" />
+    <rect
+       x="291.32343"
+       y="79.214958"
+       width="129.76662"
+       height="60.453518"
+       id="rect36" />
+    <rect
+       x="300.18298"
+       y="256.40631"
+       width="153.2184"
+       height="34.395973"
+       id="rect37" />
+    <rect
+       x="300.18298"
+       y="256.40631"
+       width="153.2184"
+       height="34.395973"
+       id="rect38" />
+    <rect
+       x="300.18298"
+       y="256.40631"
+       width="153.2184"
+       height="34.395973"
+       id="rect39" />
+    <rect
+       x="300.18298"
+       y="256.40631"
+       width="153.2184"
+       height="34.395973"
+       id="rect40" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient10"
+       id="linearGradient40"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.1684797,0,0,2.1844201,74.593215,-0.03878376)"
+       x1="21.277353"
+       y1="20.417725"
+       x2="33.98605"
+       y2="24.301281" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient10"
+       id="linearGradient41"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.1684797,0,0,2.1844201,51.839034,-0.03878376)"
+       x1="21.277353"
+       y1="20.417725"
+       x2="33.98605"
+       y2="24.301281" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient10"
+       id="linearGradient42"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.1684797,0,0,2.1844201,74.593215,-19.617957)"
+       x1="21.277353"
+       y1="20.417725"
+       x2="33.98605"
+       y2="24.301281" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient10"
+       id="linearGradient43"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.1684797,0,0,2.1844201,51.839034,-19.617957)"
+       x1="21.277353"
+       y1="20.417725"
+       x2="33.98605"
+       y2="24.301281" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3"
+       id="linearGradient44"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.0032984,0,0,0.70650739,55.962676,17.324152)"
+       x1="14.116115"
+       y1="66.291786"
+       x2="64.116112"
+       y2="66.291786" />
+    <rect
+       x="300.18298"
+       y="256.40631"
+       width="153.2184"
+       height="34.395973"
+       id="rect56" />
+    <rect
+       x="291.32343"
+       y="79.214958"
+       width="129.76662"
+       height="60.453518"
+       id="rect57" />
+    <rect
+       x="300.18298"
+       y="256.40631"
+       width="153.2184"
+       height="34.395973"
+       id="rect58" />
+    <rect
+       x="300.18298"
+       y="256.40631"
+       width="153.2184"
+       height="34.395973"
+       id="rect59" />
+    <rect
+       x="300.18298"
+       y="256.40631"
+       width="153.2184"
+       height="34.395973"
+       id="rect60" />
+    <rect
+       x="300.18298"
+       y="256.40631"
+       width="153.2184"
+       height="34.395973"
+       id="rect61" />
+    <rect
+       x="300.18298"
+       y="256.40631"
+       width="153.2184"
+       height="34.395973"
+       id="rect89" />
+    <rect
+       x="291.32343"
+       y="79.214958"
+       width="129.76662"
+       height="60.453518"
+       id="rect90" />
+    <rect
+       x="300.18298"
+       y="256.40631"
+       width="153.2184"
+       height="34.395973"
+       id="rect91" />
+    <rect
+       x="300.18298"
+       y="256.40631"
+       width="153.2184"
+       height="34.395973"
+       id="rect92" />
+    <rect
+       x="300.18298"
+       y="256.40631"
+       width="153.2184"
+       height="34.395973"
+       id="rect93" />
+    <rect
+       x="300.18298"
+       y="256.40631"
+       width="153.2184"
+       height="34.395973"
+       id="rect94" />
+    <rect
+       x="300.18298"
+       y="256.40631"
+       width="153.2184"
+       height="34.395973"
+       id="rect95" />
+    <rect
+       x="291.32343"
+       y="79.214958"
+       width="129.76662"
+       height="60.453518"
+       id="rect96" />
+    <rect
+       x="300.18298"
+       y="256.40631"
+       width="153.2184"
+       height="34.395973"
+       id="rect97" />
+    <rect
+       x="300.18298"
+       y="256.40631"
+       width="153.2184"
+       height="34.395973"
+       id="rect98" />
+    <rect
+       x="300.18298"
+       y="256.40631"
+       width="153.2184"
+       height="34.395973"
+       id="rect99" />
+    <rect
+       x="300.18298"
+       y="256.40631"
+       width="153.2184"
+       height="34.395973"
+       id="rect100" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient10"
+       id="linearGradient100"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.1684797,0,0,2.1844201,186.24794,-0.03878376)"
+       x1="21.277353"
+       y1="20.417725"
+       x2="33.98605"
+       y2="24.301281" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient10"
+       id="linearGradient101"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.1684797,0,0,2.1844201,163.49363,-0.03878376)"
+       x1="21.277353"
+       y1="20.417725"
+       x2="33.98605"
+       y2="24.301281" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient10"
+       id="linearGradient102"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.1684797,0,0,2.1844201,186.24794,-19.617957)"
+       x1="21.277353"
+       y1="20.417725"
+       x2="33.98605"
+       y2="24.301281" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient10"
+       id="linearGradient103"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.1684797,0,0,2.1844201,163.49363,-19.617957)"
+       x1="21.277353"
+       y1="20.417725"
+       x2="33.98605"
+       y2="24.301281" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3"
+       id="linearGradient104"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.0032984,0,0,0.70650739,167.61729,17.324152)"
+       x1="14.116115"
+       y1="66.291786"
+       x2="64.116112"
+       y2="66.291786" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient10"
+       id="linearGradient105"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.1684797,0,0,2.1844201,130.15592,-0.03878376)"
+       x1="21.277353"
+       y1="20.417725"
+       x2="33.98605"
+       y2="24.301281" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient10"
+       id="linearGradient106"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.1684797,0,0,2.1844201,107.40161,-0.03878376)"
+       x1="21.277353"
+       y1="20.417725"
+       x2="33.98605"
+       y2="24.301281" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient10"
+       id="linearGradient107"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.1684797,0,0,2.1844201,130.15592,-19.617957)"
+       x1="21.277353"
+       y1="20.417725"
+       x2="33.98605"
+       y2="24.301281" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient10"
+       id="linearGradient108"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.1684797,0,0,2.1844201,107.40161,-19.617957)"
+       x1="21.277353"
+       y1="20.417725"
+       x2="33.98605"
+       y2="24.301281" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3"
+       id="linearGradient109"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.0032984,0,0,0.70650739,111.52527,17.324152)"
+       x1="14.116115"
+       y1="66.291786"
+       x2="64.116112"
+       y2="66.291786" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient216"
+       id="linearGradient111"
+       x1="13.373908"
+       y1="80.264076"
+       x2="232.40881"
+       y2="80.264076"
+       gradientUnits="userSpaceOnUse" />
+    <rect
+       x="300.18298"
+       y="256.40631"
+       width="153.2184"
+       height="34.395973"
+       id="rect113" />
+    <rect
+       x="300.18298"
+       y="256.40631"
+       width="153.2184"
+       height="34.395973"
+       id="rect163" />
+    <rect
+       x="291.32343"
+       y="79.214958"
+       width="129.76662"
+       height="60.453518"
+       id="rect164" />
+    <rect
+       x="300.18298"
+       y="256.40631"
+       width="153.2184"
+       height="34.395973"
+       id="rect165" />
+    <rect
+       x="300.18298"
+       y="256.40631"
+       width="153.2184"
+       height="34.395973"
+       id="rect166" />
+    <rect
+       x="300.18298"
+       y="256.40631"
+       width="153.2184"
+       height="34.395973"
+       id="rect167" />
+    <rect
+       x="300.18298"
+       y="256.40631"
+       width="153.2184"
+       height="34.395973"
+       id="rect168" />
+    <rect
+       x="300.18298"
+       y="256.40631"
+       width="153.2184"
+       height="34.395973"
+       id="rect169" />
+    <rect
+       x="291.32343"
+       y="79.214958"
+       width="129.76662"
+       height="60.453518"
+       id="rect170" />
+    <rect
+       x="300.18298"
+       y="256.40631"
+       width="153.2184"
+       height="34.395973"
+       id="rect171" />
+    <rect
+       x="300.18298"
+       y="256.40631"
+       width="153.2184"
+       height="34.395973"
+       id="rect172" />
+    <rect
+       x="300.18298"
+       y="256.40631"
+       width="153.2184"
+       height="34.395973"
+       id="rect173" />
+    <rect
+       x="300.18298"
+       y="256.40631"
+       width="153.2184"
+       height="34.395973"
+       id="rect174" />
+    <rect
+       x="300.18298"
+       y="256.40631"
+       width="153.2184"
+       height="34.395973"
+       id="rect175" />
+    <rect
+       x="291.32343"
+       y="79.214958"
+       width="129.76662"
+       height="60.453518"
+       id="rect176" />
+    <rect
+       x="300.18298"
+       y="256.40631"
+       width="153.2184"
+       height="34.395973"
+       id="rect177" />
+    <rect
+       x="300.18298"
+       y="256.40631"
+       width="153.2184"
+       height="34.395973"
+       id="rect178" />
+    <rect
+       x="300.18298"
+       y="256.40631"
+       width="153.2184"
+       height="34.395973"
+       id="rect179" />
+    <rect
+       x="300.18298"
+       y="256.40631"
+       width="153.2184"
+       height="34.395973"
+       id="rect180" />
+    <rect
+       x="300.18298"
+       y="256.40631"
+       width="153.2184"
+       height="34.395973"
+       id="rect181" />
+    <rect
+       x="291.32343"
+       y="79.214958"
+       width="129.76662"
+       height="60.453518"
+       id="rect182" />
+    <rect
+       x="300.18298"
+       y="256.40631"
+       width="153.2184"
+       height="34.395973"
+       id="rect183" />
+    <rect
+       x="300.18298"
+       y="256.40631"
+       width="153.2184"
+       height="34.395973"
+       id="rect184" />
+    <rect
+       x="300.18298"
+       y="256.40631"
+       width="153.2184"
+       height="34.395973"
+       id="rect185" />
+    <rect
+       x="300.18298"
+       y="256.40631"
+       width="153.2184"
+       height="34.395973"
+       id="rect186" />
+    <rect
+       x="300.18298"
+       y="256.40631"
+       width="153.2184"
+       height="34.395973"
+       id="rect187" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient216"
+       id="linearGradient187"
+       gradientUnits="userSpaceOnUse"
+       x1="13.373908"
+       y1="80.264076"
+       x2="232.40881"
+       y2="80.264076"
+       gradientTransform="translate(0,83.60838)" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient10"
+       id="linearGradient188"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.1684797,0,0,2.1844201,186.24794,83.569596)"
+       x1="21.277353"
+       y1="20.417725"
+       x2="33.98605"
+       y2="24.301281" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient10"
+       id="linearGradient189"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.1684797,0,0,2.1844201,163.49363,83.569596)"
+       x1="21.277353"
+       y1="20.417725"
+       x2="33.98605"
+       y2="24.301281" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient10"
+       id="linearGradient190"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.1684797,0,0,2.1844201,186.24794,63.990417)"
+       x1="21.277353"
+       y1="20.417725"
+       x2="33.98605"
+       y2="24.301281" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient10"
+       id="linearGradient191"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.1684797,0,0,2.1844201,163.49363,63.990417)"
+       x1="21.277353"
+       y1="20.417725"
+       x2="33.98605"
+       y2="24.301281" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3"
+       id="linearGradient192"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.0032984,0,0,0.70650739,167.61729,100.93254)"
+       x1="14.116115"
+       y1="66.291786"
+       x2="64.116112"
+       y2="66.291786" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient10"
+       id="linearGradient193"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.1684797,0,0,2.1844201,130.15592,83.569596)"
+       x1="21.277353"
+       y1="20.417725"
+       x2="33.98605"
+       y2="24.301281" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient10"
+       id="linearGradient194"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.1684797,0,0,2.1844201,107.40161,83.569596)"
+       x1="21.277353"
+       y1="20.417725"
+       x2="33.98605"
+       y2="24.301281" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient10"
+       id="linearGradient195"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.1684797,0,0,2.1844201,130.15592,63.990417)"
+       x1="21.277353"
+       y1="20.417725"
+       x2="33.98605"
+       y2="24.301281" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient10"
+       id="linearGradient196"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.1684797,0,0,2.1844201,107.40161,63.990417)"
+       x1="21.277353"
+       y1="20.417725"
+       x2="33.98605"
+       y2="24.301281" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3"
+       id="linearGradient197"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.0032984,0,0,0.70650739,111.52527,100.93254)"
+       x1="14.116115"
+       y1="66.291786"
+       x2="64.116112"
+       y2="66.291786" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient10"
+       id="linearGradient198"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.1684797,0,0,2.1844201,74.593215,83.569596)"
+       x1="21.277353"
+       y1="20.417725"
+       x2="33.98605"
+       y2="24.301281" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient10"
+       id="linearGradient199"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.1684797,0,0,2.1844201,51.839034,83.569596)"
+       x1="21.277353"
+       y1="20.417725"
+       x2="33.98605"
+       y2="24.301281" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient10"
+       id="linearGradient200"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.1684797,0,0,2.1844201,74.593215,63.990417)"
+       x1="21.277353"
+       y1="20.417725"
+       x2="33.98605"
+       y2="24.301281" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient10"
+       id="linearGradient201"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.1684797,0,0,2.1844201,51.839034,63.990417)"
+       x1="21.277353"
+       y1="20.417725"
+       x2="33.98605"
+       y2="24.301281" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3"
+       id="linearGradient202"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.0032984,0,0,0.70650739,55.962676,100.93254)"
+       x1="14.116115"
+       y1="66.291786"
+       x2="64.116112"
+       y2="66.291786" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient10"
+       id="linearGradient203"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.1684797,0,0,2.1844201,18.501513,83.569596)"
+       x1="21.277353"
+       y1="20.417725"
+       x2="33.98605"
+       y2="24.301281" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient10"
+       id="linearGradient204"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.1684797,0,0,2.1844201,-4.2526597,83.569596)"
+       x1="21.277353"
+       y1="20.417725"
+       x2="33.98605"
+       y2="24.301281" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient10"
+       id="linearGradient205"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.1684797,0,0,2.1844201,18.501513,63.990417)"
+       x1="21.277353"
+       y1="20.417725"
+       x2="33.98605"
+       y2="24.301281" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient10"
+       id="linearGradient206"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.1684797,0,0,2.1844201,-4.2526597,63.990417)"
+       x1="21.277353"
+       y1="20.417725"
+       x2="33.98605"
+       y2="24.301281" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3"
+       id="linearGradient207"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.0032984,0,0,0.70650739,-0.12901962,100.93254)"
+       x1="14.116115"
+       y1="66.291786"
+       x2="64.116112"
+       y2="66.291786" />
+    <rect
+       x="300.18298"
+       y="256.40631"
+       width="153.2184"
+       height="34.395973"
+       id="rect208" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient216"
+       id="linearGradient209"
+       x1="-0.09767022"
+       y1="166.37041"
+       x2="-33.385525"
+       y2="13.900188"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.99973366,0,0,1.0337813,0.82682297,-1.9667635)" />
+  </defs>
+  <g
+     inkscape:label="Calque 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(39.858223,-7.1357674)">
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:1.0881;stroke-opacity:1"
+       id="rect1"
+       width="48.911896"
+       height="48.911896"
+       x="14.660167"
+       y="8.3173246"
+       rx="5.4405251"
+       ry="5.4405255" />
+    <rect
+       style="fill:url(#linearGradient4);fill-opacity:1;stroke:#000000;stroke-width:0.860422;stroke-opacity:1"
+       id="rect2"
+       width="49.139576"
+       height="9.8755827"
+       x="14.546326"
+       y="59.222"
+       rx="2"
+       ry="2" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,-59.567563,-6.5514637)"
+       id="text4"
+       style="font-weight:300;font-size:26.6667px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect4);display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3.77953;stroke-opacity:1"><tspan
+         x="323.8567"
+         y="276.5943"
+         id="tspan7"><tspan
+           style="stroke:none"
+           id="tspan5">L1 cache</tspan></tspan></text>
+    <path
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-opacity:1"
+       d="m 14.754003,16.885893 c 48.536531,0 48.536531,0 48.536531,0"
+       id="path4" />
+    <path
+       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.9697;stroke-opacity:1"
+       d="m 99.022767,33.019804 c -9.359751,0.26943 -18.82296,-0.481488 -28.119762,0.760351 -8.605363,2.165742 -14.425278,10.900484 -13.947915,19.634772 0.164986,2.963346 -0.518902,6.320307 0.371523,9.00207 60.311697,0 120.623397,0 180.935087,0 0.88922,-3.383106 -0.0273,-7.484291 0.14347,-11.145454 0.46085,-8.179099 -6.05365,-15.102059 -13.36295,-17.773001 -7.92351,-0.685278 -16.1134,-0.116401 -24.13744,-0.327402 -33.96066,-0.05168 -67.9213,-0.152028 -101.882013,-0.151336 z"
+       id="path5"
+       transform="scale(0.26458333)" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,-55.017263,-10.893143)"
+       id="text5"
+       style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect5);display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:3.77953;stroke-opacity:1"><tspan
+         x="296.58301"
+         y="94.355859"
+         id="tspan9"><tspan
+           style="fill:#ffffff"
+           id="tspan8">Compute unit</tspan></tspan></text>
+    <rect
+       style="fill:url(#linearGradient14);stroke:#000000;stroke-width:0.676033;stroke-dasharray:none;stroke-opacity:1"
+       id="rect14"
+       width="19.476805"
+       height="11.704849"
+       x="18.136787"
+       y="23.941938"
+       rx="3"
+       ry="2.9936371" />
+    <rect
+       style="fill:#c4c4c4;fill-opacity:1;stroke:#000000;stroke-width:0.727404;stroke-dasharray:none;stroke-opacity:1"
+       id="rect3"
+       width="19.880234"
+       height="4.1684217"
+       x="18.008591"
+       y="18.52207"
+       rx="1"
+       ry="1" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,-71.74154,-40.722412)"
+       id="text6"
+       style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect6);display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3.77953;stroke-opacity:1"><tspan
+         x="353.9707"
+         y="271.54727"
+         id="tspan11"><tspan
+           style="stroke:none"
+           id="tspan10">SIMT</tspan></tspan></text>
+    <rect
+       style="fill:url(#linearGradient16);stroke:#000000;stroke-width:0.676033;stroke-dasharray:none;stroke-opacity:1"
+       id="rect13"
+       width="19.476805"
+       height="11.704849"
+       x="40.890976"
+       y="23.941938"
+       rx="3"
+       ry="2.9936371" />
+    <rect
+       style="fill:#c4c4c4;fill-opacity:1;stroke:#000000;stroke-width:0.727404;stroke-dasharray:none;stroke-opacity:1"
+       id="rect15"
+       width="19.880234"
+       height="4.1684217"
+       x="40.762779"
+       y="18.52207"
+       rx="1"
+       ry="1" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,-49.516526,-40.722412)"
+       id="text15"
+       style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect16);display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3.77953;stroke-opacity:1"><tspan
+         x="353.9707"
+         y="271.54727"
+         id="tspan13"><tspan
+           style="stroke:none"
+           id="tspan12">SIMT</tspan></tspan></text>
+    <rect
+       style="fill:url(#linearGradient19);stroke:#000000;stroke-width:0.676033;stroke-dasharray:none;stroke-opacity:1"
+       id="rect17"
+       width="19.476805"
+       height="11.704849"
+       x="18.136787"
+       y="43.521122"
+       rx="3"
+       ry="2.9936371" />
+    <rect
+       style="fill:#c4c4c4;fill-opacity:1;stroke:#000000;stroke-width:0.727404;stroke-dasharray:none;stroke-opacity:1"
+       id="rect18"
+       width="19.880234"
+       height="4.1684217"
+       x="18.008591"
+       y="38.101254"
+       rx="1"
+       ry="1" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,-71.74154,-21.143233)"
+       id="text18"
+       style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect19);display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3.77953;stroke-opacity:1"><tspan
+         x="353.9707"
+         y="271.54727"
+         id="tspan15"><tspan
+           style="stroke:none"
+           id="tspan14">SIMT</tspan></tspan></text>
+    <rect
+       style="fill:url(#linearGradient22);stroke:#000000;stroke-width:0.676033;stroke-dasharray:none;stroke-opacity:1"
+       id="rect20"
+       width="19.476805"
+       height="11.704849"
+       x="40.890976"
+       y="43.521122"
+       rx="3"
+       ry="2.9936371" />
+    <rect
+       style="fill:#c4c4c4;fill-opacity:1;stroke:#000000;stroke-width:0.727404;stroke-dasharray:none;stroke-opacity:1"
+       id="rect21"
+       width="19.880234"
+       height="4.1684217"
+       x="40.762779"
+       y="38.101254"
+       rx="1"
+       ry="1" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,-48.987359,-21.143233)"
+       id="text21"
+       style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect22);display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3.77953;stroke-opacity:1"><tspan
+         x="353.9707"
+         y="271.54727"
+         id="tspan17"><tspan
+           style="stroke:none"
+           id="tspan16">SIMT</tspan></tspan></text>
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:1.0881;stroke-opacity:1"
+       id="rect23"
+       width="48.911896"
+       height="48.911896"
+       x="70.751884"
+       y="8.3173246"
+       rx="5.4405251"
+       ry="5.4405255" />
+    <rect
+       style="fill:url(#linearGradient44);fill-opacity:1;stroke:#000000;stroke-width:0.860422;stroke-opacity:1"
+       id="rect24"
+       width="49.139576"
+       height="9.8755827"
+       x="70.638039"
+       y="59.222"
+       rx="2"
+       ry="2" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,-3.4758649,-6.5514637)"
+       id="text25"
+       style="font-weight:300;font-size:26.6667px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect35);display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3.77953;stroke-opacity:1"><tspan
+         x="323.8567"
+         y="276.5943"
+         id="tspan19"><tspan
+           style="stroke:none"
+           id="tspan18">L1 cache</tspan></tspan></text>
+    <path
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-opacity:1"
+       d="m 70.845705,16.885893 c 48.536635,0 48.536635,0 48.536635,0"
+       id="path25" />
+    <path
+       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.52115;stroke-opacity:1"
+       d="m 82.291475,8.7364897 c -2.476434,0.071287 -4.980241,-0.1273937 -7.44002,0.2011762 -2.276836,0.5730192 -3.816688,2.8840861 -3.690386,5.1950331 0.04365,0.784052 -0.137293,1.672248 0.0983,2.381798 15.957469,0 31.914951,0 47.872511,0 0.23528,-0.895114 -0.007,-1.980219 0.038,-2.948901 0.1219,-2.164054 -1.60174,-3.9957535 -3.53567,-4.7024402 -2.09644,-0.1813131 -4.26336,-0.030798 -6.3864,-0.086625 -8.98548,-0.013674 -17.970896,-0.040224 -26.956335,-0.040041 z"
+       id="path26" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,1.0744326,-10.893143)"
+       id="text27"
+       style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect36);display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:3.77953;stroke-opacity:1"><tspan
+         x="296.58301"
+         y="94.355859"
+         id="tspan21"><tspan
+           style="fill:#ffffff"
+           id="tspan20">Compute unit</tspan></tspan></text>
+    <rect
+       style="fill:url(#linearGradient43);stroke:#000000;stroke-width:0.676033;stroke-dasharray:none;stroke-opacity:1"
+       id="rect27"
+       width="19.476805"
+       height="11.704849"
+       x="74.228508"
+       y="23.941938"
+       rx="3"
+       ry="2.9936371" />
+    <rect
+       style="fill:#c4c4c4;fill-opacity:1;stroke:#000000;stroke-width:0.727404;stroke-dasharray:none;stroke-opacity:1"
+       id="rect28"
+       width="19.880234"
+       height="4.1684217"
+       x="74.100311"
+       y="18.52207"
+       rx="1"
+       ry="1" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,-15.649838,-40.722412)"
+       id="text28"
+       style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect37);display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3.77953;stroke-opacity:1"><tspan
+         x="353.9707"
+         y="271.54727"
+         id="tspan23"><tspan
+           style="stroke:none"
+           id="tspan22">SIMT</tspan></tspan></text>
+    <rect
+       style="fill:url(#linearGradient42);stroke:#000000;stroke-width:0.676033;stroke-dasharray:none;stroke-opacity:1"
+       id="rect29"
+       width="19.476805"
+       height="11.704849"
+       x="96.982697"
+       y="23.941938"
+       rx="3"
+       ry="2.9936371" />
+    <rect
+       style="fill:#c4c4c4;fill-opacity:1;stroke:#000000;stroke-width:0.727404;stroke-dasharray:none;stroke-opacity:1"
+       id="rect30"
+       width="19.880234"
+       height="4.1684217"
+       x="96.8545"
+       y="18.52207"
+       rx="1"
+       ry="1" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,6.5751662,-40.722412)"
+       id="text30"
+       style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect38);display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3.77953;stroke-opacity:1"><tspan
+         x="353.9707"
+         y="271.54727"
+         id="tspan25"><tspan
+           style="stroke:none"
+           id="tspan24">SIMT</tspan></tspan></text>
+    <rect
+       style="fill:url(#linearGradient41);stroke:#000000;stroke-width:0.676033;stroke-dasharray:none;stroke-opacity:1"
+       id="rect31"
+       width="19.476805"
+       height="11.704849"
+       x="74.228508"
+       y="43.521122"
+       rx="3"
+       ry="2.9936371" />
+    <rect
+       style="fill:#c4c4c4;fill-opacity:1;stroke:#000000;stroke-width:0.727404;stroke-dasharray:none;stroke-opacity:1"
+       id="rect32"
+       width="19.880234"
+       height="4.1684217"
+       x="74.100311"
+       y="38.101254"
+       rx="1"
+       ry="1" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,-15.649838,-21.143233)"
+       id="text32"
+       style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect39);display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3.77953;stroke-opacity:1"><tspan
+         x="353.9707"
+         y="271.54727"
+         id="tspan27"><tspan
+           style="stroke:none"
+           id="tspan26">SIMT</tspan></tspan></text>
+    <rect
+       style="fill:url(#linearGradient40);stroke:#000000;stroke-width:0.676033;stroke-dasharray:none;stroke-opacity:1"
+       id="rect33"
+       width="19.476805"
+       height="11.704849"
+       x="96.982697"
+       y="43.521122"
+       rx="3"
+       ry="2.9936371" />
+    <rect
+       style="fill:#c4c4c4;fill-opacity:1;stroke:#000000;stroke-width:0.727404;stroke-dasharray:none;stroke-opacity:1"
+       id="rect34"
+       width="19.880234"
+       height="4.1684217"
+       x="96.8545"
+       y="38.101254"
+       rx="1"
+       ry="1" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,7.1043329,-21.143233)"
+       id="text34"
+       style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect40);display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3.77953;stroke-opacity:1"><tspan
+         x="353.9707"
+         y="271.54727"
+         id="tspan29"><tspan
+           style="stroke:none"
+           id="tspan28">SIMT</tspan></tspan></text>
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:1.0881;stroke-opacity:1"
+       id="rect65"
+       width="48.911896"
+       height="48.911896"
+       x="126.31438"
+       y="8.3173246"
+       rx="5.4405251"
+       ry="5.4405255" />
+    <rect
+       style="fill:url(#linearGradient109);fill-opacity:1;stroke:#000000;stroke-width:0.860422;stroke-opacity:1"
+       id="rect66"
+       width="49.139576"
+       height="9.8755827"
+       x="126.20051"
+       y="59.222"
+       rx="2"
+       ry="2" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,52.086662,-6.5514637)"
+       id="text67"
+       style="font-weight:300;font-size:26.6667px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect89);display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3.77953;stroke-opacity:1"><tspan
+         x="323.8567"
+         y="276.5943"
+         id="tspan31"><tspan
+           style="stroke:none"
+           id="tspan30">L1 cache</tspan></tspan></text>
+    <path
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-opacity:1"
+       d="m 126.40839,16.885893 c 48.5368,0 48.5368,0 48.5368,0"
+       id="path67" />
+    <path
+       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.52115;stroke-opacity:1"
+       d="m 137.85422,8.7364897 c -2.47645,0.071287 -4.98027,-0.1273937 -7.44006,0.2011762 -2.27685,0.5730192 -3.81671,2.8840861 -3.69041,5.1950331 0.0436,0.784052 -0.13729,1.672248 0.0983,2.381798 15.95756,0 31.91512,0 47.87268,0 0.23528,-0.895114 -0.007,-1.980219 0.038,-2.948901 0.1219,-2.164054 -1.60174,-3.9957535 -3.53567,-4.7024402 -2.09644,-0.1813131 -4.26336,-0.030798 -6.3864,-0.086625 -8.98548,-0.013674 -17.97095,-0.040224 -26.95644,-0.040041 z"
+       id="path68" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,56.636962,-10.893143)"
+       id="text69"
+       style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect90);display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:3.77953;stroke-opacity:1"><tspan
+         x="296.58301"
+         y="94.355859"
+         id="tspan33"><tspan
+           style="fill:#ffffff"
+           id="tspan32">Compute unit</tspan></tspan></text>
+    <rect
+       style="fill:url(#linearGradient108);stroke:#000000;stroke-width:0.676033;stroke-dasharray:none;stroke-opacity:1"
+       id="rect69"
+       width="19.476805"
+       height="11.704849"
+       x="129.79102"
+       y="23.941938"
+       rx="3"
+       ry="2.9936371" />
+    <rect
+       style="fill:#c4c4c4;fill-opacity:1;stroke:#000000;stroke-width:0.727404;stroke-dasharray:none;stroke-opacity:1"
+       id="rect70"
+       width="19.880234"
+       height="4.1684217"
+       x="129.6628"
+       y="18.52207"
+       rx="1"
+       ry="1" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,39.912685,-40.722412)"
+       id="text70"
+       style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect91);display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3.77953;stroke-opacity:1"><tspan
+         x="353.9707"
+         y="271.54727"
+         id="tspan35"><tspan
+           style="stroke:none"
+           id="tspan34">SIMT</tspan></tspan></text>
+    <rect
+       style="fill:url(#linearGradient107);stroke:#000000;stroke-width:0.676033;stroke-dasharray:none;stroke-opacity:1"
+       id="rect71"
+       width="19.476805"
+       height="11.704849"
+       x="152.54488"
+       y="23.941938"
+       rx="3"
+       ry="2.9936371" />
+    <rect
+       style="fill:#c4c4c4;fill-opacity:1;stroke:#000000;stroke-width:0.727404;stroke-dasharray:none;stroke-opacity:1"
+       id="rect72"
+       width="19.880234"
+       height="4.1684217"
+       x="152.41666"
+       y="18.52207"
+       rx="1"
+       ry="1" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,62.137699,-40.722412)"
+       id="text72"
+       style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect92);display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3.77953;stroke-opacity:1"><tspan
+         x="353.9707"
+         y="271.54727"
+         id="tspan37"><tspan
+           style="stroke:none"
+           id="tspan36">SIMT</tspan></tspan></text>
+    <rect
+       style="fill:url(#linearGradient106);stroke:#000000;stroke-width:0.676033;stroke-dasharray:none;stroke-opacity:1"
+       id="rect73"
+       width="19.476805"
+       height="11.704849"
+       x="129.79102"
+       y="43.521122"
+       rx="3"
+       ry="2.9936371" />
+    <rect
+       style="fill:#c4c4c4;fill-opacity:1;stroke:#000000;stroke-width:0.727404;stroke-dasharray:none;stroke-opacity:1"
+       id="rect74"
+       width="19.880234"
+       height="4.1684217"
+       x="129.6628"
+       y="38.101254"
+       rx="1"
+       ry="1" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,39.912685,-21.143233)"
+       id="text74"
+       style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect93);display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3.77953;stroke-opacity:1"><tspan
+         x="353.9707"
+         y="271.54727"
+         id="tspan39"><tspan
+           style="stroke:none"
+           id="tspan38">SIMT</tspan></tspan></text>
+    <rect
+       style="fill:url(#linearGradient105);stroke:#000000;stroke-width:0.676033;stroke-dasharray:none;stroke-opacity:1"
+       id="rect75"
+       width="19.476805"
+       height="11.704849"
+       x="152.54488"
+       y="43.521122"
+       rx="3"
+       ry="2.9936371" />
+    <rect
+       style="fill:#c4c4c4;fill-opacity:1;stroke:#000000;stroke-width:0.727404;stroke-dasharray:none;stroke-opacity:1"
+       id="rect76"
+       width="19.880234"
+       height="4.1684217"
+       x="152.41666"
+       y="38.101254"
+       rx="1"
+       ry="1" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,62.666866,-21.143233)"
+       id="text76"
+       style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect94);display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3.77953;stroke-opacity:1"><tspan
+         x="353.9707"
+         y="271.54727"
+         id="tspan41"><tspan
+           style="stroke:none"
+           id="tspan40">SIMT</tspan></tspan></text>
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:1.0881;stroke-opacity:1"
+       id="rect77"
+       width="48.911896"
+       height="48.911896"
+       x="182.4053"
+       y="8.3173246"
+       rx="5.4405251"
+       ry="5.4405255" />
+    <rect
+       style="fill:url(#linearGradient104);fill-opacity:1;stroke:#000000;stroke-width:0.860422;stroke-opacity:1"
+       id="rect78"
+       width="49.139576"
+       height="9.8755827"
+       x="182.29146"
+       y="59.222"
+       rx="2"
+       ry="2" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,108.17841,-6.5514637)"
+       id="text79"
+       style="font-weight:300;font-size:26.6667px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect95);display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3.77953;stroke-opacity:1"><tspan
+         x="323.8567"
+         y="276.5943"
+         id="tspan43"><tspan
+           style="stroke:none"
+           id="tspan42">L1 cache</tspan></tspan></text>
+    <path
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-opacity:1"
+       d="m 182.50041,16.885893 c 48.5368,0 48.5368,0 48.5368,0"
+       id="path79" />
+    <path
+       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.52115;stroke-opacity:1"
+       d="m 193.94624,8.7364897 c -2.47645,0.071287 -4.98027,-0.1273937 -7.44006,0.2011762 -2.27685,0.5730192 -3.81671,2.8840861 -3.69041,5.1950331 0.0436,0.784052 -0.13729,1.672248 0.0983,2.381798 15.95756,0 31.91512,0 47.87268,0 0.23528,-0.895114 -0.007,-1.980219 0.038,-2.948901 0.1219,-2.164054 -1.60174,-3.9957535 -3.53567,-4.7024402 -2.09644,-0.1813131 -4.26336,-0.030798 -6.3864,-0.086625 -8.98548,-0.013674 -17.97095,-0.040224 -26.95644,-0.040041 z"
+       id="path80" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,112.72874,-10.893143)"
+       id="text81"
+       style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect96);display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:3.77953;stroke-opacity:1"><tspan
+         x="296.58301"
+         y="94.355859"
+         id="tspan45"><tspan
+           style="fill:#ffffff"
+           id="tspan44">Compute unit</tspan></tspan></text>
+    <rect
+       style="fill:url(#linearGradient103);stroke:#000000;stroke-width:0.676033;stroke-dasharray:none;stroke-opacity:1"
+       id="rect81"
+       width="19.476805"
+       height="11.704849"
+       x="185.88193"
+       y="23.941938"
+       rx="3"
+       ry="2.9936371" />
+    <rect
+       style="fill:#c4c4c4;fill-opacity:1;stroke:#000000;stroke-width:0.727404;stroke-dasharray:none;stroke-opacity:1"
+       id="rect82"
+       width="19.880234"
+       height="4.1684217"
+       x="185.75371"
+       y="18.52207"
+       rx="1"
+       ry="1" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,96.004387,-40.722412)"
+       id="text82"
+       style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect97);display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3.77953;stroke-opacity:1"><tspan
+         x="353.9707"
+         y="271.54727"
+         id="tspan47"><tspan
+           style="stroke:none"
+           id="tspan46">SIMT</tspan></tspan></text>
+    <rect
+       style="fill:url(#linearGradient102);stroke:#000000;stroke-width:0.676033;stroke-dasharray:none;stroke-opacity:1"
+       id="rect83"
+       width="19.476805"
+       height="11.704849"
+       x="208.63579"
+       y="23.941938"
+       rx="3"
+       ry="2.9936371" />
+    <rect
+       style="fill:#c4c4c4;fill-opacity:1;stroke:#000000;stroke-width:0.727404;stroke-dasharray:none;stroke-opacity:1"
+       id="rect84"
+       width="19.880234"
+       height="4.1684217"
+       x="208.50757"
+       y="18.52207"
+       rx="1"
+       ry="1" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,118.2295,-40.722412)"
+       id="text84"
+       style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect98);display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3.77953;stroke-opacity:1"><tspan
+         x="353.9707"
+         y="271.54727"
+         id="tspan49"><tspan
+           style="stroke:none"
+           id="tspan48">SIMT</tspan></tspan></text>
+    <rect
+       style="fill:url(#linearGradient101);stroke:#000000;stroke-width:0.676033;stroke-dasharray:none;stroke-opacity:1"
+       id="rect85"
+       width="19.476805"
+       height="11.704849"
+       x="185.88193"
+       y="43.521122"
+       rx="3"
+       ry="2.9936371" />
+    <rect
+       style="fill:#c4c4c4;fill-opacity:1;stroke:#000000;stroke-width:0.727404;stroke-dasharray:none;stroke-opacity:1"
+       id="rect86"
+       width="19.880234"
+       height="4.1684217"
+       x="185.75371"
+       y="38.101254"
+       rx="1"
+       ry="1" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,96.004387,-21.143233)"
+       id="text86"
+       style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect99);display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3.77953;stroke-opacity:1"><tspan
+         x="353.9707"
+         y="271.54727"
+         id="tspan51"><tspan
+           style="stroke:none"
+           id="tspan50">SIMT</tspan></tspan></text>
+    <rect
+       style="fill:url(#linearGradient100);stroke:#000000;stroke-width:0.676033;stroke-dasharray:none;stroke-opacity:1"
+       id="rect87"
+       width="19.476805"
+       height="11.704849"
+       x="208.63579"
+       y="43.521122"
+       rx="3"
+       ry="2.9936371" />
+    <rect
+       style="fill:#c4c4c4;fill-opacity:1;stroke:#000000;stroke-width:0.727404;stroke-dasharray:none;stroke-opacity:1"
+       id="rect88"
+       width="19.880234"
+       height="4.1684217"
+       x="208.50757"
+       y="38.101254"
+       rx="1"
+       ry="1" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,118.75867,-21.143233)"
+       id="text88"
+       style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect100);display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3.77953;stroke-opacity:1"><tspan
+         x="353.9707"
+         y="271.54727"
+         id="tspan53"><tspan
+           style="stroke:none"
+           id="tspan52">SIMT</tspan></tspan></text>
+    <rect
+       style="fill:url(#linearGradient111);stroke:#000000;stroke-width:0.7;stroke-dasharray:none;stroke-opacity:1"
+       id="rect109"
+       width="218.33492"
+       height="14.139785"
+       x="13.723908"
+       y="73.194183"
+       rx="2"
+       ry="2" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,22.143588,9.2518256)"
+       id="text113"
+       style="font-weight:300;font-size:26.6667px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect113);display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3.77953;stroke-opacity:1"><tspan
+         x="324.34499"
+         y="276.5943"
+         id="tspan55"><tspan
+           style="stroke:none"
+           id="tspan54">L2 cache</tspan></tspan></text>
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:1.0881;stroke-opacity:1"
+       id="rect114"
+       width="48.911896"
+       height="48.911896"
+       x="14.660167"
+       y="91.92572"
+       rx="5.4405251"
+       ry="5.4405255" />
+    <rect
+       style="fill:url(#linearGradient207);fill-opacity:1;stroke:#000000;stroke-width:0.860422;stroke-opacity:1"
+       id="rect115"
+       width="49.139576"
+       height="9.8755827"
+       x="14.546326"
+       y="142.83012"
+       rx="2"
+       ry="2" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,-59.567563,77.056912)"
+       id="text116"
+       style="font-weight:300;font-size:26.6667px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect163);display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3.77953;stroke-opacity:1"><tspan
+         x="323.8567"
+         y="276.5943"
+         id="tspan57"><tspan
+           style="stroke:none"
+           id="tspan56">L1 cache</tspan></tspan></text>
+    <path
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-opacity:1"
+       d="m 14.754003,100.49428 c 48.536531,0 48.536531,0 48.536531,0"
+       id="path116" />
+    <path
+       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.52115;stroke-opacity:1"
+       d="m 26.199773,92.344875 c -2.476434,0.07129 -4.980241,-0.127394 -7.44002,0.201176 -2.276835,0.57302 -3.816688,2.884087 -3.690386,5.195034 0.04365,0.784052 -0.137292,1.672248 0.0983,2.381795 15.95747,0 31.91494,0 47.872408,0 0.235273,-0.895111 -0.0072,-1.980216 0.03796,-2.948899 0.121932,-2.164053 -1.601696,-3.995753 -3.535615,-4.70244 -2.096429,-0.181313 -4.263337,-0.0308 -6.386364,-0.08662 -8.985425,-0.01367 -17.970844,-0.04022 -26.956283,-0.04004 z"
+       id="path117" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,-55.017263,72.715231)"
+       id="text118"
+       style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect164);display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:3.77953;stroke-opacity:1"><tspan
+         x="296.58301"
+         y="94.355859"
+         id="tspan59"><tspan
+           style="fill:#ffffff"
+           id="tspan58">Compute unit</tspan></tspan></text>
+    <rect
+       style="fill:url(#linearGradient206);stroke:#000000;stroke-width:0.676033;stroke-dasharray:none;stroke-opacity:1"
+       id="rect118"
+       width="19.476805"
+       height="11.704849"
+       x="18.136787"
+       y="107.55035"
+       rx="3"
+       ry="2.9936371" />
+    <rect
+       style="fill:#c4c4c4;fill-opacity:1;stroke:#000000;stroke-width:0.727404;stroke-dasharray:none;stroke-opacity:1"
+       id="rect119"
+       width="19.880234"
+       height="4.1684217"
+       x="18.008591"
+       y="102.13048"
+       rx="1"
+       ry="1" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,-71.74154,42.885962)"
+       id="text119"
+       style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect165);display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3.77953;stroke-opacity:1"><tspan
+         x="353.9707"
+         y="271.54727"
+         id="tspan61"><tspan
+           style="stroke:none"
+           id="tspan60">SIMT</tspan></tspan></text>
+    <rect
+       style="fill:url(#linearGradient205);stroke:#000000;stroke-width:0.676033;stroke-dasharray:none;stroke-opacity:1"
+       id="rect120"
+       width="19.476805"
+       height="11.704849"
+       x="40.890976"
+       y="107.55035"
+       rx="3"
+       ry="2.9936371" />
+    <rect
+       style="fill:#c4c4c4;fill-opacity:1;stroke:#000000;stroke-width:0.727404;stroke-dasharray:none;stroke-opacity:1"
+       id="rect121"
+       width="19.880234"
+       height="4.1684217"
+       x="40.762779"
+       y="102.13048"
+       rx="1"
+       ry="1" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,-49.516526,42.885962)"
+       id="text121"
+       style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect166);display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3.77953;stroke-opacity:1"><tspan
+         x="353.9707"
+         y="271.54727"
+         id="tspan63"><tspan
+           style="stroke:none"
+           id="tspan62">SIMT</tspan></tspan></text>
+    <rect
+       style="fill:url(#linearGradient204);stroke:#000000;stroke-width:0.676033;stroke-dasharray:none;stroke-opacity:1"
+       id="rect122"
+       width="19.476805"
+       height="11.704849"
+       x="18.136787"
+       y="127.12952"
+       rx="3"
+       ry="2.9936371" />
+    <rect
+       style="fill:#c4c4c4;fill-opacity:1;stroke:#000000;stroke-width:0.727404;stroke-dasharray:none;stroke-opacity:1"
+       id="rect123"
+       width="19.880234"
+       height="4.1684217"
+       x="18.008591"
+       y="121.70965"
+       rx="1"
+       ry="1" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,-71.74154,62.465141)"
+       id="text123"
+       style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect167);display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3.77953;stroke-opacity:1"><tspan
+         x="353.9707"
+         y="271.54727"
+         id="tspan65"><tspan
+           style="stroke:none"
+           id="tspan64">SIMT</tspan></tspan></text>
+    <rect
+       style="fill:url(#linearGradient203);stroke:#000000;stroke-width:0.676033;stroke-dasharray:none;stroke-opacity:1"
+       id="rect124"
+       width="19.476805"
+       height="11.704849"
+       x="40.890976"
+       y="127.12952"
+       rx="3"
+       ry="2.9936371" />
+    <rect
+       style="fill:#c4c4c4;fill-opacity:1;stroke:#000000;stroke-width:0.727404;stroke-dasharray:none;stroke-opacity:1"
+       id="rect125"
+       width="19.880234"
+       height="4.1684217"
+       x="40.762779"
+       y="121.70965"
+       rx="1"
+       ry="1" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,-48.987359,62.465141)"
+       id="text125"
+       style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect168);display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3.77953;stroke-opacity:1"><tspan
+         x="353.9707"
+         y="271.54727"
+         id="tspan67"><tspan
+           style="stroke:none"
+           id="tspan66">SIMT</tspan></tspan></text>
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:1.0881;stroke-opacity:1"
+       id="rect126"
+       width="48.911896"
+       height="48.911896"
+       x="70.751884"
+       y="91.92572"
+       rx="5.4405251"
+       ry="5.4405255" />
+    <rect
+       style="fill:url(#linearGradient202);fill-opacity:1;stroke:#000000;stroke-width:0.860422;stroke-opacity:1"
+       id="rect127"
+       width="49.139576"
+       height="9.8755827"
+       x="70.638039"
+       y="142.83012"
+       rx="2"
+       ry="2" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,-3.4758649,77.056912)"
+       id="text128"
+       style="font-weight:300;font-size:26.6667px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect169);display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3.77953;stroke-opacity:1"><tspan
+         x="323.8567"
+         y="276.5943"
+         id="tspan69"><tspan
+           style="stroke:none"
+           id="tspan68">L1 cache</tspan></tspan></text>
+    <path
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-opacity:1"
+       d="m 70.845705,100.49428 c 48.536635,0 48.536635,0 48.536635,0"
+       id="path128" />
+    <path
+       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.52115;stroke-opacity:1"
+       d="m 82.291475,92.344875 c -2.476434,0.07129 -4.980241,-0.127394 -7.44002,0.201176 -2.276836,0.57302 -3.816688,2.884087 -3.690386,5.195034 0.04365,0.784052 -0.137293,1.672248 0.0983,2.381795 15.957469,0 31.914951,0 47.872511,0 0.23528,-0.895111 -0.007,-1.980216 0.038,-2.948898 0.1219,-2.164054 -1.60174,-3.995754 -3.53567,-4.702441 -2.09644,-0.181313 -4.26336,-0.0308 -6.3864,-0.08662 -8.98548,-0.01367 -17.970896,-0.04022 -26.956335,-0.04004 z"
+       id="path129" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,1.0744326,72.715231)"
+       id="text130"
+       style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect170);display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:3.77953;stroke-opacity:1"><tspan
+         x="296.58301"
+         y="94.355859"
+         id="tspan71"><tspan
+           style="fill:#ffffff"
+           id="tspan70">Compute unit</tspan></tspan></text>
+    <rect
+       style="fill:url(#linearGradient201);stroke:#000000;stroke-width:0.676033;stroke-dasharray:none;stroke-opacity:1"
+       id="rect130"
+       width="19.476805"
+       height="11.704849"
+       x="74.228508"
+       y="107.55035"
+       rx="3"
+       ry="2.9936371" />
+    <rect
+       style="fill:#c4c4c4;fill-opacity:1;stroke:#000000;stroke-width:0.727404;stroke-dasharray:none;stroke-opacity:1"
+       id="rect131"
+       width="19.880234"
+       height="4.1684217"
+       x="74.100311"
+       y="102.13048"
+       rx="1"
+       ry="1" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,-15.649838,42.885962)"
+       id="text131"
+       style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect171);display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3.77953;stroke-opacity:1"><tspan
+         x="353.9707"
+         y="271.54727"
+         id="tspan73"><tspan
+           style="stroke:none"
+           id="tspan72">SIMT</tspan></tspan></text>
+    <rect
+       style="fill:url(#linearGradient200);stroke:#000000;stroke-width:0.676033;stroke-dasharray:none;stroke-opacity:1"
+       id="rect132"
+       width="19.476805"
+       height="11.704849"
+       x="96.982697"
+       y="107.55035"
+       rx="3"
+       ry="2.9936371" />
+    <rect
+       style="fill:#c4c4c4;fill-opacity:1;stroke:#000000;stroke-width:0.727404;stroke-dasharray:none;stroke-opacity:1"
+       id="rect133"
+       width="19.880234"
+       height="4.1684217"
+       x="96.8545"
+       y="102.13048"
+       rx="1"
+       ry="1" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,6.5751662,42.885962)"
+       id="text133"
+       style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect172);display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3.77953;stroke-opacity:1"><tspan
+         x="353.9707"
+         y="271.54727"
+         id="tspan75"><tspan
+           style="stroke:none"
+           id="tspan74">SIMT</tspan></tspan></text>
+    <rect
+       style="fill:url(#linearGradient199);stroke:#000000;stroke-width:0.676033;stroke-dasharray:none;stroke-opacity:1"
+       id="rect134"
+       width="19.476805"
+       height="11.704849"
+       x="74.228508"
+       y="127.12952"
+       rx="3"
+       ry="2.9936371" />
+    <rect
+       style="fill:#c4c4c4;fill-opacity:1;stroke:#000000;stroke-width:0.727404;stroke-dasharray:none;stroke-opacity:1"
+       id="rect135"
+       width="19.880234"
+       height="4.1684217"
+       x="74.100311"
+       y="121.70965"
+       rx="1"
+       ry="1" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,-15.649838,62.465141)"
+       id="text135"
+       style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect173);display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3.77953;stroke-opacity:1"><tspan
+         x="353.9707"
+         y="271.54727"
+         id="tspan77"><tspan
+           style="stroke:none"
+           id="tspan76">SIMT</tspan></tspan></text>
+    <rect
+       style="fill:url(#linearGradient198);stroke:#000000;stroke-width:0.676033;stroke-dasharray:none;stroke-opacity:1"
+       id="rect136"
+       width="19.476805"
+       height="11.704849"
+       x="96.982697"
+       y="127.12952"
+       rx="3"
+       ry="2.9936371" />
+    <rect
+       style="fill:#c4c4c4;fill-opacity:1;stroke:#000000;stroke-width:0.727404;stroke-dasharray:none;stroke-opacity:1"
+       id="rect137"
+       width="19.880234"
+       height="4.1684217"
+       x="96.8545"
+       y="121.70965"
+       rx="1"
+       ry="1" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,7.1043329,62.465141)"
+       id="text137"
+       style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect174);display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3.77953;stroke-opacity:1"><tspan
+         x="353.9707"
+         y="271.54727"
+         id="tspan79"><tspan
+           style="stroke:none"
+           id="tspan78">SIMT</tspan></tspan></text>
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:1.0881;stroke-opacity:1"
+       id="rect138"
+       width="48.911896"
+       height="48.911896"
+       x="126.31438"
+       y="91.92572"
+       rx="5.4405251"
+       ry="5.4405255" />
+    <rect
+       style="fill:url(#linearGradient197);fill-opacity:1;stroke:#000000;stroke-width:0.860422;stroke-opacity:1"
+       id="rect139"
+       width="49.139576"
+       height="9.8755827"
+       x="126.20051"
+       y="142.83012"
+       rx="2"
+       ry="2" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,52.086662,77.056912)"
+       id="text140"
+       style="font-weight:300;font-size:26.6667px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect175);display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3.77953;stroke-opacity:1"><tspan
+         x="323.8567"
+         y="276.5943"
+         id="tspan81"><tspan
+           style="stroke:none"
+           id="tspan80">L1 cache</tspan></tspan></text>
+    <path
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-opacity:1"
+       d="m 126.40839,100.49428 c 48.5368,0 48.5368,0 48.5368,0"
+       id="path140" />
+    <path
+       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.52115;stroke-opacity:1"
+       d="m 137.85422,92.344875 c -2.47645,0.07129 -4.98027,-0.127394 -7.44006,0.201176 -2.27685,0.57302 -3.81671,2.884087 -3.69041,5.195034 0.0436,0.784052 -0.13729,1.672248 0.0983,2.381795 15.95756,0 31.91512,0 47.87268,0 0.23528,-0.895111 -0.007,-1.980216 0.038,-2.948898 0.1219,-2.164054 -1.60174,-3.995754 -3.53567,-4.702441 -2.09644,-0.181313 -4.26336,-0.0308 -6.3864,-0.08662 -8.98548,-0.01367 -17.97095,-0.04022 -26.95644,-0.04004 z"
+       id="path141" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,56.636962,72.715231)"
+       id="text142"
+       style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect176);display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:3.77953;stroke-opacity:1"><tspan
+         x="296.58301"
+         y="94.355859"
+         id="tspan83"><tspan
+           style="fill:#ffffff"
+           id="tspan82">Compute unit</tspan></tspan></text>
+    <rect
+       style="fill:url(#linearGradient196);stroke:#000000;stroke-width:0.676033;stroke-dasharray:none;stroke-opacity:1"
+       id="rect142"
+       width="19.476805"
+       height="11.704849"
+       x="129.79102"
+       y="107.55035"
+       rx="3"
+       ry="2.9936371" />
+    <rect
+       style="fill:#c4c4c4;fill-opacity:1;stroke:#000000;stroke-width:0.727404;stroke-dasharray:none;stroke-opacity:1"
+       id="rect143"
+       width="19.880234"
+       height="4.1684217"
+       x="129.6628"
+       y="102.13048"
+       rx="1"
+       ry="1" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,39.912685,42.885962)"
+       id="text143"
+       style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect177);display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3.77953;stroke-opacity:1"><tspan
+         x="353.9707"
+         y="271.54727"
+         id="tspan85"><tspan
+           style="stroke:none"
+           id="tspan84">SIMT</tspan></tspan></text>
+    <rect
+       style="fill:url(#linearGradient195);stroke:#000000;stroke-width:0.676033;stroke-dasharray:none;stroke-opacity:1"
+       id="rect144"
+       width="19.476805"
+       height="11.704849"
+       x="152.54488"
+       y="107.55035"
+       rx="3"
+       ry="2.9936371" />
+    <rect
+       style="fill:#c4c4c4;fill-opacity:1;stroke:#000000;stroke-width:0.727404;stroke-dasharray:none;stroke-opacity:1"
+       id="rect145"
+       width="19.880234"
+       height="4.1684217"
+       x="152.41666"
+       y="102.13048"
+       rx="1"
+       ry="1" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,62.137699,42.885962)"
+       id="text145"
+       style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect178);display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3.77953;stroke-opacity:1"><tspan
+         x="353.9707"
+         y="271.54727"
+         id="tspan87"><tspan
+           style="stroke:none"
+           id="tspan86">SIMT</tspan></tspan></text>
+    <rect
+       style="fill:url(#linearGradient194);stroke:#000000;stroke-width:0.676033;stroke-dasharray:none;stroke-opacity:1"
+       id="rect146"
+       width="19.476805"
+       height="11.704849"
+       x="129.79102"
+       y="127.12952"
+       rx="3"
+       ry="2.9936371" />
+    <rect
+       style="fill:#c4c4c4;fill-opacity:1;stroke:#000000;stroke-width:0.727404;stroke-dasharray:none;stroke-opacity:1"
+       id="rect147"
+       width="19.880234"
+       height="4.1684217"
+       x="129.6628"
+       y="121.70965"
+       rx="1"
+       ry="1" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,39.912685,62.465141)"
+       id="text147"
+       style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect179);display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3.77953;stroke-opacity:1"><tspan
+         x="353.9707"
+         y="271.54727"
+         id="tspan89"><tspan
+           style="stroke:none"
+           id="tspan88">SIMT</tspan></tspan></text>
+    <rect
+       style="fill:url(#linearGradient193);stroke:#000000;stroke-width:0.676033;stroke-dasharray:none;stroke-opacity:1"
+       id="rect148"
+       width="19.476805"
+       height="11.704849"
+       x="152.54488"
+       y="127.12952"
+       rx="3"
+       ry="2.9936371" />
+    <rect
+       style="fill:#c4c4c4;fill-opacity:1;stroke:#000000;stroke-width:0.727404;stroke-dasharray:none;stroke-opacity:1"
+       id="rect149"
+       width="19.880234"
+       height="4.1684217"
+       x="152.41666"
+       y="121.70965"
+       rx="1"
+       ry="1" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,62.666866,62.465141)"
+       id="text149"
+       style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect180);display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3.77953;stroke-opacity:1"><tspan
+         x="353.9707"
+         y="271.54727"
+         id="tspan91"><tspan
+           style="stroke:none"
+           id="tspan90">SIMT</tspan></tspan></text>
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:1.0881;stroke-opacity:1"
+       id="rect150"
+       width="48.911896"
+       height="48.911896"
+       x="182.4053"
+       y="91.92572"
+       rx="5.4405251"
+       ry="5.4405255" />
+    <rect
+       style="fill:url(#linearGradient192);fill-opacity:1;stroke:#000000;stroke-width:0.860422;stroke-opacity:1"
+       id="rect151"
+       width="49.139576"
+       height="9.8755827"
+       x="182.29146"
+       y="142.83012"
+       rx="2"
+       ry="2" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,108.17841,77.056912)"
+       id="text152"
+       style="font-weight:300;font-size:26.6667px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect181);display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3.77953;stroke-opacity:1"><tspan
+         x="323.8567"
+         y="276.5943"
+         id="tspan93"><tspan
+           style="stroke:none"
+           id="tspan92">L1 cache</tspan></tspan></text>
+    <path
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-opacity:1"
+       d="m 182.50041,100.49428 c 48.5368,0 48.5368,0 48.5368,0"
+       id="path152" />
+    <path
+       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.52115;stroke-opacity:1"
+       d="m 193.94624,92.344875 c -2.47645,0.07129 -4.98027,-0.127394 -7.44006,0.201176 -2.27685,0.57302 -3.81671,2.884087 -3.69041,5.195034 0.0436,0.784052 -0.13729,1.672248 0.0983,2.381795 15.95756,0 31.91512,0 47.87268,0 0.23528,-0.895111 -0.007,-1.980216 0.038,-2.948898 0.1219,-2.164054 -1.60174,-3.995754 -3.53567,-4.702441 -2.09644,-0.181313 -4.26336,-0.0308 -6.3864,-0.08662 -8.98548,-0.01367 -17.97095,-0.04022 -26.95644,-0.04004 z"
+       id="path153" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,112.72874,72.715231)"
+       id="text154"
+       style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect182);display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:3.77953;stroke-opacity:1"><tspan
+         x="296.58301"
+         y="94.355859"
+         id="tspan95"><tspan
+           style="fill:#ffffff"
+           id="tspan94">Compute unit</tspan></tspan></text>
+    <rect
+       style="fill:url(#linearGradient191);stroke:#000000;stroke-width:0.676033;stroke-dasharray:none;stroke-opacity:1"
+       id="rect154"
+       width="19.476805"
+       height="11.704849"
+       x="185.88193"
+       y="107.55035"
+       rx="3"
+       ry="2.9936371" />
+    <rect
+       style="fill:#c4c4c4;fill-opacity:1;stroke:#000000;stroke-width:0.727404;stroke-dasharray:none;stroke-opacity:1"
+       id="rect155"
+       width="19.880234"
+       height="4.1684217"
+       x="185.75371"
+       y="102.13048"
+       rx="1"
+       ry="1" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,96.004387,42.885962)"
+       id="text155"
+       style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect183);display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3.77953;stroke-opacity:1"><tspan
+         x="353.9707"
+         y="271.54727"
+         id="tspan97"><tspan
+           style="stroke:none"
+           id="tspan96">SIMT</tspan></tspan></text>
+    <rect
+       style="fill:url(#linearGradient190);stroke:#000000;stroke-width:0.676033;stroke-dasharray:none;stroke-opacity:1"
+       id="rect156"
+       width="19.476805"
+       height="11.704849"
+       x="208.63579"
+       y="107.55035"
+       rx="3"
+       ry="2.9936371" />
+    <rect
+       style="fill:#c4c4c4;fill-opacity:1;stroke:#000000;stroke-width:0.727404;stroke-dasharray:none;stroke-opacity:1"
+       id="rect157"
+       width="19.880234"
+       height="4.1684217"
+       x="208.50757"
+       y="102.13048"
+       rx="1"
+       ry="1" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,118.2295,42.885962)"
+       id="text157"
+       style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect184);display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3.77953;stroke-opacity:1"><tspan
+         x="353.9707"
+         y="271.54727"
+         id="tspan99"><tspan
+           style="stroke:none"
+           id="tspan98">SIMT</tspan></tspan></text>
+    <rect
+       style="fill:url(#linearGradient189);stroke:#000000;stroke-width:0.676033;stroke-dasharray:none;stroke-opacity:1"
+       id="rect158"
+       width="19.476805"
+       height="11.704849"
+       x="185.88193"
+       y="127.12952"
+       rx="3"
+       ry="2.9936371" />
+    <rect
+       style="fill:#c4c4c4;fill-opacity:1;stroke:#000000;stroke-width:0.727404;stroke-dasharray:none;stroke-opacity:1"
+       id="rect159"
+       width="19.880234"
+       height="4.1684217"
+       x="185.75371"
+       y="121.70965"
+       rx="1"
+       ry="1" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,96.004387,62.465141)"
+       id="text159"
+       style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect185);display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3.77953;stroke-opacity:1"><tspan
+         x="353.9707"
+         y="271.54727"
+         id="tspan101"><tspan
+           style="stroke:none"
+           id="tspan100">SIMT</tspan></tspan></text>
+    <rect
+       style="fill:url(#linearGradient188);stroke:#000000;stroke-width:0.676033;stroke-dasharray:none;stroke-opacity:1"
+       id="rect160"
+       width="19.476805"
+       height="11.704849"
+       x="208.63579"
+       y="127.12952"
+       rx="3"
+       ry="2.9936371" />
+    <rect
+       style="fill:#c4c4c4;fill-opacity:1;stroke:#000000;stroke-width:0.727404;stroke-dasharray:none;stroke-opacity:1"
+       id="rect161"
+       width="19.880234"
+       height="4.1684217"
+       x="208.50757"
+       y="121.70965"
+       rx="1"
+       ry="1" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,118.75867,62.465141)"
+       id="text161"
+       style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect186);display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3.77953;stroke-opacity:1"><tspan
+         x="353.9707"
+         y="271.54727"
+         id="tspan103"><tspan
+           style="stroke:none"
+           id="tspan102">SIMT</tspan></tspan></text>
+    <rect
+       style="fill:url(#linearGradient187);fill-opacity:1;stroke:#000000;stroke-width:0.7;stroke-dasharray:none;stroke-opacity:1"
+       id="rect162"
+       width="218.33492"
+       height="14.139785"
+       x="13.723908"
+       y="156.80214"
+       rx="2"
+       ry="2" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,22.143588,92.860211)"
+       id="text163"
+       style="font-weight:300;font-size:26.6667px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect187);display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3.77953;stroke-opacity:1"><tspan
+         x="324.34499"
+         y="276.5943"
+         id="tspan105"><tspan
+           style="stroke:none"
+           id="tspan104">L2 cache</tspan></tspan></text>
+    <rect
+       style="fill:url(#linearGradient209);stroke:#000000;stroke-width:0.711631;stroke-dasharray:none;stroke-opacity:1"
+       id="rect207"
+       width="43.655354"
+       height="165.09114"
+       x="-39.502407"
+       y="7.4915829"
+       rx="3"
+       ry="3" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,-117.59076,17.170773)"
+       id="text208"
+       style="font-weight:300;font-size:26.6667px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect208);display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3.77953;stroke-opacity:1"><tspan
+         x="349.74866"
+         y="276.5943"
+         id="tspan107"><tspan
+           style="stroke:none"
+           id="tspan106">HBM</tspan></tspan></text>
+    <path
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.7;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#marker210);marker-end:url(#ConcaveTriangle)"
+       d="m 1.507551,80.160107 c 6.965923,-0.05199 13.412002,-0.10397 13.412002,-0.10397"
+       id="path209"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.7;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#marker210);marker-end:url(#ConcaveTriangle)"
+       d="m 1.923427,164.58294 c 6.965923,-0.052 13.412002,-0.10397 13.412002,-0.10397"
+       id="path211"
+       sodipodi:nodetypes="cc" />
+  </g>
+</svg>
