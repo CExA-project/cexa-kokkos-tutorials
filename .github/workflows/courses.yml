@@ -17,13 +17,15 @@ jobs:
           working_directory: courses/01_beginners/
           pre_compile: |
             pwd
-            tlmgr update --self && tlmgr update --all
+            tlmgr update --self && tlmgr update minted
             latexminted --version
           root_file: main.tex
           latexmk_shell_escape: true
           latexmk_use_xelatex: true
+          post_compile: |
+            mv main.pdf beginners.pdf
       - name: Upload PDF file
         uses: actions/upload-artifact@v4
         with:
           name: PDF
-          path: main.pdf
+          path: courses/01_beginners/beginners.pdf
