@@ -15,6 +15,10 @@ jobs:
         uses: xu-cheng/latex-action@v3
         with:
           working_directory: courses/01_beginners/
+          pre_compile: |
+            pwd
+            tlmgr update --self && tlmgr update --all
+            latexminted --version
           root_file: main.tex
           latexmk_shell_escape: true
           latexmk_use_xelatex: true
