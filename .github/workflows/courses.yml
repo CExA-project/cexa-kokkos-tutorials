@@ -40,8 +40,8 @@ jobs:
           latexmk_use_xelatex: true
           post_compile: |
             mv main.pdf beginners.pdf
-      - name: Upload PDF file
-        uses: actions/upload-artifact@v4
-        with:
-          name: beginner_pdf_course
-          path: courses/01_beginners/beginners.pdf
+      # - name: Upload PDF file
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: beginner_pdf_course
+      #     path: courses/01_beginners/beginners.pdf

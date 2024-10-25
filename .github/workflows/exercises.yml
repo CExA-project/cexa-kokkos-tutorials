@@ -20,6 +20,10 @@ jobs:
           mkdir install_openmp
           cmake -B build_openmp -DCMAKE_INSTALL_PREFIX=${PWD}/install_openmp -DKokkos_ENABLE_OPENMP=ON ./
           make install -C build_openmp
+      - name: Upload Kokkos artifact
+        uses: actions/upload-artifact@v4
+        with:
+          path: kokkos/install_openmp
 
   build_exercises:
     runs-on: ubuntu-latest
@@ -27,6 +31,10 @@ jobs:
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v4
+      - name: Download Kokkos artifact
+        uses: actions/download-artifact@v4
+        with:
+          path: kokkos/install_openmp
       - name: Compile 02_first_program
         run: |
           cd exercises/02_first_program/solution/
