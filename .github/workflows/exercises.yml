@@ -37,6 +37,8 @@ jobs:
           path: kokkos/install_openmp
       - name: Compile 02_first_program
         run: |
+          ls -al
+          export Kokkos_DIR=${GITHUB_WORKSPACE}/kokkos/install_openmp
           cd exercises/02_first_program/solution/
           cmake -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/kokkos/install_openmp/ ./
           make

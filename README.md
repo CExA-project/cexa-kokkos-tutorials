@@ -18,3 +18,11 @@ Exercises:
 Projects:
 
 - [Project 1: Wave Propagation](projects/wave/README.md)
+
+## Compile the tutorials
+
+To compile the tutorials, you need a working Tex environment.
+
+```bash
+xelatex -shell-escape main.tex
+```
