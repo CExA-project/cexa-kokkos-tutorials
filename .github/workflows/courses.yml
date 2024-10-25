@@ -6,7 +6,23 @@ on: [push]
 
 jobs:
 
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      output1: ${{ steps.filter.outputs.workflows }}
+    steps:
+    - uses: actions/checkout@v4
+    - uses: dorny/paths-filter@v3
+      id: filter
+      with:
+        filters: |
+          beginner:
+            - 'courses/01_beginners/*.tex'
+            - 'images'
+
   build_beginner_course:
+    needs: changes
+    if: ${{ needs.changes.outputs.beginner == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - name: Set up Git repository
