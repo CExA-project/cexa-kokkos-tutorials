@@ -1,6 +1,6 @@
-name: Compile Latex courses
+name: Generate courses PDF
 
-run-name: Compile courses
+run-name: Generate courses PDF
 
 on: [push]
 
@@ -27,5 +27,5 @@ jobs:
       - name: Upload PDF file
         uses: actions/upload-artifact@v4
         with:
-          name: PDF
+          name: beginner_pdf_course
           path: courses/01_beginners/beginners.pdf

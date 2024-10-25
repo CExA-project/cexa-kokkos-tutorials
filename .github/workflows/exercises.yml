@@ -1,0 +1,22 @@
+name: Test exercises
+
+run-name: Test exercises
+
+on: [push]
+
+jobs:
+
+  build_exercises:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v4
+      - name: Install Kokkos
+        run: |
+          git clone git@github.com:kokkos/kokkos.git
+          cd kokkos
+          git checkout develop
+          mkdir build_openmp
+          mkdir install_openmp
+          cmake -B build_openmp -DCMAKE_INSTALL_PREFIX=${PWD}/install_openmp -DKokkos_ENABLE_OPENMP=ON ./
+          make install -C build_openmp

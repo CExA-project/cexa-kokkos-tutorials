@@ -1,5 +1,7 @@
 # Kokkos-cexa-tutorial
 
+![CI](https://github.com/CExA-project/cexa-kokkos-tutorials/actions/workflows/courses.yml/badge.svg)
+
 Courses
 
 - [Introduction to Kokkos](courses/01_beginners/README.md)
