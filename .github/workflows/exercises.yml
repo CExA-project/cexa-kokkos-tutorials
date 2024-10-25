@@ -6,7 +6,7 @@ on: [push]
 
 jobs:
 
-  build_exercises:
+  build_kokkos:
     runs-on: ubuntu-latest
     steps:
       - name: Set up Git repository
@@ -20,3 +20,20 @@ jobs:
           mkdir install_openmp
           cmake -B build_openmp -DCMAKE_INSTALL_PREFIX=${PWD}/install_openmp -DKokkos_ENABLE_OPENMP=ON ./
           make install -C build_openmp
+
+  build_exercises:
+    runs-on: ubuntu-latest
+    needs: build_kokkos
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v4
+      - name: Compile 02_first_program
+        run: |
+          cd exercises/02_first_program/solution/
+          cmake -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/kokkos/install_openmp/ ./
+          make
+          export OMP_NUM_THREADS=4
+          ./first_program
+      
+          
+      
