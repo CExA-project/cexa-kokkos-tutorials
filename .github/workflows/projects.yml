@@ -47,7 +47,6 @@ jobs:
           cd projects/wave/sequential/
           cmake -DCMAKE_BUILD_TYPE=Release ./
           make
-          bash execute.sh
           ./exe
           cd ${GITHUB_WORKSPACE}
       - name: wave openMP
