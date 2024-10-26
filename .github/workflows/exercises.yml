@@ -30,6 +30,8 @@ jobs:
 
   build_kokkos:
     runs-on: ubuntu-latest
+    needs: [build_kokkos, changes]
+    if: ${{ needs.changes.outputs.exercises == 'true' }}
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v4
