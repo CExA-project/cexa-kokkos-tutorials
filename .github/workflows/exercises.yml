@@ -11,6 +11,23 @@ on: [push]
 
 jobs:
 
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      output1: ${{ steps.filter.outputs.workflows }}
+    steps:
+    - uses: actions/checkout@v4
+    - uses: dorny/paths-filter@v3
+      id: filter
+      with:
+        filters: |
+          exercises:
+            - 'exercise/02_first_program/**'
+            - 'exercise/03_basic_view/**'
+            - 'exercise/04_deep_copy/**'
+            - 'exercise/05_parallel_loop/**'
+            - 'exercise/06_parallel_reduce/**'
+
   build_kokkos:
     runs-on: ubuntu-latest
     steps:
@@ -33,7 +50,8 @@ jobs:
 
   build_exercises:
     runs-on: ubuntu-latest
-    needs: build_kokkos
+    needs: [build_kokkos, changes]
+    if: ${{ needs.changes.outputs.exercises == 'true' }}
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v4

@@ -1,6 +1,8 @@
 # Kokkos-cexa-tutorial
 
 ![CI](https://github.com/CExA-project/cexa-kokkos-tutorials/actions/workflows/courses.yml/badge.svg)
+![CI](https://github.com/CExA-project/cexa-kokkos-tutorials/actions/workflows/exercises.yml/badge.svg)
+![CI](https://github.com/CExA-project/cexa-kokkos-tutorials/actions/workflows/prtojects.yml/badge.svg)
 
 Courses
 

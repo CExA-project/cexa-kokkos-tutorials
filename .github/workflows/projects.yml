@@ -22,7 +22,7 @@ jobs:
       with:
         filters: |
           wave:
-            - 'projects/wave/*'
+            - 'projects/wave/**'
 
   build_kokkos:
     runs-on: ubuntu-latest
