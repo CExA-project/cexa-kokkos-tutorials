@@ -1,5 +1,9 @@
 # Kokkos-cexa-tutorial
 
+![CI](https://github.com/CExA-project/cexa-kokkos-tutorials/actions/workflows/courses.yml/badge.svg)
+![CI](https://github.com/CExA-project/cexa-kokkos-tutorials/actions/workflows/exercises.yml/badge.svg)
+![CI](https://github.com/CExA-project/cexa-kokkos-tutorials/actions/workflows/projects.yml/badge.svg)
+
 Courses
 
 - [Introduction to Kokkos](courses/01_beginners/README.md)
@@ -16,3 +20,11 @@ Exercises:
 Projects:
 
 - [Project 1: Wave Propagation](projects/wave/README.md)
+
+## Compile the tutorials
+
+To compile the tutorials, you need a working Tex environment.
+
+```bash
+xelatex -shell-escape main.tex
+```

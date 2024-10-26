@@ -1,0 +1,102 @@
+# __________________________________________________
+#
+# Workflow to compile and run all exercises
+# __________________________________________________
+
+name: Test exercises
+
+run-name: Test exercises
+
+on: [push]
+
+jobs:
+
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      output1: ${{ steps.filter.outputs.workflows }}
+    steps:
+    - uses: actions/checkout@v4
+    - uses: dorny/paths-filter@v3
+      id: filter
+      with:
+        filters: |
+          exercises:
+            - 'exercise/02_first_program/**'
+            - 'exercise/03_basic_view/**'
+            - 'exercise/04_deep_copy/**'
+            - 'exercise/05_parallel_loop/**'
+            - 'exercise/06_parallel_reduce/**'
+
+  build_kokkos:
+    runs-on: ubuntu-latest
+    needs: [changes]
+    if: ${{ needs.changes.outputs.exercises == 'true' }}
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v4
+      - name: Install Kokkos
+        run: |
+          git clone https://github.com/kokkos/kokkos.git
+          cd kokkos
+          git checkout develop
+          mkdir build_openmp
+          mkdir install_openmp
+          cmake -B build_openmp -DCMAKE_INSTALL_PREFIX=${PWD}/install_openmp -DKokkos_ENABLE_OPENMP=ON ./
+          make install -C build_openmp
+      - name: Upload Kokkos artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: kokkos
+          path: kokkos/install_openmp
+
+  build_exercises:
+    runs-on: ubuntu-latest
+    needs: [build_kokkos, changes]
+    if: ${{ needs.changes.outputs.exercises == 'true' }}
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v4
+      - name: Download Kokkos artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: kokkos
+          path: kokkos/install_openmp
+      - name: Compile 02_first_program
+        run: |
+          cd exercises/02_first_program/solution/
+          cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/kokkos/install_openmp/ ./
+          make
+          bash execute.sh
+          cd ${GITHUB_WORKSPACE}
+      - name: Compile 03_basic_view
+        run: |
+          cd exercises/03_basic_view/solution/
+          cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/kokkos/install_openmp/ ./
+          make
+          bash execute.sh
+          cd ${GITHUB_WORKSPACE}
+      - name: Compile 04_deep_copy
+        run: |
+          cd exercises/04_deep_copy/solution/
+          cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/kokkos/install_openmp/ ./
+          make
+          bash execute.sh
+          cd ${GITHUB_WORKSPACE}
+      - name: Compile 05_parallel_loop
+        run: |
+          cd exercises/05_parallel_loop/solution/
+          cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/kokkos/install_openmp/ ./
+          make
+          bash execute.sh
+          cd ${GITHUB_WORKSPACE}
+      - name: Compile 06_parallel_reduce
+        run: |
+          cd exercises/06_parallel_reduce/solution/
+          cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/kokkos/install_openmp/ ./
+          make
+          bash execute.sh
+          cd ${GITHUB_WORKSPACE}
+      
+          
+      

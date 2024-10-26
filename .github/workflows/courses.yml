@@ -1,0 +1,52 @@
+# __________________________________________________
+#
+# Workflow to test the slide compilation
+# __________________________________________________
+
+name: Generate courses PDF
+
+run-name: Generate courses PDF
+
+on: [push]
+
+jobs:
+
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      output1: ${{ steps.filter.outputs.workflows }}
+    steps:
+    - uses: actions/checkout@v4
+    - uses: dorny/paths-filter@v3
+      id: filter
+      with:
+        filters: |
+          beginner:
+            - 'courses/01_beginners/*.tex'
+            - 'images'
+
+  build_beginner_course:
+    needs: changes
+    if: ${{ needs.changes.outputs.beginner == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v4
+      - name: Compile LaTeX document
+        uses: xu-cheng/latex-action@v3
+        with:
+          working_directory: courses/01_beginners/
+          pre_compile: |
+            pwd
+            tlmgr update --self && tlmgr update minted
+            latexminted --version
+          root_file: main.tex
+          latexmk_shell_escape: true
+          latexmk_use_xelatex: true
+          post_compile: |
+            mv main.pdf beginners.pdf
+      # - name: Upload PDF file
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: beginner_pdf_course
+      #     path: courses/01_beginners/beginners.pdf
