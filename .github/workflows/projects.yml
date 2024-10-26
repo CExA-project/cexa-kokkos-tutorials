@@ -1,11 +1,11 @@
 # __________________________________________________
 #
-# Workflow to compile and run all exercises
+# Workflow to compile and run all projects
 # __________________________________________________
 
-name: Test exercises
+name: Test projects
 
-run-name: Test exercises
+run-name: Test projects
 
 on: [push]
 
@@ -23,7 +23,7 @@ jobs:
           git checkout develop
           mkdir build_openmp
           mkdir install_openmp
-          cmake -B build_openmp -DCMAKE_INSTALL_PREFIX=${PWD}/install_openmp -DKokkos_ENABLE_OPENMP=ON ./
+          cmake -B build_openmp  -DCMAKE_INSTALL_PREFIX=${PWD}/install_openmp -DKokkos_ENABLE_OPENMP=ON ./
           make install -C build_openmp
       - name: Upload Kokkos artifact
         uses: actions/upload-artifact@v4
@@ -31,7 +31,7 @@ jobs:
           name: kokkos
           path: kokkos/install_openmp
 
-  build_exercises:
+  build_wave_projects:
     runs-on: ubuntu-latest
     needs: build_kokkos
     steps:
@@ -42,12 +42,22 @@ jobs:
         with:
           name: kokkos
           path: kokkos/install_openmp
-      - name: Compile 02_first_program
+      - name: wave sequential
         run: |
-          cd exercises/02_first_program/solution/
-          cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/kokkos/install_openmp/ ./
+          cd projects/wave/sequential/
+          cmake -DCMAKE_BUILD_TYPE=Release ./
           make
           bash execute.sh
-      
-          
-      
+          ./exe
+          cd ${GITHUB_WORKSPACE}
+      - name: wave openMP
+        run: |
+          cd projects/wave/omp
+          cmake -DCMAKE_BUILD_TYPE=Release ./
+          make
+          export OMP_NUM_THREADS=2
+          export OMP_PROC_BIND=true
+          export OMP_SCHEDULER=dynamic
+          ./exe --size 128 128 --time 5 --output-period 100 --print-period 100 --domain-length 10 10 --boundary 1
+          cd ${GITHUB_WORKSPACE}
+  

@@ -1,3 +1,8 @@
+# __________________________________________________
+#
+# Workflow to test the slide compilation
+# __________________________________________________
+
 name: Generate courses PDF
 
 run-name: Generate courses PDF
