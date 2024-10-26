@@ -59,4 +59,11 @@ jobs:
           export OMP_SCHEDULER=dynamic
           ./exe --size 128 128 --time 5 --output-period 100 --print-period 100 --domain-length 10 10 --boundary 1
           cd ${GITHUB_WORKSPACE}
+      - name: wave Kokkos
+        run: |
+          cd projects/wave/kokkos
+          cmake -DCMAKE_BUILD_TYPE=Release -DKokkos_DIR=${GITHUB_WORKSPACE}/kokkos/install_openmp/lib/cmake/Kokkos/ ./
+          make
+          ./exe --size 128 128 --time 5 --output-period 100 --print-period 100 --domain-length 10 10 --boundary 1
+          cd ${GITHUB_WORKSPACE}
   
