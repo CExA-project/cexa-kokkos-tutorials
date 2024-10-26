@@ -11,8 +11,22 @@ on: [push]
 
 jobs:
 
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      output1: ${{ steps.filter.outputs.workflows }}
+    steps:
+    - uses: actions/checkout@v4
+    - uses: dorny/paths-filter@v3
+      id: filter
+      with:
+        filters: |
+          wave:
+            - 'projects/wave/*'
+
   build_kokkos:
     runs-on: ubuntu-latest
+    needs: changes
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v4
@@ -33,7 +47,8 @@ jobs:
 
   build_wave_projects:
     runs-on: ubuntu-latest
-    needs: build_kokkos
+    needs: [build_kokkos, changes]
+    if: ${{ needs.changes.outputs.wave == 'true' }}
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v4

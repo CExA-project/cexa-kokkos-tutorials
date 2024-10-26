@@ -51,7 +51,7 @@ jobs:
           cd ${GITHUB_WORKSPACE}
       - name: Compile 03_basic_view
         run: |
-          cd exercises/03_parallel_for/solution/
+          cd exercises/03_basic_view/solution/
           cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/kokkos/install_openmp/ ./
           make
           bash execute.sh
