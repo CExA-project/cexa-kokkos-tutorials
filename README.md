@@ -8,6 +8,8 @@ Courses
 
 - [Introduction to Kokkos](courses/01_beginners/README.md)
 
+You can get the slides from the [releases](https://github.com/CExA-project/cexa-kokkos-tutorials/releases) page.
+
 Exercises:
 
 - [Exercise 1: Compiling Kokkos](exercises/01_compiling_kokkos/README.md)
