@@ -23,7 +23,7 @@ jobs:
         filters: |
           beginner:
             - 'courses/01_beginners/*.tex'
-            - 'images'
+            - 'images/**'
 
   build_beginner_course:
     needs: changes
