@@ -4,13 +4,13 @@
 ![CI](https://github.com/CExA-project/cexa-kokkos-tutorials/actions/workflows/exercises.yml/badge.svg)
 ![CI](https://github.com/CExA-project/cexa-kokkos-tutorials/actions/workflows/projects.yml/badge.svg)
 
-Courses
+**Courses:**
 
 - [Introduction to Kokkos](courses/01_beginners/README.md)
 
-You can get the slides from the [releases](https://github.com/CExA-project/cexa-kokkos-tutorials/releases) page.
+> **Important:** You can get the slides from the [releases](https://github.com/CExA-project/cexa-kokkos-tutorials/releases) page.
 
-Exercises:
+**Exercises:**
 
 - [Exercise 1: Compiling Kokkos](exercises/01_compiling_kokkos/README.md)
 - [Exercise 2: First Kokkos Program](exercises/02_first_program/README.md)
@@ -19,7 +19,7 @@ Exercises:
 - [Exercise 5: Parallel Loop](exercises/05_parallel_loop/README.md)
 - [Exercise 6: Parallel Reduce](exercises/06_parallel_reduce/README.md)
 
-Projects:
+**Projects:**
 
 - [Project 1: Wave Propagation](projects/wave/README.md)
 
