@@ -7,6 +7,7 @@
 \usepackage[font=Times, timeinterval=1, timeduration=15]{tdclock}
 \usepackage{fontspec}
 \usepackage{pifont}
+\usepackage{hyperref}
 
 % Définir la police principale
 % \setmainfont{Clear Sans Light}
@@ -216,7 +217,8 @@ This course is intended for beginners in Kokkos and performance portability with
 
     \begin{itemize}
         \item A supercomputer is a distributed memory system composed of many compute nodes packed into racks and linked by a high-speed network
-        \item Compute nodes are composed of one or more CPUs and one or more GPUs
+        \item Compute nodes are composed of one or more CPUs and one or more accelerators
+        \item Most common accelerators today are GPGPU for General Purpose Graphic Processing Units
     \end{itemize}
 
     \begin{center}
@@ -232,7 +234,7 @@ This course is intended for beginners in Kokkos and performance portability with
     Architecture description
 
     \begin{itemize}
-        \item CPUs are designed for general purpose, from sequential task to parallel computing
+        \item CPUs are designed for general purpose, from sequential task to parallel computing. They run the operating system as well.
         \item tens to hundred of cores in biggest processors
         \item SIMD (Single Instruction Multiple Data) units for accelerating arithmetic operations
     \end{itemize}
@@ -251,7 +253,7 @@ This course is intended for beginners in Kokkos and performance portability with
 
 \small
 \begin{itemize}
-    \item GPGPUs (General Purpose Graphic Processing Units) are designed to achieve massive parallelism of simple kernels
+    \item GPUs are designed to achieve massive parallelism of simple kernels
     \item hundreds of computing units, thousands of threads
     \item Large SIMT vector unit (Single Instruction Multiple Threads) per computing unit
 \end{itemize}
@@ -273,6 +275,25 @@ This course is intended for beginners in Kokkos and performance portability with
     \begin{center}
         \includegraphics[width=0.8\textwidth]{../../images/cpu_vs_gpu.png}
     \end{center}
+
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}
+    \frametitle{Host / Device model}
+
+    \begin{itemize}
+        \item The program is always started first on the CPU.
+        \item The CPU is often referred to as the \highlight{Host}
+        \item The CPU orchestrates when the kernels are launched on the GPU and how to make the memory transfers
+        \item The GPU side waits for kernels to execute
+        \item The GPU is often referred to as the \highlight{Device}
+    \end{itemize}
+
+    \begin{alertblock}{}
+        Today's GPU can not work standalone
+    \end{alertblock}
 
 \end{frame}
 
@@ -602,7 +623,7 @@ cmake ${srcdir} -DCMAKE_INSTALL_PREFIX=${kokkos_install_folder} \
     \includegraphics[width=0.4\textwidth]{../../images/sleeping_otter.png}
     \end{center}
 
-    Go to the folder \texttt{01\_compiling\_kokkos} and follow the instructions in the README file
+    Go to the folder \href{https://github.com/CExA-project/cexa-kokkos-tutorials/tree/main/exercises/01_compiling_kokkos}{01\_compiling\_kokkos} and follow the instructions in the README file
 
     Goal of this Exercise:
     \begin{itemize}
@@ -694,7 +715,7 @@ target_link_libraries(test Kokkos::kokkos)
 
 \begin{itemize}
     \item Kokkos propagates its compilation flags to your program
-    \item If Kokkos not detected in your paths, use the \texttt{Kokkos\_ROOT} CMake variable to specify the path to Kokkos
+    \item If Kokkos is not detected in your paths, use the \texttt{Kokkos\_ROOT} CMake variable to specify the path to Kokkos
 \end{itemize}
 
 \small
@@ -714,6 +735,8 @@ cmake ${srcdir} \
     \begin{center}
     \includegraphics[width=0.4\textwidth]{../../images/sleeping_otter.png}
     \end{center}
+
+    Go to the folder \href{https://github.com/CExA-project/cexa-kokkos-tutorials/tree/main/exercises/02_first_program}{02\_first\_program} and follow the instructions in the README file
 
     Goal of this Exercise:
 
@@ -739,7 +762,7 @@ Why is it important to have an abstracted data container?
 \begin{itemize}
     \item No need to allocate or deallocate memory by hand
     \item Vendor-specific memory allocation is hidden
-    \item unified semantic and portable memory management (CPU and GPU)
+    \item Unified semantic and portable memory management (CPU and GPU)
     \item Advanced capability (abstracted layout, subarray, multidimensionality, etc.)
 \end{itemize}
 
@@ -840,7 +863,7 @@ for (int i = 0; i < Nx; i++) {
 
     \begin{itemize}
         \item A View lives in a specific memory space (Host or Device) not both
-        \item If Kokkos is compiled with \textbf{a CPU backend only}, the View data is allocated in the \textbf{Host memory} by defaults
+        \item If Kokkos is compiled with \highlight{a CPU backend only}, the View data is allocated in the \highlight{Host memory} by defaults
     \end{itemize}
 
     \centering
@@ -854,8 +877,8 @@ for (int i = 0; i < Nx; i++) {
     \frametitle{Where does the data reside?}
 
     \begin{itemize}
-        \item If Kokkos is compiled with a \textbf{GPU backend}, the View data is allocated in the \textbf{Device memory} by default
-        \item We will later how to allocate and copy data between the Host and the Device
+        \item If Kokkos is compiled with a \highlight{GPU backend}, the View data is allocated in the \highlight{Device memory} by default
+        \item We will later see how to allocate and copy data between the Host and the Device
     \end{itemize}
 
 \centering
@@ -876,7 +899,7 @@ for (int i = 0; i < Nx; i++) {
     \item Allocations only happen when explicitly specified
     \item Copy construction and assignment are shallow. So, you pass Views by value, not by reference. (Python like)
     \item Reference counting is used for automatic deallocation (like shared pointers)
-    \item Metadata (rank, extend, etc) is however always accessible on the Host
+    \item Metadata (rank, extent, etc) is however always accessible on the Host
 \end{itemize}
 
 \begin{alertblock}{}
@@ -934,7 +957,7 @@ for (int i = 0; i < Nx; i++) {
     \end{itemize}
 
     \begin{block}{}
-        Go to the exercise \texttt{02\_basic\_view} and follow the instructions in the README file
+        Go to the exercise \href{https://github.com/CExA-project/cexa-kokkos-tutorials/tree/main/exercises/03_basic_view}{03\_basic\_view} and follow the instructions in the README file
     \end{block}
 
 \end{frame}
@@ -945,7 +968,7 @@ for (int i = 0; i < Nx; i++) {
     \frametitle{Understand the notion of memory space}
 
 \begin{itemize}
-    \item Kokkos provides an abstraction of where the data lives: the memory space
+    \item Kokkos provides an abstraction of where the data lives: \textbf{the memory space}
     \item A View is always associated with a defined memory space (Host or Device for instance) at compilation time
     \item Default behavior: View data is allocated in the Host memory space if no GPU backend is available, else in the Device memory space
 \end{itemize}
@@ -957,7 +980,7 @@ for (int i = 0; i < Nx; i++) {
     \frametitle{Understand the notion of memory space}
 
 \begin{itemize}
-    \item Problem: how to deal with data residing in different memory spaces?
+    \item \textbf{Problem:} how to deal with data residing in different memory spaces?
 \end{itemize}
 
 \begin{center}
@@ -997,7 +1020,7 @@ Kokkos::View<int**, MemorySpace> my_matrix("matrix", Nx, Ny);
     \frametitle{Mirror Views presentation}
 
 \begin{itemize}
-    \item Solution: we need linked host and device view to access the data on both sides
+    \item \textbf{Solution:} we need linked host and device view to access the data on both sides
     \item Kokkos provides the notion of \textbf{mirror views}
     \item A mirror view is a view that is a copy of another view but in a different memory space
     \item There is a specific function to create a mirror view called \texttt{create\_mirror}
@@ -1011,7 +1034,7 @@ Kokkos::View<int**>::HostMirror host_matrix =
 \end{minted}
 
 \begin{itemize}
-\item Mirror views automatically inherit the properties of the original view (extent, layout, etc)
+\item A mirror view automatically inherits the properties of the original view (extent, layout, etc)
 \end{itemize}
 
 \end{frame}
@@ -1126,7 +1149,7 @@ Kokkos::deep_copy(device_matrix, host_matrix);
     \end{itemize}
 
     \begin{block}{}
-        Go to the exercise \texttt{03\_deep\_copy} and follow the instructions in the README file
+        Go to the exercise \href{https://github.com/CExA-project/cexa-kokkos-tutorials/tree/main/exercises/04_deep_copy}{04\_deep\_copy} and follow the instructions in the README file
     \end{block}
 
 \end{frame}
@@ -1215,6 +1238,7 @@ KOKKOS_LAMBDA(int i) {
 });
 \end{minted}
 
+\normalsize
 \begin{itemize}
     \item The previous OpenMP version only works on CPUs (need \texttt{target} directive for GPUs)
     \item The same Kokkos version works on CPUs and GPUs depending on the compile backend
@@ -1254,6 +1278,7 @@ KOKKOS_LAMBDA(int i) {
     \item If Kokkos is compiled with a GPU backend, the loop is executed on GPU by default
     \item Else, the loop is executed on the CPU
     \item Non-kokkos C++ code is always executed on the Host
+    \item Kokkos loops can have a name for debugging purpose
 \end{itemize}
 
 \end{frame}
@@ -1273,13 +1298,14 @@ KOKKOS_LAMBDA(int i) {
 // Kokkos parallel loop
 Kokkos::parallel_for("my_loop", N, KOKKOS_LAMBDA(int i) {...});
 
-// Host code
+// Host code executed during the parallel loop 
+// if Kokkos is compiled with a GPU backend
 for (int i = 0; i < N; i++) { ... }
 \end{minted}
 
 \normalsize
 
-Example: if Kokkos uses a GPU backend, the parallel loop is executed asynchronously on the GPU:
+
 \begin{itemize}
     \item If Kokkos uses a GPU backend, the parallel loop is executed asynchronously on the GPU
     \item \textbf{Problem:} what if I need the results of the parallel loop in the host code?
@@ -1329,7 +1355,7 @@ for (int i = 0; i < N; i++) { ... }
     \end{itemize}
 
     \begin{block}{}
-        Go to the exercise \texttt{05\_parallel\_loop} and follow the instructions in the README file
+        Go to the exercise \href{https://github.com/CExA-project/cexa-kokkos-tutorials/tree/main/exercises/05_parallel_loop}{05\_parallel\_loop} and follow the instructions in the README file
     \end{block}
 
 \end{frame}
@@ -1354,7 +1380,7 @@ Kokkos::RangePolicy<ExecutionSpace> policy(start_index, end_index);
 
 \begin{itemize}
     \item \texttt{ExecutionSpace} is an optional template parameter that specifies the execution space, by default the execution space is \texttt{DefaultExecutionSpace}.
-    \item \texttt{start\_index} and \texttt{end\_inde<x} are the start and end indexes of the loop
+    \item \texttt{start\_index} and \texttt{end\_index} are the beginning and end of the loop
 \end{itemize}
 
 \small
