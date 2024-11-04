@@ -14,7 +14,7 @@ jobs:
   changes:
     runs-on: ubuntu-latest
     outputs:
-      output1: ${{ steps.filter.outputs.workflows }}
+      exercises_changed: ${{ steps.filter.outputs.exercises }}
     steps:
     - uses: actions/checkout@v4
     - uses: dorny/paths-filter@v3
@@ -31,7 +31,7 @@ jobs:
   build_kokkos:
     runs-on: ubuntu-latest
     needs: [changes]
-    if: ${{ needs.changes.outputs.exercises == 'true' }}
+    if: ${{ needs.changes.outputs.exercises_changed == 'true' }}
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v4
