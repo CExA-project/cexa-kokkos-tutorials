@@ -1380,7 +1380,7 @@ Kokkos::RangePolicy<ExecutionSpace> policy(start_index, end_index);
 
 \begin{itemize}
     \item \texttt{ExecutionSpace} is an optional template parameter that specifies the execution space, by default the execution space is \texttt{DefaultExecutionSpace}.
-    \item \texttt{start\_index} and \texttt{end\_index} are the beginning and end of the loop
+    \item \texttt{start\_index} and \texttt{end\_index} are the beginning and the end of the loop
 \end{itemize}
 
 \small
@@ -1472,6 +1472,24 @@ By definition:
 \begin{frame}[fragile]
     \frametitle{Nested parallel loops}
 
+\begin{minted}{C++}
+
+Kokkos::View<int**> my_matrix("matrix", Nx, Ny);
+
+for (int i = 0; i < Nx; i++) {
+    for (int j = 0; j < Ny; j++) {
+        my_matrix(i,j) = i + j;
+    }
+}
+\end{minted}
+
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}[fragile]
+    \frametitle{Nested parallel loops}
+
 \begin{itemize}
     \item Kokkos allows nested parallel loops using the \highlight{MDRangePolicy} structure
     \item Somehow similar to the \texttt{collapse} directive in OpenMP
@@ -1523,7 +1541,7 @@ Kokkos::parallel_for("my_loop",
 
 \begin{itemize}
 \item Parallel reduction is the second loop pattern provided by Kokkos: \highlight{Kokkos::parallel\_reduce}
-\item It is often used to compute from an array a single value (sum, max, min, etc.)
+\item It is often used to compute a single value from an array (sum, max, min, etc.)
 \item It works like the \texttt{parallel\_for} loop pattern but with an additional argument: the reducer operation to perform \highlight{Kokkos::Reducer\_op<type>}
 \item \texttt{KOKKOS\_LAMBDA} also has an additional argument: a reference to the local result
 \end{itemize}
@@ -1588,11 +1606,11 @@ Can be even shorter in this case:
 
 \footnotesize
 \begin{minted}{C++}
-    Kokkos::parallel_reduce("my_reduction", N,
-    KOKKOS_LAMBDA(int i, double& local_result) {
-        local_result += A(i);
-    }, result);
-    \end{minted}
+Kokkos::parallel_reduce("my_reduction", N,
+KOKKOS_LAMBDA(int i, double& local_result) {
+    local_result += A(i);
+}, result);
+\end{minted}
 
 \end{frame}
 
@@ -1663,7 +1681,7 @@ KOKKOS_LAMBDA (int i, minloc_type& lminloc) {
     \end{itemize}
 
     \begin{block}{}
-        Go to the exercise \texttt{06\_parallel\_reduce} and follow the instructions in the README file
+        Go to the exercise \href{https://github.com/CExA-project/cexa-kokkos-tutorials/tree/main/exercises/06_parallel_reduce}{06\_parallel\_reduce} and follow the instructions in the README file
     \end{block}
 
 \end{frame}

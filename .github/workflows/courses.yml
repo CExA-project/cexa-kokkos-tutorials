@@ -14,7 +14,7 @@ jobs:
   changes:
     runs-on: ubuntu-latest
     outputs:
-      output1: ${{ steps.filter.outputs.beginner }}
+      beginner_changed: ${{ steps.filter.outputs.beginner }}
     steps:
     - uses: actions/checkout@v4
     - uses: dorny/paths-filter@v3
@@ -27,7 +27,7 @@ jobs:
 
   build_beginner_course:
     needs: changes
-    if: ${{ needs.changes.outputs.beginner == 'true' }}
+    if: ${{ needs.changes.outputs.beginner_changed == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - name: Set up Git repository
