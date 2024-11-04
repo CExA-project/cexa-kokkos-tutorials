@@ -96,6 +96,21 @@
 % _____________________________________________________________________________
 
 \begin{frame}
+    \frametitle{This course is open-source}
+    
+    \begin{center}
+
+    \includegraphics[width=0.3\textwidth]{../../images/GitHub-logo.png}
+
+    \href{https://github.com/CExA-project/cexa-kokkos-tutorials}{https://github.com/CExA-project/cexa-kokkos-tutorials}
+
+    \end{center}
+    
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}
 \frametitle{Prerequisite}
 
 This course is intended for beginners in Kokkos and performance portability without strong C++ knowledge. 
@@ -117,7 +132,7 @@ This course is intended for beginners in Kokkos and performance portability with
     \begin{itemize}
         \item Course + practical work: full day 
         \item Course + corrected exercise: half day
-        \item Fest version: 3 hours
+        \item Short version: 3 hours
     \end{itemize}
     
  \end{frame}
@@ -136,12 +151,14 @@ This course is intended for beginners in Kokkos and performance portability with
 % _____________________________________________________________________________
 
 \begin{frame}
-\frametitle{Current super-computers use a wide variety of hardware technologies}
+\frametitle{Current supercomputers use a wide variety of hardware technologies}
 
+\begin{figure}
 \begin{center}
     \includegraphics[width=1\textwidth]{../../images/top10_super_computers.png}
+    \caption{Top 10 supercomputers in the world in June 2024}
 \end{center}
-
+\end{figure}
 
 \begin{itemize}
 \item Heterogeneous nodes: mix of CPU and GPU accelerators
@@ -153,22 +170,28 @@ This course is intended for beginners in Kokkos and performance portability with
 % _____________________________________________________________________________
 
 \begin{frame}
-\frametitle{EuroHPC super-computers}
+\frametitle{EuroHPC supercomputers}
 
+\begin{figure}
 \begin{center}
     \includegraphics[width=1\textwidth]{../../images/euroHPC.png}
+    \caption{EuroHPC supercomputers}
 \end{center}
+\end{figure}
 
 \end{frame}
 
 % _____________________________________________________________________________
 
 \begin{frame}
-\frametitle{National academic super-computers}
+\frametitle{National academic supercomputers}
 
-\begin{center}
-    \includegraphics[width=1\textwidth]{../../images/french_super_computers.png}
-\end{center}
+\begin{figure}
+    \begin{center}
+    \includegraphics[width=0.9\textwidth]{../../images/french_super_computers.png}
+    \caption{Academic and CEA supercomputers}
+    \end{center}
+\end{figure}
 
 \end{frame}
 
@@ -189,10 +212,10 @@ This course is intended for beginners in Kokkos and performance portability with
 % _____________________________________________________________________________
 
 \begin{frame}
-    \frametitle{Basic definition of a super-computer}
+    \frametitle{Basic definition of a supercomputer}
 
     \begin{itemize}
-        \item Super-computer is a distributed memory system composed of many compute nodes packed into racks and linked by a high-speed network
+        \item A supercomputer is a distributed memory system composed of many compute nodes packed into racks and linked by a high-speed network
         \item Compute nodes are composed of one or more CPUs and one or more GPUs
     \end{itemize}
 
@@ -209,7 +232,7 @@ This course is intended for beginners in Kokkos and performance portability with
     Architecture description
 
     \begin{itemize}
-        \item CPU are designed for general purpose, from sequential task to parallel computing
+        \item CPUs are designed for general purpose, from sequential task to parallel computing
         \item tens to hundred of cores in biggest processors
         \item SIMD (Single Instruction Multiple Data) units for accelerating arithmetic operations
     \end{itemize}
@@ -224,15 +247,17 @@ This course is intended for beginners in Kokkos and performance portability with
 % _____________________________________________________________________________
 
 \begin{frame}
-    \frametitle{Zoom on the GPU architecture}
+    \frametitle{Zoom on the GPGPU architecture}
 
+\small
 \begin{itemize}
-    \item Large SIMT vector unit (Single Instruction Multiple Threads) per computing unit
+    \item GPGPUs (General Purpose Graphic Processing Units) are designed to achieve massive parallelism of simple kernels
     \item hundreds of computing units, thousands of threads
-    \item Each vendor has its own vocabulary
+    \item Large SIMT vector unit (Single Instruction Multiple Threads) per computing unit
 \end{itemize}
 
-\hspace{0.5cm}
+\normalsize
+\hspace{0.2cm}
 
 \begin{center}
     \includegraphics[width=0.7\textwidth]{../../images/gpu_architecture.png}
@@ -265,11 +290,15 @@ This course is intended for beginners in Kokkos and performance portability with
 % _____________________________________________________________________________
 
 \begin{frame}
-    \frametitle{What's the motivation putting GPUs in super-computers?}
+    \frametitle{What's the motivation of putting GPUs in supercomputers?}
 
 \begin{center}
     \includegraphics[width=0.9\textwidth]{../../images/flop_watt_ratio_history_fp64.png}
 \end{center}
+
+\begin{itemize}
+    \item Question: how to build the fastest machine with the lowest power consumption and the lowest cost?
+\end{itemize}
 
 \end{frame}
 
@@ -305,7 +334,7 @@ Application developers need:
 In the field of numerical simulation, engineers also want:
 
 \begin{itemize}
-    \item \textbf{Maturity:} production-ready not research product, number of users
+    \item \textbf{Maturity:} production-ready not research product
     \item \textbf{Community:} contributors, support, documentation, examples
     \item \textbf{Longevity:} long-term maintenance, bug fixes, updates, sponsorship
     \item \textbf{Interporability:} possibility to easily couple with other libraries and tools (IO, Linear Algebra, Machine leaning, etc.)
@@ -318,11 +347,16 @@ In the field of numerical simulation, engineers also want:
 \frametitle{Do you need performance portability?}
 Probably yes if you:
 \begin{itemize}
-    \item Want your code runs on different hardware technologies (from CPU to GPU)
+    \item Want your code to run on different hardware technologies (from CPU to GPU)
     \item Have performance requirements
     \item Can not afford to maintain and optimize different versions of your code for each possible hardware of the market
-    \item You want to focus on the algorithm and not on the development of the code
+    \item You want to focus on algorithmic and not code development
     \item Want you code to be easily maintainable and readable by others, especially non experts
+\end{itemize}
+
+Maybe not if:
+\begin{itemize}
+    \item Need to tune your algorithms to work the fast as possible on a given hardware
 \end{itemize}
 
 \end{frame}
@@ -342,7 +376,7 @@ Probably yes if you:
     \end{itemize}
 
     \begin{center}
-        \includegraphics[width=0.9\textwidth]{../../images/kokkos_model.png}
+        \includegraphics[width=1\textwidth]{../../images/kokkos_model.png}
     \end{center}
 
 \end{frame}
@@ -353,7 +387,7 @@ Probably yes if you:
     \frametitle{Kokkos parallelism scope}
 
     \begin{itemize}
-        \item Kokkos Core only handle node-level parallelism
+        \item Kokkos only handle node-level parallelism
         \item You still need a model for distributed memory parallelism (MPI for instance)
     \end{itemize}
 
@@ -435,7 +469,7 @@ Probably yes if you:
     \begin{itemize}
         \item Require CMake and a C++ compiler
         \item Compile Kokkos as an external library or as part of your project (inline build) using the source
-        \item You can as use Spack to get a precompiled version of Kokkos
+        \item You can use Spack to install Kokkos
         \item You can get the source code from the \href{https://github.com/kokkos/kokkos}{Kokkos GitHub repository}
     \end{itemize}
 
@@ -530,7 +564,7 @@ cmake ${srcdir} \
     \item Architecture cmake options \texttt{-DKokkos\_ARCH\_<ARCH\_NAME>=ON} can be specified for best performance
     \item Replace \texttt{<ARCH\_NAME>} with the architecture name of the target host and device
     \item For example, for a NVIDIA A100 GPU, the architecture name is \texttt{AMPERE80}
-    \item All Cmake option are available \href{https://kokkos.org/kokkos-core-wiki/keywords.html#}{on the dedicated doc page}
+    \item All Cmake options are available \href{https://kokkos.org/kokkos-core-wiki/keywords.html#}{on the dedicated doc page}
 \end{itemize}
 
 \end{frame}
