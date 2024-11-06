@@ -4,6 +4,17 @@
 ![CI](https://github.com/CExA-project/cexa-kokkos-tutorials/actions/workflows/exercises.yml/badge.svg)
 ![CI](https://github.com/CExA-project/cexa-kokkos-tutorials/actions/workflows/projects.yml/badge.svg)
 
+**Presentation:**
+
+This repository contains tutorials, exercises, and projects to learn Kokkos.
+This course is intended for beginners and intermediate users not experts in C++ and GPU programming.
+This course is part of the [CExA project](https://cexa-project.github.io/).
+
+<p align="center">
+    <img src="./images/Kokkos.png" alt="Kokkos" width="100"/>
+    <img src="./images/cexa_logo.png" alt="CExA" width="100"/>
+</p>
+
 **Courses:**
 
 - [Introduction to Kokkos](courses/01_beginners/README.md)
