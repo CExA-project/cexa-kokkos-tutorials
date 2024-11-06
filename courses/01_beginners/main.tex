@@ -999,7 +999,6 @@ Kokkos::View<int**, MemorySpace> my_matrix("matrix", Nx, Ny);
 
 \begin{itemize}
     \item \texttt{Kokkos::HostSpace}: Host memory space
-    \item \texttt{Kokkos::SharedSpace}: Device memory space (refers to the same memory space as the host if no GPU backend)
 \end{itemize}
 
 \begin{alertblock}{}
@@ -1629,7 +1628,7 @@ KOKKOS_LAMBDA(int i, double& local_max_value) {
     if (A(i) > local_max_value) {
         local_max_value = A(i);
     }
-}, Kokkos::MaxLoc<double>(max_value));
+}, Kokkos::Max<double>(max_value));
 \end{minted}
 
 \end{frame}
