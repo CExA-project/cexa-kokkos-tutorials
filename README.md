@@ -11,7 +11,7 @@ This course is intended for beginners and intermediate users not experts in C++ 
 This course is part of the [CExA project](https://cexa-project.github.io/).
 
 <p align="center">
-    <img src="./images/Kokkos.png" alt="Kokkos" width="100"/>
+    <img src="./images/kokkos.png" alt="Kokkos" width="100"/>
     <img src="./images/cexa_logo.png" alt="CExA" width="100"/>
 </p>
 
