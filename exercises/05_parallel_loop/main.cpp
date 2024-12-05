@@ -16,7 +16,7 @@ int main(int argc, char* argv[]) {
         double timer_stop  = 0;
 
         // _____________________________________________________
-        // Read Nx, Ny, Nz from command line
+        // Read Nx from the command line
 
         if (argc > 1) {
             N = std::atoi(argv[1]);

@@ -235,7 +235,7 @@ This course is intended for beginners in Kokkos and performance portability with
     \small
     \begin{itemize}
         \item CPUs are designed for general purpose, from sequential task to parallel computing. They run the operating system as well.
-        \item tens to hundred of cores in biggest processors
+        \item Tens to hundred of cores in biggest processors
         \item SIMD (Single Instruction Multiple Data) units for accelerating arithmetic operations
     \end{itemize}
     
@@ -254,7 +254,7 @@ This course is intended for beginners in Kokkos and performance portability with
 \small
 \begin{itemize}
     \item GPUs are designed to achieve massive parallelism of simple kernels
-    \item hundreds of computing units, thousands of threads
+    \item Hundreds of computing units, thousands of threads
     \item Large SIMT vector unit (Single Instruction Multiple Threads) per computing unit
 \end{itemize}
 
@@ -374,7 +374,7 @@ Probably yes if you:
 
 Maybe not if:
 \begin{itemize}
-    \item Need to tune your algorithms to work the fast as possible on a given hardware
+    \item Need to tune your algorithms to work as fast as possible on a given hardware
 \end{itemize}
 
 \end{frame}
@@ -506,7 +506,7 @@ Maybe not if:
     \begin{itemize}
         \item Kokkos is compiled to target a specific backend
         \item Only one CPU backend and one GPU backend maximum can be compiled at a time
-        \item Kokkos is portable until you compile it. You need a compilation per backend.
+        \item Kokkos is portable until you compile it. You need one compilation per backend.
     \end{itemize}
 
     \hspace{1cm}
@@ -638,7 +638,7 @@ cmake ${srcdir} -DCMAKE_INSTALL_PREFIX=${kokkos_install_folder} \
 % _____________________________________________________________________________
 
 \begin{frame}[fragile]
-    \frametitle{start a Kokkos program} 
+    \frametitle{Start a Kokkos program}
     \begin{itemize}
         \item Include the Kokkos header file (like any other library)
         \item Use the Kokkos namespace \texttt{Kokkos::}
@@ -1052,7 +1052,7 @@ Kokkos::View<int**>::HostMirror host_matrix =
     \frametitle{Views and mirror Views in the host memory space}
 
 \begin{itemize}
-\item For portability reason, we use the mirror view whatever we compile with a CPU or GPU backend
+\item For portability reason, we use the mirror view whether we compile with a CPU or GPU backend
 \item With a CPU backend only, the mirror view lives in the same memory space as the original view
 \item \textbf{Problem:} the \texttt{create\_mirror} function always create a view with allocated memory (memory duplication)
 \end{itemize}
@@ -1086,7 +1086,7 @@ Kokkos::View<int**>::HostMirror host_matrix =
     \frametitle{Deep copy function to exchange data between memory spaces}
 
 \begin{itemize}
-    \item Kokkos provides a function \texttt{deep\_copy} to copy data between views of different memory spaces
+    \item Kokkos provides a function \texttt{deep\_copy} to copy data between views in different memory spaces
     \item Views must have the same layout and extent
     \item The function is used to copy data from the source view to the destination view
 \end{itemize}
@@ -1267,7 +1267,7 @@ KOKKOS_LAMBDA(int i) {
 % _____________________________________________________________________________
 
 \begin{frame}[fragile]
-    \frametitle{Where my parallel loop is executed?} 
+    \frametitle{Where is my parallel loop executed?}
 
 \begin{itemize}
     \item Where the loop is executed is called the \textcolor{orange}{\textbf{execution space}}
@@ -1544,7 +1544,9 @@ Kokkos::parallel_for("my_loop",
 
 \footnotesize
 \begin{minted}{C++}
-double result = 0.0;
+// No need to initialize the variable, it will be
+// done by the parallel_reduce call
+double result;
 
 Kokkos::parallel_reduce("my_reduction", N,
 KOKKOS_LAMBDA(int i, double& local_result) {
@@ -1565,12 +1567,12 @@ KOKKOS_LAMBDA(int i, double& local_result) {
     \item Kokkos provides reducers (\texttt{Reducer\_op}) for the most common operations:
     \begin{itemize}
         \item \texttt{Kokkos::Sum}: Sum of the elements
-        \item \texttt{Kokkos::Max}: and \texttt{Kokkos::Min}: Maximum and minimum of the elements
+        \item \texttt{Kokkos::Max}: and \texttt{Kokkos::Min}: Maximum and minimum element
         \item \texttt{Kokkos::Prod}: Product of the elements
-        \item \texttt{Kokkos::MaxLoc} and \texttt{Kokkos::MinLoc}: Maximum and minimum of the elements with the index
+        \item \texttt{Kokkos::MaxLoc} and \texttt{Kokkos::MinLoc}: Maximum and minimum element with their index
         \item and mores
     \end{itemize}  
-    \item You can also create your own reducer but not the subject of this introduction
+    \item You can also create your own reducer but this is not the subject of this introduction
 \end{itemize}
 
 \begin{block}{}
@@ -1588,9 +1590,9 @@ Sum of an array using a parallel reduction:
 
 \footnotesize
 \begin{minted}{C++}
-double result = 0.0;
-Kokkos::view<double*> A("A", N);
-
+double result;
+Kokkos::View<double*> A("A", N);
+// ... Fill vector A with data ...
 Kokkos::parallel_reduce("my_reduction", N,
 KOKKOS_LAMBDA(int i, double& local_result) {
     local_result += A(i);
@@ -1619,10 +1621,10 @@ Max of an array using a parallel reduction:
 
 \footnotesize
 \begin{minted}{C++}
-double max_value = -1.0;
+double max_value;
 
-Kokkos::view<double*> A("A", N);
-
+Kokkos::View<double*> A("A", N);
+// ... Fill vector A with data ...
 Kokkos::parallel_reduce("my_reduction", N,
 KOKKOS_LAMBDA(int i, double& local_max_value) {
     if (A(i) > local_max_value) {
@@ -1642,9 +1644,8 @@ Min and index of an array using a parallel reduction:
 
 \footnotesize
 \begin{minted}{C++}
-double min_value = 1.0e10;
-int min_index = -1;
-Kokkos::view<double*> A("A", N);
+Kokkos::View<double*> A("A", N);
+// ... Fill vector A with data ...
 
 // Use a structure containing val and loc variables
 typedef Kokkos::MinLoc<double,int>::value_type minloc_type;
@@ -1652,8 +1653,8 @@ minloc_type minloc;
 
 Kokkos::parallel_reduce( "MinLocReduce", N,
 KOKKOS_LAMBDA (int i, minloc_type& lminloc) {
-    if( A(i) < lminloc.val ) { 
-        lminloc.val = val;
+    if( A(i) < lminloc.val ) {
+        lminloc.val = A(i);
         lminloc.loc = i;
     }
 }, Kokkos::MinLoc<double,int>(minloc));
