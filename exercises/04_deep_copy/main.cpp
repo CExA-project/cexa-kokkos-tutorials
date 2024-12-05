@@ -19,7 +19,7 @@ int main(int argc, char* argv[]) {
         struct rusage usage;
 
         // _____________________________________________________
-        // Read Nx, Ny, Nz from command line
+        // Read Nx, Ny, Nz from the command line
         if (argc == 4) {
             Nx = std::atoi(argv[1]);
             Ny = std::atoi(argv[2]);
@@ -56,7 +56,7 @@ int main(int argc, char* argv[]) {
         std::cout << " - Matrix stride: " << stride[0] << " x " << stride[1] << " x " << stride[2] << std::endl;
 
         getrusage(RUSAGE_SELF, &usage);
-        std::cout << " - Memory usage: " << usage.ru_maxrss << " KB" << std::endl;
+        std::cout << "Total memory usage: " << usage.ru_maxrss << " KB" << std::endl;
 
         // _____________________________________________________
         // Create a mirror view of the matrix using create_mirror_view
@@ -64,7 +64,7 @@ int main(int argc, char* argv[]) {
         // ...
 
         // getrusage(RUSAGE_SELF, &usage);
-        // std::cout << "Memory usage: " << usage.ru_maxrss << " KB" << std::endl;
+        // std::cout << "Total memory usage: " << usage.ru_maxrss << " KB" << std::endl;
 
         // Initialize the matrix
 
@@ -86,7 +86,7 @@ int main(int argc, char* argv[]) {
         // ...
 
         // getrusage(RUSAGE_SELF, &usage);
-        // std::cout << "Memory usage: " << usage.ru_maxrss << " KB" << std::endl;
+        // std::cout << "Total memory usage: " << usage.ru_maxrss << " KB" << std::endl;
 
         // _____________________________________________________
         // Compare mirror and mirror_2

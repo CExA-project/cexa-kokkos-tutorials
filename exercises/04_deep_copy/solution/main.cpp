@@ -19,7 +19,7 @@ int main(int argc, char* argv[]) {
         struct rusage usage;
 
         // _____________________________________________________
-        // Read Nx, Ny, Nz from command line
+        // Read Nx, Ny, Nz from the command line
         if (argc == 4) {
             Nx = std::atoi(argv[1]);
             Ny = std::atoi(argv[2]);
@@ -56,11 +56,12 @@ int main(int argc, char* argv[]) {
         std::cout << " - Matrix stride: " << stride[0] << " x " << stride[1] << " x " << stride[2] << std::endl;
 
         getrusage(RUSAGE_SELF, &usage);
-        std::cout << " - Memory usage: " << usage.ru_maxrss << " KB" << std::endl;
+        std::cout << "Total memory usage: " << usage.ru_maxrss << " KB" << std::endl;
 
         // _____________________________________________________
         // Create a mirror view of the matrix using create_mirror_view
 
+        std::cout << " 2) Creating the 3D view `mirror` with create_mirror_view()" << std::endl;
         Kokkos::View<double***>::HostMirror mirror = Kokkos::create_mirror_view(matrix);
 
         extent[0] = mirror.extent(0);
@@ -71,11 +72,11 @@ int main(int argc, char* argv[]) {
         stride[1] = mirror.stride(1);
         stride[2] = mirror.stride(2);
 
-        std::cout << "Mirror extent: " << extent[0] << " x " << extent[1] << " x " << extent[2] << std::endl;
-        std::cout << "Mirror stride: " << stride[0] << " x " << stride[1] << " x " << stride[2] << std::endl;
+        std::cout << " - Mirror extent: " << extent[0] << " x " << extent[1] << " x " << extent[2] << std::endl;
+        std::cout << " - Mirror stride: " << stride[0] << " x " << stride[1] << " x " << stride[2] << std::endl;
 
         getrusage(RUSAGE_SELF, &usage);
-        std::cout << "Memory usage: " << usage.ru_maxrss << " KB" << std::endl;
+        std::cout << "Total memory usage: " << usage.ru_maxrss << " KB" << std::endl;
 
         // Initialize the matrix
 
@@ -99,6 +100,7 @@ int main(int argc, char* argv[]) {
         // _____________________________________________________
         // New mirror view
 
+        std::cout << " 3) Creating the 3D view `mirror_2` with create_mirror()" << std::endl;
         Kokkos::View<double***>::HostMirror mirror_2 = Kokkos::create_mirror(matrix);
 
         // _____________________________________________________
@@ -111,7 +113,7 @@ int main(int argc, char* argv[]) {
         std::cout << "Time to deep copy matrix to mirror_2: " << timer_stop - timer_start << std::endl;
 
         getrusage(RUSAGE_SELF, &usage);
-        std::cout << "Memory usage: " << usage.ru_maxrss << " KB" << std::endl;
+        std::cout << "Total memory usage: " << usage.ru_maxrss << " KB" << std::endl;
 
         // _____________________________________________________
         // Compare mirror and mirror_2

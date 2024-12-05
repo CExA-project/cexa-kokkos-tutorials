@@ -28,4 +28,4 @@ The goal of this exercise is to manipulate the Kokkos parallel reduction.
 ## *Optional* Step: timers
 
 - Add timers to measure the time spent to compute the sum and the max of the matrix.
-- Analyze the time spent on CPU and GPU for different LMatrix sizes.
+- Analyze the time spent on CPU and GPU for different Matrix sizes.

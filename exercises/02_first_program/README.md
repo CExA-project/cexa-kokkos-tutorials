@@ -24,7 +24,7 @@ make
 
 - Run the program and check the output.
 
-For instance if you have an Apple computer and you are using the Clang compiler, you should something like this:
+For instance if you have an Apple computer and you are using the Clang compiler, you should get something like this:
 
 ```bash
   Kokkos Version: 4.4.0

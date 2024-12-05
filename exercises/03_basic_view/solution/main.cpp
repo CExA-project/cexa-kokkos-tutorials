@@ -10,7 +10,7 @@ int main(int argc, char* argv[]) {
         int Ny = 15;
         int Nz = 20;
 
-        // Read Nx, Ny, Nz from command line
+        // Read Nx, Ny, Nz from the command line
         if (argc == 4) {
             Nx = std::atoi(argv[1]);
             Ny = std::atoi(argv[2]);

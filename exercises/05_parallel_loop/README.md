@@ -43,9 +43,9 @@ export OMP_PLACES=threads
 - Compile the program with the OpenMP backend and execute. Use large vector size for better results:
 
 ```bash
-./exe -N 10000000
+./exe 10000000
 ```
 
 - If you can access a GPU, compile and execute the program with the corresponding backend and execute the code.
 
-- Compare the timers between the two backends.
+- Compare the times between the two backends.
