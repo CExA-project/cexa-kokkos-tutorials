@@ -27,11 +27,11 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
-     inkscape:zoom="1.0417346"
-     inkscape:cx="544.28449"
-     inkscape:cy="208.78638"
-     inkscape:window-width="1920"
-     inkscape:window-height="950"
+     inkscape:zoom="1.0142879"
+     inkscape:cx="1067.2512"
+     inkscape:cy="247.46425"
+     inkscape:window-width="3008"
+     inkscape:window-height="1561"
      inkscape:window-x="0"
      inkscape:window-y="25"
      inkscape:window-maximized="1"
@@ -15152,16 +15152,16 @@
        style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect3548);display:inline;fill:none;fill-opacity:1;stroke:#000000;stroke-width:3.77953;stroke-dasharray:none;stroke-opacity:1"><tspan
          x="374.05957"
          y="329.80312"
-         id="tspan3"><tspan
+         id="tspan20"><tspan
            style="fill:#ffffff;stroke:none"
-           id="tspan1">Kokkos compiled with </tspan></tspan><tspan
+           id="tspan19">Kokkos compiled with </tspan></tspan><tspan
          x="381.93555"
          y="351.00314"
-         id="tspan6"><tspan
+         id="tspan23"><tspan
            style="fill:#ffffff;stroke:none"
-           id="tspan4">a C</tspan><tspan
+           id="tspan21">a C</tspan><tspan
            style="fill:#ffffff;stroke:none"
-           id="tspan5">PU backend only</tspan></tspan></text>
+           id="tspan22">PU backend only</tspan></tspan></text>
     <rect
        style="fill:url(#linearGradient3551);stroke:#000000;stroke-width:0.1;stroke-dasharray:none;stroke-opacity:1"
        id="rect3550"
@@ -15657,18 +15657,18 @@
        y="0"><tspan
          x="-82.158203"
          y="341.28359"
-         id="tspan7">Kokkos::View&lt;int*&gt; view(N);
+         id="tspan24">Kokkos::View&lt;int*&gt; view(N);
 </tspan><tspan
          x="-82.158203"
          y="362.48361"
-         id="tspan8">
+         id="tspan25">
 </tspan><tspan
          x="-82.158203"
          y="383.68362"
-         id="tspan9">Kokkos::View&lt;int**&gt;::HostMirror mirror_view = </tspan><tspan
+         id="tspan26">Kokkos::View&lt;int*&gt;::HostMirror mirror_view = </tspan><tspan
          x="-82.158203"
          y="404.88363"
-         id="tspan10">Kokkos::create_mirror_view(device_view);</tspan></text>
+         id="tspan27">Kokkos::create_mirror_view(device_view);</tspan></text>
     <path
        style="font-variation-settings:normal;opacity:1;fill:none;fill-opacity:1;stroke:#1300c9;stroke-width:0.8;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-start:url(#Dot);marker-end:url(#ConcaveTriangle)"
        d="m -27.398935,62.76339 c 24.3595197,-1.064353 67.620084,17.260372 63.922538,1.786716"
@@ -15708,14 +15708,14 @@
        transform="translate(-19.557781,3.6116136)"><tspan
          x="105.69451"
          y="75.284393"
-         id="tspan12"><tspan
+         id="tspan29"><tspan
            style="fill:#ffffff"
-           id="tspan11">mirror view </tspan></tspan><tspan
+           id="tspan28">mirror view </tspan></tspan><tspan
          x="105.69451"
          y="80.89356"
-         id="tspan14"><tspan
+         id="tspan31"><tspan
            style="fill:#ffffff"
-           id="tspan13">shallow</tspan></tspan></text>
+           id="tspan30">shallow</tspan></tspan></text>
     <text
        xml:space="preserve"
        style="font-weight:300;font-size:5.29167px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;inline-size:32.6213;display:inline;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.690999;stroke-opacity:1"
@@ -15725,14 +15725,14 @@
        transform="translate(-73.78836,1.7153341)"><tspan
          x="105.69451"
          y="75.284393"
-         id="tspan16"><tspan
+         id="tspan33"><tspan
            style="stroke-width:0.691"
-           id="tspan15">default view </tspan></tspan><tspan
+           id="tspan32">default view </tspan></tspan><tspan
          x="105.69451"
          y="80.89356"
-         id="tspan18"><tspan
+         id="tspan35"><tspan
            style="stroke-width:0.691"
-           id="tspan17">allocation</tspan></tspan></text>
+           id="tspan34">allocation</tspan></tspan></text>
     <path
        style="font-variation-settings:normal;opacity:1;fill:none;fill-opacity:1;stroke:#b100ad;stroke-width:0.8;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-start:url(#Dot);marker-end:url(#ConcaveTriangle)"
        d="M 2.4479404,79.848518 C 38.717873,88.818523 99.917192,109.49895 61.100441,61.540068"
