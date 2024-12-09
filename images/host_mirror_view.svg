@@ -27,11 +27,11 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
-     inkscape:zoom="0.97915232"
-     inkscape:cx="621.45592"
-     inkscape:cy="208.85412"
-     inkscape:window-width="1920"
-     inkscape:window-height="950"
+     inkscape:zoom="0.95335449"
+     inkscape:cx="367.12472"
+     inkscape:cy="189.85593"
+     inkscape:window-width="3008"
+     inkscape:window-height="1561"
      inkscape:window-x="0"
      inkscape:window-y="25"
      inkscape:window-maximized="1"
@@ -15162,16 +15162,16 @@
        style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect3548);display:inline;fill:none;fill-opacity:1;stroke:#000000;stroke-width:3.77953;stroke-dasharray:none;stroke-opacity:1"><tspan
          x="374.05957"
          y="329.80312"
-         id="tspan19"><tspan
+         id="tspan3"><tspan
            style="fill:#ffffff;stroke:none"
-           id="tspan18">Kokkos compiled with </tspan></tspan><tspan
+           id="tspan1">Kokkos compiled with </tspan></tspan><tspan
          x="381.93555"
          y="351.00314"
-         id="tspan22"><tspan
+         id="tspan6"><tspan
            style="fill:#ffffff;stroke:none"
-           id="tspan20">a C</tspan><tspan
+           id="tspan4">a C</tspan><tspan
            style="fill:#ffffff;stroke:none"
-           id="tspan21">PU backend only</tspan></tspan></text>
+           id="tspan5">PU backend only</tspan></tspan></text>
     <rect
        style="fill:url(#linearGradient3551);stroke:#000000;stroke-width:0.1;stroke-dasharray:none;stroke-opacity:1"
        id="rect3550"
@@ -15676,18 +15676,18 @@
        y="0"><tspan
          x="-82.158203"
          y="341.28359"
-         id="tspan23">Kokkos::View&lt;int*&gt; view(N);
+         id="tspan7">Kokkos::View&lt;int*&gt; view(N);
 </tspan><tspan
          x="-82.158203"
          y="362.48361"
-         id="tspan24">
+         id="tspan8">
 </tspan><tspan
          x="-82.158203"
          y="383.68362"
-         id="tspan25">Kokkos::View&lt;int**&gt;::HostMirror mirror_view = </tspan><tspan
+         id="tspan9">Kokkos::View&lt;int*&gt;::HostMirror mirror_view = </tspan><tspan
          x="-82.158203"
          y="404.88363"
-         id="tspan26">Kokkos::create_mirror(device_view);</tspan></text>
+         id="tspan10">Kokkos::create_mirror(device_view);</tspan></text>
     <path
        style="font-variation-settings:normal;opacity:1;fill:none;fill-opacity:1;stroke:#1300c9;stroke-width:0.8;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-start:url(#Dot);marker-end:url(#ConcaveTriangle)"
        d="m -27.398935,62.76339 c 24.3595197,-1.064353 67.620084,17.260372 63.922538,1.786716"
@@ -15738,14 +15738,14 @@
        transform="translate(-19.557781,3.6116136)"><tspan
          x="105.69451"
          y="75.284393"
-         id="tspan28"><tspan
+         id="tspan12"><tspan
            style="fill:#ffffff"
-           id="tspan27">mirror view </tspan></tspan><tspan
+           id="tspan11">mirror view </tspan></tspan><tspan
          x="105.69451"
          y="80.89356"
-         id="tspan30"><tspan
+         id="tspan14"><tspan
            style="fill:#ffffff"
-           id="tspan29">allocation</tspan></tspan></text>
+           id="tspan13">allocation</tspan></tspan></text>
     <text
        xml:space="preserve"
        style="font-weight:300;font-size:5.29167px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;inline-size:32.6213;display:inline;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.690999;stroke-opacity:1"
@@ -15755,13 +15755,13 @@
        transform="translate(-73.78836,1.7153341)"><tspan
          x="105.69451"
          y="75.284393"
-         id="tspan32"><tspan
+         id="tspan16"><tspan
            style="stroke-width:0.691"
-           id="tspan31">default view </tspan></tspan><tspan
+           id="tspan15">default view </tspan></tspan><tspan
          x="105.69451"
          y="80.89356"
-         id="tspan34"><tspan
+         id="tspan18"><tspan
            style="stroke-width:0.691"
-           id="tspan33">allocation</tspan></tspan></text>
+           id="tspan17">allocation</tspan></tspan></text>
   </g>
 </svg>
