@@ -7,31 +7,37 @@ name: Test exercises
 
 run-name: Test exercises
 
-on: [push]
+on:
+  push:
+    paths:
+      - 'exercises/**'
+  pull_request:
+    branches:
+      - '**'
 
 jobs:
 
-  changes:
-    runs-on: ubuntu-latest
-    outputs:
-      exercises_changed: ${{ steps.filter.outputs.exercises }}
-    steps:
-    - uses: actions/checkout@v4
-    - uses: dorny/paths-filter@v3
-      id: filter
-      with:
-        filters: |
-          exercises:
-            - 'exercises/02_first_program/**'
-            - 'exercises/03_basic_view/**'
-            - 'exercises/04_deep_copy/**'
-            - 'exercises/05_parallel_loop/**'
-            - 'exercises/06_parallel_reduce/**'
+  # changes:
+  #   runs-on: ubuntu-latest
+  #   outputs:
+  #     exercises_changed: ${{ steps.filter.outputs.exercises }}
+  #   steps:
+  #   - uses: actions/checkout@v4
+  #   - uses: dorny/paths-filter@v3
+  #     id: filter
+  #     with:
+  #       filters: |
+  #         exercises:
+  #           - 'exercises/02_first_program/**'
+  #           - 'exercises/03_basic_view/**'
+  #           - 'exercises/04_deep_copy/**'
+  #           - 'exercises/05_parallel_loop/**'
+  #           - 'exercises/06_parallel_reduce/**'
 
   build_kokkos:
     runs-on: ubuntu-latest
-    needs: [changes]
-    if: ${{ needs.changes.outputs.exercises_changed == 'true' }}
+    # needs: [changes]
+    # if: ${{ github.event_name == 'pull_request' || needs.changes.outputs.exercises_changed == 'true' }}
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v4
@@ -52,8 +58,8 @@ jobs:
 
   build_exercises:
     runs-on: ubuntu-latest
-    needs: [build_kokkos, changes]
-    if: ${{ needs.changes.outputs.exercises == 'true' }}
+    needs: [build_kokkos]
+    # if: ${{ github.event_name == 'pull_request' || needs.changes.outputs.exercises == 'true' }}
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v4
