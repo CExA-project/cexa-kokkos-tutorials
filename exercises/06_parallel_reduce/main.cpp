@@ -13,9 +13,9 @@ int main(int argc, char* argv[]) {
         int Ny = 100;
 
         // _____________________________________________________
-        // Read Nx, Ny, Nz from command line
+        // Read Nx, Ny from the command line
 
-        if (argc > 1) {
+        if (argc >= 3) {
             Nx = std::atoi(argv[1]);
             Ny = std::atoi(argv[2]);
         }
@@ -39,18 +39,18 @@ int main(int argc, char* argv[]) {
 
         // ... Compute the sum of the matrix
 
-        // ... Print the result ...
-
         Kokkos::fence();
+
+        // ... Print the result ...
 
         // _____________________________________________________
         // Compute the maximum of the matrix
 
         // ... Compute the maximum of the matrix ...
 
-        // ... Print the result ...
-
         Kokkos::fence();
+
+        // ... Print the result ...
 
     }
     

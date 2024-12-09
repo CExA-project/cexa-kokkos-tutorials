@@ -4,13 +4,13 @@
 
 In this exercise, you will learn how to create a mirror view and how to use the `Kokkos::deep_copy` function to copy data between different execution spaces.
 
-For this aim, we will create a mirror View of the existing View `matrix` and copy the data from the mirror View to the original View `matrix`.
+For this purpose, we will create a mirror View of the existing View `matrix` and copy the data from the mirror View to the original View `matrix`.
 Then, we will create a new mirror View `mirror_2` and copy the data from the original View `matrix` to the mirror View `mirror_2`.
 The goal here is to move the data from the host to the device and back to the host in `mirror_2`.
 Since at this stage, you do not know how to use the device, we use this second mirror View to ensure that the transfer were done correctly.
 For this, we will simply compare the content of the two mirror Views located on the Host.
 
-## Step 1: Create a a mirror view
+## Step 1: Create a mirror view
 
 We will start from the state of `main.cpp` of the previous exercise.
 
@@ -46,7 +46,7 @@ for (int i = 0; i < Nx; i++) {
 
 - Create a new mirror View called `mirror_2` using the `Kokkos::create_mirror` function.
 
-**Reminder:** `Kokkos::create_mirror` creates a mirror View with the same properties as the original View but on the host. Always duplicated the data.
+**Reminder:** `Kokkos::create_mirror` creates a mirror View with the same properties as the original View but on the host. Always duplicating the data.
 
 - Use the `Kokkos::deep_copy` function to copy the data from the original View `matrix` to the mirror View `mirror_2`.
 
@@ -73,14 +73,24 @@ for (int i = 0; i < Nx; i++) {
 ## step 6: Timers
 
 The goal of this step is to measure the time of the deep copy operations. For this aim, you can use the `Kokkos::Timer` class or the C++ way.
-The `Kokkos::Timer` class is very simple to use, see the example below:
+The `Kokkos::Timer` class is very simple to use, see the examples below:
 
 ```cpp
 Kokkos::Timer timer;
 // reset the timer
 timer.reset();
+// ... Code that needs to be timed ...
 // get the time in seconds since the last reset
 std::cout << "Time: " << timer.seconds() << std::endl;
+```
+Or
+```cpp
+Kokkos::Timer timer;
+double timer_start, timer_stop;
+timer_start = timer.seconds();
+// ... Code that needs to be timed ...
+timer_stop = timer.seconds();
+std::cout << "Time: " << timer_stop - timer_start << std::endl;
 ```
 
 - Measure the time of the first and second deep copy operations.
@@ -93,7 +103,7 @@ std::cout << "Time: " << timer.seconds() << std::endl;
 
 **What should I get:**
 
-If you are running the code using a CPU backend only, the View `matrix` is allocated on the Host. The mirror View `mirror` created with the `create_mirror_view` function is pointing toward the same data of `matrix`. However, the View `mirror_2` was created using the `create_mirror` function that implies a copy of the data from `matrix` to `mirror_2` (new allocation).
+If you are running the code using a CPU backend only, the View `matrix` is allocated on the Host. The mirror View `mirror` created with the `create_mirror_view` function is pointing toward the same data as `matrix`. However, the View `mirror_2` was created using the `create_mirror` function that implies a copy of the data from `matrix` to `mirror_2` (new allocation).
 The  first `deep_copy` do not perform any deep copy since the data is the same.
 The second `deep_copy` will however copy the data from `matrix` to `mirror_2`.
 Although the error between `mirror` and `mirror_2` should be zero, the first `deep_copy` timer should be very short and the second `deep_copy` timer significantly higher than the first one.

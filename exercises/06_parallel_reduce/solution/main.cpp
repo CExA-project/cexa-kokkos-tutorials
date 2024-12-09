@@ -14,9 +14,9 @@ int main(int argc, char* argv[]) {
         Kokkos::Timer timer;
 
         // _____________________________________________________
-        // Read Nx, Ny, Nz from command line
+        // Read Nx, Ny from the command line
 
-        if (argc > 1) {
+        if (argc >= 3) {
             Nx = std::atoi(argv[1]);
             Ny = std::atoi(argv[2]);
         }
@@ -50,6 +50,8 @@ int main(int argc, char* argv[]) {
             lsum += matrix(i,j);
         }, sum);
 
+        Kokkos::fence();
+
         auto sum_stop = timer.seconds();
 
         std::cout << " Sum of the matrix: " << sum 
@@ -70,6 +72,8 @@ int main(int argc, char* argv[]) {
                 lmax = matrix(i,j);
             }
         }, Kokkos::Max<double>(max));
+
+        Kokkos::fence();
 
         auto max_stop = timer.seconds();
 
