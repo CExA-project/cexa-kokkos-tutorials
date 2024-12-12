@@ -34,9 +34,12 @@
     urlcolor=cyan
 }
 
+\setminted{
+    autogobble,
+    fontsize=\small,
+}
+
 \graphicspath{{../../images/}}
-
-
 
 % Item style
 
@@ -56,6 +59,17 @@
     \begin{center}
         \scriptsize #1
     \end{center}%
+}
+
+% Commands for GitHub links
+\newcommand{\githublink}[2][2em]{%
+    \hspace{-0.25em}%
+    \parbox[c][#1][c]{#1}{%
+        \includegraphics[width=#1]{GitHub-logo.png}%
+    }%
+    \hspace{-0.25em}%
+    ~%
+    #2%
 }
 
 %Information to be included in the title page:
@@ -81,23 +95,23 @@
 
 \begin{frame}{This course is open source}
     \begin{center}
-        \includegraphics[width=0.3\textwidth]{GitHub-logo.png}
-
-        \href{https://github.com/CExA-project/cexa-kokkos-tutorials}{https://github.com/CExA-project/cexa-kokkos-tutorials}
+        \githublink[4em]{\url{https://github.com/CExA-project/cexa-kokkos-tutorials}}
     \end{center}
 \end{frame}
 
 % _____________________________________________________________________________
 
 \begin{frame}{Prerequisites}
-    This course is intended for beginners in Kokkos and performance portability without strong C++ knowledge
+    This course is intended for beginners in Kokkos and performance portability, without strong C++ knowledge
 
-    \begin{itemize}
-        \item Basic knowledge of C/C++
-        \item Basic knowledge of parallel programming
-        \item Basic knowledge of CMake
-        \item Basic knowledge of a Linux environment
-    \end{itemize}
+    \begin{block}{What you still need}
+        \begin{itemize}
+            \item Basic knowledge of C/C++
+            \item Basic knowledge of parallel programming
+            \item Basic knowledge of CMake
+            \item Basic knowledge of a Linux environment
+        \end{itemize}
+    \end{block}
 \end{frame}
 
 % _____________________________________________________________________________
@@ -134,10 +148,9 @@
 
         \caption{Top 10 supercomputers in the world in June 2024}
     \end{center}
-
     \begin{itemize}
-    \item Heterogeneous nodes: mix of CPU and GPU accelerators
-    \item Many CPU (Intel, AMD, ARM, RISC) and GPU vendors (NVIDIA, AMD, Intel)
+        \item Heterogeneous nodes: mix of CPU and GPU accelerators
+        \item Many CPU (Intel, AMD, ARM, RISC) and GPU vendors (NVIDIA, AMD, Intel)
     \end{itemize}
 \end{frame}
 
@@ -174,41 +187,57 @@
 % _____________________________________________________________________________
 
 \begin{frame}{Basic definition of a supercomputer}
+    \begin{center}
+        \includegraphics[width=\textwidth]{super-computer_architecture.png}
+    \end{center}
     \begin{itemize}
         \item A supercomputer is a distributed memory system composed of many compute nodes packed into racks and linked by a high-speed network
         \item Compute nodes are composed of one or more CPUs and one or more accelerators
         \item Most common accelerators today are GPGPU for General Purpose Graphic Processing Units
     \end{itemize}
-    \begin{center}
-        \includegraphics[width=\textwidth]{super-computer_architecture.png}
-    \end{center}
 \end{frame}
 
 % _____________________________________________________________________________
 
 \begin{frame}{Zoom on the CPU architecture}
-    \begin{itemize}
-        \item CPUs are designed for general purpose, from sequential task to parallel computing. They run the operating system as well
-        \item Tens to hundred of cores in biggest processors
-        \item SIMD (Single Instruction Multiple Data) units for accelerating arithmetic operations
-    \end{itemize}
-    \begin{center}
-        \includegraphics[width=0.6\textwidth]{cpu_architecture.png}
-    \end{center}
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            \begin{center}
+                \includegraphics[width=\linewidth]{cpu_architecture.png}
+            \end{center}
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            \begin{itemize}
+                \item CPUs are designed for general purpose
+                \begin{itemize}
+                    \item Sequential task
+                    \item Parallel computing
+                    \item Operating system
+                \end{itemize}
+                \item Tens to hundred of cores in biggest processors
+                \item SIMD (Single Instruction Multiple Data) units for accelerating arithmetic operations
+            \end{itemize}
+        \end{column}
+    \end{columns}
 \end{frame}
-
 
 % _____________________________________________________________________________
 
 \begin{frame}{Zoom on the GPU architecture}
-    \begin{itemize}
-        \item GPUs are designed to achieve massive parallelism of simple kernels
-        \item Hundreds of computing units, thousands of threads
-        \item Large SIMT vector unit (Single Instruction Multiple Threads) per computing unit
-    \end{itemize}
-    \begin{center}
-        \includegraphics[width=0.6\textwidth]{gpu_architecture.png}
-    \end{center}
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            \begin{center}
+                \includegraphics[width=\linewidth]{gpu_architecture.png}
+            \end{center}
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            \begin{itemize}
+                \item GPUs are designed to achieve massive parallelism of simple kernels
+                \item Hundreds of computing units, thousands of threads
+                \item Large SIMT vector unit (Single Instruction Multiple Threads) per computing unit
+            \end{itemize}
+        \end{column}
+    \end{columns}
 \end{frame}
 
 % _____________________________________________________________________________
@@ -265,39 +294,53 @@
 % _____________________________________________________________________________
 
 \begin{frame}{Performance, portability and productivity}
-    \begin{itemize}
-        \item What developers want
-        \begin{description}[Interporability]
-            \item[Performance] Get the best performance on a specific hardware
-            \item[Portability] Run the same code on different hardware
-            \item[Productivity] Write code quickly and easily, maintain and extend code, leverage architecture optimization
-        \end{description}
-        \item What developers for science also want
-        \begin{description}[Interporability]
-            \item[Maturity] Production-ready (i.e. not research product)
-            \item[Community] Contributors, support, documentation, examples
-            \item[Longevity] Long-term maintenance, bug fixes, updates, sponsorship
-            \item[Interporability] Possibility to easily couple with other libraries and tools (IO, Linear Algebra, Machine leaning, etc.)
-        \end{description}
-    \end{itemize}
+    \begin{columns}
+        \begin{column}{0.45\linewidth}
+            \begin{block}{What all developers want}
+                \begin{description}[Performance]
+                    \item[Performance] Get the best performance on a specific hardware
+                    \item[Portability] Run the same code on different hardware
+                    \item[Productivity] Write code quickly and easily, maintain and extend code, leverage architecture optimization
+                \end{description}
+            \end{block}
+        \end{column}
+        \begin{column}{0.55\linewidth}
+            \begin{block}{What developers for science also want}
+                \begin{description}[Interporability]
+                    \item[Maturity] Production-ready (i.e. not research product)
+                    \item[Community] Contributors, support, documentation, examples
+                    \item[Longevity] Long-term maintenance, bug fixes, updates, sponsorship
+                    \item[Interporability] Possibility to easily couple with other libraries and tools (IO, Linear Algebra, Machine leaning, etc.)
+                \end{description}
+            \end{block}
+        \end{column}
+    \end{columns}
 \end{frame}
+
 % _____________________________________________________________________________
 
-\begin{frame}{Do you need performance portability?}
-    \begin{itemize}
-        \item Probably yes if you...
-        \begin{itemize}
-            \item Want your code to run on different hardware technologies (CPU, GPU)
-            \item Have performance requirements
-            \item Cannot afford to maintain and optimize different versions of your code for each possible hardware of the market
-            \item Want to focus on algorithmic and not on code development
-            \item Want your code to be easily maintainable and readable by others, especially non experts
-        \end{itemize}
-        \item Maybe not if you...
-        \begin{itemize}
-            \item Need to tune your algorithms to work as fast as possible on a given hardware
-        \end{itemize}
-    \end{itemize}
+\begin{frame}{Do \emph{you} need performance portability?}
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            \begin{block}{Probably yes if you...}
+                \begin{itemize}
+                    \item Want your code to run on different hardware technologies (CPU, GPU)
+                    \item Have performance requirements
+                    \item Cannot afford to maintain and optimize different versions of your code for each possible hardware of the market
+                    \item Want to focus on algorithmic and not on code development
+                    \item Want your code to be easily maintainable and readable by others, especially non experts
+                \end{itemize}
+            \end{block}
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            \begin{block}{Maybe no if you...}
+                \begin{itemize}
+                    \item Need to tune your algorithms to work as fast as possible on a given hardware
+                    \item Want to explore a new architecture
+                \end{itemize}
+            \end{block}
+        \end{column}
+    \end{columns}
 \end{frame}
 
 % _____________________________________________________________________________
@@ -307,13 +350,13 @@
 
     \vspace{0.5em}
 
+    \begin{center}
+        \includegraphics[width=1\textwidth]{kokkos_model.png}
+    \end{center}
     \begin{itemize}
         \item Kokkos provides data structures and functions based on modern C++ to build your application
         \item Developers never directly use underlying backends (no CUDA kernels for instance)
     \end{itemize}
-    \begin{center}
-        \includegraphics[width=1\textwidth]{kokkos_model.png}
-    \end{center}
 \end{frame}
 
 % _____________________________________________________________________________
@@ -391,7 +434,7 @@
         \item Require CMake and a C++ compiler
         \item Compile Kokkos as an external library or as part of your project (inline build) using the source
         \item You can use Spack to install Kokkos
-        \item You can get the source code from the \href{https://github.com/kokkos/kokkos}{Kokkos GitHub repository}
+        \item You can get the source code from the \githublink{\href{https://github.com/kokkos/kokkos}{Kokkos GitHub repository}}
     \end{itemize}
     \begin{center}
         \includegraphics[width=0.15\textwidth]{spack.png}
@@ -483,6 +526,7 @@ cmake ${srcdir} -DCMAKE_INSTALL_PREFIX=${kokkos_install_folder} \
         \includegraphics[width=0.5\textwidth]{kokkos_a100_backend.png}
     \end{center}
 \end{frame}
+
 % _____________________________________________________________________________
 
 \begin{frame}{Exercise 1: learn how to compile Kokkos}
@@ -490,7 +534,7 @@ cmake ${srcdir} -DCMAKE_INSTALL_PREFIX=${kokkos_install_folder} \
     \includegraphics[width=0.4\textwidth]{sleeping_otter.png}
     \end{center}
 
-    Go to the folder \href{https://github.com/CExA-project/cexa-kokkos-tutorials/tree/main/exercises/01_compiling_kokkos}{01\_compiling\_kokkos} and follow the instructions in the README file
+    Go to the folder \githublink{\href{https://github.com/CExA-project/cexa-kokkos-tutorials/tree/main/exercises/01_compiling_kokkos}{01\_compiling\_kokkos}} and follow the instructions in the README file
 
     \begin{block}{Goals of this exercise}
         \begin{itemize}
@@ -508,71 +552,98 @@ cmake ${srcdir} -DCMAKE_INSTALL_PREFIX=${kokkos_install_folder} \
 % _____________________________________________________________________________
 
 \begin{frame}[fragile]{Start a Kokkos program}
-    \begin{itemize}
-        \item Include the Kokkos header file (like any other library)
-        \item Use the Kokkos namespace \texttt{Kokkos::}
-        \item Initialize and finalize Kokkos (like MPI)
-    \end{itemize}
-    \begin{minted}{C++}
-#include <Kokkos_Core.hpp>
+    \begin{columns}
+        \begin{column}{0.6\linewidth}
+            \begin{minted}{C++}
+                #include <Kokkos_Core.hpp>
 
-int main(int argc, char* argv[]) {
-    Kokkos::initialize(argc, argv);
-    {
-        // Your code here
-    }
-    Kokkos::finalize();
-}
-    \end{minted}
+                int main(int argc, char* argv[]) {
+                    Kokkos::initialize(argc, argv);
+                    {
+                        // Your code here
+                    }
+                    Kokkos::finalize();
+                }
+            \end{minted}
+        \end{column}
+        \begin{column}{0.4\linewidth}
+            \begin{itemize}
+                \item Include the Kokkos header file (like any other library)
+                \item Use the Kokkos namespace \texttt{Kokkos::}
+                \item Initialize and finalize Kokkos (like MPI)
+            \end{itemize}
+        \end{column}
+    \end{columns}
 \end{frame}
 
 % _____________________________________________________________________________
 
-\begin{frame}[fragile]{ScopeGuard: an alternative to initialize and finalize}
-    \begin{itemize}
-        \item \texttt{ScopeGuard} is a class that ensure that \texttt{Kokkos::initialize} and \texttt{Kokkos::finalize} are called correctly
-        \item Resource Acquisition Is Initialization (RAII) pattern
-    \end{itemize}
-    \begin{minted}{C++}
-#include <Kokkos_Core.hpp>
+\begin{frame}[fragile]{Start a Kokkos program (simpler)}
+    \begin{columns}
+        \begin{column}{0.6\linewidth}
+            \begin{minted}{C++}
+                #include <Kokkos_Core.hpp>
 
-int main(int argc, char* argv[]) {
-    Kokkos::ScopeGuard guard(argc, argv);
+                int main(int argc, char* argv[]) {
+                    Kokkos::ScopeGuard guard(argc, argv);
 
-    // Your code here
-}
-    \end{minted}
-\end{frame}
-
-% _____________________________________________________________________________
-
-\begin{frame}[fragile]{Use CMake to compile your Kokkos program}
-    \begin{itemize}
-        \item Kokkos should be compiled and installed on your system
-        \item Use the \texttt{find\_package} CMake command to find Kokkos
-        \item Use the \texttt{target\_link\_libraries} CMake command to link your program with Kokkos
-    \end{itemize}
-    \begin{minted}{cmake}
-cmake_minimum_required(VERSION 3.16)
-project(my_kokkos_project LANGUAGES CXX)
-find_package(Kokkos REQUIRED)
-add_executable(test main.cpp)
-target_link_libraries(test Kokkos::kokkos)
-    \end{minted}
+                    // Your code here
+                }
+            \end{minted}
+        \end{column}
+        \begin{column}{0.4\linewidth}
+            \begin{itemize}
+                \item \texttt{ScopeGuard} is a class that ensures that \texttt{Kokkos::initialize} and \texttt{Kokkos::finalize} are called correctly
+                \item Resource Acquisition Is Initialization (RAII) pattern
+            \end{itemize}
+        \end{column}
+    \end{columns}
 \end{frame}
 
 % _____________________________________________________________________________
 
 \begin{frame}[fragile]{Use CMake to compile your Kokkos program}
-    \begin{itemize}
-        \item Kokkos propagates its compilation flags to your program
-        \item If Kokkos is not detected in your paths, use the \texttt{Kokkos\_ROOT} CMake variable to specify the path to Kokkos
-    \end{itemize}
-    \begin{minted}{bash}
-cmake ${srcdir} \
-  -DKokkos_ROOT=${kokkos_install_prefix} \
-  -DCMAKE_CXX_COMPILER=${compiler_used_to_build_kokkos}
-    \end{minted}
+    \begin{columns}
+        \begin{column}{0.6\linewidth}
+            \begin{minted}{cmake}
+                cmake_minimum_required(VERSION 3.16)
+
+                project(my_kokkos_project LANGUAGES CXX)
+
+                find_package(Kokkos REQUIRED)
+
+                add_executable(test main.cpp)
+                target_link_libraries(test Kokkos::kokkos)
+            \end{minted}
+        \end{column}
+        \begin{column}{0.4\linewidth}
+            \begin{itemize}
+                \item Kokkos should be compiled and installed on your system
+                \item Use the \texttt{find\_package} CMake command to find Kokkos
+                \item Use the \texttt{target\_link\_libraries} CMake command to link your program with Kokkos
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}[fragile]{Use CMake to compile your Kokkos program}
+    \begin{columns}
+        \begin{column}{0.6\linewidth}
+            \begin{minted}{bash}
+                cmake ${srcdir} \
+                    -DKokkos_ROOT=${kokkos_install_prefix} \
+                    -DCMAKE_CXX_COMPILER=${compiler}
+            \end{minted}
+        \end{column}
+        \begin{column}{0.4\linewidth}
+            \begin{itemize}
+                \item Kokkos propagates its compilation flags to your program
+                \item If Kokkos is not detected in your paths, use the \texttt{Kokkos\_ROOT} CMake variable to specify the path to Kokkos
+            \end{itemize}
+        \end{column}
+    \end{columns}
 \end{frame}
 
 % _____________________________________________________________________________
@@ -582,7 +653,7 @@ cmake ${srcdir} \
         \includegraphics[width=0.4\textwidth]{sleeping_otter.png}
     \end{center}
 
-    Go to the folder \href{https://github.com/CExA-project/cexa-kokkos-tutorials/tree/main/exercises/02_first_program}{02\_first\_program} and follow the instructions in the README file
+    Go to the folder \githublink{\href{https://github.com/CExA-project/cexa-kokkos-tutorials/tree/main/exercises/02_first_program}{02\_first\_program}} and follow the instructions in the README file
 
     \begin{block}{Goals of this exercise}
         \begin{itemize}
@@ -618,101 +689,153 @@ cmake ${srcdir} \
 % _____________________________________________________________________________
 
 \begin{frame}[fragile]{Creating a View}
-    \begin{itemize}
-        \item View is a template class
-        \item Contains any C++ type (\texttt{int}, \texttt{float}, \texttt{double}, etc)
-        \item Number of dimensions fixed at compilation time
-        \item Size of each dimension determined at compilation time or runtime
-    \end{itemize}
-    \begin{minted}{C++}
-Kokkos::View<int[10]> view1 ("my view of static size");
-Kokkos::View<float*> view2 ("my view of dynamic size", 10);
-Kokkos::View<double*[10]> view3 (
-        "my view of static and dynamic size", 10);
-    \end{minted}
+    \begin{columns}
+        \begin{column}{0.6\linewidth}
+            \begin{minted}{C++}
+                Kokkos::View<int[10]>
+                    view1("static size");
+
+                Kokkos::View<float*>
+                    view2("dynamic size", 10);
+
+                Kokkos::View<double*[10]>
+                    view3("static and dynamic size", 10);
+            \end{minted}
+        \end{column}
+        \begin{column}{0.4\linewidth}
+            \begin{itemize}
+                \item View is a template class
+                \item Contains any C++ type (\texttt{int}, \texttt{float}, \texttt{double}, etc)
+                \item Number of dimensions fixed at compilation time
+                \item Size of each dimension determined at...
+                \begin{description}[\texttt{[n]}]
+                    \item[\texttt{[n]}] compile time
+                    \item[\texttt{*}] runtime
+                \end{description}
+            \end{itemize}
+        \end{column}
+    \end{columns}
 \end{frame}
 
 % _____________________________________________________________________________
 
 \begin{frame}[fragile]{Accessing the data}
-    \begin{itemize}
-        \item Data are accessed using the parenthesis operator \texttt{(i, j, k, ...)}
-        \item Raw data can be accessed using the \texttt{data()} method (not recommended)
-    \end{itemize}
-    \begin{minted}{C++}
-const int Nx = 1000;
-const int Ny = 2000;
+    \begin{columns}
+        \begin{column}{0.6\linewidth}
+            \begin{minted}{C++}
+                const int Nx = 1000;
+                const int Ny = 2000;
 
-Kokkos::View<int**> my_matrix("matrix", Nx, Ny);
+                Kokkos::View<int**>
+                    my_matrix("matrix", Nx, Ny);
 
-for (int i = 0; i < Nx; i++) {
-    for (int j = 0; j < Ny; j++) {
-        my_matrix(i,j) = i + j;
-    }
-}
-    \end{minted}
+                for (int i = 0; i < Nx; i++) {
+                    for (int j = 0; j < Ny; j++) {
+                        my_matrix(i,j) = i + j;
+                    }
+                }
+            \end{minted}
+        \end{column}
+        \begin{column}{0.4\linewidth}
+            \begin{itemize}
+                \item Data are accessed using the parenthesis operator \texttt{(i, j, k, ...)}
+                \item Raw data can be accessed using the \texttt{data()} method (not recommended)
+            \end{itemize}
+        \end{column}
+    \end{columns}
 \end{frame}
 
 % _____________________________________________________________________________
 
-\begin{frame}{Where does the data reside?}
+\begin{frame}{Where does the data live?}
+    \begin{center}
+        \includegraphics[width=0.7\textwidth]{view_memory.png}
+    \end{center}
     \begin{itemize}
-        \item A View lives in a specific memory space (Host or Device), not both
-        \item If Kokkos is compiled with a \highlight{CPU backend only}, the View data is allocated in the \highlight{Host memory} by default
+        \item A View data lives in a specific memory space (Host or Device), not both
+        \item Suppose we created a view on the Host
     \end{itemize}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}{Where does the data live? CPU version}
     \begin{center}
         \includegraphics[width=0.7\textwidth]{host_view_memory.png}
     \end{center}
+    \begin{itemize}
+        \item If Kokkos is compiled with a \highlight{CPU backend only}, the View data is allocated in the \highlight{Host memory} by default
+        \item Host view data usually \highlight{cannot} be accessed on the Device
+    \end{itemize}
 \end{frame}
 
 % _____________________________________________________________________________
 
-\begin{frame}{Where does the data reside?}
-    \begin{itemize}
-        \item If Kokkos is compiled with a \highlight{GPU backend}, the View data is allocated in the \highlight{Device memory} by default
-        \item Device view data \highlight{cannot} be accessed on the Host and vice versa
-        \item We will later see how to allocate and copy data between the Host and the Device
-    \end{itemize}
+\begin{frame}{Where does the data live? GPU version}
     \begin{center}
         \includegraphics[width=0.7\textwidth]{device_view_memory.png}
     \end{center}
+    \begin{itemize}
+        \item If Kokkos is compiled with a \highlight{GPU backend}, the View data is allocated in the \highlight{Device memory} by default
+        \item Device view data usually \highlight{cannot} be accessed on the Host
+        \item We will later see how to allocate and copy data between the Host and the Device
+    \end{itemize}
 \end{frame}
 
 % _____________________________________________________________________________
 
-\begin{frame}{More about dynamic views}
+\begin{frame}{More about views}
     \begin{itemize}
         \item Allocations only happen when explicitly specified
-        \item Copy construction and assignment are shallow: you pass Views by value, not by pointer or reference (unlike C arrays)
+        \item Copy construction and assignment are shallow: you pass Views by value, not by pointer (e.g. C arrays) or by reference
         \item Reference counting is used for automatic deallocation (like shared pointers)
-        \item Metadata (rank, extent, etc) is however always accessible on the Host
         \item Views have a \highlight{limited} number of dimensions (up to 7)
     \end{itemize}
 \end{frame}
 
 % _____________________________________________________________________________
 
-\begin{frame}{Useful methods to manage View}
-    \begin{itemize}
-        \item \texttt{rank()}: return the rank of the view (number of dimensions)
-        \item \texttt{extent(const int dim)}: return the size of a specific dimension
-        \item \texttt{size()}: return the total number of elements
-        \item many others but not the subject of this introduction
-    \end{itemize}
+\begin{frame}[fragile]{Useful methods to manage View}
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            \begin{minted}{C++}
+                Kokkos::View<int***>
+                    view("view", 10, 20, 30);
+
+                int rank = view.rank();
+                assert(rank == 3);
+
+                int size_x = view.extent(0);
+                assert(size_x == 10);
+
+                int size = view.size();
+                assert(size == 600);
+            \end{minted}
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            \begin{description}[\texttt{extent(dim)}]
+                \item[\texttt{rank()}] Return the rank of the view (number of dimensions)
+                \item[\texttt{extent(dim)}] Return the size of a specific dimension
+                \item[\texttt{size()}] Return the total number of elements
+            \end{description}
+
+            And many others but not the subject of this introduction
+        \end{column}
+    \end{columns}
 \end{frame}
 
 % _____________________________________________________________________________
 
 \begin{frame}{Notion of View layout}
+    \begin{center}
+        \includegraphics[width=0.95\textwidth]{layout_right_left.png}
+    \end{center}
     \begin{itemize}
-        \item Layout is the way to map multidimensional index to memory
+        \item Layout is the way to map multidimensional index to linear memory
         \item Kokkos provides an abstraction of the data layout
         \item The default layout of a View depends on the backend (Host or Device)
         \item How to manipulate the layout is not the subject of this introduction
     \end{itemize}
-    \begin{center}
-        \includegraphics[width=0.95\textwidth]{layout_right_left.png}
-    \end{center}
 \end{frame}
 
 % _____________________________________________________________________________
@@ -722,7 +845,7 @@ for (int i = 0; i < Nx; i++) {
         \includegraphics[width=0.4\textwidth]{sleeping_otter.png}
     \end{center}
 
-    Go to the exercise \href{https://github.com/CExA-project/cexa-kokkos-tutorials/tree/main/exercises/03_basic_view}{03\_basic\_view} and follow the instructions in the README file
+    Go to the exercise \githublink{\href{https://github.com/CExA-project/cexa-kokkos-tutorials/tree/main/exercises/03_basic_view}{03\_basic\_view}} and follow the instructions in the README file
 
     \begin{block}{Goals of this exercise}
         \begin{itemize}
@@ -733,33 +856,35 @@ for (int i = 0; i < Nx; i++) {
 
 % _____________________________________________________________________________
 
-\begin{frame}{Understand the notion of memory space}
+\begin{frame}{Understand the concept of memory space}
     \begin{itemize}
         \item Kokkos provides an abstraction of where the data lives: the \highlight{memory space}
-        \item A View is always associated with a defined memory space (Host or Device for instance) at compilation time
+        \item A View is always associated with a defined memory space (Host or Device) at compile time
         \item By default, view data is allocated in the Host memory space if no GPU backend is available, otherwise in the Device memory space
     \end{itemize}
 \end{frame}
 
 % _____________________________________________________________________________
 
-\begin{frame}{Understand the notion of memory space}
-    \structure{Problem:} How to deal with data living in different memory spaces?
-
+\begin{frame}{How to deal with data living in different memory spaces?}
     \begin{center}
         \includegraphics[width=\textwidth]{device_memory_access.png}
     \end{center}
-
 \end{frame}
 
 % _____________________________________________________________________________
 
-\begin{frame}[fragile]{Understand the notion of memory space}
+\begin{frame}[fragile]{Understand the concept of memory space}
+    \begin{columns}
+        \begin{column}{0.6\linewidth}
+            \begin{minted}{C++}
+                Kokkos::View<int**, MemorySpace> my_matrix("matrix", Nx, Ny);
+            \end{minted}
+        \end{column}
+    \end{columns}
     A template argument \texttt{MemorySpace} is used to specify the memory space when creating a view
 
-    \begin{minted}{C++}
-Kokkos::View<int**, MemorySpace> my_matrix("matrix", Nx, Ny);
-    \end{minted}
+
     \begin{itemize}
         \item Host space is \texttt{Kokkos::HostSpace}
         \item Beginners usually does not set the memory space
@@ -864,7 +989,7 @@ Kokkos::deep_copy(device_matrix, host_matrix);
         \includegraphics[width=0.4\textwidth]{sleeping_otter.png}
     \end{center}
 
-    Go to the exercise \href{https://github.com/CExA-project/cexa-kokkos-tutorials/tree/main/exercises/04_deep_copy}{04\_deep\_copy} and follow the instructions in the README file
+    Go to the exercise \githublink{\href{https://github.com/CExA-project/cexa-kokkos-tutorials/tree/main/exercises/04_deep_copy}{04\_deep\_copy}} and follow the instructions in the README file
 
     \begin{block}{Goal of this exercise}
         \begin{itemize}
@@ -1008,7 +1133,7 @@ amazing_function(data);
         \includegraphics[width=0.4\textwidth]{sleeping_otter.png}
     \end{center}
 
-    Go to the exercise \href{https://github.com/CExA-project/cexa-kokkos-tutorials/tree/main/exercises/05_parallel_loop}{05\_parallel\_loop} and follow the instructions in the README file
+    Go to the exercise \githublink{\href{https://github.com/CExA-project/cexa-kokkos-tutorials/tree/main/exercises/05_parallel_loop}{05\_parallel\_loop}} and follow the instructions in the README file
 
     \begin{block}{Goal of this exercise}
         \begin{itemize}
@@ -1245,7 +1370,7 @@ Kokkos::parallel_reduce( "MinLocReduce", N,
         \includegraphics[width=0.4\textwidth]{sleeping_otter.png}
     \end{center}
 
-    Go to the exercise \href{https://github.com/CExA-project/cexa-kokkos-tutorials/tree/main/exercises/06_parallel_reduce}{06\_parallel\_reduce} and follow the instructions in the README file
+    Go to the exercise \githublink{\href{https://github.com/CExA-project/cexa-kokkos-tutorials/tree/main/exercises/06_parallel_reduce}{06\_parallel\_reduce}} and follow the instructions in the README file
 
     \begin{block}{Goal of this exercise}
         \begin{itemize}
