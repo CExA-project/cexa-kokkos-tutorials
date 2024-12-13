@@ -680,8 +680,8 @@ cmake ${srcdir} -DCMAKE_INSTALL_PREFIX=${kokkos_install_folder} \
         \end{itemize}
         \item Kokkos provides the View class
         \begin{itemize}
-            \item View is an abstraction of the notion of vector (resize function for instance) and multidimensional array
-            \item Bring portable Python numpy/Fortran-like syntax for multidimensional arrays
+            \item View is an abstraction of the notion of container and multidimensional array
+            \item Bring portable Python numpy/Fortran-like syntax
         \end{itemize}
     \end{itemize}
 \end{frame}
@@ -712,6 +712,7 @@ cmake ${srcdir} -DCMAKE_INSTALL_PREFIX=${kokkos_install_folder} \
                     \item[\texttt{[n]}] compile time
                     \item[\texttt{*}] runtime
                 \end{description}
+                \item Name (bonus for debugging!)
             \end{itemize}
         \end{column}
     \end{columns}
@@ -731,7 +732,7 @@ cmake ${srcdir} -DCMAKE_INSTALL_PREFIX=${kokkos_install_folder} \
 
                 for (int i = 0; i < Nx; i++) {
                     for (int j = 0; j < Ny; j++) {
-                        my_matrix(i,j) = i + j;
+                        my_matrix(i, j) = i + j;
                     }
                 }
             \end{minted}
@@ -795,7 +796,7 @@ cmake ${srcdir} -DCMAKE_INSTALL_PREFIX=${kokkos_install_folder} \
 
 % _____________________________________________________________________________
 
-\begin{frame}[fragile]{Useful methods to manage View}
+\begin{frame}[fragile]{Useful methods to manage views}
     \begin{columns}
         \begin{column}{0.5\linewidth}
             \begin{minted}{C++}
@@ -809,13 +810,13 @@ cmake ${srcdir} -DCMAKE_INSTALL_PREFIX=${kokkos_install_folder} \
                 assert(size_x == 10);
 
                 int size = view.size();
-                assert(size == 600);
+                assert(size == 6000);
             \end{minted}
         \end{column}
         \begin{column}{0.5\linewidth}
             \begin{description}[\texttt{extent(dim)}]
                 \item[\texttt{rank()}] Return the rank of the view (number of dimensions)
-                \item[\texttt{extent(dim)}] Return the size of a specific dimension
+                \item[\texttt{extent(dim)}] Return the number of elements of a specific dimension
                 \item[\texttt{size()}] Return the total number of elements
             \end{description}
 
@@ -856,130 +857,174 @@ cmake ${srcdir} -DCMAKE_INSTALL_PREFIX=${kokkos_install_folder} \
 
 % _____________________________________________________________________________
 
-\begin{frame}{Understand the concept of memory space}
-    \begin{itemize}
-        \item Kokkos provides an abstraction of where the data lives: the \highlight{memory space}
-        \item A View is always associated with a defined memory space (Host or Device) at compile time
-        \item By default, view data is allocated in the Host memory space if no GPU backend is available, otherwise in the Device memory space
-    \end{itemize}
-\end{frame}
-
-% _____________________________________________________________________________
-
-\begin{frame}{How to deal with data living in different memory spaces?}
+\begin{frame}{How to access data living on the Device from the Host?}
     \begin{center}
         \includegraphics[width=\textwidth]{device_memory_access.png}
     \end{center}
+
+    \structure{Problem:} You cannot!
 \end{frame}
 
 % _____________________________________________________________________________
 
-\begin{frame}[fragile]{Understand the concept of memory space}
+\begin{frame}{The concept of memory space}
+    \begin{center}
+        \includegraphics[width=0.7\linewidth]{memory_space.png}
+    \end{center}
+    \begin{itemize}
+        \item Kokkos abstraction for where the data lives: \highlight{memory space}
+        \item A View is always associated with a defined memory space (Host or Device) at compile time
+        \item By default, view data is allocated
+        \begin{itemize}
+            \item On the Host if no GPU backend is available
+            \item On the Device otherwise
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}[fragile]{How to set a memory space}
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            \begin{minted}{C++}
+                Kokkos::View<int**, MemorySpace>
+                    my_matrix("matrix", 10, 10);
+            \end{minted}
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            \begin{itemize}
+                \item Template argument \texttt{MemorySpace} to specify the memory space when creating a view
+                \item Several ones available
+                \item Beginners usually does not set the memory space (we'll see why)
+                \item Using a backend-specific memory space possible, but breaks portability
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}[fragile]{All you need is a mirror}
     \begin{columns}
         \begin{column}{0.6\linewidth}
             \begin{minted}{C++}
-                Kokkos::View<int**, MemorySpace> my_matrix("matrix", Nx, Ny);
+                Kokkos::View<int**>
+                    device_matrix("matrix", 10, 10);
+                auto host_matrix =
+                    Kokkos::create_mirror(device_matrix);
             \end{minted}
+
+        \end{column}
+        \begin{column}{0.4\linewidth}
+            \begin{itemize}
+                \item A \highlight{mirror view} represents a view in a different memory space
+                \item Similar to its original view (shape, layout, etc.)
+                \item Created with \texttt{create\_mirror}
+                \item Used to create a host mirror of a device view
+            \end{itemize}
         \end{column}
     \end{columns}
-    A template argument \texttt{MemorySpace} is used to specify the memory space when creating a view
-
-
-    \begin{itemize}
-        \item Host space is \texttt{Kokkos::HostSpace}
-        \item Beginners usually does not set the memory space
-        \item Using a vendor-specific memory space breaks the portability of the code
-    \end{itemize}
 \end{frame}
 
 % _____________________________________________________________________________
 
-\begin{frame}[fragile]{Mirror Views presentation}
-    \structure{Solution:} We need to connect host and device views to access data on both sides
-    \begin{itemize}
-        \item Kokkos provides the notion of \highlight{mirror views}
-        \item A mirror view is similar to its original view but lives in a different memory space
-        \item A mirror view automatically inherits the properties of the original view (extent, layout, etc)
-        \item There is a specific function to create a mirror view called \texttt{create\_mirror}
-        \item It can be used to create a host mirror of a device view
-    \end{itemize}
-    \begin{minted}{C++}
-Kokkos::View<int**> device_matrix("device_matrix", Nx, Ny);
-Kokkos::View<int**>::HostMirror host_matrix =
-    Kokkos::create_mirror(device_matrix);
-    \end{minted}
-\end{frame}
-
-% _____________________________________________________________________________
-
-\begin{frame}{Undestanding mirror View with a device View}
+\begin{frame}{How to access data living on the Device from the Host?}
     \begin{center}
         \includegraphics[width=\textwidth]{device_mirror_view.png}
     \end{center}
+
+    \structure{Solution:} With a mirror view!
 \end{frame}
 
 % _____________________________________________________________________________
 
-\begin{frame}{Views and mirror Views in the host memory space}
+\begin{frame}{How to access data living on the Host from the Host?}
+    \begin{center}
+        \includegraphics[width=0.9\textwidth]{host_mirror_view.png}
+    \end{center}
     \begin{itemize}
         \item For portability reason, we always use a mirror view whether we compile with a CPU or GPU backend
         \item With a CPU backend only, the mirror view lives in the same memory space as the original view
     \end{itemize}
 
-    \structure{Problem:} The \texttt{create\_mirror} function always create a view with allocated memory (i.e. memory duplication)
-
-    \begin{center}
-        \includegraphics[width=0.9\textwidth]{host_mirror_view.png}
-    \end{center}
+    \structure{Problem:} Memory is duplicated unnecessarily!
 \end{frame}
 
 % _____________________________________________________________________________
 
-\begin{frame}{Views and mirror Views in the host memory space}
-    \structure{Solution:} Use \texttt{create\_mirror\_view}
+\begin{frame}[fragile]{All you need is a (different kind of) mirror}
+    \begin{columns}
+        \begin{column}{0.6\linewidth}
+            \begin{minted}{C++}
+                Kokkos::View<int**>
+                    device_matrix("matrix", 10, 10);
+                auto host_matrix =
+                    Kokkos::create_mirror_view(
+                        device_matrix
+                    );
+            \end{minted}
+        \end{column}
+        \begin{column}{0.4\linewidth}
+            \begin{itemize}
+                \item \texttt{create\_mirror\_view} creates a mirror without allocating memory if the mirror view lives in the same memory space as the original view
+                \item In that case, the mirror view is a shallow copy of the original view (i.e. it targets the same data)
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
 
-    \begin{itemize}
-        \item The function \texttt{create\_mirror\_view} is used to create a mirror without allocating memory if the mirror view lives in the same memory space as the original view
-        \item The new view is a shallow copy of the original view (i.e. it targets the same data)
-    \end{itemize}
+% _____________________________________________________________________________
+
+\begin{frame}{How to access data living on the Host from the Host?}
     \begin{center}
         \includegraphics[width=0.9\textwidth]{host_create_mirror_view.png}
     \end{center}
+
+    \structure{Solution:} Use \texttt{create\_mirror\_view}!
+
+    \structure{Problem:} How to transfer data, now?
 \end{frame}
 
 % _____________________________________________________________________________
 
-\begin{frame}[fragile]{Deep copy function to exchange data between memory spaces}
-    \begin{itemize}
-        \item Kokkos provides a function \texttt{deep\_copy} to copy data between views in different memory spaces
-        \item Views must have the same layout and extent
-        \item The function is used to copy data from the source view to the destination view
-        \item If the destination view is a shallow copy of the source view (e.g. \texttt{create\_mirror\_view} on Host), the function does nothing (portability)
-    \end{itemize}
-    \begin{minted}{C++}
-Kokkos::deep_copy(destination, source);
-    \end{minted}
+\begin{frame}[fragile]{Deep copy data between memory spaces}
+    \begin{columns}
+        \begin{column}{0.6\linewidth}
+            \begin{minted}{C++}
+                Kokkos::View<int**>
+                    device_matrix(matrix", Nx, Ny);
+
+                auto host_matrix =
+                    Kokkos::create_mirror(device_matrix);
+
+                initialize(host_matrix);
+
+                // from Host to Device
+                Kokkos::deep_copy(
+                    device_matrix,
+                    host_matrix
+                );
+            \end{minted}
+        \end{column}
+        \begin{column}{0.4\linewidth}
+            \begin{itemize}
+                \item \texttt{deep\_copy} to copy data between views in different memory spaces
+                \item Views must similar (shape, layout, etc.)
+                \item If the destination view is a shallow copy of the source view (e.g. \texttt{create\_mirror\_view} on Host), the function does nothing (portability)
+            \end{itemize}
+        \end{column}
+    \end{columns}
 \end{frame}
 
 % _____________________________________________________________________________
 
-\begin{frame}[fragile]{Deep copy example between Host and Device}
-    \begin{minted}{C++}
-Kokkos::View<int**> device_matrix("device_matrix", Nx, Ny);
-
-Kokkos::View<int**>::HostMirror host_matrix =
-    Kokkos::create_mirror(device_matrix);
-
-Kokkos::deep_copy(device_matrix, host_matrix);
-    \end{minted}
-\end{frame}
-
-% _____________________________________________________________________________
-
-\begin{frame}{Deep copy function to exchange data between memory spaces}
+\begin{frame}{How to deep copy between the Host and the Device?}
     \begin{center}
-        \includegraphics[width=0.9\textwidth]{device_host_deep_copy.png}
+        \includegraphics[width=0.9\textwidth]{host_device_deep_copy.png}
     \end{center}
+
+    \structure{Solution:} With \texttt{deep\_copy}!
 \end{frame}
 
 % _____________________________________________________________________________
@@ -1005,125 +1050,194 @@ Kokkos::deep_copy(device_matrix, host_matrix);
 
 % _____________________________________________________________________________
 
-\begin{frame}[fragile]{Kokkos uses the concept of data parallelism as OpenMP}
-    \begin{minted}[texcomments]{C++}
-for (int i = 0; i < N; i++) {
-    A(i) = B(i) + C(i) * D(i);
-}
-    \end{minted}
+\begin{frame}[fragile]{Anatomy of a loop}
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            \begin{minted}[texcomments]{C++}
+                for (int i = 0; i < N; i++) {
+                    A(i) = B(i) + C(i) * D(i);
+                }
+            \end{minted}
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            \begin{itemize}
+                \item \mintinline{C++}{for} is the loop pattern (for, reduction, scan, graph)
+                \item \mintinline{C++}{int i = 0; i < N; i++} is the execution policy
+                \item \mintinline{C++}{A(i) = B(i) + C(i) * D(i)} is the kernel
+                \begin{itemize}
+                    \item No iteration order dependencies
+                    \item No side effects
+                \end{itemize}
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}[fragile]{Comparison of Kokkos and OpenMP parallel loops}
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            Kokkos version
+
+            \begin{minted}{C++}
+                Kokkos::parallel_for(
+                    "my_loop",
+                    N,
+                    KOKKOS_LAMBDA (int i) {
+                        A(i) = B(i) + C(i) * D(i);
+                    }
+                );
+            \end{minted}
+            \begin{block}{Note}
+                Works on CPUs and GPUs depending on the compile backend
+            \end{block}
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            OpenMP version
+
+            \begin{minted}{C++}
+                #pragma omp parallel for
+                for (int i = 0; i < N; i++) {
+                    A(i) = B(i) + C(i) * D(i);
+                }
+            \end{minted}
+            \begin{block}{Note}
+                Only works on CPUs (need \texttt{target} directive for GPUs)
+            \end{block}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}[fragile]{Anatomy of a Kokkos parallel loop}
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            \begin{minted}{C++}
+                Kokkos::parallel_for(
+                    "my_loop",
+                    N,
+                    KOKKOS_LAMBDA (int i) {
+                        A(i) = B(i) + C(i) * D(i);
+                    }
+                );
+            \end{minted}
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            \begin{itemize}
+                \item \mintinline{C++}{parallel_for} is the loop pattern
+                \item \mintinline{C++}{N} and \mintinline{C++}{int i} is the execution policy (can't be simpler)
+                \item \mintinline[breaklines]{C++}{KOKKOS_LAMBDA (int i) {A(i) = B(i) + C(i) * D(i);}} is the kernel
+                \item \mintinline{C++}{"my_loop"} is the name of the loop (bonus for debugging!)
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}[fragile]{Notion of C++ lambdas}
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            \begin{minted}{C++}
+                auto kernel =
+                    KOKKOS_LAMBDA (int i) {
+                        A(i) = B(i) + C(i) * D(i);
+                    };
+            \end{minted}
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            \begin{itemize}
+                \item A lambda is a C++ anonymous function (i.e. a function as an object)
+                \item It has explicit arguments (\mintinline{C++}{int i}) and captured objects (\texttt{A}, \texttt{B}, \texttt{C}, \texttt{D})
+                \item \texttt{KOKKOS\_LAMBDA} is a macro that creates a lambda function with the correct capture for you (and a bit more)
+                \item For beginners, no need to understand C++ lambdas to use Kokkos
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}{Now, where is my parallel loop executed?}
+    \begin{center}
+        \includegraphics[width=0.8\linewidth]{execution_space.png}
+    \end{center}
     \begin{itemize}
-        \item \textcolor{gray}{\texttt{for}} is the loop pattern (for, reduction, scan, graph)
-        \item \textcolor{gray}{\texttt{int i = 0; i < N; i++}} is the execution policy
-        \item \textcolor{gray}{\texttt{A(i) = B(i) + C(i) * D(i)}} is the kernel
+        \item Kokkos abstraction for where the loop is executed : \highlight{execution space}
+        \item By default, parallel code is executed
+        \begin{itemize}
+            \item By the Host if no GPU backend is available
+            \item By the Device otherwise
+        \end{itemize}
+        \item What is not parallel code is always executed by the Host
     \end{itemize}
 \end{frame}
 
 % _____________________________________________________________________________
 
-\begin{frame}[fragile]{Simple parallel loop with Kokkos and OpenMP}
-    FMA addition using a parallel loop
+\begin{frame}[fragile]{Asynchronous execution on GPU}
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            \begin{minted}{C++}
+                // parallel loop on Device
+                Kokkos::parallel_for(
+                    "my_loop",
+                    N,
+                    KOKKOS_LAMBDA (int i) {
+                        data(i) = ...
+                    }
+                );
 
-    \begin{itemize}
-        \item Kokkos version
-        \begin{minted}{C++}
-Kokkos::parallel_for("my_loop", N,
-KOKKOS_LAMBDA(int i) {
-    A(i) = B(i) + C(i) * D(i);
-});
-        \end{minted}
-        \item OpenMP version
-        \begin{minted}{C++}
-#pragma omp parallel for
-for (int i = 0; i < N; i++) {
-    A(i) = B(i) + C(i) * D(i);
-});
-        \end{minted}
-    \end{itemize}
-\end{frame}
+                // Host code
+                host_function(data);
+            \end{minted}
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            \begin{itemize}
+                \item With a GPU backend, the parallel loop is executed asynchronously on the GPU
+                \item The loop is launched and the program continues
+                \item Asynchronism is a complex concept for beginners, not the subject of this introduction
+            \end{itemize}
+        \end{column}
+    \end{columns}
 
-% _____________________________________________________________________________
-
-\begin{frame}[fragile]{Simple parallel loop with Kokkos explained}
-    \begin{itemize}
-        \item \textcolor{gray}{\texttt{Kokkos::parallel\_for}} is the loop pattern
-        \item \textcolor{gray}{\texttt{N}} and \texttt{int i} is the execution policy (can't be simpler)
-        \item \textcolor{gray}{\texttt{KOKKOS\_LAMBDA(int i) \{A(i) = B(i) + C(i) * D(i)\}}} is the kernel
-    \end{itemize}
-    \begin{minted}{C++}
-Kokkos::parallel_for("my_loop", N,
-KOKKOS_LAMBDA(int i) {
-    A(i) = B(i) + C(i) * D(i);
-});
-    \end{minted}
-    \begin{itemize}
-        \item The previous OpenMP version only works on CPUs (need \texttt{target} directive for GPUs)
-        \item The same Kokkos version works on CPUs and GPUs depending on the compile backend
-    \end{itemize}
-\end{frame}
-
-% _____________________________________________________________________________
-
-\begin{frame}[fragile]{Notion of C++ Lambda}
-    \begin{itemize}
-        \item A lambda is a C++ anonymous function, i.e. a function as an object
-        \item \texttt{KOKKOS\_LAMBDA} is a macro that creates a lambda function with the correct signature for you
-        \item For beginners, no need to understand C++ lambdas to use Kokkos
-    \end{itemize}
-    \begin{minted}{C++}
-Kokkos::parallel_for("my_loop", N,
-KOKKOS_LAMBDA(int i) {
-    A(i) = B(i) + C(i) * D(i);
-});
-    \end{minted}
-\end{frame}
-
-% _____________________________________________________________________________
-
-\begin{frame}{Where is my parallel loop executed?}
-    \begin{itemize}
-        \item Where the loop is executed is called the \textcolor{orange}{\textbf{execution space}}
-        \item If Kokkos is compiled with a GPU backend, the loop is executed on GPU by default
-        \item Otherwise, the loop is executed on the CPU
-        \item Non-kokkos C++ code is always executed on the Host
-        \item Kokkos loops have a name for debugging purpose
-    \end{itemize}
-\end{frame}
-
-% _____________________________________________________________________________
-
-\begin{frame}[fragile]{Asynchronous execution}
-    \begin{minted}{C++}
-// Kokkos parallel loop
-Kokkos::parallel_for("my_amazing_loop", N,
-    KOKKOS_LAMBDA(int i) { data(i) = ... });
-
-// Host code
-amazing_function(data);
-    \end{minted}
-    \begin{itemize}
-        \item If Kokkos uses a GPU backend, the parallel loop is executed asynchronously on the GPU
-        \item This mean that the loop is launched and the program continues
-        \item Asynchronism is a complex concept for beginners, not the subject of this introduction
-    \end{itemize}
-
+    \vspace{1em}
     \structure{Problem:} What if I need the results of the parallel loop in the host code?
 \end{frame}
 
 % _____________________________________________________________________________
 
-\begin{frame}[fragile]{Fence}
-    \structure{Solution:} To make sure that the loop is finished, a \texttt{fence} function is used (equivalent of an OpenMP barrier or a MPI wait)
+\begin{frame}[fragile]{All you need is a fence}
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            \begin{minted}{C++}
+                // parallel loop on Device
+                Kokkos::parallel_for(
+                    "my_loop",
+                    N,
+                    KOKKOS_LAMBDA(int i) {
+                        data(i) = ...
+                    }
+                );
 
-    \begin{minted}{C++}
-// Kokkos parallel loop
-Kokkos::parallel_for("my_amazing_loop", N,
-    KOKKOS_LAMBDA(int i) { data(i) = ... });
+                Kokkos::fence("my_loop fence");
 
-Kokkos::fence("my_amazyng_loop fence");
+                // Host code
+                host_function(data);
+            \end{minted}
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            \begin{itemize}
+                \item \texttt{fence} to wait for asynchronous work to be completed
+                \item Equivalent to OpenMP \texttt{barrier} or to \texttt{MPI\_Wait}
+            \end{itemize}
+        \end{column}
+    \end{columns}
 
-// Host code
-amazing_function(data);
-    \end{minted}
+    \vspace{1em}
+    \structure{Solution:} With a fence
 \end{frame}
 
 % _____________________________________________________________________________
@@ -1144,56 +1258,77 @@ amazing_function(data);
 
 % _____________________________________________________________________________
 
-\subsection[Extended loop policy]{How to extent the loop policy}
+\subsection{Extending loop policies}
 
 % _____________________________________________________________________________
 
-\begin{frame}[fragile]{How to extent the loop policy ?}
-    Kokkos provides a way to set how a loop is executed with \highlight{execution policies}
-
-    \begin{minted}{C++}
-Kokkos::RangePolicy<ExecutionSpace> policy(start_index, end_index);
-    \end{minted}
-    \begin{itemize}
-        \item \texttt{ExecutionSpace} is an optional template parameter that specifies the execution space, by default the execution space is \texttt{DefaultExecutionSpace}
-        \item \texttt{start\_index} and \texttt{end\_index} are the beginning and the end of the loop
-    \end{itemize}
+\begin{frame}[fragile]{How to extend loop policies?}
+    \begin{columns}
+        \begin{column}{0.55\linewidth}
+            \begin{minted}{C++}
+                Kokkos::RangePolicy<ExecutionSpace>
+                    policy(start_index, end_index);
+            \end{minted}
+        \end{column}
+        \begin{column}{0.45\linewidth}
+            \begin{itemize}
+                \item Kokkos way to tell how a loop is executed: \highlight{execution policy}
+                \item \texttt{RangePolicy} for single-dimensional loops
+                \item \texttt{ExecutionSpace} for specifying where the loop is executed (defaults to \texttt{DefaultExecutionSpace})
+                \item \texttt{start\_index} and \texttt{end\_index} are the beginning and the end (excluded) of the loop
+            \end{itemize}
+        \end{column}
+    \end{columns}
 \end{frame}
 
 % _____________________________________________________________________________
 
-\begin{frame}[fragile]{How to extent the loop policy ?}
-    The following parallel loops are therefore equivalent:
+\begin{frame}[fragile]{Loop policy shortcut}
+    \begin{columns}
+        \begin{column}{0.48\linewidth}
+            Shortcut version\strut
 
-    \begin{minted}{C++}
-// Shortcut version
-Kokkos::parallel_for("my_loop",
-    N,
-    KOKKOS_LAMBDA(int i) { ... });
-    \end{minted}
-    \begin{minted}{C++}
-// explicitly specify the execution policy
-Kokkos::parallel_for("my_loop",
-    Kokkos::RangePolicy<Kokkos::DefaultExecutionSpace>(0, N),
-    KOKKOS_LAMBDA(int i) { ... });
-    \end{minted}
+            \begin{minted}{C++}
+                Kokkos::parallel_for(
+                    "my_loop",
+                    N,
+
+
+                    KOKKOS_LAMBDA (int i) { ... }
+                );
+            \end{minted}
+        \end{column}
+        \begin{column}{0.52\linewidth}
+            Explicit version (same)\strut
+
+            \begin{minted}{C++}
+                Kokkos::parallel_for(
+                    "my_loop",
+                    Kokkos::RangePolicy<
+                        Kokkos::DefaultExecutionSpace
+                    >(0, N),
+                    KOKKOS_LAMBDA (int i) { ... }
+                );
+            \end{minted}
+        \end{column}
+    \end{columns}
 \end{frame}
 
 % _____________________________________________________________________________
 
-\begin{frame}{Execution Space}
+\begin{frame}{Execution space}
     \begin{itemize}
-        \item By specifying the execution space, you control where the loop is executed (CPU or GPU)
+        \item Execution space to control where the loop is executed (CPU or GPU)
+        \item Several ones available
         \item \texttt{Kokkos::DefaultExecutionSpace} and \texttt{Kokkos::DefaultHostExecutionSpace} are enough for beginners
-        \item Other execution spaces are not the subject of this introduction
-        \item This way of doing ensures that the code is portable
+        \item Using a backend-specific execution space possible, but breaks portability
     \end{itemize}
     \begin{center}
         \begin{tabular}{lll}
             & \multicolumn{2}{l}{Kokkos compiled on} \\
-            Execution space & GPU backend & CPU backend \\
-            \texttt{Kokkos::DefaultExecutionSpace} & Runs on GPU & Runs on CPU \\
-            \texttt{Kokkos::DefaultHostExecutionSpace} & Runs on CPU & Runs on CPU \\
+            Execution space & CPU backend & GPU backend \\
+            \texttt{Kokkos::DefaultExecutionSpace} & On CPU & On GPU \\
+            \texttt{Kokkos::DefaultHostExecutionSpace} & On CPU & On CPU \\
         \end{tabular}
     \end{center}
 \end{frame}
@@ -1209,64 +1344,109 @@ Kokkos::parallel_for("my_loop",
 % _____________________________________________________________________________
 
 \begin{frame}[fragile]{Relation between execution space and memory space}
-    The memory space associated with an execution space is retrieved using the \highlight{memory\_space} attribute
-
-    \begin{minted}{C++}
-using DefaultMemorySpace =
-    Kokkos::DefaultExecutionSpace::memory_space;
-
-using DefaultHostMemorySpace =
-    Kokkos::DefaultHostExecutionSpace::memory_space;
-// same as Kokkos::HostSpace
-    \end{minted}
-\end{frame}
-
-% _____________________________________________________________________________
-
-\begin{frame}[fragile]{Nested parallel loops}
-    \begin{minted}{C++}
-Kokkos::View<int**> my_matrix("matrix", Nx, Ny);
-
-for (int i = 0; i < Nx; i++) {
-    for (int j = 0; j < Ny; j++) {
-        my_matrix(i,j) = i + j;
-    }
-}
-    \end{minted}
-\end{frame}
-
-% _____________________________________________________________________________
-
-\begin{frame}[fragile]{Nested parallel loops}
     \begin{itemize}
-        \item Kokkos has a specific execution policy for nested parallel loops
-        \item The \texttt{MDRangePolicy} (with \emph{MD} for multidimensional)
-        \item Somehow similar to the \texttt{collapse} directive in OpenMP
-        \item Addition of the \texttt{Rank} template parameter to specify the dimensions
+        \item That relation makes sense (both on same hardware)
+        \item \texttt{memory\_space} attribute to access the memory space associated with an execution space
+        \item \texttt{HostSpace} for memory space of the default host execution space
     \end{itemize}
-    \begin{minted}{C++}
-Kokkos::MDRangePolicy<
-    ExecutionSpace,
-    Kokkos::Rank<2>> policy(
-        {start_index_i, start_index_j},
-        {end_index_i, end_index_j});
-    \end{minted}
+    \begin{center}
+        % allow the table to overflow horizontally
+        \makebox[\linewidth][c]{%
+            \begin{tabular}{lll}
+                & \multicolumn{2}{l}{Kokkos compiled on} \\
+                Memory space & CPU backend & GPU backend \\
+                \texttt{Kokkos::DefaultExecutionSpace::memory\_space} & On CPU & On GPU \\
+                \texttt{Kokkos::DefaultHostExecutionSpace::memory\_space} & On CPU & On CPU \\
+            \end{tabular}%
+        }
+    \end{center}
 \end{frame}
 
 % _____________________________________________________________________________
 
-\begin{frame}[fragile]{Nested parallel loops in practice}
-    \begin{minted}{C++}
-Kokkos::View<int**> my_matrix("matrix", Nx, Ny);
+\begin{frame}[fragile]{Anatomy of a nested loops}
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            \begin{minted}{C++}
+                for (int i = 0; i < Nx; i++)
+                    for (int j = 0; j < Ny; j++) {
+                        A(i, j) = i + j;
+                    }
+            \end{minted}
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            \begin{itemize}
+                \item 2 loop patterns
+                \begin{itemize}
+                    \item No extra code before/after the inner loop
+                    \item Loops are collapsable (OpenMP \texttt{collapse})
+                \end{itemize}
+                \item 2 execution policies
+                \begin{itemize}
+                    \item No dependencies between them
+                \end{itemize}
+                \item 1 kernel
+                \begin{itemize}
+                    \item No iteration order dependencies
+                    \item No side effects
+                \end{itemize}
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
 
-Kokkos::parallel_for("my_loop",
-    Kokkos::MDRangePolicy<ExecutionSpace, Kokkos::Rank<2>>(
-        {0, 0}, {Nx, Ny}),
-    KOKKOS_LAMBDA(int i, int j) {
-        my_matrix(i, j) = i + j;
-    }
-);
-    \end{minted}
+% _____________________________________________________________________________
+
+\begin{frame}[fragile]{How to have multidimensional loop policies?}
+    \begin{columns}
+        \begin{column}{0.6\linewidth}
+            \begin{minted}{C++}
+                Kokkos::MDRangePolicy<
+                    ExecutionSpace,
+                    Rank<n>
+                > policy(
+                    {start_index_0, ..., start_index_n},
+                    {end_index_0, ..., end_index_n}
+                );
+            \end{minted}
+        \end{column}
+        \begin{column}{0.4\linewidth}
+            \begin{itemize}
+                \item \texttt{MDRangePolicy} for nested loops (with \emph{MD} for multidimensional)
+                \item \texttt{Rank} template parameter to specify the dimension
+                \item Max rank is 6
+                \item \texttt{start\_index\_*} and \texttt{end\_index\_*} are the beginning and the end (excluded) of each loop
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}[fragile]{Anatomy of a Kokkos nested loop}
+    \begin{columns}
+        \begin{column}{0.6\linewidth}
+            \begin{minted}{C++}
+                Kokkos::parallel_for(
+                    "my_loop",
+                    Kokkos::MDRangePolicy<
+                        ExecutionSpace,
+                        Kokkos::Rank<2>
+                    >({0, 0}, {Nx, Ny}),
+                    KOKKOS_LAMBDA (int i, int j) {
+                        A(i, j) = i + j;
+                    }
+                );
+            \end{minted}
+        \end{column}
+        \begin{column}{0.4\linewidth}
+            \begin{itemize}
+                \item Still 1 \texttt{parallel\_for}
+                \item No shortcut version!
+                \item Kernel has 2 arguments
+            \end{itemize}
+        \end{column}
+    \end{columns}
 \end{frame}
 
 % _____________________________________________________________________________
@@ -1275,32 +1455,67 @@ Kokkos::parallel_for("my_loop",
 
 % _____________________________________________________________________________
 
-\begin{frame}[fragile]{Parallel reduction}
-    \begin{itemize}
-        \item Parallel reduction is the second loop pattern provided by Kokkos: \texttt{Kokkos::parallel\_reduce}
-        \item It is used to compute a single value from an array (sum, max, min, etc.)
-        \item It works like the \texttt{parallel\_for} loop pattern with an additional argument: the reducer operation to perform \texttt{Kokkos::Reducer\_op<type>}
-        \item \texttt{KOKKOS\_LAMBDA} also has an additional argument: a reference to the local result
-    \end{itemize}
-    \begin{minted}{C++}
-// No need to initialize the output variable, it will be
-// done by the parallel_reduce call
-double result;
+\begin{frame}[fragile]{Anatomy of a reduction loop}
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            \begin{minted}[texcomments]{C++}
+                double result = 0;
 
-Kokkos::parallel_reduce("my_reduction", N,
-    KOKKOS_LAMBDA(int i, double& local_result) {
-        local_result += i;
-    }, Kokkos::Sum<double>(result));
-    \end{minted}
+                for (int i = 0; i < N; i++) {
+                    result += A(i);
+                }
+            \end{minted}
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            \begin{itemize}
+                \item Same constraints as before
+                \item One scalar variable collects something for each iteration (sum, max, min, etc.)
+                \item Result value \highlight{depends} on iteration order!
+            \end{itemize}
+        \end{column}
+    \end{columns}
 \end{frame}
 
 % _____________________________________________________________________________
 
-\begin{frame}{Parallel reduction explained}
+\begin{frame}[fragile]{Anatomy of a Kokkos parallel reduction loop}
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            \begin{minted}{C++}
+                // no initialization needed,
+                // handled by parallel reduce
+                double result;
+
+                Kokkos::parallel_reduce(
+                    "my_reduction",
+                    N,
+                    KOKKOS_LAMBDA(
+                        int i,
+                        double& local_result
+                    ) {
+                        local_result += i;
+                    },
+                    Kokkos::Sum<double>(result)
+                );
+            \end{minted}
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            \begin{itemize}
+                \item \texttt{parallel\_reduce} to perform reductions
+                \item Works like \texttt{parallel\_for} (e.g. execution space)
+                \item Reducer object (here \texttt{Sum}), templated with the result type
+                \item Various reducers available
+                \item Extra last argument to \texttt{KOKKOS\_LAMBDA}: a reference to the local result
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}{About reducers}
     \begin{itemize}
-        \item Works like \texttt{parallel\_for} (e.g. execution space)
-        \item Reduction is always optimized for the selected execution space
-        \item Kokkos provides various reducers (\texttt{Reducer\_op}) for the most common operations:
+        \item Kokkos provides reducers for the most common operations:
         \begin{itemize}
             \item \texttt{Kokkos::Sum}: Sum of the elements
             \item \texttt{Kokkos::Max}: and \texttt{Kokkos::Min}: Maximum and minimum element
