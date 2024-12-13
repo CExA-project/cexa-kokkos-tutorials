@@ -6,7 +6,13 @@ This course is for beginners. It will teach you the basics of GPU programming an
 
 The slides use Beamer, a LaTeX package for creating presentations. To compile the slides, you need to have LaTeX installed on your system.
 
-For instance, using `xelatex`:
+Build simply with:
+
+```sh
+make
+```
+
+Or explicitly with:
 
 ```bash
 xelatex -shell-escape main.tex
