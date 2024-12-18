@@ -6,15 +6,12 @@
 \usepackage{tcolorbox}
 \usepackage{graphicx}
 \usepackage{fontspec}
-\usepackage{pifont}
-\usepackage{hyperref}
+\usepackage{tabularray}
 
-\usetheme{default}
-\setbeamertemplate{footline}[frame number]
-\setbeamertemplate{navigation symbols}{}
+\usetheme{cexa-kokkos}
 
-\BeforeBeginEnvironment{minted}{\begin{tcolorbox}}
-\AfterEndEnvironment{minted}{\end{tcolorbox}}
+%\BeforeBeginEnvironment{minted}{\begin{tcolorbox}}
+%\AfterEndEnvironment{minted}{\end{tcolorbox}}
 
 \AtBeginSection{
     \begin{frame}{Outline}
@@ -28,31 +25,35 @@
     \end{frame}
 }
 
-\hypersetup{
-    colorlinks=true,
-    linkcolor=blue,
-    urlcolor=cyan
-}
-
 \setminted{
     autogobble,
     fontsize=\small,
+    bgcolor=lightgray,
+    xleftmargin=0.5em,
+    xrightmargin=0.5em,
+    breaklines,
+}
+
+\NewTblrTheme{kokkostable}{
+    \SetTblrInner{
+        width=\linewidth,
+        rowhead=1,
+        rows={ht=\baselineskip},
+        row{odd}={bg=lightgray},
+        row{1}={bg=lightmain},
+    }
 }
 
 \graphicspath{{../../images/}}
 
-% Item style
-
-\setbeamertemplate{itemize item}{\ding{108}}
-
 % Block style
 
-\setbeamercolor{block body alerted}{fg=white,bg=red}
-\setbeamercolor{block body standard}{fg=black,bg=white}
-\setbeamertemplate{blocks}[rounded][shadow=false]
+%\setbeamercolor{block body alerted}{fg=white,bg=red}
+%\setbeamercolor{block body standard}{fg=black,bg=white}
+%\setbeamertemplate{blocks}[rounded][shadow=false]
 
 % Alias for highlight text in orange and bold
-\newcommand{\highlight}[1]{\textcolor{orange}{\textbf{#1}}}
+\newcommand{\highlight}[1]{\textcolor{main}{\textbf{#1}}}
 
 % Command for captions
 \renewcommand{\caption}[1]{%
@@ -73,22 +74,22 @@
 }
 
 %Information to be included in the title page:
-\title{Kokkos and performance portability: an introduction for all}
+\title[Kokkos and performance portability]{Kokkos and performance portability:\\an introduction for all}
 \author{Mathieu Lobet and the CExA team}
 \institute{CEA}
 \date{2024}
+\titlegraphic{%
+    \includegraphics[height=4em]{kokkos.png}%
+    \hspace{1em}%
+    \includegraphics[height=4em]{cexa_logo.png}
+}
 
 % _____________________________________________________________________________
 
 \begin{document}
 
-\begin{frame}{}
+\begin{frame}[plain]
     \titlepage
-    \begin{center}
-        \includegraphics[width=0.15\textwidth]{kokkos.png}%
-        \hspace{2em}%
-        \includegraphics[width=0.15\textwidth]{cexa_logo.png}
-    \end{center}
 \end{frame}
 
 % _____________________________________________________________________________
@@ -103,6 +104,8 @@
 
 \begin{frame}{Prerequisites}
     This course is intended for beginners in Kokkos and performance portability, without strong C++ knowledge
+
+    \vspace{1em}
 
     \begin{block}{What you still need}
         \begin{itemize}
@@ -136,15 +139,15 @@
 
 \begin{frame}{Presentation of CExA}
     \begin{center}
-        \includegraphics[width=0.7\textwidth]{cexa.png}
+        \includegraphics[width=0.65\textwidth]{cexa.png}
     \end{center}
 \end{frame}
 
 % _____________________________________________________________________________
 
-\begin{frame}{Current supercomputers use a wide variety of hardware technologies}
+\begin{frame}{Current supercomputers hardware}
     \begin{center}
-        \includegraphics[width=1\textwidth]{top10_super_computers.png}
+        \includegraphics[width=0.8\textwidth]{top10_super_computers.png}
 
         \caption{Top 10 supercomputers in the world in June 2024}
     \end{center}
@@ -156,7 +159,7 @@
 
 % _____________________________________________________________________________
 
-\begin{frame}{EuroHPC supercomputers}
+\begin{frame}{EuroHPC supercomputers hardware}
     \begin{center}
         \includegraphics[width=1\textwidth]{euroHPC.png}
 
@@ -166,7 +169,7 @@
 
 % _____________________________________________________________________________
 
-\begin{frame}{French national academic supercomputers}
+\begin{frame}{French supercomputers hardware}
     \begin{center}
     \includegraphics[width=0.8\textwidth]{french_super_computers.png}
 
@@ -178,7 +181,7 @@
 
 \begin{frame}{Top500 GPU-CPU system share}
     \begin{center}
-        \includegraphics[width=0.9\textwidth]{top500_cpu_gpu_share_history.png}
+        \includegraphics[width=0.8\textwidth]{top500_cpu_gpu_share_history.png}
     \end{center}
 
     \structure{Note:} Does not include exotic and Intel Knight Landing accelerators
@@ -188,12 +191,12 @@
 
 \begin{frame}{Basic definition of a supercomputer}
     \begin{center}
-        \includegraphics[width=\textwidth]{super-computer_architecture.png}
+        \includegraphics[width=0.8\textwidth]{super-computer_architecture.png}
     \end{center}
     \begin{itemize}
-        \item A supercomputer is a distributed memory system composed of many compute nodes packed into racks and linked by a high-speed network
+        \item Distributed memory system composed of many compute nodes packed into racks and linked by a high-speed network
         \item Compute nodes are composed of one or more CPUs and one or more accelerators
-        \item Most common accelerators today are GPGPU for General Purpose Graphic Processing Units
+        \item Most common accelerators today are GPUs (aka GPGPU)
     \end{itemize}
 \end{frame}
 
@@ -208,7 +211,7 @@
         \end{column}
         \begin{column}{0.5\linewidth}
             \begin{itemize}
-                \item CPUs are designed for general purpose
+                \item CPUs are for general purpose
                 \begin{itemize}
                     \item Sequential task
                     \item Parallel computing
@@ -273,7 +276,7 @@
 
 \begin{frame}{What's the motivation of putting GPUs in supercomputers?}
     \begin{center}
-        \includegraphics[width=0.9\textwidth]{flop_watt_ratio_history_fp64.png}
+        \includegraphics[width=0.8\textwidth]{flop_watt_ratio_history_fp64.png}
     \end{center}
 
     \structure{Question:} How to build the fastest machine with the lowest power consumption and the lowest cost?
@@ -294,25 +297,29 @@
 % _____________________________________________________________________________
 
 \begin{frame}{Performance, portability and productivity}
-    \begin{columns}
+    \begin{columns}[T]
         \begin{column}{0.45\linewidth}
-            \begin{block}{What all developers want}
-                \begin{description}[Performance]
-                    \item[Performance] Get the best performance on a specific hardware
-                    \item[Portability] Run the same code on different hardware
-                    \item[Productivity] Write code quickly and easily, maintain and extend code, leverage architecture optimization
-                \end{description}
-            \end{block}
+            What \emph{all developers} want
+
+            \vspace{1em}
+
+            \begin{description}[Performance]
+                \item[Performance] Get the best performance on a specific hardware
+                \item[Portability] Run the same code on different hardware
+                \item[Productivity] Write code quickly and easily, maintain and extend code, leverage architecture optimization
+            \end{description}
         \end{column}
         \begin{column}{0.55\linewidth}
-            \begin{block}{What developers for science also want}
-                \begin{description}[Interporability]
-                    \item[Maturity] Production-ready (i.e. not research product)
-                    \item[Community] Contributors, support, documentation, examples
-                    \item[Longevity] Long-term maintenance, bug fixes, updates, sponsorship
-                    \item[Interporability] Possibility to easily couple with other libraries and tools (IO, Linear Algebra, Machine leaning, etc.)
-                \end{description}
-            \end{block}
+            What \emph{developers for science} also want
+
+            \vspace{1em}
+
+            \begin{description}[Interporability]
+                \item[Maturity] Production-ready (i.e. not research product)
+                \item[Community] Contributors, support, documentation, examples
+                \item[Longevity] Long-term maintenance, bug fixes, updates, sponsorship
+                \item[Interporability] Possibility to easily couple with other libraries and tools (IO, Linear Algebra, Machine leaning, etc.)
+            \end{description}
         \end{column}
     \end{columns}
 \end{frame}
@@ -320,25 +327,29 @@
 % _____________________________________________________________________________
 
 \begin{frame}{Do \emph{you} need performance portability?}
-    \begin{columns}
+    \begin{columns}[T]
         \begin{column}{0.5\linewidth}
-            \begin{block}{Probably yes if you...}
-                \begin{itemize}
-                    \item Want your code to run on different hardware technologies (CPU, GPU)
-                    \item Have performance requirements
-                    \item Cannot afford to maintain and optimize different versions of your code for each possible hardware of the market
-                    \item Want to focus on algorithmic and not on code development
-                    \item Want your code to be easily maintainable and readable by others, especially non experts
-                \end{itemize}
-            \end{block}
+            Probably \emph{yes} if you...
+
+            \vspace{1em}
+
+            \begin{itemize}
+                \item Want your code to run on different hardware technologies (CPU, GPU)
+                \item Have performance requirements
+                \item Cannot afford to maintain and optimize different versions of your code for each possible hardware of the market
+                \item Want to focus on algorithmic and not on code development
+                \item Want your code to be easily maintainable and readable by others, especially non experts
+            \end{itemize}
         \end{column}
         \begin{column}{0.5\linewidth}
-            \begin{block}{Maybe no if you...}
-                \begin{itemize}
-                    \item Need to tune your algorithms to work as fast as possible on a given hardware
-                    \item Want to explore a new architecture
-                \end{itemize}
-            \end{block}
+            Maybe \emph{no} if you...
+
+            \vspace{1em}
+
+            \begin{itemize}
+                \item Need to tune your algorithms to work as fast as possible on a given hardware
+                \item Want to explore a new architecture
+            \end{itemize}
         \end{column}
     \end{columns}
 \end{frame}
@@ -351,7 +362,7 @@
     \vspace{0.5em}
 
     \begin{center}
-        \includegraphics[width=1\textwidth]{kokkos_model.png}
+        \includegraphics[width=0.9\textwidth]{kokkos_model.png}
     \end{center}
     \begin{itemize}
         \item Kokkos provides data structures and functions based on modern C++ to build your application
@@ -396,7 +407,7 @@
 
 \begin{frame}{Kokkos ecosystem}
     \begin{center}
-        \includegraphics[width=\textwidth]{kokkos-ecosystem.png}
+        \includegraphics[width=0.9\textwidth]{kokkos-ecosystem.png}
     \end{center}
 \end{frame}
 
@@ -404,7 +415,7 @@
 
 \begin{frame}{Kokkos and the evolution of the C++ standard}
     \begin{center}
-        \includegraphics[width=\textwidth]{kokkos-cpp-standard.png}
+        \includegraphics[width=0.9\textwidth]{kokkos-cpp-standard.png}
     \end{center}
 \end{frame}
 
@@ -414,7 +425,7 @@
     \begin{itemize}
         \item GitHub repository: \url{https://github.com/kokkos}
         \item Documentation: \url{https://kokkos.org/kokkos-core-wiki}
-        \item Cheat sheet: \url{https://github.com/CExA-project/cheat-sheet-for-kokkos/releases/latest}
+        \item Cheat sheet: \url{https://cexa-project.org/documents}
         \item Slack channel: \url{https://kokkosteam.slack.com}
     \end{itemize}
 \end{frame}
@@ -437,8 +448,9 @@
         \item You can get the source code from the \githublink{\href{https://github.com/kokkos/kokkos}{Kokkos GitHub repository}}
     \end{itemize}
     \begin{center}
-        \includegraphics[width=0.15\textwidth]{spack.png}
-        \includegraphics[width=0.15\textwidth]{GitHub-logo.png}
+        \includegraphics[height=2em]{spack.png}%
+        \hspace{1em}%
+        \includegraphics[height=3em]{GitHub-logo.png}
     \end{center}
 \end{frame}
 
@@ -508,23 +520,31 @@ cmake ${srcdir} \
 
 % _____________________________________________________________________________
 
-\begin{frame}[fragile]{Compiling for a multi-core Xeon Skylake CPU and a A100 NVIDIA GPU}
+\begin{frame}[fragile]{Real world case}
     \begin{itemize}
+        \item Compiling for a multi-core Xeon Skylake CPU and a A100 NVIDIA GPU
         \item OpenMP option for the multi-core CPU
         \item Skylake option, mostly for vectorization (optional)
         \item CUDA option for the GPU
         \item A100 option, for the correct architecture (mandatory)
     \end{itemize}
-    \begin{minted}{bash}
-cmake ${srcdir} -DCMAKE_INSTALL_PREFIX=${kokkos_install_folder} \
-    -DKokkos_ENABLE_OPENMP=ON \
-    -DKokkos_ARCH_SKX=ON \
-    -DKokkos_ENABLE_CUDA=ON \
-    -DKokkos_ARCH_AMPERE80=ON
-    \end{minted}
-    \begin{center}
-        \includegraphics[width=0.5\textwidth]{kokkos_a100_backend.png}
-    \end{center}
+    \begin{columns}
+        \begin{column}{0.6\linewidth}
+            \begin{minted}{bash}
+                cmake ${srcdir} \
+                    -DCMAKE_INSTALL_PREFIX=${kokkos_install_folder} \
+                    -DKokkos_ENABLE_OPENMP=ON \
+                    -DKokkos_ARCH_SKX=ON \
+                    -DKokkos_ENABLE_CUDA=ON \
+                    -DKokkos_ARCH_AMPERE80=ON
+            \end{minted}
+        \end{column}
+        \begin{column}{0.4\linewidth}
+            \begin{center}
+                \includegraphics[width=\textwidth]{kokkos_a100_backend.png}
+            \end{center}
+        \end{column}
+    \end{columns}
 \end{frame}
 
 % _____________________________________________________________________________
@@ -534,7 +554,7 @@ cmake ${srcdir} -DCMAKE_INSTALL_PREFIX=${kokkos_install_folder} \
     \includegraphics[width=0.4\textwidth]{sleeping_otter.png}
     \end{center}
 
-    Go to the folder \githublink{\href{https://github.com/CExA-project/cexa-kokkos-tutorials/tree/main/exercises/01_compiling_kokkos}{01\_compiling\_kokkos}} and follow the instructions in the README file
+    Go to the folder \githublink{\href{https://github.com/CExA-project/cexa-kokkos-tutorials/tree/main/exercises/01_compiling_kokkos}{01\_compiling\_kokkos}} and follow the instructions
 
     \begin{block}{Goals of this exercise}
         \begin{itemize}
@@ -653,7 +673,7 @@ cmake ${srcdir} -DCMAKE_INSTALL_PREFIX=${kokkos_install_folder} \
         \includegraphics[width=0.4\textwidth]{sleeping_otter.png}
     \end{center}
 
-    Go to the folder \githublink{\href{https://github.com/CExA-project/cexa-kokkos-tutorials/tree/main/exercises/02_first_program}{02\_first\_program}} and follow the instructions in the README file
+    Go to the folder \githublink{\href{https://github.com/CExA-project/cexa-kokkos-tutorials/tree/main/exercises/02_first_program}{02\_first\_program}} and follow the instructions
 
     \begin{block}{Goals of this exercise}
         \begin{itemize}
@@ -750,7 +770,7 @@ cmake ${srcdir} -DCMAKE_INSTALL_PREFIX=${kokkos_install_folder} \
 
 \begin{frame}{Where does the data live?}
     \begin{center}
-        \includegraphics[width=0.7\textwidth]{view_memory.png}
+        \includegraphics[width=0.65\textwidth]{view_memory.png}
     \end{center}
     \begin{itemize}
         \item A View data lives in a specific memory space (Host or Device), not both
@@ -762,7 +782,7 @@ cmake ${srcdir} -DCMAKE_INSTALL_PREFIX=${kokkos_install_folder} \
 
 \begin{frame}{Where does the data live? CPU version}
     \begin{center}
-        \includegraphics[width=0.7\textwidth]{host_view_memory.png}
+        \includegraphics[width=0.65\textwidth]{host_view_memory.png}
     \end{center}
     \begin{itemize}
         \item If Kokkos is compiled with a \highlight{CPU backend only}, the View data is allocated in the \highlight{Host memory} by default
@@ -774,12 +794,11 @@ cmake ${srcdir} -DCMAKE_INSTALL_PREFIX=${kokkos_install_folder} \
 
 \begin{frame}{Where does the data live? GPU version}
     \begin{center}
-        \includegraphics[width=0.7\textwidth]{device_view_memory.png}
+        \includegraphics[width=0.65\textwidth]{device_view_memory.png}
     \end{center}
     \begin{itemize}
         \item If Kokkos is compiled with a \highlight{GPU backend}, the View data is allocated in the \highlight{Device memory} by default
-        \item Device view data usually \highlight{cannot} be accessed on the Host
-        \item We will later see how to allocate and copy data between the Host and the Device
+        \item Device view data usually \highlight{cannot} be accessed on the Host (we'll see later how to transfer data)
     \end{itemize}
 \end{frame}
 
@@ -798,9 +817,9 @@ cmake ${srcdir} -DCMAKE_INSTALL_PREFIX=${kokkos_install_folder} \
 
 \begin{frame}[fragile]{Useful methods to manage views}
     \begin{columns}
-        \begin{column}{0.5\linewidth}
+        \begin{column}{0.45\linewidth}
             \begin{minted}{C++}
-                Kokkos::View<int***>
+                Kokkos::View<int ***>
                     view("view", 10, 20, 30);
 
                 int rank = view.rank();
@@ -813,14 +832,16 @@ cmake ${srcdir} -DCMAKE_INSTALL_PREFIX=${kokkos_install_folder} \
                 assert(size == 6000);
             \end{minted}
         \end{column}
-        \begin{column}{0.5\linewidth}
+        \begin{column}{0.55\linewidth}
             \begin{description}[\texttt{extent(dim)}]
                 \item[\texttt{rank()}] Return the rank of the view (number of dimensions)
                 \item[\texttt{extent(dim)}] Return the number of elements of a specific dimension
                 \item[\texttt{size()}] Return the total number of elements
             \end{description}
 
-            And many others but not the subject of this introduction
+            \vspace{0.5em}
+
+            And many others not covered in this talk
         \end{column}
     \end{columns}
 \end{frame}
@@ -829,13 +850,13 @@ cmake ${srcdir} -DCMAKE_INSTALL_PREFIX=${kokkos_install_folder} \
 
 \begin{frame}{Notion of View layout}
     \begin{center}
-        \includegraphics[width=0.95\textwidth]{layout_right_left.png}
+        \includegraphics[width=0.8\textwidth]{layout_right_left.png}
     \end{center}
     \begin{itemize}
-        \item Layout is the way to map multidimensional index to linear memory
+        \item Layout is the way to map multidimensional indices to the linear memory
         \item Kokkos provides an abstraction of the data layout
         \item The default layout of a View depends on the backend (Host or Device)
-        \item How to manipulate the layout is not the subject of this introduction
+        \item Not covered in this talk
     \end{itemize}
 \end{frame}
 
@@ -846,7 +867,7 @@ cmake ${srcdir} -DCMAKE_INSTALL_PREFIX=${kokkos_install_folder} \
         \includegraphics[width=0.4\textwidth]{sleeping_otter.png}
     \end{center}
 
-    Go to the exercise \githublink{\href{https://github.com/CExA-project/cexa-kokkos-tutorials/tree/main/exercises/03_basic_view}{03\_basic\_view}} and follow the instructions in the README file
+    Go to the exercise \githublink{\href{https://github.com/CExA-project/cexa-kokkos-tutorials/tree/main/exercises/03_basic_view}{03\_basic\_view}} and follow the instructions
 
     \begin{block}{Goals of this exercise}
         \begin{itemize}
@@ -859,7 +880,7 @@ cmake ${srcdir} -DCMAKE_INSTALL_PREFIX=${kokkos_install_folder} \
 
 \begin{frame}{How to access data living on the Device from the Host?}
     \begin{center}
-        \includegraphics[width=\textwidth]{device_memory_access.png}
+        \includegraphics[width=0.9\textwidth]{device_memory_access.png}
     \end{center}
 
     \structure{Problem:} You cannot!
@@ -931,7 +952,7 @@ cmake ${srcdir} -DCMAKE_INSTALL_PREFIX=${kokkos_install_folder} \
 
 \begin{frame}{How to access data living on the Device from the Host?}
     \begin{center}
-        \includegraphics[width=\textwidth]{device_mirror_view.png}
+        \includegraphics[width=0.9\textwidth]{device_mirror_view.png}
     \end{center}
 
     \structure{Solution:} With a mirror view!
@@ -1034,7 +1055,7 @@ cmake ${srcdir} -DCMAKE_INSTALL_PREFIX=${kokkos_install_folder} \
         \includegraphics[width=0.4\textwidth]{sleeping_otter.png}
     \end{center}
 
-    Go to the exercise \githublink{\href{https://github.com/CExA-project/cexa-kokkos-tutorials/tree/main/exercises/04_deep_copy}{04\_deep\_copy}} and follow the instructions in the README file
+    Go to the exercise \githublink{\href{https://github.com/CExA-project/cexa-kokkos-tutorials/tree/main/exercises/04_deep_copy}{04\_deep\_copy}} and follow the instructions
 
     \begin{block}{Goal of this exercise}
         \begin{itemize}
@@ -1076,7 +1097,7 @@ cmake ${srcdir} -DCMAKE_INSTALL_PREFIX=${kokkos_install_folder} \
 % _____________________________________________________________________________
 
 \begin{frame}[fragile]{Comparison of Kokkos and OpenMP parallel loops}
-    \begin{columns}
+    \begin{columns}[T]
         \begin{column}{0.5\linewidth}
             Kokkos version
 
@@ -1127,9 +1148,9 @@ cmake ${srcdir} -DCMAKE_INSTALL_PREFIX=${kokkos_install_folder} \
         \begin{column}{0.5\linewidth}
             \begin{itemize}
                 \item \mintinline{C++}{parallel_for} is the loop pattern
-                \item \mintinline{C++}{N} and \mintinline{C++}{int i} is the execution policy (can't be simpler)
-                \item \mintinline[breaklines]{C++}{KOKKOS_LAMBDA (int i) {A(i) = B(i) + C(i) * D(i);}} is the kernel
                 \item \mintinline{C++}{"my_loop"} is the name of the loop (bonus for debugging!)
+                \item \mintinline{C++}{N} and \mintinline{C++}{int i} is the execution policy (can't be simpler)
+                \item \mintinline[breaklines]{C++}{KOKKOS_LAMBDA (int i) {/*...*/}} is the kernel
             \end{itemize}
         \end{column}
     \end{columns}
@@ -1198,7 +1219,7 @@ cmake ${srcdir} -DCMAKE_INSTALL_PREFIX=${kokkos_install_folder} \
             \begin{itemize}
                 \item With a GPU backend, the parallel loop is executed asynchronously on the GPU
                 \item The loop is launched and the program continues
-                \item Asynchronism is a complex concept for beginners, not the subject of this introduction
+                \item Asynchronism is a complex concept for beginners, not covered in this talk
             \end{itemize}
         \end{column}
     \end{columns}
@@ -1247,7 +1268,7 @@ cmake ${srcdir} -DCMAKE_INSTALL_PREFIX=${kokkos_install_folder} \
         \includegraphics[width=0.4\textwidth]{sleeping_otter.png}
     \end{center}
 
-    Go to the exercise \githublink{\href{https://github.com/CExA-project/cexa-kokkos-tutorials/tree/main/exercises/05_parallel_loop}{05\_parallel\_loop}} and follow the instructions in the README file
+    Go to the exercise \githublink{\href{https://github.com/CExA-project/cexa-kokkos-tutorials/tree/main/exercises/05_parallel_loop}{05\_parallel\_loop}} and follow the instructions
 
     \begin{block}{Goal of this exercise}
         \begin{itemize}
@@ -1285,7 +1306,7 @@ cmake ${srcdir} -DCMAKE_INSTALL_PREFIX=${kokkos_install_folder} \
 
 \begin{frame}[fragile]{Loop policy shortcut}
     \begin{columns}
-        \begin{column}{0.48\linewidth}
+        \begin{column}{0.45\linewidth}
             Shortcut version\strut
 
             \begin{minted}{C++}
@@ -1294,11 +1315,13 @@ cmake ${srcdir} -DCMAKE_INSTALL_PREFIX=${kokkos_install_folder} \
                     N,
 
 
-                    KOKKOS_LAMBDA (int i) { ... }
+                    KOKKOS_LAMBDA (int i) {
+                        /* ... */
+                    }
                 );
             \end{minted}
         \end{column}
-        \begin{column}{0.52\linewidth}
+        \begin{column}{0.55\linewidth}
             Explicit version (same)\strut
 
             \begin{minted}{C++}
@@ -1307,7 +1330,9 @@ cmake ${srcdir} -DCMAKE_INSTALL_PREFIX=${kokkos_install_folder} \
                     Kokkos::RangePolicy<
                         Kokkos::DefaultExecutionSpace
                     >(0, N),
-                    KOKKOS_LAMBDA (int i) { ... }
+                    KOKKOS_LAMBDA (int i) {
+                        /* ... */
+                    }
                 );
             \end{minted}
         \end{column}
@@ -1324,12 +1349,12 @@ cmake ${srcdir} -DCMAKE_INSTALL_PREFIX=${kokkos_install_folder} \
         \item Using a backend-specific execution space possible, but breaks portability
     \end{itemize}
     \begin{center}
-        \begin{tabular}{lll}
+        \begin{tblr}[theme=kokkostable]{colspec=lll, row{2}={bg=lightmain}}
             & \multicolumn{2}{l}{Kokkos compiled on} \\
             Execution space & CPU backend & GPU backend \\
             \texttt{Kokkos::DefaultExecutionSpace} & On CPU & On GPU \\
             \texttt{Kokkos::DefaultHostExecutionSpace} & On CPU & On CPU \\
-        \end{tabular}
+        \end{tblr}
     \end{center}
 \end{frame}
 
@@ -1352,12 +1377,12 @@ cmake ${srcdir} -DCMAKE_INSTALL_PREFIX=${kokkos_install_folder} \
     \begin{center}
         % allow the table to overflow horizontally
         \makebox[\linewidth][c]{%
-            \begin{tabular}{lll}
+            \begin{tblr}[theme=kokkostable]{colspec=lll, row{2}={bg=lightmain}}
                 & \multicolumn{2}{l}{Kokkos compiled on} \\
                 Memory space & CPU backend & GPU backend \\
                 \texttt{Kokkos::DefaultExecutionSpace::memory\_space} & On CPU & On GPU \\
                 \texttt{Kokkos::DefaultHostExecutionSpace::memory\_space} & On CPU & On CPU \\
-            \end{tabular}%
+            \end{tblr}%
         }
     \end{center}
 \end{frame}
@@ -1470,7 +1495,7 @@ cmake ${srcdir} -DCMAKE_INSTALL_PREFIX=${kokkos_install_folder} \
             \begin{itemize}
                 \item Same constraints as before
                 \item One scalar variable collects something for each iteration (sum, max, min, etc.)
-                \item Result value \highlight{depends} on iteration order!
+                \item Horrible truth: result value \highlight{depends} on iteration order!
             \end{itemize}
         \end{column}
     \end{columns}
@@ -1489,7 +1514,7 @@ cmake ${srcdir} -DCMAKE_INSTALL_PREFIX=${kokkos_install_folder} \
                 Kokkos::parallel_reduce(
                     "my_reduction",
                     N,
-                    KOKKOS_LAMBDA(
+                    KOKKOS_LAMBDA (
                         int i,
                         double& local_result
                     ) {
@@ -1523,7 +1548,7 @@ cmake ${srcdir} -DCMAKE_INSTALL_PREFIX=${kokkos_install_folder} \
             \item \texttt{Kokkos::MaxLoc} and \texttt{Kokkos::MinLoc}: Maximum and minimum element with their index
             \item More \href{https://kokkos.org/kokkos-core-wiki/ProgrammingGuide/Custom-Reductions-Built-In-Reducers.html}{in the doc}
         \end{itemize}
-        \item You can also create your own reducer but this is not the subject of this introduction
+        \item You can also create your own reducer, not covered in this talk
     \end{itemize}
 \end{frame}
 
@@ -1531,14 +1556,15 @@ cmake ${srcdir} -DCMAKE_INSTALL_PREFIX=${kokkos_install_folder} \
 
 \begin{frame}[fragile]{Sum reduction example}
     \begin{minted}{C++}
-Kokkos::View<double*> A("A", N);
-// Fill vector A with data
-
-double result;
-Kokkos::parallel_reduce("my_reduction", N,
-    KOKKOS_LAMBDA(int i, double& local_result) {
-        local_result += A(i);
-    }, Kokkos::Sum<double>(result)); // or just `result` for sum
+        double result;
+        Kokkos::parallel_reduce(
+            "my_reduction",
+            N,
+            KOKKOS_LAMBDA (int i, double& local_result) {
+                local_result += A(i);
+            },
+            Kokkos::Sum<double>(result) // or just `result` for sum
+        );
     \end{minted}
 \end{frame}
 
@@ -1546,14 +1572,15 @@ Kokkos::parallel_reduce("my_reduction", N,
 
 \begin{frame}[fragile]{Max reduction example}
     \begin{minted}{C++}
-Kokkos::View<double*> A("A", N);
-// Fill vector A with data
-
-double max_value;
-Kokkos::parallel_reduce("my_reduction", N,
-    KOKKOS_LAMBDA(int i, double& local_max_value) {
-        local_max_value = Kokkos::max(A(i), local_max_value);
-    }, Kokkos::Max<double>(max_value));
+        double max_value;
+        Kokkos::parallel_reduce(
+            "my_reduction",
+            N,
+            KOKKOS_LAMBDA (int i, double& local_max_value) {
+                local_max_value = Kokkos::max(A(i), local_max_value);
+            },
+            Kokkos::Max<double>(max_value)
+        );
     \end{minted}
 \end{frame}
 
@@ -1561,20 +1588,21 @@ Kokkos::parallel_reduce("my_reduction", N,
 
 \begin{frame}[fragile]{Min and index reduction example}
     \begin{minted}{C++}
-Kokkos::View<double*> A("A", N);
-// Fill vector A with data
+        // Use a structure containing val and loc variables
+        using minloc_type = Kokkos::MinLoc<double, int>::value_type;
 
-// Use a structure containing val and loc variables
-using minloc_type = Kokkos::MinLoc<double, int>::value_type;
-
-minloc_type minloc;
-Kokkos::parallel_reduce( "MinLocReduce", N,
-    KOKKOS_LAMBDA (int i, minloc_type& lminloc) {
-        if (A(i) < lminloc.val) {
-            lminloc.val = A(i);
-            lminloc.loc = i;
-        }
-    }, Kokkos::MinLoc<double, int>(minloc));
+        minloc_type minloc;
+        Kokkos::parallel_reduce(
+            "MinLocReduce",
+            N,
+            KOKKOS_LAMBDA (int i, minloc_type& local_minloc_value) {
+                if (A(i) < local_minloc_value.val) {
+                    local_minloc_value.val = A(i);
+                    local_minloc_value.loc = i;
+                }
+            },
+            Kokkos::MinLoc<double, int>(minloc)
+        );
     \end{minted}
 \end{frame}
 
@@ -1585,7 +1613,7 @@ Kokkos::parallel_reduce( "MinLocReduce", N,
         \includegraphics[width=0.4\textwidth]{sleeping_otter.png}
     \end{center}
 
-    Go to the exercise \githublink{\href{https://github.com/CExA-project/cexa-kokkos-tutorials/tree/main/exercises/06_parallel_reduce}{06\_parallel\_reduce}} and follow the instructions in the README file
+    Go to the exercise \githublink{\href{https://github.com/CExA-project/cexa-kokkos-tutorials/tree/main/exercises/06_parallel_reduce}{06\_parallel\_reduce}} and follow the instructions
 
     \begin{block}{Goal of this exercise}
         \begin{itemize}
