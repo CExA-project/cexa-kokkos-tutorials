@@ -1,0 +1,75 @@
+% cexa-kokkos
+
+\mode<presentation>
+
+\setbeamertemplate{background}{
+    \begin{tikzpicture}
+        \useasboundingbox (0, 0) rectangle (\the\paperwidth, \the\paperheight);
+
+        \ifnum\thepage=1\relax%
+            % first page
+            \fill[color=gray] (0, 0.7\paperheight) rectangle (\the\paperwidth, \the\paperheight);
+            \fill[color=main] (0, 0.3\paperheight) rectangle (\the\paperwidth, 0.70\paperheight);
+
+            \node[anchor=south west, inner sep=0pt] at (0, 0.3\paperheight) {\includegraphics[height=0.4\paperheight]{kokkos_wire.pdf}};
+        \else%
+            \fill[color=main] (0, \the\paperheight - 3em) rectangle (\the\paperwidth, \the\paperheight);
+
+            \node[anchor=south west, inner sep=0pt] at (0, \the\paperheight - 3em) {\includegraphics[height=3em]{kokkos_wire.pdf}};
+            \fill[color=main] (0, 0) rectangle(\the\paperwidth, 0.4);
+        \fi
+    \end{tikzpicture}
+}
+
+% Title page
+\defbeamertemplate*{title page}{cexa-kokkos}{%
+    \beamertemplatenavigationsymbolsempty%
+    \begin{tikzpicture}[node distance=1em, inner sep=0pt]
+        \newlength{\titlewidth}
+        \setlength{\titlewidth}{\dimexpr(\paperwidth-0.15\paperheight-0.1\paperwidth)\relax}
+
+        \useasboundingbox (0, 0) rectangle (\the\paperwidth, \the\paperheight);
+
+        \node[anchor=south west] at (0.15\paperheight, 0.5\paperheight) {%
+            \begin{beamercolorbox}[wd=\titlewidth]{title page header}
+                \usebeamerfont{title page header}\strut\inserttitle\par
+            \end{beamercolorbox}%
+        };
+
+        \node[anchor=north west, yshift=-1em, name=author] at (0.15\paperheight, 0.5\paperheight) {%
+            \begin{beamercolorbox}[wd=\titlewidth]{author}
+                \usebeamerfont{author}::~\strut\insertauthor\par%
+            \end{beamercolorbox}%
+        };
+
+        \ifx\insertinstitute\empty
+        \else
+        \node[below of=author, yshift=-0.5em]{%
+            \begin{beamercolorbox}[wd=\titlewidth,]{institute}
+                {\usebeamerfont{author}::~}%
+                \usebeamerfont{institute}\strut\insertinstitute%
+            \end{beamercolorbox}
+        };
+        \fi
+
+        \ifx\insertdate\empty
+        \else
+            \node[anchor=west] at (0.15\paperheight, 0.15\paperheight) {%
+                \begin{beamercolorbox}{date}
+                    \usebeamerfont{date}\strut\insertdate%
+                \end{beamercolorbox}
+            };
+        \fi
+
+        \ifx\inserttitlegraphic\empty
+        \else
+            \node[anchor=east] at (0.9\paperwidth, 0.15\paperheight) {%
+                \begin{beamercolorbox}[right]{titlegraphic}
+                    \inserttitlegraphic%
+                \end{beamercolorbox}%
+            };
+        \fi
+    \end{tikzpicture}%
+}
+
+\mode<all>

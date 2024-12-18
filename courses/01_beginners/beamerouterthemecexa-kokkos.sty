@@ -1,0 +1,28 @@
+% cexa-kokkos
+
+\mode<presentation>
+
+% Frame title
+\defbeamertemplate*{frametitle}{cexa-kokkos}{%
+    \begin{beamercolorbox}[wd=\paperwidth, ht=1.5em, dp=0.75em, leftskip=1.5em]{frametitle}
+        {\usebeamerfont{frametitle}\insertframetitle}%
+        {\usebeamerfont{page number in head/foot}\usebeamercolor[fg]{page number in head/foot}~::~frame \insertframenumber/\insertpresentationendpage}%
+    \end{beamercolorbox}
+}
+
+\defbeamertemplate*{footline}{cexa-kokkos}{%
+    \begin{beamercolorbox}[wd=\paperwidth, ht=1em, dp=0.5em, leftskip=1.5em]{title in head/foot}
+        \hypersetup{allcolors=.}%
+        {\usebeamerfont{title in head/foot}\usebeamercolor[fg]{title in head/foot}\insertshorttitle}%
+        \ifx\insertsection\empty
+        \else
+            {\usebeamerfont{section in head/foot}\usebeamercolor[fg]{section in head/foot}~::~\insertsection}%
+            \ifx\insertsubsection\empty
+            \else
+            {\usebeamerfont{subsection in head/foot}\usebeamercolor[fg]{subsection in head/foot}~::~\insertsubsection}%
+            \fi
+        \fi
+    \end{beamercolorbox}
+}
+
+\mode<all>

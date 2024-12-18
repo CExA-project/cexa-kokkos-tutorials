@@ -1,0 +1,60 @@
+% cexa-kokkos
+
+\mode<presentation>
+
+% base color
+\definecolor{kokkos}{RGB}{30, 120, 152}
+\definecolor{sokkok}{RGB}{225, 135, 103}
+
+% colors
+\colorlet{main}{kokkos!80}
+\colorlet{lightmain}{kokkos!30}
+\colorlet{reverse}{sokkok}
+\colorlet{lightreverse}{sokkok!50}
+\colorlet{lightgray}{gray!20}
+\colorlet{darkgray}{gray!70!black}
+\colorlet{alert}{red!70!cyan}
+\colorlet{lightalert}{alert!20}
+\colorlet{example}{cyan!80!gray!50}
+\colorlet{lightexample}{example!30}
+
+% use of colors
+\setbeamercolor*{structure}{fg=main}
+\setbeamercolor*{alerted text}{fg=alert}
+\setbeamercolor*{title page header}{fg=black}
+\setbeamercolor*{title in head/foot}{fg=lightmain}
+\setbeamercolor*{section in head/foot}{fg=black}
+\setbeamercolor*{subsection in head/foot}{fg=black}
+\setbeamercolor*{author}{fg=lightmain}
+\setbeamercolor*{date}{fg=black}
+\setbeamercolor*{institute}{fg=lightmain}
+\setbeamercolor*{frametitle}{fg=black}
+\setbeamercolor*{page number in head/foot}{fg=lightmain}
+\setbeamercolor*{navigation symbols}{fg=lightmain}
+\setbeamercolor*{navigation symbols dimmed}{fg=lightmain}
+\setbeamercolor*{block title}{fg=black, bg=main}
+\setbeamercolor*{block body}{fg=black, bg=lightmain}
+\setbeamercolor*{block title alerted}{fg=black, bg=alert}
+\setbeamercolor*{block body alerted}{fg=black, bg=lightalert}
+\setbeamercolor*{block title example}{fg=black, bg=example}
+\setbeamercolor*{block body example}{fg=black, bg=lightexample}
+\hypersetup{
+    colorlinks=true,
+    allcolors=main,
+}
+
+% use of fonts
+\setbeamerfont*{title page header}{series=\bfseries, size=\Large}
+\setbeamerfont*{title in head/foot}{series=\bfseries}
+\setbeamerfont*{frametitle}{series=\bfseries, size=\large}
+\setbeamerfont*{page number in head/foot}{size=\scriptsize}
+\setbeamerfont*{author}{series=\bfseries}
+\setbeamerfont*{date}{size=\small}
+\setbeamerfont*{institute}{size=\scriptsize}
+\setbeamerfont*{block title}{series=\bfseries}
+
+% use of symbols
+\setbeamertemplate{itemize item}{\ding{110}}
+\setbeamertemplate{itemize subitem}{\ding{108}}
+
+\mode<all>

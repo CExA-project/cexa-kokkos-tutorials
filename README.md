@@ -4,8 +4,6 @@
 ![CI](https://github.com/CExA-project/cexa-kokkos-tutorials/actions/workflows/exercises.yml/badge.svg)
 ![CI](https://github.com/CExA-project/cexa-kokkos-tutorials/actions/workflows/projects.yml/badge.svg)
 
-**Presentation:**
-
 This repository contains tutorials, exercises, and projects to learn Kokkos.
 This course is intended for beginners and intermediate users not experts in C++ and GPU programming.
 This course is part of the [CExA project](https://cexa-project.github.io/).
@@ -15,13 +13,13 @@ This course is part of the [CExA project](https://cexa-project.github.io/).
     <img src="./images/cexa_logo.png" alt="CExA" width="100"/>
 </p>
 
-**Courses:**
+## Courses
 
 - [Introduction to Kokkos](courses/01_beginners/README.md)
 
 > **Important:** You can get the slides from the [releases](https://github.com/CExA-project/cexa-kokkos-tutorials/releases) page.
 
-**Exercises:**
+## Exercises
 
 - [Exercise 1: Compiling Kokkos](exercises/01_compiling_kokkos/README.md)
 - [Exercise 2: First Kokkos Program](exercises/02_first_program/README.md)
@@ -30,14 +28,6 @@ This course is part of the [CExA project](https://cexa-project.github.io/).
 - [Exercise 5: Parallel Loop](exercises/05_parallel_loop/README.md)
 - [Exercise 6: Parallel Reduce](exercises/06_parallel_reduce/README.md)
 
-**Projects:**
+## Projects
 
 - [Project 1: Wave Propagation](projects/wave/README.md)
-
-## Compile the tutorials
-
-To compile the tutorials, you need a working Tex environment.
-
-```bash
-xelatex -shell-escape main.tex
-```
