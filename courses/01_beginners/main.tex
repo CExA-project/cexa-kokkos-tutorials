@@ -1350,7 +1350,7 @@ cmake ${srcdir} \
     \end{itemize}
     \begin{center}
         \begin{tblr}[theme=kokkostable]{colspec=lll, row{2}={bg=lightmain}}
-            & \multicolumn{2}{l}{Kokkos compiled on} \\
+            & \SetCell[c=2]{l} Kokkos compiled on \\
             Execution space & CPU backend & GPU backend \\
             \texttt{Kokkos::DefaultExecutionSpace} & On CPU & On GPU \\
             \texttt{Kokkos::DefaultHostExecutionSpace} & On CPU & On CPU \\
@@ -1378,7 +1378,7 @@ cmake ${srcdir} \
         % allow the table to overflow horizontally
         \makebox[\linewidth][c]{%
             \begin{tblr}[theme=kokkostable]{colspec=lll, row{2}={bg=lightmain}}
-                & \multicolumn{2}{l}{Kokkos compiled on} \\
+                & \SetCell[c=2]{l} Kokkos compiled on \\
                 Memory space & CPU backend & GPU backend \\
                 \texttt{Kokkos::DefaultExecutionSpace::memory\_space} & On CPU & On GPU \\
                 \texttt{Kokkos::DefaultHostExecutionSpace::memory\_space} & On CPU & On CPU \\
