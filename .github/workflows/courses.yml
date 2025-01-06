@@ -5,12 +5,13 @@
 
 name: Generate courses PDF
 
-run-name: Generate courses PDF
-
-on: [push]
+on:
+  push:
+  pull_request:
+    branches:
+      - main
 
 jobs:
-
   changes:
     runs-on: ubuntu-latest
     outputs:
@@ -37,14 +38,11 @@ jobs:
         with:
           working_directory: courses/01_beginners/
           pre_compile: |
-            pwd
             tlmgr update --self && tlmgr update minted
             latexminted --version
           root_file: main.tex
           latexmk_shell_escape: true
           latexmk_use_xelatex: true
-          post_compile: |
-            mv main.pdf beginners.pdf
       # - name: Upload PDF file
       #   uses: actions/upload-artifact@v4
       #   with:
