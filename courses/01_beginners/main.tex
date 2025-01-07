@@ -218,7 +218,7 @@
                     \item Operating system
                 \end{itemize}
                 \item Tens to hundred of cores in biggest processors
-                \item SIMD (Single Instruction Multiple Data) units for accelerating arithmetic operations
+                \item SIMD (Single Instruction Multiple Data) units to accelerate arithmetic operations
             \end{itemize}
         \end{column}
     \end{columns}
@@ -299,7 +299,7 @@
 \begin{frame}{Performance, portability and productivity}
     \begin{columns}[T]
         \begin{column}{0.45\linewidth}
-            What \emph{all developers} want
+            What \emph{every developer} want
 
             \vspace{1em}
 
@@ -509,7 +509,7 @@ cmake ${srcdir} \
 
 % _____________________________________________________________________________
 
-\begin{frame}{Compiling Kokkos for a specific archiecture}
+\begin{frame}{Compiling Kokkos for a specific architecture}
     \begin{itemize}
         \item Architecture CMake options \texttt{-DKokkos\_ARCH\_<ARCH\_NAME>=ON} can be specified for best performance
         \item Replace \texttt{<ARCH\_NAME>} with the architecture name of the target host and device
@@ -853,7 +853,7 @@ cmake ${srcdir} \
         \includegraphics[width=0.8\textwidth]{layout_right_left.png}
     \end{center}
     \begin{itemize}
-        \item Layout is the way to map multidimensional indices to the linear memory
+        \item Layout is the way multidimensional indices map to linear memory
         \item Kokkos provides an abstraction of the data layout
         \item The default layout of a View depends on the backend (Host or Device)
         \item Not covered in this talk
@@ -917,8 +917,8 @@ cmake ${srcdir} \
             \begin{itemize}
                 \item Template argument \texttt{MemorySpace} to specify the memory space when creating a view
                 \item Several ones available
-                \item Beginners usually does not set the memory space (we'll see why)
-                \item Using a backend-specific memory space possible, but breaks portability
+                \item Beginners usually do not set the memory space (we'll see why)
+                \item Using a backend-specific memory space is possible, but breaks portability
             \end{itemize}
         \end{column}
     \end{columns}
@@ -1014,7 +1014,7 @@ cmake ${srcdir} \
         \begin{column}{0.6\linewidth}
             \begin{minted}{C++}
                 Kokkos::View<int**>
-                    device_matrix(matrix", Nx, Ny);
+                    device_matrix("matrix", Nx, Ny);
 
                 auto host_matrix =
                     Kokkos::create_mirror(device_matrix);
@@ -1096,6 +1096,32 @@ cmake ${srcdir} \
 
 % _____________________________________________________________________________
 
+\begin{frame}[fragile]{Anatomy of a Kokkos parallel loop}
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            \begin{minted}{C++}
+                Kokkos::parallel_for(
+                    "my_loop",
+                    N,
+                    KOKKOS_LAMBDA (int i) {
+                        A(i) = B(i) + C(i) * D(i);
+                    }
+                );
+            \end{minted}
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            \begin{itemize}
+                \item \mintinline{C++}{parallel_for} is the loop pattern
+                \item \mintinline{C++}{"my_loop"} is the name of the loop (bonus for debugging!)
+                \item \mintinline{C++}{N} and \mintinline{C++}{int i} is the execution policy (can't be simpler)
+                \item \mintinline[breaklines]{C++}{KOKKOS_LAMBDA (int i) {/*...*/}} is the kernel
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% _____________________________________________________________________________
+
 \begin{frame}[fragile]{Comparison of Kokkos and OpenMP parallel loops}
     \begin{columns}[T]
         \begin{column}{0.5\linewidth}
@@ -1126,32 +1152,6 @@ cmake ${srcdir} \
             \begin{block}{Note}
                 Only works on CPUs (need \texttt{target} directive for GPUs)
             \end{block}
-        \end{column}
-    \end{columns}
-\end{frame}
-
-% _____________________________________________________________________________
-
-\begin{frame}[fragile]{Anatomy of a Kokkos parallel loop}
-    \begin{columns}
-        \begin{column}{0.5\linewidth}
-            \begin{minted}{C++}
-                Kokkos::parallel_for(
-                    "my_loop",
-                    N,
-                    KOKKOS_LAMBDA (int i) {
-                        A(i) = B(i) + C(i) * D(i);
-                    }
-                );
-            \end{minted}
-        \end{column}
-        \begin{column}{0.5\linewidth}
-            \begin{itemize}
-                \item \mintinline{C++}{parallel_for} is the loop pattern
-                \item \mintinline{C++}{"my_loop"} is the name of the loop (bonus for debugging!)
-                \item \mintinline{C++}{N} and \mintinline{C++}{int i} is the execution policy (can't be simpler)
-                \item \mintinline[breaklines]{C++}{KOKKOS_LAMBDA (int i) {/*...*/}} is the kernel
-            \end{itemize}
         \end{column}
     \end{columns}
 \end{frame}
@@ -1346,7 +1346,7 @@ cmake ${srcdir} \
         \item Execution space to control where the loop is executed (CPU or GPU)
         \item Several ones available
         \item \texttt{Kokkos::DefaultExecutionSpace} and \texttt{Kokkos::DefaultHostExecutionSpace} are enough for beginners
-        \item Using a backend-specific execution space possible, but breaks portability
+        \item Using a backend-specific execution space is possible, but it breaks portability
     \end{itemize}
     \begin{center}
         \begin{tblr}[theme=kokkostable]{colspec=lll, row{2}={bg=lightmain}}
