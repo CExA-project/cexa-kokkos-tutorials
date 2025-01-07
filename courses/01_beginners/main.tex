@@ -696,12 +696,12 @@ cmake ${srcdir} \
             \item No need to allocate or deallocate memory by hand
             \item Vendor-specific memory allocation is hidden
             \item Unified semantic and portable memory management (CPU and GPU)
-            \item Advanced capability (abstracted layout, subarray, multidimensionality, etc.)
+            \item Advanced capabilities (abstracted layout, subarray, multidimensionality, etc.)
         \end{itemize}
         \item Kokkos provides the View class
         \begin{itemize}
             \item View is an abstraction of the notion of container and multidimensional array
-            \item Bring portable Python numpy/Fortran-like syntax
+            \item Brings portable Python numpy/Fortran-like syntax
         \end{itemize}
     \end{itemize}
 \end{frame}
@@ -773,7 +773,7 @@ cmake ${srcdir} \
         \includegraphics[width=0.65\textwidth]{view_memory.png}
     \end{center}
     \begin{itemize}
-        \item A View data lives in a specific memory space (Host or Device), not both
+        \item A View data lives only in a specific memory space (Host or Device), not both
         \item Suppose we created a view on the Host
     \end{itemize}
 \end{frame}
@@ -917,8 +917,8 @@ cmake ${srcdir} \
             \begin{itemize}
                 \item Template argument \texttt{MemorySpace} to specify the memory space when creating a view
                 \item Several ones available
-                \item Beginners usually do not set the memory space (we'll see why)
-                \item Using a backend-specific memory space is possible, but breaks portability
+                \item Using a backend-specific memory space is possible, but it breaks portability
+                \item Beginners usually do not need to set the memory space (we'll see why)
             \end{itemize}
         \end{column}
     \end{columns}
@@ -942,7 +942,7 @@ cmake ${srcdir} \
                 \item A \highlight{mirror view} represents a view in a different memory space
                 \item Similar to its original view (shape, layout, etc.)
                 \item Created with \texttt{create\_mirror}
-                \item Used to create a host mirror of a device view
+                \item Used to create a mirror of a device view on the host
             \end{itemize}
         \end{column}
     \end{columns}
