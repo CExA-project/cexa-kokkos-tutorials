@@ -22,7 +22,7 @@ cmake --build build_serial
 Run the program and check the output:
 
 ```sh
-build_serial/exe
+build_serial/exe01
 ```
 
 ## Step 3: Compile the program with the OpenMP backend
@@ -38,7 +38,7 @@ cmake --build build_openmp
 Run the program and check the output:
 
 ```sh
-build_openmp/exe
+build_openmp/exe01
 ```
 
 For instance if you are on Linux and are using GCC, you should get something like this:
@@ -122,7 +122,7 @@ cmake --build build_cuda
 Run the program and check the output:
 
 ```sh
-build_cuda/exe
+build_cuda/exe01
 ```
 
 For instance if you are on Linux and are using GCC, you should get something like this on a computer with an A500 GPU:

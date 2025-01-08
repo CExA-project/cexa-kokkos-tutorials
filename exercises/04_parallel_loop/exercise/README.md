@@ -42,7 +42,7 @@ Compile the program with the OpenMP backend and execute.
 Use a large vector size for more meaningful results:
 
 ```bash
-build_openmp/exe 10000000
+build_openmp/exe04 10000000
 ```
 
 If you have access to a GPU, compile and execute the program with the corresponding backend and execute the code.

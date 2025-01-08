@@ -1,4 +1,4 @@
-# set CMAKE_BUILD_TYPE is not defined
+# set CMAKE_BUILD_TYPE if not defined
 if(NOT CMAKE_BUILD_TYPE)
     set(default_build_type "RelWithDebInfo")
     message(STATUS "Setting build type to '${default_build_type}' as none was specified.")
