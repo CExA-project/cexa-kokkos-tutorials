@@ -7,10 +7,39 @@
 \RequirePackage{xcolor}
 \RequirePackage{hyperref}
 \RequirePackage{pifont}
+\RequirePackage{fontawesome5}
 
 % Settings
 \useinnertheme{cexa-kokkos}
 \useoutertheme{cexa-kokkos}
 \usecolortheme{cexa-kokkos}
+
+% Exercice frame
+\newenvironment{exerciseframe}[1]{%
+    \exerciseframecolor%
+    \begin{frame}[environment=exerciseframe, fragile]{#1}
+}{%
+    \end{frame}%
+}
+
+% Captions
+\renewcommand{\caption}[1]{%
+    \begin{center}
+        \scriptsize #1
+    \end{center}%
+}
+
+% Font awesome link
+\newcommand{\awesomelink}[2]{%
+    \hspace{0.125em}\faIcon{#1}~#2%
+}
+
+% GitHub links
+\newcommand{\githublink}[1]{%
+    \awesomelink{github}{#1}%
+}
+
+% Highlight
+\newcommand{\highlight}[1]{\structure{\textbf{#1}}}
 
 \mode<all>
