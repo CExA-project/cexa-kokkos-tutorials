@@ -1,4 +1,4 @@
-# Exercise 3: Mirror view and deep copy
+# Exercise 3: Mirror Views and deep copy
 
 ## Objective
 

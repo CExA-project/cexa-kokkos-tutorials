@@ -1,4 +1,4 @@
-# Exercise 5: Parallel reduce
+# Exercise 5: Parallel reduction
 
 ## Objective
 

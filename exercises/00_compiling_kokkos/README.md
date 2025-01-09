@@ -51,9 +51,9 @@ This way, you can easily clean up the build directory without affecting the sour
 To create a build directory and build Kokkos with default parameters, you can use the following commands:
 
 ```bash
-cmake -B build_default -DCMAKE_INSTALL_PREFIX=${PWD}/install_default kokkos
-cmake --build build_default
-cmake --install build_default
+cmake -B build_serial -DCMAKE_INSTALL_PREFIX=${PWD}/install_default kokkos
+cmake --build build_serial
+cmake --install build_serial
 ```
 
 Check that the serial backend (enabled by default) is correctly compiled.

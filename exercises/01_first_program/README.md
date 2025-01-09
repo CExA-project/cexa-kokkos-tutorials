@@ -5,9 +5,10 @@ The goal is to get familiar with the compiling process.
 
 ## Step 1: Simple Kokkos program
 
-- Open the file `main.cpp`, initialize and finalize Kokkos.
-  Do not forget to add the header.
-- Add a call to the `Kokkos::print_configuration` function to print the configuration of Kokkos.
+In `exercise`, open the file `main.cpp`, initialize and finalize Kokkos.
+Do not forget to add the header.
+
+Add a call to the `Kokkos::print_configuration` function to print the configuration of Kokkos.
 
 ## Step 2: Compile the program with the serial backend
 
@@ -15,6 +16,7 @@ Compile your program using the serial backend.
 You can use the following commands:
 
 ```sh
+cd exercise
 cmake -B build_serial
 cmake --build build_serial
 ```

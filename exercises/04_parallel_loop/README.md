@@ -1,4 +1,4 @@
-# Exercise 4: Parallel loop
+# Exercise 4: My first Parallel loop
 
 ## Objective
 

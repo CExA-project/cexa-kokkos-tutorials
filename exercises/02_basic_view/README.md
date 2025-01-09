@@ -1,4 +1,4 @@
-# Exercise 2: Learn how to use and manage basic Kokkos View
+# Exercise 2: How to use and manage Kokkos Views
 
 In this exercise, you will learn how to use and manage basic Kokkos Views.
 
@@ -37,5 +37,5 @@ Check the output.
 
 Deduce from the stride the layout of the View.
 
-If you can access a GPU, compile the program using a GPU backend and run it.
+If you have access to a GPU, compile the program using a GPU backend and run it.
 Check the output and compare them with the OpenMP backend.
