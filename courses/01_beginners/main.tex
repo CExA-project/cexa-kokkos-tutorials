@@ -934,6 +934,7 @@ cmake ${srcdir} \
                 \item Created with \texttt{create\_mirror}
                 \item Similar to its original view (shape, layout, etc.)
                 \item Used to create a mirror of a device view on the host
+                \item \texttt{create\_mirror} allocates the memory but it doesn't copy the data!
             \end{itemize}
         \end{column}
     \end{columns}
@@ -1040,7 +1041,7 @@ cmake ${srcdir} \
         \begin{column}{0.4\linewidth}
             \begin{itemize}
                 \item \texttt{deep\_copy} to copy data between views in different memory spaces
-                \item Views must similar (shape, layout, etc.)
+                \item Views must be similar (shape, layout, etc.)
                 \item If the destination view is a shallow copy of the source view (e.g. \texttt{create\_mirror\_view} on Host), the function does nothing (portability)
             \end{itemize}
         \end{column}
