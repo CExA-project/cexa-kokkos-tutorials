@@ -16,10 +16,6 @@ jobs:
 
   build_test_exercises:
     runs-on: ubuntu-latest
-    env:
-      OMP_PROC_BIND: spread
-      OMP_PLACES: threads
-      OMP_NUM_THREADS: 2
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v4
@@ -36,6 +32,10 @@ jobs:
             --build build \
             --parallel $(($(nproc) * 2 + 1))
       - name: Test all solutions
+        env:
+          OMP_PROC_BIND: spread
+          OMP_PLACES: threads
+          OMP_NUM_THREADS: 2
         run: |
           ctest \
             --test-dir build \
