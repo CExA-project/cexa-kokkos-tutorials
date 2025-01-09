@@ -2,6 +2,10 @@
 
 \mode<presentation>
 
+% Remove all navigation symbols (display them when needed)
+\setbeamertemplate{navigation symbols}{}
+
+% Background
 \setbeamertemplate{background}{
     \begin{tikzpicture}
         \useasboundingbox (0, 0) rectangle (\the\paperwidth, \the\paperheight);
@@ -13,6 +17,7 @@
 
             \node[anchor=south west, inner sep=0pt] at (0, 0.3\paperheight) {\includegraphics[height=0.4\paperheight]{kokkos_wire.pdf}};
         \else%
+            % regular pages
             \fill[color=main] (0, \the\paperheight - 3em) rectangle (\the\paperwidth, \the\paperheight);
 
             \node[anchor=south west, inner sep=0pt] at (0, \the\paperheight - 3em) {\includegraphics[height=3em]{kokkos_wire.pdf}};
@@ -23,7 +28,6 @@
 
 % Title page
 \defbeamertemplate*{title page}{cexa-kokkos}{%
-    \beamertemplatenavigationsymbolsempty%
     \begin{tikzpicture}[node distance=1em, inner sep=0pt]
         \newlength{\titlewidth}
         \setlength{\titlewidth}{\dimexpr(\paperwidth-0.15\paperheight-0.1\paperwidth)\relax}

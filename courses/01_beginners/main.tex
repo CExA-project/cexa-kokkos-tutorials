@@ -46,33 +46,6 @@
 
 \graphicspath{{../../images/}}
 
-% Block style
-
-%\setbeamercolor{block body alerted}{fg=white,bg=red}
-%\setbeamercolor{block body standard}{fg=black,bg=white}
-%\setbeamertemplate{blocks}[rounded][shadow=false]
-
-% Alias for highlight text in orange and bold
-\newcommand{\highlight}[1]{\textcolor{main}{\textbf{#1}}}
-
-% Command for captions
-\renewcommand{\caption}[1]{%
-    \begin{center}
-        \scriptsize #1
-    \end{center}%
-}
-
-% Commands for GitHub links
-\newcommand{\githublink}[2][2em]{%
-    \hspace{-0.25em}%
-    \parbox[c][#1][c]{#1}{%
-        \includegraphics[width=#1]{GitHub-logo.png}%
-    }%
-    \hspace{-0.25em}%
-    ~%
-    #2%
-}
-
 %Information to be included in the title page:
 \title[Kokkos and performance portability]{Kokkos and performance portability:\\an introduction for all}
 \author{Mathieu Lobet and the CExA team}
@@ -96,7 +69,7 @@
 
 \begin{frame}{This course is open source}
     \begin{center}
-        \githublink[4em]{\url{https://github.com/CExA-project/cexa-kokkos-tutorials}}
+        \githublink{\url{https://github.com/CExA-project/cexa-kokkos-tutorials}}
     \end{center}
 \end{frame}
 
@@ -318,7 +291,7 @@
                 \item[Maturity] Production-ready (i.e. not research product)
                 \item[Community] Contributors, support, documentation, examples
                 \item[Longevity] Long-term maintenance, bug fixes, updates, sponsorship
-                \item[Interporability] Possibility to easily couple with other libraries and tools (IO, Linear Algebra, Machine leaning, etc.)
+                \item[Interporability] Possibility to easily couple with other libraries and tools (IO, Linear Algebra, Machine Learning, etc.)
             \end{description}
         \end{column}
     \end{columns}
@@ -422,12 +395,12 @@
 % _____________________________________________________________________________
 
 \begin{frame}{Kokkos useful resources}
-    \begin{itemize}
-        \item GitHub repository: \url{https://github.com/kokkos}
-        \item Documentation: \url{https://kokkos.org/kokkos-core-wiki}
-        \item Cheat sheet: \url{https://cexa-project.org/documents}
-        \item Slack channel: \url{https://kokkosteam.slack.com}
-    \end{itemize}
+    \begin{description}[GitHub repository]
+        \item[GitHub repository] \githublink{\url{https://github.com/kokkos}}
+        \item[Documentation] \awesomelink{book}{\url{https://kokkos.org/kokkos-core-wiki}}
+        \item[Slack channel] \awesomelink{slack}{\url{https://kokkosteam.slack.com}}
+        \item[Cheat sheet] \awesomelink{file}{\url{https://cexa-project.org/documents}}
+    \end{description}
 \end{frame}
 
 % _____________________________________________________________________________
@@ -549,21 +522,26 @@ cmake ${srcdir} \
 
 % _____________________________________________________________________________
 
-\begin{frame}{Exercise 1: learn how to compile Kokkos}
-    \begin{center}
-    \includegraphics[width=0.4\textwidth]{sleeping_otter.png}
-    \end{center}
+\begin{exerciseframe}{Exercise 1: learn how to compile Kokkos}
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            \begin{center}
+                \includegraphics[width=0.9\textwidth]{sleeping_otter.png}
+            \end{center}
 
-    Go to the folder \githublink{\href{https://github.com/CExA-project/cexa-kokkos-tutorials/tree/main/exercises/01_compiling_kokkos}{01\_compiling\_kokkos}} and follow the instructions
-
-    \begin{block}{Goals of this exercise}
-        \begin{itemize}
-            \item Compile Kokkos with the default parameters
-            \item Compile Kokkos with the OpenMP backend
-            \item Compile Kokkos with a GPU backend
-        \end{itemize}
-    \end{block}
-\end{frame}
+            Go to the exercise \githublink{\href{https://github.com/CExA-project/cexa-kokkos-tutorials/tree/main/exercises/01_compiling_kokkos}{01\_compiling\_kokkos}} and follow the instructions
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            \begin{block}{Goal of this exercise}
+                \begin{itemize}
+                    \item Compile Kokkos with the default parameters
+                    \item Compile Kokkos with the OpenMP backend
+                    \item Compile Kokkos with a GPU backend
+                \end{itemize}
+            \end{block}
+        \end{column}
+    \end{columns}
+\end{exerciseframe}
 
 % _____________________________________________________________________________
 
@@ -668,20 +646,25 @@ cmake ${srcdir} \
 
 % _____________________________________________________________________________
 
-\begin{frame}[fragile]{Exercise 2: learn how to compile a Kokkos program}
-    \begin{center}
-        \includegraphics[width=0.4\textwidth]{sleeping_otter.png}
-    \end{center}
+\begin{exerciseframe}{Exercise 2: learn how to compile a Kokkos program}
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            \begin{center}
+                \includegraphics[width=0.9\textwidth]{sleeping_otter.png}
+            \end{center}
 
-    Go to the folder \githublink{\href{https://github.com/CExA-project/cexa-kokkos-tutorials/tree/main/exercises/02_first_program}{02\_first\_program}} and follow the instructions
-
-    \begin{block}{Goals of this exercise}
-        \begin{itemize}
-            \item Write a simple Kokkos program
-            \item Compile the program with CMake
-        \end{itemize}
-    \end{block}
-\end{frame}
+            Go to the exercise \githublink{\href{https://github.com/CExA-project/cexa-kokkos-tutorials/tree/main/exercises/02_first_program}{02\_first\_program}} and follow the instructions
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            \begin{block}{Goal of this exercise}
+                \begin{itemize}
+                    \item Write a simple Kokkos program
+                    \item Compile the program with CMake
+                \end{itemize}
+            \end{block}
+        \end{column}
+    \end{columns}
+\end{exerciseframe}
 
 % _____________________________________________________________________________
 
@@ -862,19 +845,24 @@ cmake ${srcdir} \
 
 % _____________________________________________________________________________
 
-\begin{frame}{Exercise 3: learn how to use a View}
-    \begin{center}
-        \includegraphics[width=0.4\textwidth]{sleeping_otter.png}
-    \end{center}
+\begin{exerciseframe}{Exercise 3: learn how to use a View}
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            \begin{center}
+                \includegraphics[width=0.9\textwidth]{sleeping_otter.png}
+            \end{center}
 
-    Go to the exercise \githublink{\href{https://github.com/CExA-project/cexa-kokkos-tutorials/tree/main/exercises/03_basic_view}{03\_basic\_view}} and follow the instructions
-
-    \begin{block}{Goals of this exercise}
-        \begin{itemize}
-            \item Create and manage a View
-        \end{itemize}
-    \end{block}
-\end{frame}
+            Go to the exercise \githublink{\href{https://github.com/CExA-project/cexa-kokkos-tutorials/tree/main/exercises/03_basic_view}{03\_basic\_view}} and follow the instructions
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            \begin{block}{Goal of this exercise}
+                \begin{itemize}
+                    \item Create and manage a View
+                \end{itemize}
+            \end{block}
+        \end{column}
+    \end{columns}
+\end{exerciseframe}
 
 % _____________________________________________________________________________
 
@@ -918,10 +906,12 @@ cmake ${srcdir} \
                 \item Template argument \texttt{MemorySpace} to specify the memory space when creating a view
                 \item Several ones available
                 \item Using a backend-specific memory space is possible, but it breaks portability
-                \item Beginners usually do not need to set the memory space (we'll see why)
+                \item Beginners usually do not need to set it (we'll see why)
             \end{itemize}
         \end{column}
     \end{columns}
+
+    \structure{But:} That's not what you need
 \end{frame}
 
 % _____________________________________________________________________________
@@ -932,6 +922,7 @@ cmake ${srcdir} \
             \begin{minted}{C++}
                 Kokkos::View<int**>
                     device_matrix("matrix", 10, 10);
+
                 auto host_matrix =
                     Kokkos::create_mirror(device_matrix);
             \end{minted}
@@ -940,8 +931,8 @@ cmake ${srcdir} \
         \begin{column}{0.4\linewidth}
             \begin{itemize}
                 \item A \highlight{mirror view} represents a view in a different memory space
-                \item Similar to its original view (shape, layout, etc.)
                 \item Created with \texttt{create\_mirror}
+                \item Similar to its original view (shape, layout, etc.)
                 \item Used to create a mirror of a device view on the host
             \end{itemize}
         \end{column}
@@ -976,17 +967,18 @@ cmake ${srcdir} \
 
 \begin{frame}[fragile]{All you need is a (different kind of) mirror}
     \begin{columns}
-        \begin{column}{0.6\linewidth}
+        \begin{column}{0.525\linewidth}
             \begin{minted}{C++}
                 Kokkos::View<int**>
                     device_matrix("matrix", 10, 10);
+
                 auto host_matrix =
                     Kokkos::create_mirror_view(
                         device_matrix
                     );
             \end{minted}
         \end{column}
-        \begin{column}{0.4\linewidth}
+        \begin{column}{0.475\linewidth}
             \begin{itemize}
                 \item \texttt{create\_mirror\_view} creates a mirror without allocating memory if the mirror view lives in the same memory space as the original view
                 \item In that case, the mirror view is a shallow copy of the original view (i.e. it targets the same data)
@@ -1003,6 +995,23 @@ cmake ${srcdir} \
     \end{center}
 
     \structure{Solution:} Use \texttt{create\_mirror\_view}!
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}[fragile]{Mirror functions wrap up}
+    \begin{minted}{C++}
+        auto mirror = Kokkos::create_mirror(view);
+        auto mirror_view = Kokkos::create_mirror_view(view);
+    \end{minted}
+    \begin{center}
+        \begin{tblr}[theme=kokkostable]{colspec=lll, row{2}={bg=lightmain}}
+            & \SetCell[c=2]{l} Kokkos compiled on \\
+            Mirror function & CPU backend & GPU backend \\
+            \texttt{Kokkos::create\_mirror} & Allocate & Allocate \\
+            \texttt{Kokkos::create\_mirror\_view} & No allocate & Allocate \\
+        \end{tblr}
+    \end{center}
 
     \structure{Problem:} How to transfer data, now?
 \end{frame}
@@ -1050,20 +1059,25 @@ cmake ${srcdir} \
 
 % _____________________________________________________________________________
 
-\begin{frame}{Exercise 4: Mirror Views and deep copy}
-    \begin{center}
-        \includegraphics[width=0.4\textwidth]{sleeping_otter.png}
-    \end{center}
+\begin{exerciseframe}{Exercise 4: Mirror Views and deep copy}
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            \begin{center}
+                \includegraphics[width=0.9\textwidth]{sleeping_otter.png}
+            \end{center}
 
-    Go to the exercise \githublink{\href{https://github.com/CExA-project/cexa-kokkos-tutorials/tree/main/exercises/04_deep_copy}{04\_deep\_copy}} and follow the instructions
-
-    \begin{block}{Goal of this exercise}
-        \begin{itemize}
-            \item Create and manage a mirror view
-            \item Use the deep copy function
-        \end{itemize}
-    \end{block}
-\end{frame}
+            Go to the exercise \githublink{\href{https://github.com/CExA-project/cexa-kokkos-tutorials/tree/main/exercises/04_deep_copy}{04\_deep\_copy}} and follow the instructions
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            \begin{block}{Goal of this exercise}
+                \begin{itemize}
+                    \item Create and manage a mirror view
+                    \item Use the deep copy function
+                \end{itemize}
+            \end{block}
+        \end{column}
+    \end{columns}
+\end{exerciseframe}
 
 % _____________________________________________________________________________
 
@@ -1154,6 +1168,10 @@ cmake ${srcdir} \
             \end{block}
         \end{column}
     \end{columns}
+
+    \vspace{1em}
+
+    \structure{Question:} What is this \texttt{KOKKOS\_LAMBDA} thingy?
 \end{frame}
 
 % _____________________________________________________________________________
@@ -1187,12 +1205,12 @@ cmake ${srcdir} \
     \end{center}
     \begin{itemize}
         \item Kokkos abstraction for where the loop is executed : \highlight{execution space}
-        \item By default, parallel code is executed
+        \item By default, parallel code (i.e. inside a \texttt{parallel\_*}) is executed
         \begin{itemize}
             \item By the Host if no GPU backend is available
             \item By the Device otherwise
         \end{itemize}
-        \item What is not parallel code is always executed by the Host
+        \item What is not parallel code (the rest) is always executed by the Host
     \end{itemize}
 \end{frame}
 
@@ -1238,7 +1256,7 @@ cmake ${srcdir} \
                 Kokkos::parallel_for(
                     "my_loop",
                     N,
-                    KOKKOS_LAMBDA(int i) {
+                    KOKKOS_LAMBDA (int i) {
                         data(i) = ...
                     }
                 );
@@ -1263,19 +1281,24 @@ cmake ${srcdir} \
 
 % _____________________________________________________________________________
 
-\begin{frame}{Exercise 5: My first parallel loop}
-    \begin{center}
-        \includegraphics[width=0.4\textwidth]{sleeping_otter.png}
-    \end{center}
+\begin{exerciseframe}{Exercise 5: My first parallel loop}
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            \begin{center}
+                \includegraphics[width=0.9\textwidth]{sleeping_otter.png}
+            \end{center}
 
-    Go to the exercise \githublink{\href{https://github.com/CExA-project/cexa-kokkos-tutorials/tree/main/exercises/05_parallel_loop}{05\_parallel\_loop}} and follow the instructions
-
-    \begin{block}{Goal of this exercise}
-        \begin{itemize}
-            \item Write a simple parallel loop
-        \end{itemize}
-    \end{block}
-\end{frame}
+            Go to the exercise \githublink{\href{https://github.com/CExA-project/cexa-kokkos-tutorials/tree/main/exercises/05_parallel_loop}{05\_parallel\_loop}} and follow the instructions
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            \begin{block}{Goal of this exercise}
+                \begin{itemize}
+                    \item Write a simple parallel loop
+                \end{itemize}
+            \end{block}
+        \end{column}
+    \end{columns}
+\end{exerciseframe}
 
 % _____________________________________________________________________________
 
@@ -1608,19 +1631,24 @@ cmake ${srcdir} \
 
 % _____________________________________________________________________________
 
-\begin{frame}{Exercise 6: Parallel Reduction}
-    \begin{center}
-        \includegraphics[width=0.4\textwidth]{sleeping_otter.png}
-    \end{center}
+\begin{exerciseframe}{Exercise 6: Parallel Reduction}
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            \begin{center}
+                \includegraphics[width=0.9\textwidth]{sleeping_otter.png}
+            \end{center}
 
-    Go to the exercise \githublink{\href{https://github.com/CExA-project/cexa-kokkos-tutorials/tree/main/exercises/06_parallel_reduce}{06\_parallel\_reduce}} and follow the instructions
-
-    \begin{block}{Goal of this exercise}
-        \begin{itemize}
-            \item Perform a parallel reduction
-        \end{itemize}
-    \end{block}
-\end{frame}
+            Go to the exercise \githublink{\href{https://github.com/CExA-project/cexa-kokkos-tutorials/tree/main/exercises/06_parallel_reduce}{06\_parallel\_reduce}} and follow the instructions
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            \begin{block}{Goal of this exercise}
+                \begin{itemize}
+                    \item Perform a parallel reduction
+                \end{itemize}
+            \end{block}
+        \end{column}
+    \end{columns}
+\end{exerciseframe}
 
 % _____________________________________________________________________________
 

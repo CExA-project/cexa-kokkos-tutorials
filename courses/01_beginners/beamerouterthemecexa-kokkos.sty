@@ -10,9 +10,11 @@
     \end{beamercolorbox}
 }
 
+% Frame footline
 \defbeamertemplate*{footline}{cexa-kokkos}{%
-    \begin{beamercolorbox}[wd=\paperwidth, ht=1em, dp=0.5em, leftskip=1.5em]{title in head/foot}
+    \begin{beamercolorbox}[wd=\paperwidth, ht=1em, dp=0.5em, leftskip=1.5em, rightskip=1.5em]{title in head/foot}
         \hypersetup{allcolors=.}%
+        \strut%
         {\usebeamerfont{title in head/foot}\usebeamercolor[fg]{title in head/foot}\insertshorttitle}%
         \ifx\insertsection\empty
         \else
@@ -22,6 +24,16 @@
             {\usebeamerfont{subsection in head/foot}\usebeamercolor[fg]{subsection in head/foot}~::~\insertsubsection}%
             \fi
         \fi
+        \hfill%
+        \raisebox{-0.2em}{%
+            \usebeamercolor[fg]{navigation symbols}%
+            \insertslidenavigationsymbol%
+            \insertframenavigationsymbol%
+            \insertsubsectionnavigationsymbol%
+            \insertsectionnavigationsymbol%
+            \insertdocnavigationsymbol%
+            \insertbackfindforwardnavigationsymbol%
+        }%
     \end{beamercolorbox}
 }
 

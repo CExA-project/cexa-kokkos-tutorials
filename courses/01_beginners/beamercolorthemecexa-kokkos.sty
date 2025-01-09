@@ -4,13 +4,11 @@
 
 % base color
 \definecolor{kokkos}{RGB}{30, 120, 152}
-\definecolor{sokkok}{RGB}{225, 135, 103}
 
 % colors
 \colorlet{main}{kokkos!80}
 \colorlet{lightmain}{kokkos!30}
-\colorlet{reverse}{sokkok}
-\colorlet{lightreverse}{sokkok!50}
+\colorlet{dimmedmain}{kokkos!50}
 \colorlet{lightgray}{gray!20}
 \colorlet{darkgray}{gray!70!black}
 \colorlet{alert}{red!70!cyan}
@@ -31,7 +29,7 @@
 \setbeamercolor*{frametitle}{fg=black}
 \setbeamercolor*{page number in head/foot}{fg=lightmain}
 \setbeamercolor*{navigation symbols}{fg=lightmain}
-\setbeamercolor*{navigation symbols dimmed}{fg=lightmain}
+\setbeamercolor*{navigation symbols dimmed}{fg=dimmedmain}
 \setbeamercolor*{block title}{fg=black, bg=main}
 \setbeamercolor*{block body}{fg=black, bg=lightmain}
 \setbeamercolor*{block title alerted}{fg=black, bg=alert}
@@ -56,5 +54,15 @@
 % use of symbols
 \setbeamertemplate{itemize item}{\ding{110}}
 \setbeamertemplate{itemize subitem}{\ding{108}}
+
+\newcommand{\exerciseframecolor}{
+    \setbeamercolor*{background canvas}{bg=main}
+    \setbeamercolor*{structure}{fg=white}
+    \setbeamercolor*{block title}{fg=black, bg=white}
+    \hypersetup{
+        colorlinks=true,
+        allcolors=white,
+    }
+}
 
 \mode<all>
