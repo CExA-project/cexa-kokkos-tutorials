@@ -680,6 +680,7 @@ cmake ${srcdir} \
             \item Vendor-specific memory allocation is hidden
             \item Unified semantic and portable memory management (CPU and GPU)
             \item Advanced capabilities (abstracted layout, subarray, multidimensionality, etc.)
+            \item Safety, through runtime or compile time checks
         \end{itemize}
         \item Kokkos provides the View class
         \begin{itemize}
@@ -695,11 +696,11 @@ cmake ${srcdir} \
     \begin{columns}
         \begin{column}{0.6\linewidth}
             \begin{minted}{C++}
-                Kokkos::View<int[10]>
-                    view1("static size");
-
                 Kokkos::View<float*>
-                    view2("dynamic size", 10);
+                    view1("dynamic size", 10);
+
+                Kokkos::View<int[100]>
+                    view2("static size");
 
                 Kokkos::View<double*[10]>
                     view3("static and dynamic size", 10);
@@ -709,13 +710,37 @@ cmake ${srcdir} \
             \begin{itemize}
                 \item View is a template class
                 \item Contains any C++ type (\texttt{int}, \texttt{float}, \texttt{double}, etc)
-                \item Number of dimensions fixed at compilation time
+                \item Number of dimensions, fixed at compile time (no more than 7)
                 \item Size of each dimension determined at...
                 \begin{description}[\texttt{[n]}]
-                    \item[\texttt{[n]}] compile time
                     \item[\texttt{*}] runtime
+                    \item[\texttt{[n]}] compile time
                 \end{description}
-                \item Name (bonus for debugging!)
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}[fragile]{Creating a View}
+    \begin{columns}
+        \begin{column}{0.6\linewidth}
+            \begin{minted}{C++}
+                Kokkos::View<float*>
+                    view1("dynamic size", 10);
+
+                Kokkos::View<int[100]>
+                    view2("static size");
+
+                Kokkos::View<double*[10]>
+                    view3("static and dynamic size", 10);
+            \end{minted}
+        \end{column}
+        \begin{column}{0.4\linewidth}
+            \begin{itemize}
+                \item Name (usefull for debugging!)
+                \item Check at compile time and runtime (out of bound, same size for operations, ...)
             \end{itemize}
         \end{column}
     \end{columns}
@@ -792,7 +817,6 @@ cmake ${srcdir} \
         \item Allocations only happen when explicitly specified
         \item Copy construction and assignment are shallow: you pass Views by value, not by pointer (e.g. C arrays) or by reference
         \item Reference counting is used for automatic deallocation (like shared pointers)
-        \item Views have a \highlight{limited} number of dimensions (up to 7)
     \end{itemize}
 \end{frame}
 
@@ -831,20 +855,6 @@ cmake ${srcdir} \
 
 % _____________________________________________________________________________
 
-\begin{frame}{Notion of View layout}
-    \begin{center}
-        \includegraphics[width=0.8\textwidth]{layout_right_left.png}
-    \end{center}
-    \begin{itemize}
-        \item Layout is the way multidimensional indices map to linear memory
-        \item Kokkos provides an abstraction of the data layout
-        \item The default layout of a View depends on the backend (Host or Device)
-        \item Not covered in this talk
-    \end{itemize}
-\end{frame}
-
-% _____________________________________________________________________________
-
 \begin{exerciseframe}{Exercise 3: learn how to use a View}
     \begin{columns}
         \begin{column}{0.5\linewidth}
@@ -863,16 +873,6 @@ cmake ${srcdir} \
         \end{column}
     \end{columns}
 \end{exerciseframe}
-
-% _____________________________________________________________________________
-
-\begin{frame}{How to access data living on the Device from the Host?}
-    \begin{center}
-        \includegraphics[width=0.9\textwidth]{device_memory_access.png}
-    \end{center}
-
-    \structure{Problem:} You cannot!
-\end{frame}
 
 % _____________________________________________________________________________
 
@@ -906,12 +906,56 @@ cmake ${srcdir} \
                 \item Template argument \texttt{MemorySpace} to specify the memory space when creating a view
                 \item Several ones available
                 \item Using a backend-specific memory space is possible, but it breaks portability
-                \item Beginners usually do not need to set it (we'll see why)
+                \item Default values are usually sufficient for basic usages
             \end{itemize}
         \end{column}
     \end{columns}
+\end{frame}
 
-    \structure{But:} That's not what you need
+% _____________________________________________________________________________
+
+\begin{frame}{Notion of View layout}
+    \begin{center}
+        \includegraphics[width=0.8\textwidth]{layout_right_left.png}
+    \end{center}
+    \begin{itemize}
+        \item Layout is the way multidimensional indices map to linear memory
+        \item Kokkos provides an abstraction of the data layout
+        \item The default layout of a View depends on the backend (Host or Device)
+        \item Not covered in this talk
+    \end{itemize}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}[fragile]{How to set a View layout}
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            \begin{minted}{C++}
+                Kokkos::View<int**,
+                  MemorySpace, Layout>
+                    my_matrix("matrix", 10, 10);
+            \end{minted}
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            \begin{itemize}
+                \item Template argument \texttt{Layout} to specify the layout when creating a view
+                \item Several ones available (Left, Right, Block, ...)
+                \item Possible to define your own custom layout
+                \item Default values are usually sufficient for basic usages
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}{How to access data living on the Device from the Host?}
+    \begin{center}
+        \includegraphics[width=0.9\textwidth]{device_memory_access.png}
+    \end{center}
+
+    \structure{Problem:} You cannot!
 \end{frame}
 
 % _____________________________________________________________________________
