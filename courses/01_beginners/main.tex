@@ -191,7 +191,7 @@
                     \item Operating system
                 \end{itemize}
                 \item Tens to hundred of cores in biggest processors
-                \item SIMD (Single Instruction Multiple Data) units for accelerating arithmetic operations
+                \item SIMD (Single Instruction Multiple Data) units to accelerate arithmetic operations
             \end{itemize}
         \end{column}
     \end{columns}
@@ -272,7 +272,7 @@
 \begin{frame}{Performance, portability and productivity}
     \begin{columns}[T]
         \begin{column}{0.45\linewidth}
-            What \emph{all developers} want
+            What \emph{every developer} want
 
             \vspace{1em}
 
@@ -482,7 +482,7 @@ cmake ${srcdir} \
 
 % _____________________________________________________________________________
 
-\begin{frame}{Compiling Kokkos for a specific archiecture}
+\begin{frame}{Compiling Kokkos for a specific architecture}
     \begin{itemize}
         \item Architecture CMake options \texttt{-DKokkos\_ARCH\_<ARCH\_NAME>=ON} can be specified for best performance
         \item Replace \texttt{<ARCH\_NAME>} with the architecture name of the target host and device
@@ -679,12 +679,12 @@ cmake ${srcdir} \
             \item No need to allocate or deallocate memory by hand
             \item Vendor-specific memory allocation is hidden
             \item Unified semantic and portable memory management (CPU and GPU)
-            \item Advanced capability (abstracted layout, subarray, multidimensionality, etc.)
+            \item Advanced capabilities (abstracted layout, subarray, multidimensionality, etc.)
         \end{itemize}
         \item Kokkos provides the View class
         \begin{itemize}
             \item View is an abstraction of the notion of container and multidimensional array
-            \item Bring portable Python numpy/Fortran-like syntax
+            \item Brings portable Python numpy/Fortran-like syntax
         \end{itemize}
     \end{itemize}
 \end{frame}
@@ -756,7 +756,7 @@ cmake ${srcdir} \
         \includegraphics[width=0.65\textwidth]{view_memory.png}
     \end{center}
     \begin{itemize}
-        \item A View data lives in a specific memory space (Host or Device), not both
+        \item A View data lives only in a specific memory space (Host or Device), not both
         \item Suppose we created a view on the Host
     \end{itemize}
 \end{frame}
@@ -836,7 +836,7 @@ cmake ${srcdir} \
         \includegraphics[width=0.8\textwidth]{layout_right_left.png}
     \end{center}
     \begin{itemize}
-        \item Layout is the way to map multidimensional indices to the linear memory
+        \item Layout is the way multidimensional indices map to linear memory
         \item Kokkos provides an abstraction of the data layout
         \item The default layout of a View depends on the backend (Host or Device)
         \item Not covered in this talk
@@ -905,8 +905,8 @@ cmake ${srcdir} \
             \begin{itemize}
                 \item Template argument \texttt{MemorySpace} to specify the memory space when creating a view
                 \item Several ones available
+                \item Using a backend-specific memory space is possible, but it breaks portability
                 \item Beginners usually do not need to set it (we'll see why)
-                \item Using a backend-specific memory space possible, but breaks portability
             \end{itemize}
         \end{column}
     \end{columns}
@@ -933,7 +933,7 @@ cmake ${srcdir} \
                 \item A \highlight{mirror view} represents a view in a different memory space
                 \item Created with \texttt{create\_mirror}
                 \item Similar to its original view (shape, layout, etc.)
-                \item Used to create a host mirror of a device view
+                \item Used to create a mirror of a device view on the host
             \end{itemize}
         \end{column}
     \end{columns}
@@ -1023,7 +1023,7 @@ cmake ${srcdir} \
         \begin{column}{0.6\linewidth}
             \begin{minted}{C++}
                 Kokkos::View<int**>
-                    device_matrix(matrix", Nx, Ny);
+                    device_matrix("matrix", Nx, Ny);
 
                 auto host_matrix =
                     Kokkos::create_mirror(device_matrix);
@@ -1113,6 +1113,19 @@ cmake ${srcdir} \
 \begin{frame}[fragile]{Comparison of Kokkos and OpenMP parallel loops}
     \begin{columns}[T]
         \begin{column}{0.5\linewidth}
+            OpenMP version
+
+            \begin{minted}{C++}
+                #pragma omp parallel for
+                for (int i = 0; i < N; i++) {
+                    A(i) = B(i) + C(i) * D(i);
+                }
+            \end{minted}
+            \begin{block}{Note}
+                Only works on CPUs (need \texttt{target} directive for GPUs)
+            \end{block}
+        \end{column}
+        \begin{column}{0.5\linewidth}
             Kokkos version
 
             \begin{minted}{C++}
@@ -1125,20 +1138,7 @@ cmake ${srcdir} \
                 );
             \end{minted}
             \begin{block}{Note}
-                Works on CPUs and GPUs depending on the compile backend
-            \end{block}
-        \end{column}
-        \begin{column}{0.5\linewidth}
-            OpenMP version
-
-            \begin{minted}{C++}
-                #pragma omp parallel for
-                for (int i = 0; i < N; i++) {
-                    A(i) = B(i) + C(i) * D(i);
-                }
-            \end{minted}
-            \begin{block}{Note}
-                Only works on CPUs (need \texttt{target} directive for GPUs)
+                Works on CPUs and GPUs depending on the compiled backend
             \end{block}
         \end{column}
     \end{columns}
@@ -1369,7 +1369,7 @@ cmake ${srcdir} \
         \item Execution space to control where the loop is executed (CPU or GPU)
         \item Several ones available
         \item \texttt{Kokkos::DefaultExecutionSpace} and \texttt{Kokkos::DefaultHostExecutionSpace} are enough for beginners
-        \item Using a backend-specific execution space possible, but breaks portability
+        \item Using a backend-specific execution space is possible, but it breaks portability
     \end{itemize}
     \begin{center}
         \begin{tblr}[theme=kokkostable]{colspec=lll, row{2}={bg=lightmain}}
