@@ -1110,32 +1110,6 @@ cmake ${srcdir} \
 
 % _____________________________________________________________________________
 
-\begin{frame}[fragile]{Anatomy of a Kokkos parallel loop}
-    \begin{columns}
-        \begin{column}{0.5\linewidth}
-            \begin{minted}{C++}
-                Kokkos::parallel_for(
-                    "my_loop",
-                    N,
-                    KOKKOS_LAMBDA (int i) {
-                        A(i) = B(i) + C(i) * D(i);
-                    }
-                );
-            \end{minted}
-        \end{column}
-        \begin{column}{0.5\linewidth}
-            \begin{itemize}
-                \item \mintinline{C++}{parallel_for} is the loop pattern
-                \item \mintinline{C++}{"my_loop"} is the name of the loop (bonus for debugging!)
-                \item \mintinline{C++}{N} and \mintinline{C++}{int i} is the execution policy (can't be simpler)
-                \item \mintinline[breaklines]{C++}{KOKKOS_LAMBDA (int i) {/*...*/}} is the kernel
-            \end{itemize}
-        \end{column}
-    \end{columns}
-\end{frame}
-
-% _____________________________________________________________________________
-
 \begin{frame}[fragile]{Comparison of Kokkos and OpenMP parallel loops}
     \begin{columns}[T]
         \begin{column}{0.5\linewidth}
@@ -1172,6 +1146,32 @@ cmake ${srcdir} \
     \vspace{1em}
 
     \structure{Question:} What is this \texttt{KOKKOS\_LAMBDA} thingy?
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}[fragile]{Anatomy of a Kokkos parallel loop}
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            \begin{minted}{C++}
+                Kokkos::parallel_for(
+                    "my_loop",
+                    N,
+                    KOKKOS_LAMBDA (int i) {
+                        A(i) = B(i) + C(i) * D(i);
+                    }
+                );
+            \end{minted}
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            \begin{itemize}
+                \item \mintinline{C++}{parallel_for} is the loop pattern
+                \item \mintinline{C++}{"my_loop"} is the name of the loop (bonus for debugging!)
+                \item \mintinline{C++}{N} and \mintinline{C++}{int i} is the execution policy (can't be simpler)
+                \item \mintinline[breaklines]{C++}{KOKKOS_LAMBDA (int i) {/*...*/}} is the kernel
+            \end{itemize}
+        \end{column}
+    \end{columns}
 \end{frame}
 
 % _____________________________________________________________________________
