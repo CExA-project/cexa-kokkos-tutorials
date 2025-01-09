@@ -453,6 +453,7 @@
             \begin{itemize}
                 \item Defaults to the serial backend
                 \item Use the default compiler or specify it with \texttt{-DCMAKE\_CXX\_COMPILER=<command>}
+                \item Minimum supported version of the compilers detailed \doclink{\href{https://kokkos.org/kokkos-core-wiki/requirements.html}{in the doc}}
             \end{itemize}
             \begin{minted}{bash}
                 cmake \
@@ -526,7 +527,7 @@
                 \item Add the architecture option \texttt{-DKokkos\_ARCH\_<NAME>=ON}
                 \item CPU architecture is optional, for optimization
                 \item GPU architecture is mandatory, deduced if device is present
-                \item All CMake options are available \doclink{\href{https://kokkos.org/kokkos-core-wiki/keywords.html}{on the doc}}
+                \item All CMake options are available \doclink{\href{https://kokkos.org/kokkos-core-wiki/keywords.html}{in the doc}}
             \end{itemize}
         \end{column}
         \begin{column}{0.6\linewidth}
