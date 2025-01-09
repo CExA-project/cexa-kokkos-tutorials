@@ -1113,22 +1113,6 @@ cmake ${srcdir} \
 \begin{frame}[fragile]{Comparison of Kokkos and OpenMP parallel loops}
     \begin{columns}[T]
         \begin{column}{0.5\linewidth}
-            Kokkos version
-
-            \begin{minted}{C++}
-                Kokkos::parallel_for(
-                    "my_loop",
-                    N,
-                    KOKKOS_LAMBDA (int i) {
-                        A(i) = B(i) + C(i) * D(i);
-                    }
-                );
-            \end{minted}
-            \begin{block}{Note}
-                Works on CPUs and GPUs depending on the compile backend
-            \end{block}
-        \end{column}
-        \begin{column}{0.5\linewidth}
             OpenMP version
 
             \begin{minted}{C++}
@@ -1141,9 +1125,25 @@ cmake ${srcdir} \
                 Only works on CPUs (need \texttt{target} directive for GPUs)
             \end{block}
         \end{column}
+        \begin{column}{0.5\linewidth}
+            Kokkos version
+
+            \begin{minted}{C++}
+                Kokkos::parallel_for(
+                    "my_loop",
+                    N,
+                    KOKKOS_LAMBDA (int i) {
+                        A(i) = B(i) + C(i) * D(i);
+                    }
+                );
+            \end{minted}
+            \begin{block}{Note}
+                Works on CPUs and GPUs depending on the compiled backend
+            \end{block}
+        \end{column}
     \end{columns}
 
-    \vspace{1em}
+    \vspace{0.5em}
 
     \structure{Question:} What is this \texttt{KOKKOS\_LAMBDA} thingy?
 \end{frame}
