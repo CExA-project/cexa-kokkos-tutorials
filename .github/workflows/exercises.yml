@@ -35,13 +35,8 @@ jobs:
           cmake \
             --build build \
             --parallel $(($(nproc) * 2 + 1))
-      - name: Test solution 01
-        run: build/01_first_program/solution/exe01solution
-      - name: Test solution 02
-        run: build/02_basic_view/solution/exe02solution
-      - name: Test solution 03
-        run: build/03_deep_copy/solution/exe03solution
-      - name: Test solution 04
-        run: build/04_parallel_loop/solution/exe04solution
-      - name: Test solution 05
-        run: build/05_parallel_reduce/solution/exe05solution
+      - name: Test all solutions
+        run: |
+          ctest \
+            --test-dir build \
+            --output-on-failure

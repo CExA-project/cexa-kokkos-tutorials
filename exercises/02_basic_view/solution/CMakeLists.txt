@@ -8,3 +8,7 @@ find_package(Kokkos REQUIRED)
 
 add_executable(exe02solution main.cpp)
 target_link_libraries(exe02solution Kokkos::kokkos)
+add_test(
+    NAME exe02solution
+    COMMAND exe02solution
+)
