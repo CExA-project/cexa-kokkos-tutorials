@@ -511,7 +511,7 @@
 
 % _____________________________________________________________________________
 
-\begin{frame}{Warning regarding the Kokkos compilation}
+    \begin{frame}{Warning regarding the backends}
     \begin{itemize}
         \item All backends \highlight{do not have the same level of maturity}, some are experimental!
         \item The backend environment (for instance CUDA) must be available on the target machine, \highlight{Kokkos does not install it for you}!
@@ -1678,9 +1678,9 @@
         \end{column}
         \begin{column}{0.5\linewidth}
             \begin{itemize}
-                \item Same constraints as before
                 \item One scalar variable collects something for each iteration (sum, max, min, etc.)
-                \item Horrible truth: result value \highlight{depends} on iteration order!
+                \item Same constraints as before
+                \item Horrible truth: \texttt{result} value \highlight{depends} on iteration order!
             \end{itemize}
         \end{column}
     \end{columns}
@@ -1714,8 +1714,7 @@
                 \item \texttt{parallel\_reduce} to perform reductions
                 \item Works like \texttt{parallel\_for} (e.g. execution space)
                 \item Reducer object (here \texttt{Sum}), templated with the result type
-                \item Various reducers available
-                \item Extra last argument to \texttt{KOKKOS\_LAMBDA}: a reference to the local result
+                \item Extra last argument to the kernel: a reference to the local result
             \end{itemize}
         \end{column}
     \end{columns}

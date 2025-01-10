@@ -27,7 +27,7 @@ Check the output and compare the View properties.
 
 ## Step 2: Initialize the mirror view
 
-Initialize the mirror View `mirror` with the values of your choice using embedded loops:
+Initialize the mirror View `mirror` with the values of your choice using nested loops:
 
 ```cpp
 for (int i = 0; i < Nx; i++) {
@@ -40,7 +40,7 @@ for (int i = 0; i < Nx; i++) {
 ```
 
 > [!NOTE]
-> Since the loops are classical C++ for-loops, the code will be executed on the Host.
+> Since the loops are classical C++ for-loops, they will be executed on the Host.
 
 ## Step 3: Deep copy the mirror view
 
@@ -58,7 +58,7 @@ Use the `Kokkos::deep_copy` function to copy the data from the original View `ma
 
 ## Step 5: Compute the error between the `mirror` and `mirror_2`
 
-Use embedded loops to compute the error between the two Views, for instance:
+Use nested loops to compute the error between the two Views, for instance:
 
 ```cpp
 double error = 0.0;
