@@ -33,3 +33,11 @@ This course is part of the [CExA project](https://cexa-project.github.io/).
 ### Projects
 
 - [Project 1: Wave Propagation](projects/wave/README.md)
+
+## Get the repository
+
+To get the repository, clone it recursively:
+
+```sh
+git clone --recurse-submodules https://github.com/CExA-project/cexa-kokkos-tutorials.git
+```
