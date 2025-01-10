@@ -71,7 +71,7 @@ int main(int argc, char* argv[]) {
 
 #ifdef __unix__
         getrusage(RUSAGE_SELF, &usage);
-        std::cout << "Total memory usage: " << usage.ru_maxrss << " KB" << std::endl;
+        std::cout << "Total memory usage after `create_mirror_view`: " << usage.ru_maxrss << " KB" << std::endl;
 #endif
 
         // Initialize the matrix
@@ -95,7 +95,7 @@ int main(int argc, char* argv[]) {
 
 #ifdef __unix__
         getrusage(RUSAGE_SELF, &usage);
-        std::cout << "Total memory usage: " << usage.ru_maxrss << " KB" << std::endl;
+        std::cout << "Total memory usage after `create_mirror`: " << usage.ru_maxrss << " KB" << std::endl;
 #endif
 
         // _____________________________________________________

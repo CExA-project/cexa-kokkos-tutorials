@@ -789,7 +789,7 @@
                     <other options>
                 cmake \
                     --build ${build_dir} \
-                    --parallel 10
+                    --parallel ${jobs}
             \end{minted}
         \end{column}
         \begin{column}{0.4\linewidth}
@@ -1233,7 +1233,11 @@
                 \begin{itemize}
                     \item Create and manage a mirror view
                     \item Use the \texttt{deep\_copy} function
-                    \item Observe the difference between \texttt{create\_mirror} and \texttt{create\_mirror\_view}
+                    \item Observe the differences between the two mirror functions
+                    \begin{itemize}
+                        \item Timing
+                        \item Memory (on Unixes only)
+                    \end{itemize}
                 \end{itemize}
             \end{block}
         \end{column}
