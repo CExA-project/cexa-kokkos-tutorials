@@ -2,14 +2,14 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   width="257.12683mm"
-   height="113.14866mm"
-   viewBox="0 0 257.12683 113.14866"
+   width="254.25197mm"
+   height="113.98672mm"
+   viewBox="0 0 254.25197 113.98672"
    version="1.1"
    id="svg1"
-   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
    sodipodi:docname="host_device_deep_copy.svg"
-   inkscape:export-filename="device_host_deep_copy.png"
+   inkscape:export-filename="host_device_deep_copy.png"
    inkscape:export-xdpi="200"
    inkscape:export-ydpi="200"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
@@ -28,18 +28,24 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      inkscape:zoom="0.85047866"
-     inkscape:cx="214.58504"
-     inkscape:cy="126.98731"
-     inkscape:window-width="1920"
-     inkscape:window-height="1043"
+     inkscape:cx="148.15187"
+     inkscape:cy="332.75379"
+     inkscape:window-width="1916"
+     inkscape:window-height="1143"
      inkscape:window-x="0"
-     inkscape:window-y="533"
+     inkscape:window-y="36"
      inkscape:window-maximized="1"
      inkscape:current-layer="layer1"
      inkscape:pageshadow="0"
      showgrid="false" />
   <defs
      id="defs1">
+    <rect
+       x="-153.03825"
+       y="-179.26077"
+       width="1534.9114"
+       height="1404.9919"
+       id="rect9097" />
     <marker
        style="overflow:visible"
        id="ConcaveTriangle"
@@ -80,8 +86,8 @@
     <rect
        x="-82.158073"
        y="326.14264"
-       width="434.7188"
-       height="145.61068"
+       width="434.88745"
+       height="185.18385"
        id="rect355" />
     <linearGradient
        id="linearGradient3601"
@@ -977,7 +983,7 @@
      inkscape:label="Calque 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(51.619755,-2.6225324)">
+     transform="translate(48.744881,-2.6225324)">
     <rect
        style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-dasharray:none;stroke-opacity:1"
        id="rect390"
@@ -15141,14 +15147,14 @@
          x="28.517435"
          y="53.997463">device_view meta</tspan></text>
     <rect
-       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1.04998;stroke-dasharray:none;stroke-opacity:1"
        id="rect3545-1"
-       width="120.15117"
-       height="40.362381"
-       x="-47.993359"
-       y="71.543007"
-       rx="3"
-       ry="3" />
+       width="120.10119"
+       height="44.516266"
+       x="-47.968369"
+       y="71.568001"
+       rx="2.9987521"
+       ry="3.3087444" />
     <text
        xml:space="preserve"
        transform="matrix(0.26458333,0,0,0.26458333,-144.67518,-43.642983)"
@@ -15156,14 +15162,14 @@
        style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect3548);display:inline;fill:none;fill-opacity:1;stroke:#000000;stroke-width:3.77953;stroke-dasharray:none;stroke-opacity:1"><tspan
          x="374.05957"
          y="329.80312"
-         id="tspan112367"><tspan
+         id="tspan3826"><tspan
            style="fill:#ffffff;stroke:none"
-           id="tspan112365">Kokkos compiled with </tspan></tspan><tspan
+           id="tspan3824">Kokkos compiled with </tspan></tspan><tspan
          x="410.7832"
          y="351.00314"
-         id="tspan112371"><tspan
+         id="tspan3830"><tspan
            style="fill:#ffffff;stroke:none"
-           id="tspan112369">GPU backend</tspan></tspan></text>
+           id="tspan3828">GPU backend</tspan></tspan></text>
     <rect
        style="fill:url(#linearGradient3551);stroke:#000000;stroke-width:0.1;stroke-dasharray:none;stroke-opacity:1"
        id="rect3550"
@@ -15668,27 +15674,31 @@
        y="0"><tspan
          x="-82.158203"
          y="341.28359"
-         id="tspan112373">Kokkos::View&lt;int*&gt; device_view(N);
+         id="tspan3832">Kokkos::View&lt;int*&gt; device_view(N);
 </tspan><tspan
          x="-82.158203"
          y="362.48361"
-         id="tspan112375">
+         id="tspan3834">
 </tspan><tspan
          x="-82.158203"
          y="383.68362"
-         id="tspan112377">auto host_view =
+         id="tspan3836">auto host_view =
 </tspan><tspan
          x="-82.158203"
          y="404.88363"
-         id="tspan112379">    Kokkos::create_mirror(device_view);
+         id="tspan3838">    Kokkos::create_mirror_view(device_view);
 </tspan><tspan
          x="-82.158203"
          y="426.08364"
-         id="tspan112381">
+         id="tspan3840">initialize(host_view);
 </tspan><tspan
          x="-82.158203"
          y="447.28365"
-         id="tspan112383">Kokkos::deep_copy(device_view, host_view);</tspan></text>
+         id="tspan3842">
+</tspan><tspan
+         x="-82.158203"
+         y="468.48367"
+         id="tspan3844">Kokkos::deep_copy(device_view, host_view);</tspan></text>
     <text
        xml:space="preserve"
        style="font-weight:300;font-size:2.82222px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.690999"
@@ -15718,8 +15728,13 @@
        sodipodi:nodetypes="cssc" />
     <path
        style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.499999;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#marker2)"
-       d="m -29.650189,52.530275 0,8.635437"
+       d="m -29.650189,52.530275 v 8.635437"
        id="path9"
        sodipodi:nodetypes="cc" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,-48.744881,2.6225324)"
+       id="text9095"
+       style="white-space:pre;shape-inside:url(#rect9097);display:inline;fill:none" />
   </g>
 </svg>
