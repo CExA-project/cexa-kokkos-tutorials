@@ -397,7 +397,7 @@
 \begin{frame}{Kokkos useful resources}
     \begin{description}[GitHub repository]
         \item[GitHub repository] \githublink{\url{https://github.com/kokkos}}
-        \item[Documentation] \awesomelink{book}{\url{https://kokkos.org/kokkos-core-wiki}}
+        \item[Documentation] \doclink{\url{https://kokkos.org/kokkos-core-wiki}}
         \item[Slack channel] \awesomelink{slack}{\url{https://kokkosteam.slack.com}}
         \item[Cheat sheet] \awesomelink{file}{\url{https://cexa-project.org/documents}}
     \end{description}
@@ -413,17 +413,22 @@
 
 % _____________________________________________________________________________
 
-\begin{frame}{Compiling Kokkos from source}
+\begin{frame}{Kokkos}
     \begin{itemize}
-        \item Require CMake and a C++ compiler
-        \item Compile Kokkos as an external library or as part of your project (inline build) using the source
-        \item You can use Spack to install Kokkos
-        \item You can get the source code from the \githublink{\href{https://github.com/kokkos/kokkos}{Kokkos GitHub repository}}
+        \item Source code in the \githublink{\href{https://github.com/kokkos/kokkos}{Kokkos GitHub repository}}
+        \item C++ library, mostly header-only
+        \item Requires CMake and a C++ compiler
+        \item Different ways to add it to your project
+        \begin{itemize}
+            \item External library
+            \item Inline build
+            \item Spack
+        \end{itemize}
     \end{itemize}
     \begin{center}
-        \includegraphics[height=2em]{spack.png}%
+        \includegraphics[height=3em]{GitHub-logo.png}%
         \hspace{1em}%
-        \includegraphics[height=3em]{GitHub-logo.png}
+        \includegraphics[height=2em]{spack.png}%
     \end{center}
 \end{frame}
 
@@ -432,8 +437,8 @@
 \begin{frame}{The notion of backend in Kokkos}
     \begin{itemize}
         \item Kokkos is compiled to target a specific backend
-        \item Only one CPU backend and one GPU backend maximum can be compiled at a time
-        \item Kokkos is portable until you compile it. You need one compilation per backend
+        \item Kokkos is portable until you compile it
+        \item You need one compilation per backend
     \end{itemize}
     \begin{center}
         \includegraphics[width=0.6\textwidth]{kokkos_backend.png}
@@ -443,37 +448,70 @@
 % _____________________________________________________________________________
 
 \begin{frame}[fragile]{Compiling Kokkos with the default parameters}
-    \begin{itemize}
-        \item Install Kokkos with the serial backend
-        \item Use the default compiler or specify it with \texttt{-DCMAKE\_CXX\_COMPILER}
-    \end{itemize}
-    \begin{minted}{bash}
-cmake ${srcdir} \
-    -DCMAKE_CXX_COMPILER=g++ \
-    -DCMAKE_INSTALL_PREFIX=${kokkos_install_folder}
-    \end{minted}
+    \begin{columns}
+        \begin{column}{0.6\linewidth}
+            \begin{itemize}
+                \item Defaults to the serial backend
+                \item Use the default compiler or specify it with \texttt{-DCMAKE\_CXX\_COMPILER=<command>}
+                \item Minimum supported version of the compilers detailed \doclink{\href{https://kokkos.org/kokkos-core-wiki/requirements.html}{in the doc}}
+            \end{itemize}
+            \begin{minted}{bash}
+                cmake \
+                    -B ${build_dir} \
+                    -DCMAKE_CXX_COMPILER=g++
+            \end{minted}
+        \end{column}
+        \begin{column}{0.4\linewidth}
+            \begin{center}
+                \begin{tblr}[theme=kokkostable]{ll}
+                    Compiler name & Command \\
+                    Clang & \texttt{clang++} \\
+                    GCC & \texttt{g++} \\
+                    Intel LLVM & \texttt{icpx} \\
+                    NVHPC & \texttt{nvc++} \\
+                    ROCM & \texttt{hipcc} \\
+                \end{tblr}
+            \end{center}
+        \end{column}
+    \end{columns}
 \end{frame}
 
 % _____________________________________________________________________________
 
 \begin{frame}[fragile]{Compiling Kokkos for a specific backend}
-    \begin{itemize}
-        \item Add the CMake option \texttt{-DKokkos\_ENABLE\_<BACKEND>=ON} to enable a specific backend, replacing \texttt{<BACKEND>} with the backend name
-        \item Serial backend is \texttt{SERIAL}
-        \item CPU backends are \texttt{OPENMP}, \texttt{THREADS}, \texttt{HPX}
-        \item GPU backends are \texttt{CUDA}, \texttt{HIP}, \texttt{SYCL}
-    \end{itemize}
-    \begin{minted}[texcomments]{bash}
-cmake ${srcdir} \
-    -DCMAKE_CXX_COMPILER=g++ \
-    -DCMAKE_INSTALL_PREFIX=${kokkos_install_folder} \
-    -DKokkos_ENABLE_CUDA=ON
-    \end{minted}
+    \begin{columns}
+        \begin{column}{0.45\linewidth}
+            \begin{itemize}
+                \item Add the option \texttt{-DKokkos\_ENABLE\_<BACKEND>=ON} to enable a specific backend
+                \item Only one CPU backend and one GPU backend maximum can be compiled at a time
+            \end{itemize}
+            \begin{minted}[texcomments]{bash}
+                cmake \
+                    -B ${build_dir} \
+                    -DCMAKE_CXX_COMPILER=g++ \
+                    -DKokkos_ENABLE_CUDA=ON
+            \end{minted}
+        \end{column}
+        \begin{column}{0.55\linewidth}
+            \begin{center}
+                \begin{tblr}[theme=kokkostable]{ll}
+                    Backend & Option \\
+                    Serial & \texttt{-DKokkos\_ENABLE\_SERIAL=ON} \\
+                    OpenMP & \texttt{-DKokkos\_ENABLE\_OPENMP=ON} \\
+                    Threads & \texttt{-DKokkos\_ENABLE\_THREADS=ON} \\
+                    HPX & \texttt{-DKokkos\_ENABLE\_HPX=ON} \\
+                    Cuda & \texttt{-DKokkos\_ENABLE\_CUDA=ON} \\
+                    HIP & \texttt{-DKokkos\_ENABLE\_HIP=ON} \\
+                    SYCL & \texttt{-DKokkos\_ENABLE\_SYCL=ON} \\
+                \end{tblr}
+            \end{center}
+        \end{column}
+    \end{columns}
 \end{frame}
 
 % _____________________________________________________________________________
 
-\begin{frame}{Warning regarding the Kokkos compilation}
+    \begin{frame}{Warning regarding the backends}
     \begin{itemize}
         \item All backends \highlight{do not have the same level of maturity}, some are experimental!
         \item The backend environment (for instance CUDA) must be available on the target machine, \highlight{Kokkos does not install it for you}!
@@ -483,65 +521,151 @@ cmake ${srcdir} \
 % _____________________________________________________________________________
 
 \begin{frame}{Compiling Kokkos for a specific architecture}
-    \begin{itemize}
-        \item Architecture CMake options \texttt{-DKokkos\_ARCH\_<ARCH\_NAME>=ON} can be specified for best performance
-        \item Replace \texttt{<ARCH\_NAME>} with the architecture name of the target host and device
-        \item For example, for a NVIDIA A100 GPU, the architecture name is \texttt{AMPERE80}
-        \item All CMake options are available \href{https://kokkos.org/kokkos-core-wiki/keywords.html}{on the dedicated doc page}
-    \end{itemize}
+    \begin{columns}
+        \begin{column}{0.4\linewidth}
+            \begin{itemize}
+                \item Add the architecture option \texttt{-DKokkos\_ARCH\_<NAME>=ON}
+                \item CPU architecture is optional, for optimization
+                \item GPU architecture is mandatory, deduced if device is present
+                \item All CMake options are available \doclink{\href{https://kokkos.org/kokkos-core-wiki/keywords.html}{in the doc}}
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.6\linewidth}
+            \begin{center}
+                \begin{tblr}[theme=kokkostable]{ll}
+                    GPU model & Option \\
+                    AMD MI300X & \texttt{-DKokkos\_ARCH\_AMD\_GHX942=ON} \\
+                    AMD MI250X & \texttt{-DKokkos\_ARCH\_AMD\_GHX90A=ON} \\
+                    Intel GPU Max & \texttt{-DKokkos\_ARCH\_INTEL\_PVC=ON} \\
+                    NVIDIA H200 & \texttt{-DKokkos\_ARCH\_HOPPER90=ON} \\
+                    NVIDIA A100 & \texttt{-DKokkos\_ARCH\_AMPERE80=ON} \\
+                    NVIDIA V100 & \texttt{-DKokkos\_ARCH\_VOLTA70=ON} \\
+                \end{tblr}
+            \end{center}
+        \end{column}
+    \end{columns}
 \end{frame}
 
 % _____________________________________________________________________________
 
 \begin{frame}[fragile]{Real world case}
-    \begin{itemize}
-        \item Compiling for a multi-core Xeon Skylake CPU and a A100 NVIDIA GPU
-        \item OpenMP option for the multi-core CPU
-        \item Skylake option, mostly for vectorization (optional)
-        \item CUDA option for the GPU
-        \item A100 option, for the correct architecture (mandatory)
-    \end{itemize}
     \begin{columns}
-        \begin{column}{0.6\linewidth}
+        \begin{column}{0.475\linewidth}
+            \begin{center}
+                \includegraphics[width=\textwidth]{kokkos_a100_backend.png}
+            \end{center}
             \begin{minted}{bash}
-                cmake ${srcdir} \
-                    -DCMAKE_INSTALL_PREFIX=${kokkos_install_folder} \
+                cmake \
+                    -B ${build_dir} \
                     -DKokkos_ENABLE_OPENMP=ON \
                     -DKokkos_ARCH_SKX=ON \
                     -DKokkos_ENABLE_CUDA=ON \
                     -DKokkos_ARCH_AMPERE80=ON
             \end{minted}
         \end{column}
-        \begin{column}{0.4\linewidth}
-            \begin{center}
-                \includegraphics[width=\textwidth]{kokkos_a100_backend.png}
-            \end{center}
+        \begin{column}{0.525\linewidth}
+            \begin{itemize}
+                \item Compiling for a multi-core Xeon Skylake CPU and a A100 NVIDIA GPU
+                \item OpenMP option for the multi-core CPU
+                \item Skylake option, mostly for vectorization (optional)
+                \item CUDA option for the GPU
+                \item A100 option, for the correct architecture (mandatory)
+            \end{itemize}
         \end{column}
     \end{columns}
 \end{frame}
 
 % _____________________________________________________________________________
 
-\begin{exerciseframe}{Exercise 1: learn how to compile Kokkos}
-    \begin{columns}
-        \begin{column}{0.5\linewidth}
-            \begin{center}
-                \includegraphics[width=0.9\textwidth]{sleeping_otter.png}
-            \end{center}
+\begin{frame}{How to add Kokkos to your project}
+    \begin{itemize}
+        \item There are several ways to do it (for lack of a standard C++ dependency manager)
+        \begin{itemize}
+            \item Build and install it
+            \item As a Git submodule
+            \item Using CMake
+            \item With Spack
+        \end{itemize}
+        \item None of them is a perfect solution
+    \end{itemize}
+\end{frame}
 
-            Go to the exercise \githublink{\href{https://github.com/CExA-project/cexa-kokkos-tutorials/tree/main/exercises/01_compiling_kokkos}{01\_compiling\_kokkos}} and follow the instructions
-        \end{column}
-        \begin{column}{0.5\linewidth}
-            \begin{block}{Goal of this exercise}
+% _____________________________________________________________________________
+
+\begin{frame}{Different ways to treat the Kokkos dependency}
+    \begin{columns}[T]
+        \begin{column}{0.25\linewidth}
+            \strut Build and install it
+
+            \emph{\small\strut(external library)}
+
+            \begin{block}{Pros}
                 \begin{itemize}
-                    \item Compile Kokkos with the default parameters
-                    \item Compile Kokkos with the OpenMP backend
-                    \item Compile Kokkos with a GPU backend
+                    \item You build Kokkos once
                 \end{itemize}
             \end{block}
+            \begin{alertblock}{Cons}
+                \begin{itemize}
+                    \item Not flexible
+                    \item Not for dev
+                    \item Dependency up to the user
+                \end{itemize}
+            \end{alertblock}
+        \end{column}
+        \begin{column}{0.25\linewidth}
+            \strut As a Git submodule
+
+            \emph{\small\strut(inline build)}
+
+            \begin{block}{Pros}
+                \begin{itemize}
+                    \item Easy
+                    \item Popular
+                \end{itemize}
+            \end{block}
+            \begin{alertblock}{Cons}
+                \begin{itemize}
+                    \item User may forget to get the submodule
+                    \item Not very clean
+                \end{itemize}
+            \end{alertblock}
+        \end{column}
+        \begin{column}{0.25\linewidth}
+            \strut Using CMake
+
+            \emph{\small\strut(inline build)}
+
+            \begin{block}{Pros}
+                \begin{itemize}
+                    \item Trivial for the user
+                \end{itemize}
+            \end{block}
+            \begin{alertblock}{Cons}
+                \begin{itemize}
+                    \item Not trivial for the dev to do it right
+                \end{itemize}
+            \end{alertblock}
+        \end{column}
+        \begin{column}{0.25\linewidth}
+            \strut With Spack
+
+            \emph{\small\strut(external library)}
+
+            \begin{block}{Pros}
+                \begin{itemize}
+                    \item Good for production
+                    \item Can bring the backend libs
+                \end{itemize}
+            \end{block}
+            \begin{alertblock}{Cons}
+                \begin{itemize}
+                    \item Not trivial
+                    \item Not for dev
+                \end{itemize}
+            \end{alertblock}
         \end{column}
     \end{columns}
-\end{exerciseframe}
+\end{frame}
 
 % _____________________________________________________________________________
 
@@ -600,25 +724,26 @@ cmake ${srcdir} \
 
 % _____________________________________________________________________________
 
-\begin{frame}[fragile]{Use CMake to compile your Kokkos program}
+\begin{frame}[fragile]{Use CMake to compile your Kokkos program (simple approach)}
     \begin{columns}
         \begin{column}{0.6\linewidth}
             \begin{minted}{cmake}
-                cmake_minimum_required(VERSION 3.16)
+                cmake_minimum_required(VERSION 3.21)
 
                 project(my_kokkos_project LANGUAGES CXX)
 
                 find_package(Kokkos REQUIRED)
 
-                add_executable(test main.cpp)
-                target_link_libraries(test Kokkos::kokkos)
+                add_executable(proj main.cpp)
+                target_link_libraries(proj Kokkos::kokkos)
             \end{minted}
         \end{column}
         \begin{column}{0.4\linewidth}
             \begin{itemize}
-                \item Kokkos should be compiled and installed on your system
-                \item Use the \texttt{find\_package} CMake command to find Kokkos
-                \item Use the \texttt{target\_link\_libraries} CMake command to link your program with Kokkos
+                \item \texttt{find\_package} command to find Kokkos
+                \item \texttt{REQUIRED} aborts the configuration if Kokkos is not found
+                \item \texttt{target\_link\_libraries} command to link your program with Kokkos
+                \item This is the "Kokkos is built and installed" approach
             \end{itemize}
         \end{column}
     \end{columns}
@@ -626,19 +751,52 @@ cmake ${srcdir} \
 
 % _____________________________________________________________________________
 
-\begin{frame}[fragile]{Use CMake to compile your Kokkos program}
+\begin{frame}[fragile]{Making the \texttt{find\_package} part more flexible}
+    \begin{columns}
+        \begin{column}{0.6\linewidth}
+            \begin{minted}[breakafter=/]{cmake}
+                find_package(Kokkos CONFIG)
+                if(NOT Kokkos_FOUND)
+                    include(FetchContent)
+                    FetchContent_Declare(
+                        kokkos
+                        URL https://github.com/kokkos/kokkos/releases/download/4.5.01/kokkos-4.5.01.zip
+                    )
+                    FetchContent_MakeAvailable(kokkos)
+                endif()
+            \end{minted}
+        \end{column}
+        \begin{column}{0.4\linewidth}
+            \begin{itemize}
+                \item \texttt{find\_package} command to find Kokkos if it's already installed
+                \item \texttt{CONFIG} allows to continue if Kokkos is not found
+                \item \texttt{FetchContent\_*} commands to download Kokkos if needed
+                \item This is the "Kokkos is managed using CMake" approach
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}[fragile]{Build your Kokkos program}
     \begin{columns}
         \begin{column}{0.6\linewidth}
             \begin{minted}{bash}
-                cmake ${srcdir} \
-                    -DKokkos_ROOT=${kokkos_install_prefix} \
-                    -DCMAKE_CXX_COMPILER=${compiler}
+                cmake \
+                    -B ${build_dir} \
+                    -DCMAKE_CXX_COMPILER=${compiler} \
+                    <other options>
+                cmake \
+                    --build ${build_dir} \
+                    --parallel ${jobs}
             \end{minted}
         \end{column}
         \begin{column}{0.4\linewidth}
             \begin{itemize}
-                \item Kokkos propagates its compilation flags to your program
-                \item If Kokkos is not detected in your paths, use the \texttt{Kokkos\_ROOT} CMake variable to specify the path to Kokkos
+                \item If Kokkos is installed, it propagates its compilation flags to your program
+                \item Otherwise, you specify Kokkos options along with the ones of your program
+                \item Build in parallel
             \end{itemize}
         \end{column}
     \end{columns}
@@ -646,20 +804,21 @@ cmake ${srcdir} \
 
 % _____________________________________________________________________________
 
-\begin{exerciseframe}{Exercise 2: learn how to compile a Kokkos program}
+\begin{exerciseframe}{Exercise 1: First Kokkos program}
     \begin{columns}
         \begin{column}{0.5\linewidth}
             \begin{center}
                 \includegraphics[width=0.9\textwidth]{sleeping_otter.png}
             \end{center}
 
-            Go to the exercise \githublink{\href{https://github.com/CExA-project/cexa-kokkos-tutorials/tree/main/exercises/02_first_program}{02\_first\_program}} and follow the instructions
+            Go to the exercise \githublink{\href{https://github.com/CExA-project/cexa-kokkos-tutorials/tree/main/exercises/01_first_program}{01\_first\_program}} and follow the instructions
         \end{column}
         \begin{column}{0.5\linewidth}
             \begin{block}{Goal of this exercise}
                 \begin{itemize}
                     \item Write a simple Kokkos program
-                    \item Compile the program with CMake
+                    \item Compile the program with CMake for different backends
+                    \item Get familiar with the compilation process
                 \end{itemize}
             \end{block}
         \end{column}
@@ -845,19 +1004,20 @@ cmake ${srcdir} \
 
 % _____________________________________________________________________________
 
-\begin{exerciseframe}{Exercise 3: learn how to use a View}
+\begin{exerciseframe}{Exercise 2: How to use and manage Kokkos Views}
     \begin{columns}
         \begin{column}{0.5\linewidth}
             \begin{center}
                 \includegraphics[width=0.9\textwidth]{sleeping_otter.png}
             \end{center}
 
-            Go to the exercise \githublink{\href{https://github.com/CExA-project/cexa-kokkos-tutorials/tree/main/exercises/03_basic_view}{03\_basic\_view}} and follow the instructions
+            Go to the exercise \githublink{\href{https://github.com/CExA-project/cexa-kokkos-tutorials/tree/main/exercises/02_basic_view}{02\_basic\_view}} and follow the instructions
         \end{column}
         \begin{column}{0.5\linewidth}
             \begin{block}{Goal of this exercise}
                 \begin{itemize}
-                    \item Create and manage a View
+                    \item Create a View
+                    \item Manage the view to inspect its metadata
                 \end{itemize}
             \end{block}
         \end{column}
@@ -1059,20 +1219,25 @@ cmake ${srcdir} \
 
 % _____________________________________________________________________________
 
-\begin{exerciseframe}{Exercise 4: Mirror Views and deep copy}
+\begin{exerciseframe}{Exercise 3: Mirror Views and deep copy}
     \begin{columns}
         \begin{column}{0.5\linewidth}
             \begin{center}
                 \includegraphics[width=0.9\textwidth]{sleeping_otter.png}
             \end{center}
 
-            Go to the exercise \githublink{\href{https://github.com/CExA-project/cexa-kokkos-tutorials/tree/main/exercises/04_deep_copy}{04\_deep\_copy}} and follow the instructions
+            Go to the exercise \githublink{\href{https://github.com/CExA-project/cexa-kokkos-tutorials/tree/main/exercises/03_deep_copy}{03\_deep\_copy}} and follow the instructions
         \end{column}
         \begin{column}{0.5\linewidth}
             \begin{block}{Goal of this exercise}
                 \begin{itemize}
                     \item Create and manage a mirror view
-                    \item Use the deep copy function
+                    \item Use the \texttt{deep\_copy} function
+                    \item Observe the differences between the two mirror functions
+                    \begin{itemize}
+                        \item Timing
+                        \item Memory (on Unixes only)
+                    \end{itemize}
                 \end{itemize}
             \end{block}
         \end{column}
@@ -1281,19 +1446,20 @@ cmake ${srcdir} \
 
 % _____________________________________________________________________________
 
-\begin{exerciseframe}{Exercise 5: My first parallel loop}
+\begin{exerciseframe}{Exercise 4: My first parallel loop}
     \begin{columns}
         \begin{column}{0.5\linewidth}
             \begin{center}
                 \includegraphics[width=0.9\textwidth]{sleeping_otter.png}
             \end{center}
 
-            Go to the exercise \githublink{\href{https://github.com/CExA-project/cexa-kokkos-tutorials/tree/main/exercises/05_parallel_loop}{05\_parallel\_loop}} and follow the instructions
+            Go to the exercise \githublink{\href{https://github.com/CExA-project/cexa-kokkos-tutorials/tree/main/exercises/04_parallel_loop}{04\_parallel\_loop}} and follow the instructions
         \end{column}
         \begin{column}{0.5\linewidth}
             \begin{block}{Goal of this exercise}
                 \begin{itemize}
                     \item Write a simple parallel loop
+                    \item Measure the difference of performance between CPU and GPU
                 \end{itemize}
             \end{block}
         \end{column}
@@ -1516,9 +1682,9 @@ cmake ${srcdir} \
         \end{column}
         \begin{column}{0.5\linewidth}
             \begin{itemize}
-                \item Same constraints as before
                 \item One scalar variable collects something for each iteration (sum, max, min, etc.)
-                \item Horrible truth: result value \highlight{depends} on iteration order!
+                \item Same constraints as before
+                \item Horrible truth: \texttt{result} value \highlight{depends} on iteration order!
             \end{itemize}
         \end{column}
     \end{columns}
@@ -1552,8 +1718,7 @@ cmake ${srcdir} \
                 \item \texttt{parallel\_reduce} to perform reductions
                 \item Works like \texttt{parallel\_for} (e.g. execution space)
                 \item Reducer object (here \texttt{Sum}), templated with the result type
-                \item Various reducers available
-                \item Extra last argument to \texttt{KOKKOS\_LAMBDA}: a reference to the local result
+                \item Extra last argument to the kernel: a reference to the local result
             \end{itemize}
         \end{column}
     \end{columns}
@@ -1569,7 +1734,7 @@ cmake ${srcdir} \
             \item \texttt{Kokkos::Max}: and \texttt{Kokkos::Min}: Maximum and minimum element
             \item \texttt{Kokkos::Prod}: Product of the elements
             \item \texttt{Kokkos::MaxLoc} and \texttt{Kokkos::MinLoc}: Maximum and minimum element with their index
-            \item More \href{https://kokkos.org/kokkos-core-wiki/ProgrammingGuide/Custom-Reductions-Built-In-Reducers.html}{in the doc}
+            \item More \doclink{\href{https://kokkos.org/kokkos-core-wiki/ProgrammingGuide/Custom-Reductions-Built-In-Reducers.html}{in the doc}}
         \end{itemize}
         \item You can also create your own reducer, not covered in this talk
     \end{itemize}
@@ -1586,7 +1751,7 @@ cmake ${srcdir} \
             KOKKOS_LAMBDA (int i, double& local_result) {
                 local_result += A(i);
             },
-            Kokkos::Sum<double>(result) // or just `result` for sum
+            result // shortcut for sum
         );
     \end{minted}
 \end{frame}
@@ -1605,6 +1770,8 @@ cmake ${srcdir} \
             Kokkos::Max<double>(max_value)
         );
     \end{minted}
+
+    \structure{Note:} Notice that mathematical operators are in the \texttt{Kokkos} namespace
 \end{frame}
 
 % _____________________________________________________________________________
@@ -1631,19 +1798,20 @@ cmake ${srcdir} \
 
 % _____________________________________________________________________________
 
-\begin{exerciseframe}{Exercise 6: Parallel Reduction}
+\begin{exerciseframe}{Exercise 5: Parallel Reduction}
     \begin{columns}
         \begin{column}{0.5\linewidth}
             \begin{center}
                 \includegraphics[width=0.9\textwidth]{sleeping_otter.png}
             \end{center}
 
-            Go to the exercise \githublink{\href{https://github.com/CExA-project/cexa-kokkos-tutorials/tree/main/exercises/06_parallel_reduce}{06\_parallel\_reduce}} and follow the instructions
+            Go to the exercise \githublink{\href{https://github.com/CExA-project/cexa-kokkos-tutorials/tree/main/exercises/05_parallel_reduce}{05\_parallel\_reduce}} and follow the instructions
         \end{column}
         \begin{column}{0.5\linewidth}
             \begin{block}{Goal of this exercise}
                 \begin{itemize}
                     \item Perform a parallel reduction
+                    \item Measure the difference of performance between CPU and GPU
                 \end{itemize}
             \end{block}
         \end{column}
@@ -1662,7 +1830,7 @@ cmake ${srcdir} \
     \begin{itemize}
         \item How to compile Kokkos
         \item How to create and manage a simple View
-        \item How to use mirror views and deep copy
+        \item How to use mirror Views and deep copy
         \item How to write a parallel loop
         \item How to extend the loop policy
         \item How to use nested parallel loops
