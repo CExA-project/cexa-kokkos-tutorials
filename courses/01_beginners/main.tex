@@ -825,6 +825,76 @@
     \end{columns}
 \end{exerciseframe}
 
+\begin{exerciseframe}{Exercise 1: Stepping on Ruche}
+    \begin{enumerate}
+        \item SSH in the cluster (Windows users without SSH should use KiTTY)
+        \begin{minted}{sh}
+            ssh login@ruche.mesocentre.universite-paris-saclay.fr
+        \end{minted}
+        \item Go in the work directory
+        \begin{minted}{sh}
+            cd $WORKDIR
+        \end{minted}
+        \item Clone the repo
+        \begin{minted}{sh}
+            git clone --recurse-submodules \
+                https://github.com/CExA-project/cexa-kokkos-tutorials.git
+        \end{minted}
+    \end{enumerate}
+\end{exerciseframe}
+
+\begin{exerciseframe}{Exercise 1: Ruche environment}
+    \begin{itemize}
+        \item Environment for the hands-on
+        \begin{minted}{sh}
+            module load gcc/11.2.0/gcc-4.8.5 \
+                        cmake/3.28.3/gcc-11.2.0 \
+                        cuda/12.2.1/gcc-11.2.0
+            export OMP_PROC_BIND=spread \
+                   OMP_PLACES=threads
+        \end{minted}
+        \item Command to run on CPU
+        \begin{minted}{sh}
+            srun --partition cpu_short --cpus-per-task 20 --pty path/to/exe
+        \end{minted}
+        \item Command to run on GPU
+        \begin{minted}{sh}
+            srun --partition gpu --gres gpu:1 --pty path/to/exe
+        \end{minted}
+    \end{itemize}
+\end{exerciseframe}
+
+\begin{exerciseframe}{Exercise 1: Ruche hardware}
+    \begin{description}[Documentation]
+        \item[Documentation] \doclink{ \url{https://mesocentre.pages.centralesupelec.fr/user_doc/}}
+        \item[CPU model] Intel Xeon Gold 6230 (Cascade Lake)
+        \item[GPU model] NVIDIA V100
+    \end{description}
+\end{exerciseframe}
+
+\begin{exerciseframe}{Exercise 1: CMake flags}
+    \begin{itemize}
+        \item Build with OpenMP
+        \begin{minted}{sh}
+            cmake -B build_openmp \
+                  -DCMAKE_BUILD_TYPE=Release \
+                  -DKokkos_ENABLE_OPENMP=ON \
+                  -DKokkos_ARCH_NATIVE=ON
+            cmake --build build_openmp \
+                  --parallel 5
+        \end{minted}
+        \item Build with Cuda
+        \begin{minted}{sh}
+            cmake -B build_cuda \
+                  -DCMAKE_BUILD_TYPE=Release \
+                  -DKokkos_ENABLE_CUDA=ON \
+                  -DKokkos_ARCH_VOLTA70=ON
+            cmake --build build_cuda \
+                  --parallel 5
+        \end{minted}
+    \end{itemize}
+\end{exerciseframe}
+
 % _____________________________________________________________________________
 
 \subsection[Data container]{Data container}
@@ -1022,6 +1092,27 @@
             \end{block}
         \end{column}
     \end{columns}
+\end{exerciseframe}
+
+\begin{exerciseframe}{Exercise 2: Ruche environment}
+    \begin{itemize}
+        \item Environment for the hands-on
+        \begin{minted}{sh}
+            module load gcc/11.2.0/gcc-4.8.5 \
+                        cmake/3.28.3/gcc-11.2.0 \
+                        cuda/12.2.1/gcc-11.2.0
+            export OMP_PROC_BIND=spread \
+                   OMP_PLACES=threads
+        \end{minted}
+        \item Command to run on CPU
+        \begin{minted}{sh}
+            srun --partition cpu_short --cpus-per-task 20 --pty path/to/exe
+        \end{minted}
+        \item Command to run on GPU
+        \begin{minted}{sh}
+            srun --partition gpu --gres gpu:1 --pty path/to/exe
+        \end{minted}
+    \end{itemize}
 \end{exerciseframe}
 
 % _____________________________________________________________________________
@@ -1244,6 +1335,27 @@
     \end{columns}
 \end{exerciseframe}
 
+\begin{exerciseframe}{Exercise 3: Ruche environment}
+    \begin{itemize}
+        \item Environment for the hands-on
+        \begin{minted}{sh}
+            module load gcc/11.2.0/gcc-4.8.5 \
+                        cmake/3.28.3/gcc-11.2.0 \
+                        cuda/12.2.1/gcc-11.2.0
+            export OMP_PROC_BIND=spread \
+                   OMP_PLACES=threads
+        \end{minted}
+        \item Command to run on CPU
+        \begin{minted}{sh}
+            srun --partition cpu_short --cpus-per-task 20 --pty path/to/exe
+        \end{minted}
+        \item Command to run on GPU
+        \begin{minted}{sh}
+            srun --partition gpu --gres gpu:1 --pty path/to/exe
+        \end{minted}
+    \end{itemize}
+\end{exerciseframe}
+
 % _____________________________________________________________________________
 
 \subsection{Parallel loops}
@@ -1464,6 +1576,27 @@
             \end{block}
         \end{column}
     \end{columns}
+\end{exerciseframe}
+
+\begin{exerciseframe}{Exercise 4: Ruche environment}
+    \begin{itemize}
+        \item Environment for the hands-on
+        \begin{minted}{sh}
+            module load gcc/11.2.0/gcc-4.8.5 \
+                        cmake/3.28.3/gcc-11.2.0 \
+                        cuda/12.2.1/gcc-11.2.0
+            export OMP_PROC_BIND=spread \
+                   OMP_PLACES=threads
+        \end{minted}
+        \item Command to run on CPU
+        \begin{minted}{sh}
+            srun --partition cpu_short --cpus-per-task 20 --pty path/to/exe
+        \end{minted}
+        \item Command to run on GPU
+        \begin{minted}{sh}
+            srun --partition gpu --gres gpu:1 --pty path/to/exe
+        \end{minted}
+    \end{itemize}
 \end{exerciseframe}
 
 % _____________________________________________________________________________
@@ -1816,6 +1949,27 @@
             \end{block}
         \end{column}
     \end{columns}
+\end{exerciseframe}
+
+\begin{exerciseframe}{Exercise 5: Ruche environment}
+    \begin{itemize}
+        \item Environment for the hands-on
+        \begin{minted}{sh}
+            module load gcc/11.2.0/gcc-4.8.5 \
+                        cmake/3.28.3/gcc-11.2.0 \
+                        cuda/12.2.1/gcc-11.2.0
+            export OMP_PROC_BIND=spread \
+                   OMP_PLACES=threads
+        \end{minted}
+        \item Command to run on CPU
+        \begin{minted}{sh}
+            srun --partition cpu_short --cpus-per-task 20 --pty path/to/exe
+        \end{minted}
+        \item Command to run on GPU
+        \begin{minted}{sh}
+            srun --partition gpu --gres gpu:1 --pty path/to/exe
+        \end{minted}
+    \end{itemize}
 \end{exerciseframe}
 
 % _____________________________________________________________________________
