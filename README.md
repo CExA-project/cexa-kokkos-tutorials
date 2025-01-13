@@ -1,11 +1,11 @@
-# Kokkos-cexa-tutorial
+# CExA Kokkos Tutorials
 
 ![CI](https://github.com/CExA-project/cexa-kokkos-tutorials/actions/workflows/courses.yml/badge.svg)
 ![CI](https://github.com/CExA-project/cexa-kokkos-tutorials/actions/workflows/exercises.yml/badge.svg)
 ![CI](https://github.com/CExA-project/cexa-kokkos-tutorials/actions/workflows/projects.yml/badge.svg)
 
 This repository contains tutorials, exercises, and projects to learn Kokkos.
-This course is intended for beginners and intermediate users not experts in C++ and GPU programming.
+This course is intended for beginners and intermediate users who are not expert in C++ and GPU programming.
 This course is part of the [CExA project](https://cexa-project.github.io/).
 
 <p align="center">
@@ -13,21 +13,31 @@ This course is part of the [CExA project](https://cexa-project.github.io/).
     <img src="./images/cexa_logo.png" alt="CExA" width="100"/>
 </p>
 
-## Courses
+## Content
 
-- [Introduction to Kokkos](courses/01_beginners/README.md)
+### Courses
 
-> **Important:** You can get the slides from the [releases](https://github.com/CExA-project/cexa-kokkos-tutorials/releases) page.
+- [Course 1: Introduction to Kokkos](courses/01_beginners/README.md)
 
-## Exercises
+> [!NOTE]
+> You can get the slides from the [releases](https://github.com/CExA-project/cexa-kokkos-tutorials/releases) page.
 
-- [Exercise 1: Compiling Kokkos](exercises/01_compiling_kokkos/README.md)
-- [Exercise 2: First Kokkos Program](exercises/02_first_program/README.md)
-- [Exercise 3: Learn how to use and manage basic Kokkos View](exercises/03_basic_view/README.md)
-- [Exercise 4: Mirror view and deep copy](exercises/04_deep_copy/README.md)
-- [Exercise 5: Parallel Loop](exercises/05_parallel_loop/README.md)
-- [Exercise 6: Parallel Reduce](exercises/06_parallel_reduce/README.md)
+### Exercises
 
-## Projects
+- [Exercise 1: First Kokkos Program](exercises/02_first_program/README.md)
+- [Exercise 2: Learn how to use and manage basic Kokkos View](exercises/03_basic_view/README.md)
+- [Exercise 3: Mirror view and deep copy](exercises/04_deep_copy/README.md)
+- [Exercise 4: Parallel Loop](exercises/05_parallel_loop/README.md)
+- [Exercise 5: Parallel Reduce](exercises/06_parallel_reduce/README.md)
+
+### Projects
 
 - [Project 1: Wave Propagation](projects/wave/README.md)
+
+## Get the repository
+
+To get the repository, clone it recursively:
+
+```sh
+git clone --recurse-submodules https://github.com/CExA-project/cexa-kokkos-tutorials.git
+```

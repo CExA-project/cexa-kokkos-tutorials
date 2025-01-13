@@ -1,0 +1,13 @@
+#include <iostream>
+// ... hearders here ...
+
+int main(int argc, char* argv[]) {
+
+    // ... Init Kokkos here ...
+
+    // ... call configuration function here ...
+
+    // ... Finalize Kokkos here ...
+
+    return 0;
+}
