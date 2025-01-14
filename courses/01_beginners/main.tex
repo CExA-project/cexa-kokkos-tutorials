@@ -48,7 +48,7 @@
 
 %Information to be included in the title page:
 \title[Kokkos and performance portability]{Kokkos and performance portability:\\an introduction for all}
-\author{Édouard Audit, Paul Ganny, Paul Zehner, and the CExA team}
+\author{Édouard Audit, Paul Ganny, Matthieu Lobet, Paul Zehner, and the CExA team}
 \institute{CEA}
 \date{CEA/Riken Winter School\\15 -- 17\textsuperscript{th} of January 2025\\Barcelona}
 \titlegraphic{%
@@ -1984,6 +1984,113 @@
         \item How to extend the loop policy
         \item How to use nested parallel loops
         \item How to write a parallel reduction
+    \end{itemize}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\section{Going further}
+
+% _____________________________________________________________________________
+
+\begin{frame}{Going further}
+    \begin{itemize}
+        \item Subviews
+        \item Atomics
+        \item Layout
+    \end{itemize}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}{Going even further}
+    \begin{itemize}
+        \item Kokkos kernels
+        \item Kokkos FFT
+        \item Kokkos tools
+    \end{itemize}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}{Kokkos kernels}
+    \begin{itemize}
+        \item \githublink{\url{https://github.com/kokkos/kokkos-kernels}}
+        \item (Multi)vector dot products, norms, and updates
+        \item Sparse matrix-vector multiply and other sparse matrix/dense vector kernels
+        \item Sparse matrix-matrix multiply
+        \item Graph coloring
+        \item Gauss-Seidel with coloring (generalization of red-black)
+        \item Other linear algebra and graph operations
+    \end{itemize}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}[fragile]{Kokkos kernels example: batched LU solver}
+    \begin{minted}{C++}
+        // LU, jacobian is updated to LU
+        KokkosBatched::TeamLU<
+            member_type,
+            KokkosBatched::Algo::LU::Blocked
+        >::invoke(team_member, jacobian, kokkos_TeamLU_tiny);
+
+        // Solve LU x = b, b is updated to x
+        KokkosBatched::TeamSolveLU<
+            member_type,
+            KokkosBatched::Trans::NoTranspose, KokkosBatched::Algo::LU::Blocked
+        >::invoke(team_member, jacobian, b);
+
+        team_member.team_barrier();
+    \end{minted}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}{Kokkos FFT}
+    \begin{itemize}
+        \item \githublink{\url{https://github.com/kokkos/kokkos-fft}}
+        \item Interfaces between Kokkos and de facto standard FFT libraries
+        \begin{itemize}
+            \item FFTW
+            \item cuFFT
+            \item hipFFT/rocFFT
+            \item oneMKL
+        \end{itemize}
+        \item No MPI
+    \end{itemize}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}[fragile]{Kokkos FFT example: 1D real to complex transform}
+    \begin{minted}{C++}
+        View1D<double> x("x", n);
+        View1D<Kokkos::complex<double>> x_hat("x_hat", n / 2 + 1);
+
+        Kokkos::Random_XorShift64_Pool<> random_pool(12345);
+        Kokkos::fill_random(x, random_pool, 1);
+        Kokkos::fence();
+
+        KokkosFFT::rfft(execution_space(), x, x_hat);
+    \end{minted}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}{Kokkos tools}
+    \begin{itemize}
+        \item \githublink{\url{https://github.com/kokkos/kokkos-tools}}
+        \item Profiling
+        \item Debugging
+        \item Memory analysis
+        \item Kernel inspection
+        \item Hooks with popular profilers
+        \begin{itemize}
+            \item VTune
+            \item NVIDIA Nsight Systems (with NVTX)
+            \item Timemory
+        \end{itemize}
     \end{itemize}
 \end{frame}
 
