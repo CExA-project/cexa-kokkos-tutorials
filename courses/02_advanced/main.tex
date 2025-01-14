@@ -1,0 +1,126 @@
+% !TeX program = xelatex
+
+\documentclass[
+    aspectratio=169,
+    handout,
+]{beamer}
+
+\usepackage{minted}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{graphicx}
+\usepackage{fontspec}
+\usepackage{tabularray}
+
+% allow to look for themes in another folder
+% https://tex.stackexchange.com/a/284157/301699
+\makeatletter
+\def\beamer@calltheme#1#2#3{%
+    \def\beamer@themelist{#2}
+    \@for\beamer@themename:=\beamer@themelist\do
+    {\usepackage[{#1}]{\beamer@themelocation/#3\beamer@themename}}}
+
+\def\usefolder#1{
+    \def\beamer@themelocation{#1}
+}
+\def\beamer@themelocation{}
+\makeatother
+
+\usefolder{..}
+\usetheme{cexa-kokkos}
+
+\AtBeginSection{
+    \begin{frame}{Outline}
+        \tableofcontents[currentsection, hideothersubsections]
+    \end{frame}
+}
+
+\AtBeginSubsection{
+    \begin{frame}{Outline}
+        \tableofcontents[currentsection, currentsubsection]
+    \end{frame}
+}
+
+\setminted{
+    autogobble,
+    fontsize=\small,
+    bgcolor=lightgray,
+    xleftmargin=0.5em,
+    xrightmargin=0.5em,
+    breaklines,
+}
+
+\NewTblrTheme{kokkostable}{
+    \SetTblrInner{
+        width=\linewidth,
+        rowhead=1,
+        rows={ht=\baselineskip},
+        row{odd}={bg=lightgray},
+        row{1}={bg=lightmain},
+    }
+}
+
+\graphicspath{{../../images/}}
+
+%Information to be included in the title page:
+\title{Kokkos intermediate course}
+\author{The CExA team}
+\institute{CEA}
+\date{\today}
+\titlegraphic{%
+    \includegraphics[height=4em]{kokkos.png}%
+    \hspace{1em}%
+    \includegraphics[height=4em]{cexa_logo.png}
+}
+
+% _____________________________________________________________________________
+
+\begin{document}
+
+\begin{frame}[plain]
+    \titlepage
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}{This course is open source}
+    \begin{center}
+        \githublink{\url{https://github.com/CExA-project/cexa-kokkos-tutorials}}
+    \end{center}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}{Prerequisites}
+    This course is intended for developers who have basic knowledge about Kokkos, without strong C++ knowledge
+
+    \vspace{1em}
+
+    \begin{block}{What you still need}
+        \begin{itemize}
+            \item Basic knowledge of C/C++
+            \item Basic knowledge of parallel programming
+            \item Basic knowledge of CMake
+            \item Basic knowledge of a Linux environment
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}{Duration of the course}
+    \begin{itemize}
+        \item Course + practical work: full day
+        \item Course + corrected exercise: half day
+        \item Short version: 3 hours
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Outline}
+    \tableofcontents[hidesubsections]
+\end{frame}
+
+% _____________________________________________________________________________
+
+
+\end{document}
