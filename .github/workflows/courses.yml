@@ -6,9 +6,10 @@
 name: Generate courses PDF
 
 on:
-  pull_request:
+  push:
     branches:
       - main
+  pull_request:
     paths:
       - 'courses/**'
 
