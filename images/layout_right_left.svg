@@ -7,7 +7,7 @@
    viewBox="0 0 290.83136 104.84011"
    version="1.1"
    id="svg1"
-   inkscape:version="1.3.2 (091e20e, 2023-11-25)"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
    sodipodi:docname="layout_right_left.svg"
    inkscape:export-filename="layout_right_left.png"
    inkscape:export-xdpi="96"
@@ -27,14 +27,15 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      inkscape:zoom="1.149005"
-     inkscape:cx="540.03245"
-     inkscape:cy="184.94262"
-     inkscape:window-width="1920"
-     inkscape:window-height="950"
-     inkscape:window-x="0"
-     inkscape:window-y="25"
+     inkscape:cx="540.90278"
+     inkscape:cy="323.75838"
+     inkscape:window-width="1916"
+     inkscape:window-height="1143"
+     inkscape:window-x="2560"
+     inkscape:window-y="36"
      inkscape:window-maximized="1"
-     inkscape:current-layer="layer1" />
+     inkscape:current-layer="layer1"
+     showgrid="false" />
   <defs
      id="defs1">
     <marker
@@ -274,27 +275,27 @@
        style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect15);display:inline;fill:none;stroke:#000000;stroke-width:1.13386;stroke-linecap:round;stroke-dasharray:none"><tspan
          x="172.38086"
          y="370.84609"
-         id="tspan3"><tspan
+         id="tspan1975"><tspan
            style="fill:#000000;stroke:none"
-           id="tspan2">Layout left
+           id="tspan1973">Layout left
 </tspan></tspan><tspan
          x="132.0293"
          y="392.04611"
-         id="tspan5"><tspan
+         id="tspan1979"><tspan
            style="fill:#000000;stroke:none"
-           id="tspan4">Column major in 2D
+           id="tspan1977">Column major in 2D
 </tspan></tspan><tspan
          x="178.62109"
          y="413.24612"
-         id="tspan7"><tspan
+         id="tspan1983"><tspan
            style="fill:#000000;stroke:none"
-           id="tspan6">(Fortran)
+           id="tspan1981">(Fortran)
 </tspan></tspan><tspan
          x="127.18555"
          y="434.44613"
-         id="tspan9"><tspan
+         id="tspan1987"><tspan
            style="fill:#000000;stroke:none"
-           id="tspan8">Device default layout</tspan></tspan></text>
+           id="tspan1985">Device default layout</tspan></tspan></text>
     <text
        xml:space="preserve"
        transform="matrix(0.26458333,0,0,0.26458333,-12.071097,-98.828739)"
@@ -302,7 +303,7 @@
        style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect15-4);display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.13386;stroke-linecap:round;stroke-dasharray:none"><tspan
          x="212.37598"
          y="370.84609"
-         id="tspan10">N</tspan></text>
+         id="tspan1989">N</tspan></text>
     <text
        xml:space="preserve"
        transform="matrix(0.26458333,0,0,0.26458333,34.074495,-52.122244)"
@@ -310,7 +311,7 @@
        style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect15-4-5);display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.13386;stroke-linecap:round;stroke-dasharray:none"><tspan
          x="211.4873"
          y="370.84609"
-         id="tspan11">M</tspan></text>
+         id="tspan1991">M</tspan></text>
     <rect
        style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-dasharray:none"
        id="rect16"
@@ -383,27 +384,27 @@
        style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect29);display:inline;fill:none;stroke:#000000;stroke-width:1.13386;stroke-linecap:round;stroke-dasharray:none"><tspan
          x="165.58398"
          y="370.84609"
-         id="tspan13"><tspan
+         id="tspan1995"><tspan
            style="fill:#000000;stroke:none"
-           id="tspan12">Layout right
+           id="tspan1993">Layout right
 </tspan></tspan><tspan
-         x="147.6543"
+         x="147.35156"
          y="392.04611"
-         id="tspan15"><tspan
+         id="tspan1999"><tspan
            style="fill:#000000;stroke:none"
-           id="tspan14">Raw major in 2D
+           id="tspan1997">Row major in 2D
 </tspan></tspan><tspan
          x="118.65527"
          y="413.24612"
-         id="tspan17"><tspan
+         id="tspan2003"><tspan
            style="fill:#000000;stroke:none"
-           id="tspan16">(C, C++, Python, Java)
+           id="tspan2001">(C, C++, Python, Java)
 </tspan></tspan><tspan
          x="135.56934"
          y="434.44613"
-         id="tspan19"><tspan
+         id="tspan2007"><tspan
            style="fill:#000000;stroke:none"
-           id="tspan18">Host default layout</tspan></tspan></text>
+           id="tspan2005">Host default layout</tspan></tspan></text>
     <path
        style="fill:none;fill-opacity:1;stroke:#ff0000;stroke-width:0.5;stroke-linecap:round;stroke-dasharray:1, 0.5;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#ConcaveTriangle)"
        d="M 9.4439469,9.7696003 V 81.087684 l 10.7860691,-70.683142 0.115136,70.242351 9.63471,-67.633735"
@@ -431,8 +432,8 @@
        style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect39);display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.13386;stroke-linecap:round;stroke-dasharray:none"><tspan
          x="112.67578"
          y="370.84609"
-         id="tspan21"><tspan
+         id="tspan2011"><tspan
            style="fill:#ffffff"
-           id="tspan20">Kokkos::view(double**) matrix(M,N)</tspan></tspan></text>
+           id="tspan2009">Kokkos::view(double**) matrix(M,N)</tspan></tspan></text>
   </g>
 </svg>

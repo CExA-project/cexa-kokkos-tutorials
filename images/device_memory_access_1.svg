@@ -2,14 +2,14 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   width="254.25197mm"
-   height="113.98672mm"
-   viewBox="0 0 254.25197 113.98672"
+   width="257.12683mm"
+   height="113.14866mm"
+   viewBox="0 0 257.12683 113.14866"
    version="1.1"
    id="svg1"
    inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
-   sodipodi:docname="host_device_deep_copy.svg"
-   inkscape:export-filename="host_device_deep_copy.png"
+   sodipodi:docname="device_memory_access_1.svg"
+   inkscape:export-filename="device_memory_access_1.png"
    inkscape:export-xdpi="200"
    inkscape:export-ydpi="200"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
@@ -27,43 +27,18 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
-     inkscape:zoom="0.85047866"
-     inkscape:cx="148.15187"
-     inkscape:cy="332.75379"
+     inkscape:zoom="0.89743796"
+     inkscape:cx="574.97011"
+     inkscape:cy="72.428405"
      inkscape:window-width="1916"
-     inkscape:window-height="1143"
+     inkscape:window-height="1125"
      inkscape:window-x="0"
-     inkscape:window-y="36"
-     inkscape:window-maximized="1"
+     inkscape:window-y="54"
+     inkscape:window-maximized="0"
      inkscape:current-layer="layer1"
-     inkscape:pageshadow="0"
      showgrid="false" />
   <defs
      id="defs1">
-    <rect
-       x="-153.03825"
-       y="-179.26077"
-       width="1534.9114"
-       height="1404.9919"
-       id="rect9097" />
-    <marker
-       style="overflow:visible"
-       id="ConcaveTriangle"
-       refX="0"
-       refY="0"
-       orient="auto-start-reverse"
-       inkscape:stockid="Concave triangle arrow"
-       markerWidth="1"
-       markerHeight="1"
-       viewBox="0 0 1 1"
-       inkscape:isstock="true"
-       inkscape:collect="always"
-       preserveAspectRatio="xMidYMid">
-      <path
-         d="M 6.3,-2.8 -1.4,0 6.3,2.8 C 4.9,1.169 4.9,-1.162 6.3,-2.8 Z"
-         style="fill:context-stroke;fill-rule:evenodd;stroke:none;stroke-width:0.7"
-         id="path8" />
-    </marker>
     <marker
        style="overflow:visible"
        id="marker2"
@@ -83,11 +58,49 @@
          style="fill:context-stroke;fill-rule:evenodd;stroke:none"
          id="path2" />
     </marker>
+    <marker
+       style="overflow:visible"
+       id="DartArrow"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Dart arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         style="fill:context-stroke;fill-rule:evenodd;stroke:none"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         transform="scale(-0.5)"
+         id="path6" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="ConcaveTriangle"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Concave triangle arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.7)"
+         d="M -2,-4 9,0 -2,4 c 2,-2.33 2,-5.66 0,-8 z"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:none"
+         id="path7" />
+    </marker>
     <rect
        x="-82.158073"
        y="326.14264"
-       width="434.88745"
-       height="185.18385"
+       width="680.91614"
+       height="126.97156"
        id="rect355" />
     <linearGradient
        id="linearGradient3601"
@@ -927,7 +940,7 @@
        xlink:href="#linearGradient3545"
        id="linearGradient1"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0.32768817,0,0,0.32768817,-14.085175,37.73238)"
+       gradientTransform="matrix(0.32768817,0,0,0.32768817,45.424752,38.88233)"
        x1="157.66574"
        y1="59.868374"
        x2="133.44421"
@@ -937,7 +950,7 @@
        xlink:href="#linearGradient1955"
        id="linearGradient4"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="translate(0.44479976,-1.1982593)"
+       gradientTransform="translate(29.019812,-1.1982593)"
        x1="157.66574"
        y1="59.868374"
        x2="133.44421"
@@ -958,39 +971,19 @@
        y1="14.248722"
        x2="41.522907"
        y2="20.797159" />
-    <linearGradient
-       inkscape:collect="always"
-       xlink:href="#linearGradient3545"
-       id="linearGradient3"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0.32768817,0,0,0.32768817,26.38322,31.902709)"
-       x1="157.66574"
-       y1="59.868374"
-       x2="133.44421"
-       y2="56.687866" />
-    <linearGradient
-       inkscape:collect="always"
-       xlink:href="#linearGradient1955"
-       id="linearGradient5"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="translate(-61.933478,-1.3442719)"
-       x1="157.66574"
-       y1="59.868374"
-       x2="133.44421"
-       y2="56.687866" />
   </defs>
   <g
      inkscape:label="Calque 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(48.744881,-2.6225324)">
+     transform="translate(51.619755,-2.6225324)">
     <rect
        style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-dasharray:none;stroke-opacity:1"
        id="rect390"
        width="57.556656"
        height="19.252035"
-       x="-48.494881"
-       y="34.886509"
+       x="-51.369755"
+       y="87.496735"
        rx="2"
        ry="2" />
     <rect
@@ -1023,8 +1016,8 @@
     <rect
        style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-dasharray:none;stroke-opacity:1"
        id="rect391"
-       width="14.74006"
-       height="6.7364149"
+       width="35.082691"
+       height="6.7364154"
        x="124.24648"
        y="2.8725324"
        rx="2"
@@ -1039,27 +1032,27 @@
          id="tspan2"
          style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.691"
          x="126.16816"
-         y="8.0335121">GPU</tspan></text>
+         y="8.0335121">GPU / Device</tspan></text>
     <rect
        style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-dasharray:none;stroke-opacity:1"
        id="rect391-2"
        width="32.854774"
        height="7.3951287"
-       x="-45.948177"
-       y="64.06842"
+       x="29.193518"
+       y="72.005928"
        rx="2"
        ry="2" />
     <text
        xml:space="preserve"
        style="font-weight:300;font-size:5.29167px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;fill:#ff972c;stroke:#000000;stroke-width:0.690999"
-       x="-41.380665"
-       y="69.229401"
+       x="33.761028"
+       y="77.166908"
        id="text2-18"><tspan
          sodipodi:role="line"
          id="tspan2-71"
          style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.691"
-         x="-41.380665"
-         y="69.229401">Host code</tspan></text>
+         x="33.761028"
+         y="77.166908">Host code</tspan></text>
     <text
        xml:space="preserve"
        style="font-weight:300;font-size:5.29167px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;fill:#ff972c;stroke:#000000;stroke-width:0.690999"
@@ -1071,17 +1064,6 @@
          style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.691"
          x="127.02222"
          y="47.704067">HBM</tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-weight:300;font-size:5.29167px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;fill:#ff972c;stroke:#000000;stroke-width:0.690999"
-       x="101.48366"
-       y="84.165215"
-       id="text2-1-8"><tspan
-         sodipodi:role="line"
-         id="tspan2-5-3"
-         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.691"
-         x="101.48366"
-         y="84.165215">Deep copy</tspan></text>
     <rect
        style="fill:#00ff07;fill-opacity:1;stroke:#000000;stroke-width:0.0952541;stroke-dasharray:none;stroke-opacity:1"
        id="rect3"
@@ -15053,8 +15035,8 @@
     <rect
        style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-dasharray:none;stroke-opacity:1"
        id="rect1976"
-       width="14.74006"
-       height="6.7364149"
+       width="32.134487"
+       height="6.7364154"
        x="24.246"
        y="2.8725324"
        rx="2"
@@ -15069,7 +15051,7 @@
          id="tspan1976"
          style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.691"
          x="26.167677"
-         y="8.0335121">CPU</tspan></text>
+         y="8.0335121">CPU / Host</tspan></text>
     <text
        xml:space="preserve"
        style="font-weight:300;font-size:5.29167px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;fill:#ff972c;stroke:#000000;stroke-width:0.690999"
@@ -15122,54 +15104,67 @@
        id="rect3527-1"
        width="9.1960106"
        height="2.2070429"
-       x="29.013472"
-       y="55.695251"
-       rx="0.098306455"
-       ry="0.098306455" />
-    <rect
-       style="fill:url(#linearGradient3);fill-opacity:1;stroke:#000000;stroke-width:0.3;stroke-dasharray:none;stroke-opacity:1"
-       id="rect3527-1-3"
-       width="9.1960106"
-       height="2.2070429"
-       x="69.481865"
-       y="49.865582"
+       x="88.523399"
+       y="56.845203"
        rx="0.098306455"
        ry="0.098306455" />
     <text
        xml:space="preserve"
-       style="font-weight:300;font-size:2.82222px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;fill:#ff972c;stroke:#000000;stroke-width:0.690999"
-       x="28.517435"
-       y="53.997463"
+       style="font-weight:300;font-size:5.29167px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;fill:#ff972c;stroke:#000000;stroke-width:0.690999"
+       x="77.534065"
+       y="54.428696"
        id="text3527"><tspan
          sodipodi:role="line"
          id="tspan3527"
-         style="font-size:2.82222px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.691"
-         x="28.517435"
-         y="53.997463">device_view meta</tspan></text>
-    <rect
-       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1.04998;stroke-dasharray:none;stroke-opacity:1"
-       id="rect3545-1"
-       width="120.10119"
-       height="44.516266"
-       x="-47.968369"
-       y="71.568001"
-       rx="2.9987521"
-       ry="3.3087444" />
+         style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.691"
+         x="77.534065"
+         y="54.428696">metadata</tspan></text>
     <text
        xml:space="preserve"
-       transform="matrix(0.26458333,0,0,0.26458333,-144.67518,-43.642983)"
+       style="font-weight:300;font-size:5.29167px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;fill:#2b0000;fill-opacity:1;stroke:none;stroke-width:0.690999;stroke-opacity:1"
+       x="168.408"
+       y="91.074165"
+       id="text3527-5-9"><tspan
+         sodipodi:role="line"
+         id="tspan3527-4-8"
+         style="fill:#2b0000;fill-opacity:1;stroke:none;stroke-width:0.691;stroke-opacity:1"
+         x="168.408"
+         y="91.074165">data access</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-weight:300;font-size:5.29167px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;fill:#ff0400;fill-opacity:1;stroke:none;stroke-width:0.690999;stroke-opacity:1"
+       x="118.24605"
+       y="74.204193"
+       id="text3527-5-9-3"><tspan
+         sodipodi:role="line"
+         id="tspan3527-4-8-3"
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.691;stroke-opacity:1"
+         x="118.24605"
+         y="74.204193">data allocation</tspan></text>
+    <rect
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+       id="rect3545-1"
+       width="96.035721"
+       height="35.79068"
+       x="27.148336"
+       y="79.480515"
+       rx="3"
+       ry="3" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,-147.55006,8.967242)"
        id="text3547"
        style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect3548);display:inline;fill:none;fill-opacity:1;stroke:#000000;stroke-width:3.77953;stroke-dasharray:none;stroke-opacity:1"><tspan
          x="374.05957"
          y="329.80312"
-         id="tspan3826"><tspan
+         id="tspan8005"><tspan
            style="fill:#ffffff;stroke:none"
-           id="tspan3824">Kokkos compiled with </tspan></tspan><tspan
+           id="tspan8003">Kokkos compiled with </tspan></tspan><tspan
          x="410.7832"
          y="351.00314"
-         id="tspan3830"><tspan
+         id="tspan8009"><tspan
            style="fill:#ffffff;stroke:none"
-           id="tspan3828">GPU backend</tspan></tspan></text>
+           id="tspan8007">GPU backend</tspan></tspan></text>
     <rect
        style="fill:url(#linearGradient3551);stroke:#000000;stroke-width:0.1;stroke-dasharray:none;stroke-opacity:1"
        id="rect3550"
@@ -15652,89 +15647,66 @@
        id="rect1954-2"
        width="28.063299"
        height="6.7351923"
-       x="131.96852"
+       x="160.54314"
        y="53.618725"
-       rx="0.30000001"
-       ry="0.30000001" />
-    <rect
-       style="fill:url(#linearGradient5);fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-dasharray:none;stroke-opacity:1"
-       id="rect1954-2-1"
-       width="28.063299"
-       height="6.7351923"
-       x="69.589851"
-       y="53.472713"
        rx="0.30000001"
        ry="0.30000001" />
     <text
        xml:space="preserve"
-       transform="matrix(0.26458333,0,0,0.26458333,-23.220494,-10.584703)"
+       transform="matrix(0.26458333,0,0,0.26458333,52.979542,-2.6472026)"
        id="text4"
        style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:start;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect355);display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.88976;stroke-linecap:round"
        x="-36.362305"
        y="0"><tspan
          x="-82.158203"
          y="341.28359"
-         id="tspan3832">Kokkos::View&lt;int*&gt; device_view(N);
+         id="tspan8011">Kokkos::View&lt;int*&gt; my_view(N);
 </tspan><tspan
          x="-82.158203"
          y="362.48361"
-         id="tspan3834">
+         id="tspan8013">
 </tspan><tspan
          x="-82.158203"
          y="383.68362"
-         id="tspan3836">auto host_view =
+         id="tspan8015">for (int i = 0; i &lt; N ; i++) {
 </tspan><tspan
          x="-82.158203"
          y="404.88363"
-         id="tspan3838">    Kokkos::create_mirror_view(device_view);
+         id="tspan8017">    my_view(i) = i;
 </tspan><tspan
          x="-82.158203"
          y="426.08364"
-         id="tspan3840">initialize(host_view);
-</tspan><tspan
-         x="-82.158203"
-         y="447.28365"
-         id="tspan3842">
-</tspan><tspan
-         x="-82.158203"
-         y="468.48367"
-         id="tspan3844">Kokkos::deep_copy(device_view, host_view);</tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-weight:300;font-size:2.82222px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.690999"
-       x="134.495"
-       y="58.067039"
-       id="text3527-5"><tspan
-         sodipodi:role="line"
-         id="tspan3527-4"
-         style="font-size:2.82222px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.691"
-         x="134.495"
-         y="58.067039">device_view  data</tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-weight:300;font-size:2.82222px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.690999"
-       x="73.775307"
-       y="57.700089"
-       id="text3527-5-2"><tspan
-         sodipodi:role="line"
-         id="tspan3527-4-8"
-         style="font-size:2.82222px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.691"
-         x="73.775307"
-         y="57.700089">host_view data</tspan></text>
+         id="tspan8019">}</tspan></text>
     <path
-       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1.5, 1.5;stroke-dashoffset:0;stroke-opacity:1;marker-start:url(#ConcaveTriangle);marker-mid:url(#marker2);marker-end:url(#marker2)"
-       d="m 82.614003,61.801202 c 2.616122,6.165922 8.457222,10.353455 15.608194,12.723597 7.757683,2.571233 17.189423,3.614501 25.452683,1.502671 10.82756,-2.767187 17.54178,-5.229859 21.98981,-13.863343"
-       id="path6"
-       sodipodi:nodetypes="cssc" />
+       style="font-variation-settings:normal;opacity:1;fill:none;fill-opacity:1;stroke:#1300c9;stroke-width:0.8;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#ConcaveTriangle)"
+       d="m 109.62919,85.950216 c 24.35952,-1.064353 45.19671,-4.617209 55.00286,-20.749582"
+       id="path355"
+       sodipodi:nodetypes="cc" />
     <path
-       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.499999;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#marker2)"
-       d="m -29.650189,52.530275 v 8.635437"
-       id="path9"
+       style="font-variation-settings:normal;fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.7;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-start:url(#DartArrow)"
+       d="M 96.570403,100.94195 C 129.93208,99.743273 181.14987,94.030085 181.21552,61.089576"
+       id="path355-0"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="font-variation-settings:normal;opacity:1;fill:none;fill-opacity:1;stroke:#1300c9;stroke-width:0.8;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#ConcaveTriangle)"
+       d="M 109.62919,85.950216 C 133.98871,84.885863 97.517529,79.356856 93.819983,63.8832"
+       id="path356"
        sodipodi:nodetypes="cc" />
     <text
        xml:space="preserve"
-       transform="matrix(0.26458333,0,0,0.26458333,-48.744881,2.6225324)"
-       id="text9095"
-       style="white-space:pre;shape-inside:url(#rect9097);display:inline;fill:none" />
+       style="font-weight:300;font-size:5.29167px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.690999"
+       x="168.36121"
+       y="59.125374"
+       id="text3527-5"><tspan
+         sodipodi:role="line"
+         id="tspan3527-4"
+         style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.691"
+         x="168.36121"
+         y="59.125374">data</tspan></text>
+    <path
+       style="fill:#ffffff;stroke:#000000;stroke-width:0.7;stroke-opacity:1;marker-end:url(#marker2)"
+       d="M 3.9051358,96.798132 H 23.337284"
+       id="path1"
+       sodipodi:nodetypes="cc" />
   </g>
 </svg>
