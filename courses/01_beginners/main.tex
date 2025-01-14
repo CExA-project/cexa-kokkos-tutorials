@@ -835,16 +835,16 @@
     \begin{itemize}
         \item Why is it important to have an abstracted data container?
         \begin{itemize}
-            \item No need to allocate or deallocate memory by hand
-            \item Unified semantic and portable memory management (CPU and GPU)
-            \item Vendor-specific memory allocation is hidden
-            \item Advanced capabilities (abstracted layout, subarray, multidimensionality, etc.)
-            \item Safety, through runtime or compile time checks
+            \item<1-> No need to allocate or deallocate memory by hand
+            \item<2-> Unified semantic and portable memory management (CPU and GPU)
+            \item<3-> Vendor-specific memory allocation is hidden
+            \item<4-> Advanced capabilities (abstracted layout, subarray, multidimensionality, etc.)
+            \item<5-> Safety, through runtime or compile time checks
         \end{itemize}
-        \item Kokkos provides the View class
+        \item<6-> Kokkos provides the View class
         \begin{itemize}
-            \item View is an abstraction of the notion of container and multidimensional array
-            \item Brings portable Python numpy/Fortran-like syntax
+            \item<7-> View is an abstraction of the notion of container and multidimensional array
+            \item<8-> Brings portable Python numpy/Fortran-like syntax
         \end{itemize}
     \end{itemize}
 \end{frame}
@@ -978,8 +978,10 @@
     \begin{center}
         \includegraphics[width=0.65\textwidth]{view_memory.png}
     \end{center}
+    \pause
     \begin{itemize}
         \item A View data is allocated only in one specific memory (Host or Device), never both
+        \pause
         \item Suppose we created a view on the Host
     \end{itemize}
 \end{frame}
@@ -1018,7 +1020,7 @@
     \end{center}
     \begin{itemize}
         \item Kokkos abstraction for where the data are allocated: \highlight{memory space}
-        \item A View is always associated with a defined memory space (Host or Device) at compile time
+        \item A View is always associated, at compile time, to a specific memory space (Host or Device)
         \item By default, view data is allocated
         \begin{itemize}
             \item On the Host if no GPU backend is available
@@ -1089,8 +1091,10 @@
 \begin{frame}{More about views}
     \begin{itemize}
         \item Allocations only happen when explicitly specified
+        \pause
         \item Reference counting is used for automatic deallocation (like shared pointers)
-        \item Copy construction and assignment are shallow: you pass Views by value, not by pointer (e.g. C arrays) or by reference
+        \pause
+        \item Copy construction and assignment are shallow: you pass Views by value, not by pointer (e.g. C arrays) nor by reference
     \end{itemize}
 \end{frame}
 
@@ -1120,10 +1124,11 @@
 
 \begin{frame}{How to access data living on the Device from the Host?}
     \begin{center}
-        \includegraphics[width=0.9\textwidth]{device_memory_access.png}
+        \includegraphics<1>[width=0.9\textwidth]{device_memory_access_1.png}
+        \includegraphics<2>[width=0.9\textwidth]{device_memory_access_2.png}
     \end{center}
 
-    \structure{Problem:} You cannot!
+    \onslide<2>{\structure{Problem:} You cannot!}
 \end{frame}
 
 % _____________________________________________________________________________
