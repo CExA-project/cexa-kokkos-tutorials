@@ -6,14 +6,14 @@
 name: Test projects
 
 on:
-  pull_request:
+  push:
     branches:
       - main
+  pull_request:
     paths:
       - 'projects/**'
 
 jobs:
-
   build_test_projects:
     runs-on: ubuntu-latest
     steps:
