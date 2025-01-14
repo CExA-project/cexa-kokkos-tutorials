@@ -2,7 +2,7 @@
 
 \documentclass[
     aspectratio=169,
-    handout,
+    %handout,
 ]{beamer}
 \usepackage{minted}
 \usepackage{xcolor}
@@ -282,6 +282,7 @@
                 \item[Productivity] Write code quickly and easily, maintain and extend code, leverage architecture optimization
             \end{description}
         \end{column}
+        \pause
         \begin{column}{0.55\linewidth}
             What \emph{developers for science} also want
 
@@ -314,6 +315,7 @@
                 \item Want your code to be easily maintainable and readable by others, especially non experts
             \end{itemize}
         \end{column}
+        \pause
         \begin{column}{0.5\linewidth}
             Maybe \emph{no} if you...
 
@@ -361,12 +363,14 @@
             \item Abstraction of most parallel patterns used in HPC (loops, reduction, scan)
             \item Abstracted basic data structures used in science (vectors, multidimensional arrays, sub-arrays, strided arrays, etc)
         \end{itemize}
+        \pause
         \item Kokkos' advanced capabilities
         \begin{itemize}
             \item Advanced data structure properties
             \item Thread safety, thread scalability, and atomic operations
             \item Hierarchical patterns for maximizing parallelism
         \end{itemize}
+        \pause
         \item Kokkos' tools and Kernels
         \begin{itemize}
             \item Profiling, tuning and debuging tools
@@ -461,6 +465,7 @@
                     -DCMAKE_CXX_COMPILER=g++
             \end{minted}
         \end{column}
+        \pause
         \begin{column}{0.4\linewidth}
             \begin{center}
                 \begin{tblr}[theme=kokkostable]{ll}
@@ -492,6 +497,7 @@
                     -DKokkos_ENABLE_CUDA=ON
             \end{minted}
         \end{column}
+        \pause
         \begin{column}{0.55\linewidth}
             \begin{center}
                 \begin{tblr}[theme=kokkostable]{ll}
@@ -529,6 +535,7 @@
                 \item All CMake options are available \doclink{\href{https://kokkos.org/kokkos-core-wiki/keywords.html}{in the doc}}
             \end{itemize}
         \end{column}
+        \pause
         \begin{column}{0.6\linewidth}
             \begin{center}
                 \small
@@ -613,6 +620,7 @@
                 \end{itemize}
             \end{alertblock}
         \end{column}
+        \pause
         \begin{column}{0.25\linewidth}
             \strut As a Git submodule
 
@@ -631,6 +639,7 @@
                 \end{itemize}
             \end{alertblock}
         \end{column}
+        \pause
         \begin{column}{0.25\linewidth}
             \strut Using CMake
 
@@ -647,6 +656,7 @@
                 \end{itemize}
             \end{alertblock}
         \end{column}
+        \pause
         \begin{column}{0.25\linewidth}
             \strut With Spack
 
@@ -1322,6 +1332,7 @@
                 Only works on CPUs (need \texttt{target} directive for GPUs)
             \end{block}
         \end{column}
+        \pause
         \begin{column}{0.5\linewidth}
             Kokkos version
 
@@ -1366,8 +1377,9 @@
         \end{column}
     \end{columns}
 
-    \vspace{1em}
+    \pause
 
+    \vspace{1em}
     \structure{Question:} What is this \texttt{KOKKOS\_LAMBDA} thingy?
 \end{frame}
 
@@ -1402,11 +1414,13 @@
     \end{center}
     \begin{itemize}
         \item Kokkos abstraction for where the loop is executed : \highlight{execution space}
+        \pause
         \item Parallel code (i.e. inside a \texttt{parallel\_*}) is by default executed
         \begin{itemize}
             \item By the Host if no GPU backend is available
             \item By the Device otherwise
         \end{itemize}
+        \pause
         \item Serial code (the rest) is always executed on the Host
     \end{itemize}
 \end{frame}
@@ -1439,8 +1453,10 @@
         \end{column}
     \end{columns}
 
+    \pause
+
     \vspace{1em}
-    \structure{Problem:} What if I need the results of the parallel loop in the host code?
+    \structure{Problem:} What if I need the result of the parallel loop in the host code?
 \end{frame}
 
 % _____________________________________________________________________________
@@ -1542,6 +1558,7 @@
                 );
             \end{minted}
         \end{column}
+        \pause
         \begin{column}{0.55\linewidth}
             Explicit version (same)\strut
 
@@ -1569,6 +1586,7 @@
         \item \texttt{Kokkos::DefaultExecutionSpace} and \texttt{Kokkos::DefaultHostExecutionSpace} are enough for beginners
         \item Using a backend-specific execution space is possible, but it breaks portability
     \end{itemize}
+    \pause
     \begin{center}
         \begin{tblr}[theme=kokkostable]{colspec=lll, row{2}={bg=lightmain}}
             & \SetCell[c=2]{l} Kokkos compiled on \\
@@ -1595,6 +1613,7 @@
         \item \texttt{memory\_space} attribute to access the memory space associated with an execution space
         \item \texttt{HostSpace} for memory space of the default host execution space
     \end{itemize}
+    \pause
     \begin{center}
         % allow the table to overflow horizontally
         \makebox[\linewidth][c]{%
@@ -1803,7 +1822,11 @@
         );
     \end{minted}
 
+    \pause
+
     \structure{Note:} Notice that mathematical operators are in the \texttt{Kokkos} namespace
+
+    \pause
 
     \structure{Beware:} \texttt{Kokkos::max} is not the same as \texttt{Kokkos::Max<double>}!
 \end{frame}
