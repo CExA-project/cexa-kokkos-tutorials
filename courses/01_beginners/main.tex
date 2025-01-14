@@ -1,6 +1,9 @@
 % !TeX program = xelatex
 
-\documentclass[aspectratio=169]{beamer}
+\documentclass[
+    aspectratio=169,
+    handout,
+]{beamer}
 \usepackage{minted}
 \usepackage{xcolor}
 \usepackage{tcolorbox}
@@ -1649,7 +1652,7 @@
             \begin{minted}{C++}
                 Kokkos::MDRangePolicy<
                     ExecutionSpace,
-                    Rank<n>
+                    Kokkos::Rank<n>
                 > policy(
                     {start_index_0, ..., start_index_n},
                     {end_index_0, ..., end_index_n}
@@ -1804,6 +1807,8 @@
     \end{minted}
 
     \structure{Note:} Notice that mathematical operators are in the \texttt{Kokkos} namespace
+
+    \structure{Beware:} \texttt{Kokkos::max} is not the same as \texttt{Kokkos::Max<double>}!
 \end{frame}
 
 % _____________________________________________________________________________
