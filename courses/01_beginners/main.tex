@@ -1,6 +1,9 @@
 % !TeX program = xelatex
 
-\documentclass[aspectratio=169]{beamer}
+\documentclass[
+    aspectratio=169,
+    handout,
+]{beamer}
 \usepackage{minted}
 \usepackage{xcolor}
 \usepackage{tcolorbox}
@@ -9,9 +12,6 @@
 \usepackage{tabularray}
 
 \usetheme{cexa-kokkos}
-
-%\BeforeBeginEnvironment{minted}{\begin{tcolorbox}}
-%\AfterEndEnvironment{minted}{\end{tcolorbox}}
 
 \AtBeginSection{
     \begin{frame}{Outline}
@@ -272,7 +272,7 @@
 \begin{frame}{Performance, portability and productivity}
     \begin{columns}[T]
         \begin{column}{0.45\linewidth}
-            What \emph{every developer} want
+            What \emph{most developers} want
 
             \vspace{1em}
 
@@ -339,7 +339,7 @@
     \end{center}
     \begin{itemize}
         \item Kokkos provides data structures and functions based on modern C++ to build your application
-        \item Developers never directly use underlying backends (no CUDA kernels for instance)
+        \item Developers never directly use underlying backends (no Cuda kernels for instance)
     \end{itemize}
 \end{frame}
 
@@ -499,7 +499,6 @@
                     Serial & \texttt{-DKokkos\_ENABLE\_SERIAL=ON} \\
                     OpenMP & \texttt{-DKokkos\_ENABLE\_OPENMP=ON} \\
                     Threads & \texttt{-DKokkos\_ENABLE\_THREADS=ON} \\
-                    HPX & \texttt{-DKokkos\_ENABLE\_HPX=ON} \\
                     Cuda & \texttt{-DKokkos\_ENABLE\_CUDA=ON} \\
                     HIP & \texttt{-DKokkos\_ENABLE\_HIP=ON} \\
                     SYCL & \texttt{-DKokkos\_ENABLE\_SYCL=ON} \\
@@ -514,7 +513,7 @@
     \begin{frame}{Warning regarding the backends}
     \begin{itemize}
         \item All backends \highlight{do not have the same level of maturity}, some are experimental!
-        \item The backend environment (for instance CUDA) must be available on the target machine, \highlight{Kokkos does not install it for you}!
+        \item The backend environment (for instance Cuda) must be available on the target machine, \highlight{Kokkos does not install it for you}!
     \end{itemize}
 \end{frame}
 
@@ -532,8 +531,10 @@
         \end{column}
         \begin{column}{0.6\linewidth}
             \begin{center}
+                \small
                 \begin{tblr}[theme=kokkostable]{ll}
                     GPU model & Option \\
+                    AMD MI300A & \texttt{-DKokkos\_ARCH\_AMD\_GHX942\_APU=ON} \\
                     AMD MI300X & \texttt{-DKokkos\_ARCH\_AMD\_GHX942=ON} \\
                     AMD MI250X & \texttt{-DKokkos\_ARCH\_AMD\_GHX90A=ON} \\
                     Intel GPU Max & \texttt{-DKokkos\_ARCH\_INTEL\_PVC=ON} \\
@@ -568,7 +569,7 @@
                 \item Compiling for a multi-core Xeon Skylake CPU and a A100 NVIDIA GPU
                 \item OpenMP option for the multi-core CPU
                 \item Skylake option, mostly for vectorization (optional)
-                \item CUDA option for the GPU
+                \item Cuda option for the GPU
                 \item A100 option, for the correct architecture (mandatory)
             \end{itemize}
         \end{column}
@@ -783,10 +784,13 @@
     \begin{columns}
         \begin{column}{0.6\linewidth}
             \begin{minted}{bash}
+                # configure
                 cmake \
                     -B ${build_dir} \
                     -DCMAKE_CXX_COMPILER=${compiler} \
                     <other options>
+
+                # build
                 cmake \
                     --build ${build_dir} \
                     --parallel ${jobs}
@@ -796,6 +800,7 @@
             \begin{itemize}
                 \item If Kokkos is installed, it propagates its compilation flags to your program
                 \item Otherwise, you specify Kokkos options along with the ones of your program
+                \item You may want to add \texttt{-DCMAKE\_BUILD\_TYPE=<Mode>}
                 \item Build in parallel
             \end{itemize}
         \end{column}
@@ -904,6 +909,33 @@
                 \item Data are accessed using the parenthesis operator \texttt{(i, j, k, ...)}
                 \item Raw data can be accessed using the \texttt{data()} method (not recommended)
             \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}[fragile]{Copy and assignation}
+    \begin{columns}
+        \begin{column}{0.6\linewidth}
+            \begin{minted}{C++}
+                View<int*[5]> a("a", N), b("b", M);
+                a = b;
+                View<int**> c(b);
+
+                a(0, 2) = 1;
+                b(0, 2) = 2;
+                c(0, 2) = 3;
+
+                std::cout << a(0, 2) << std::endl;
+            \end{minted}
+        \end{column}
+        \begin{column}{0.4\linewidth}
+            \structure{Question:} What gets printed?
+
+            \pause
+
+            \structure{Answer:} 3
         \end{column}
     \end{columns}
 \end{frame}
@@ -1370,12 +1402,12 @@
     \end{center}
     \begin{itemize}
         \item Kokkos abstraction for where the loop is executed : \highlight{execution space}
-        \item By default, parallel code (i.e. inside a \texttt{parallel\_*}) is executed
+        \item Parallel code (i.e. inside a \texttt{parallel\_*}) is by default executed
         \begin{itemize}
             \item By the Host if no GPU backend is available
             \item By the Device otherwise
         \end{itemize}
-        \item What is not parallel code (the rest) is always executed by the Host
+        \item Serial code (the rest) is always executed on the Host
     \end{itemize}
 \end{frame}
 
@@ -1617,7 +1649,7 @@
             \begin{minted}{C++}
                 Kokkos::MDRangePolicy<
                     ExecutionSpace,
-                    Rank<n>
+                    Kokkos::Rank<n>
                 > policy(
                     {start_index_0, ..., start_index_n},
                     {end_index_0, ..., end_index_n}
@@ -1772,6 +1804,8 @@
     \end{minted}
 
     \structure{Note:} Notice that mathematical operators are in the \texttt{Kokkos} namespace
+
+    \structure{Beware:} \texttt{Kokkos::max} is not the same as \texttt{Kokkos::Max<double>}!
 \end{frame}
 
 % _____________________________________________________________________________
