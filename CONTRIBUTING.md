@@ -1,8 +1,8 @@
 # Contributing to the tutorials
 
-## Add a new exercise
+## Add a new exercise or a new project
 
-### Exercise structure
+### Directory structure
 
 ```
 new_exercise/
@@ -18,14 +18,14 @@ new_exercise/
 
 ### Testing
 
-Exercises should be tested in the CI.
-To do so, edit `exercises/CMakeLists.txt` to append your exercise directory with `add_subdirectory`:
+Exercises and projects should be tested in the CI.
+To do so, edit `exercises/CMakeLists.txt` or `projects/CMakeLists.txt` to append your exercise directory with `add_subdirectory`:
 
 ```cmake
 add_subdirectory(my_exercise)
 ```
 
-In your `solution/CMakeLists.txt`, add your solution target as a test.
+In your `solution/CMakeLists.txt` (or any build you want to test), add your solution target as a test.
 
 ```cmake
 add_test(
@@ -33,5 +33,7 @@ add_test(
     COMMAND my_exercise
 )
 ```
+
+You can customise the `COMMAND` with any extra arguments for the test.
 
 The new exercise will be automatically built and tested by the CI.

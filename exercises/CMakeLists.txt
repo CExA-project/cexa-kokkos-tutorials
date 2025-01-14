@@ -1,6 +1,6 @@
 cmake_minimum_required (VERSION 3.21)
 
-project(CexaKokkosTutorials LANGUAGES CXX)
+project(CexaKokkosTutorialsExercises LANGUAGES CXX)
 
 enable_testing()
 
