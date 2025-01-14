@@ -28,7 +28,7 @@ endif()
 # find Kokkos as an existing source directory
 set(
     CexaKokkosTutorials_KOKKOS_SOURCE_DIR
-    "${CMAKE_CURRENT_SOURCE_DIR}/../../vendor/kokkos"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../../../vendor/kokkos"
     CACHE
     PATH
     "Path to the local source directory of Kokkos"
