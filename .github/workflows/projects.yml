@@ -8,32 +8,16 @@ name: Test projects
 run-name: Test projects
 
 on:
-  push:
-    paths:
-      - 'projects/**'
   pull_request:
     branches:
-      - '**'
+      - main
+    paths:
+      - 'projects/**'
 
 jobs:
 
-  # changes:
-  #   runs-on: ubuntu-latest
-  #   outputs:
-  #     projects_changed: ${{ steps.filter.outputs.wave }}
-  #   steps:
-  #   - uses: actions/checkout@v4
-  #   - uses: dorny/paths-filter@v3
-  #     id: filter
-  #     with:
-  #       filters: |
-  #         wave:
-  #           - 'projects/wave/**'
-
   build_kokkos:
     runs-on: ubuntu-latest
-    #needs: changes
-    #if: ${{ github.event_name == 'pull_request' || needs.changes.outputs.projects_changed == 'true' }}
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v4
@@ -55,7 +39,6 @@ jobs:
   build_wave_projects:
     runs-on: ubuntu-latest
     needs: [build_kokkos]
-    #if: ${{ github.event_name == 'pull_request' || needs.changes.outputs.projects_changed == 'true' }}
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v4
