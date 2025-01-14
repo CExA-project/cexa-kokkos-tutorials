@@ -30,8 +30,8 @@ mv kokkos-4.5.01 kokkos
 
 ### Use the submodule
 
-The `../vendor/kokkos` directory contains Kokkos as a Git submodule.
-If you haven't cloned the repository recursively, you can get it with:
+The `../../../vendor/kokkos` directory contains Kokkos as a Git submodule.
+If you haven't cloned the repository recursively already, you can get it with:
 
 ```sh
 git submodule update --init
@@ -40,7 +40,7 @@ git submodule update --init
 Then you create a link here:
 
 ```sh
-ln -s ../vendor/kokkos kokkos
+ln -s ../../../vendor/kokkos kokkos
 ```
 
 ## Step 2: Build Kokkos with default parameters
@@ -51,7 +51,7 @@ This way, you can easily clean up the build directory without affecting the sour
 To create a build directory and build Kokkos with default parameters, you can use the following commands:
 
 ```bash
-cmake -B build_serial -DCMAKE_INSTALL_PREFIX=${PWD}/install_default kokkos
+cmake -B build_serial -DCMAKE_INSTALL_PREFIX=${PWD}/install_serial kokkos
 cmake --build build_serial
 cmake --install build_serial
 ```

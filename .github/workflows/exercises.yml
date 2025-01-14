@@ -6,27 +6,27 @@
 name: Test exercises
 
 on:
-  pull_request:
+  push:
     branches:
       - main
+  pull_request:
     paths:
       - 'exercises/**'
 
 jobs:
-
   build_test_exercises:
     runs-on: ubuntu-latest
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v4
-      - name: Prepare all exercices and solutions with the OpenMP backend
+      - name: Prepare all exercices with the OpenMP backend
         run: |
           cmake \
             -B build \
             -DCMAKE_BUILD_TYPE=Release \
             -DKokkos_ENABLE_OPENMP=ON \
             exercises
-      - name: Build all exercises and solutions
+      - name: Build all exercises
         run: |
           cmake \
             --build build \

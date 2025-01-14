@@ -5,87 +5,38 @@
 
 name: Test projects
 
-run-name: Test projects
-
 on:
   push:
+    branches:
+      - main
+  pull_request:
     paths:
       - 'projects/**'
-  pull_request:
-    branches:
-      - '**'
 
 jobs:
-
-  # changes:
-  #   runs-on: ubuntu-latest
-  #   outputs:
-  #     projects_changed: ${{ steps.filter.outputs.wave }}
-  #   steps:
-  #   - uses: actions/checkout@v4
-  #   - uses: dorny/paths-filter@v3
-  #     id: filter
-  #     with:
-  #       filters: |
-  #         wave:
-  #           - 'projects/wave/**'
-
-  build_kokkos:
+  build_test_projects:
     runs-on: ubuntu-latest
-    #needs: changes
-    #if: ${{ github.event_name == 'pull_request' || needs.changes.outputs.projects_changed == 'true' }}
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v4
-      - name: Install Kokkos
+      - name: Prepare all projects with the OpenMP backend
         run: |
-          git clone https://github.com/kokkos/kokkos.git
-          cd kokkos
-          git checkout develop
-          mkdir build_openmp
-          mkdir install_openmp
-          cmake -B build_openmp  -DCMAKE_INSTALL_PREFIX=${PWD}/install_openmp -DKokkos_ENABLE_OPENMP=ON ./
-          make install -C build_openmp
-      - name: Upload Kokkos artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: kokkos
-          path: kokkos/install_openmp
-
-  build_wave_projects:
-    runs-on: ubuntu-latest
-    needs: [build_kokkos]
-    #if: ${{ github.event_name == 'pull_request' || needs.changes.outputs.projects_changed == 'true' }}
-    steps:
-      - name: Set up Git repository
-        uses: actions/checkout@v4
-      - name: Download Kokkos artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: kokkos
-          path: kokkos/install_openmp
-      - name: wave sequential
+          cmake \
+            -B build \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DKokkos_ENABLE_OPENMP=ON \
+            projects
+      - name: Build all projects
         run: |
-          cd projects/wave/sequential/
-          cmake -DCMAKE_BUILD_TYPE=Release ./
-          make
-          ./exe
-          cd ${GITHUB_WORKSPACE}
-      - name: wave openMP
+          cmake \
+            --build build \
+            --parallel $(($(nproc) * 2 + 1))
+      - name: Test all solutions and reference implementations
+        env:
+          OMP_PROC_BIND: spread
+          OMP_PLACES: threads
+          OMP_NUM_THREADS: 2
         run: |
-          cd projects/wave/omp
-          cmake -DCMAKE_BUILD_TYPE=Release ./
-          make
-          export OMP_NUM_THREADS=2
-          export OMP_PROC_BIND=true
-          export OMP_SCHEDULER=dynamic
-          ./exe --size 128 128 --time 5 --output-period 100 --print-period 100 --domain-length 10 10 --boundary 1
-          cd ${GITHUB_WORKSPACE}
-      - name: wave Kokkos
-        run: |
-          cd projects/wave/solution/
-          cmake -DCMAKE_BUILD_TYPE=Release -DKokkos_DIR=${GITHUB_WORKSPACE}/kokkos/install_openmp/lib/cmake/Kokkos/ ./
-          make
-          ./exe --size 128 128 --time 5 --output-period 100 --print-period 100 --domain-length 10 10 --boundary 1
-          cd ${GITHUB_WORKSPACE}
-  
+          ctest \
+            --test-dir build \
+            --output-on-failure
