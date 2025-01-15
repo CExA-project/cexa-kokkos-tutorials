@@ -977,31 +977,6 @@
     \end{columns}
 \end{frame}
 
-\begin{frame}[fragile]{Copy and assignation}
-    \begin{columns}
-        \begin{column}{0.6\linewidth}
-            \begin{minted}{C++}
-                View<int*[5]> a("a", N), b("b", M);
-                a = b;
-                View<int**> c(b);
-
-                a(0, 2) = 1;
-                b(0, 2) = 2;
-                c(0, 2) = 3;
-
-                std::cout << a(0, 2) << std::endl;
-            \end{minted}
-        \end{column}
-        \begin{column}{0.4\linewidth}
-            \structure{Question:} What gets printed?
-
-            \pause
-
-            \structure{Answer:} 3
-        \end{column}
-    \end{columns}
-\end{frame}
-
 % _____________________________________________________________________________
 
 \begin{frame}{Where are a View data stored?}
@@ -1130,6 +1105,33 @@
 
 % _____________________________________________________________________________
 
+\begin{frame}[fragile]{Copy and assignation}
+    \begin{columns}
+        \begin{column}{0.6\linewidth}
+            \begin{minted}{C++}
+                View<int*[5]> a("a", N), b("b", M);
+                a = b;
+                View<int**> c(b);
+
+                a(0, 2) = 1;
+                b(0, 2) = 2;
+                c(0, 2) = 3;
+
+                std::cout << a(0, 2) << std::endl;
+            \end{minted}
+        \end{column}
+        \begin{column}{0.4\linewidth}
+            \structure{Question:} What gets printed?
+
+            \pause
+
+            \structure{Answer:} 3
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% _____________________________________________________________________________
+
 \begin{exerciseframe}{Exercise 2: How to use and manage Kokkos Views}
     \begin{columns}
         \begin{column}{0.5\linewidth}
@@ -1154,7 +1156,7 @@
 
 \begin{frame}{How to access data living on the Device from the Host?}
     \begin{center}
-        \includegraphics<1>[width=0.9\textwidth]{device_memory_access_1.png}
+        \includegraphics<1|handout:0>[width=0.9\textwidth]{device_memory_access_1.png}
         \includegraphics<2>[width=0.9\textwidth]{device_memory_access_2.png}
     \end{center}
 
