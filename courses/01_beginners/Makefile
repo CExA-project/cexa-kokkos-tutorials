@@ -1,7 +1,10 @@
-all: main
+handout:
+	latexmk -pdfxe -shell-escape -jobname=handout -usepretex="\def\ishandout{handout}" $<
 
-%:
-	latexmk -pdfxe $<
+all: handout presentation
+
+presentation:
+	latexmk -pdfxe -shell-escape -jobname=presentation -usepretex="\def\ishandout{}" $<
 
 clean:
 	latexmk -c
