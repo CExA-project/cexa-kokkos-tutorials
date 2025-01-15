@@ -1010,6 +1010,9 @@
     \begin{center}
         \includegraphics[width=0.65\textwidth]{device_view_memory.png}
     \end{center}
+
+    \vspace{-0.5em}
+
     \begin{itemize}
         \item If Kokkos is compiled with a \highlight{GPU backend}, the View data is allocated in the \highlight{Device memory} by default
         \item Metadata are on the Host
@@ -1267,7 +1270,7 @@
 % _____________________________________________________________________________
 
 \begin{frame}[fragile]{Deep copy data between memory space}
-    \begin{columns} %
+    \begin{columns}
         \begin{column}{0.61\linewidth}
             \begin{minted}{C++}
                 Kokkos::View<int**>
@@ -1287,9 +1290,9 @@
         \end{column}
         \begin{column}{0.4\linewidth}
             \begin{itemize}
-                \item \texttt{deep\_copy(dst, src)} copy src to dst, even if the data are in different memory spaces
+                \item \texttt{deep\_copy(dst, src)} copy \texttt{src} to \texttt{dst}, even if the data are in different memory spaces
                 \item Views must be similar (same shape, layout, etc.)
-                \item If \texttt{deep\_copy} detects that the destination view is a shallow copy of the source view (created by create\_mirror\_view for instance), it does nothing
+                \item If \texttt{deep\_copy} detects that the destination view is a shallow copy of the source view (created by \texttt{create\_mirror\_view} for instance), it does nothing
             \end{itemize}
         \end{column}
     \end{columns}
