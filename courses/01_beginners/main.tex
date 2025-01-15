@@ -875,15 +875,16 @@
     \begin{itemize}
         \item Why is it important to have an abstracted data container?
         \begin{itemize}
-            \item No need to allocate or deallocate memory by hand
-            \item Vendor-specific memory allocation is hidden
-            \item Unified semantic and portable memory management (CPU and GPU)
-            \item Advanced capabilities (abstracted layout, subarray, multidimensionality, etc.)
+            \item<1-> No need to allocate or deallocate memory by hand
+            \item<2-> Unified semantic and portable memory management (CPU and GPU)
+            \item<3-> Vendor-specific memory allocation is hidden
+            \item<4-> Advanced capabilities (abstracted layout, subarray, multidimensionality, etc.)
+            \item<5-> Safety, through runtime or compile time checks
         \end{itemize}
-        \item Kokkos provides the View class
+        \item<6-> Kokkos provides the View class
         \begin{itemize}
-            \item View is an abstraction of the notion of container and multidimensional array
-            \item Brings portable Python numpy/Fortran-like syntax
+            \item<7-> View is an abstraction of the notion of container and multidimensional array
+            \item<8-> Brings portable Python numpy/Fortran-like syntax
         \end{itemize}
     \end{itemize}
 \end{frame}
@@ -894,27 +895,57 @@
     \begin{columns}
         \begin{column}{0.6\linewidth}
             \begin{minted}{C++}
-                Kokkos::View<int[10]>
-                    view1("static size");
-
                 Kokkos::View<float*>
-                    view2("dynamic size", 10);
+                    view1("dynamic size", 10);
+
+                Kokkos::View<int[100]>
+                    view2("static size");
 
                 Kokkos::View<double*[10]>
                     view3("static and dynamic size", 10);
+
+                Kokkos::View<double***[10]>
+                    view4("four dimensions", 10, 10, 10);
             \end{minted}
         \end{column}
         \begin{column}{0.4\linewidth}
             \begin{itemize}
                 \item View is a template class
                 \item Contains any C++ type (\texttt{int}, \texttt{float}, \texttt{double}, etc)
-                \item Number of dimensions fixed at compilation time
+                \item Number of dimensions, fixed at compile time (no more than 7)
                 \item Size of each dimension determined at...
                 \begin{description}[\texttt{[n]}]
-                    \item[\texttt{[n]}] compile time
                     \item[\texttt{*}] runtime
+                    \item[\texttt{[n]}] compile time
                 \end{description}
-                \item Name (bonus for debugging!)
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}[fragile]{Creating a View (2)}
+    \begin{columns}
+        \begin{column}{0.6\linewidth}
+            \begin{minted}{C++}
+                Kokkos::View<float*>
+                    view1("dynamic size", 10);
+
+                Kokkos::View<int[100]>
+                    view2("static size");
+
+                Kokkos::View<double*[10]>
+                    view3("static and dynamic size", 10);
+
+                Kokkos::View<double***[10]>
+                    view4("four dimensions", 10, 10, 10);
+            \end{minted}
+        \end{column}
+        \begin{column}{0.4\linewidth}
+            \begin{itemize}
+                \item Name (useful for debugging!)
+                \item Check at compile time and runtime (out of bound, same size for operations, ...)
             \end{itemize}
         \end{column}
     \end{columns}
@@ -950,81 +981,7 @@
 
 % _____________________________________________________________________________
 
-\begin{frame}[fragile]{Copy and assignation}
-    \begin{columns}
-        \begin{column}{0.6\linewidth}
-            \begin{minted}{C++}
-                View<int*[5]> a("a", N), b("b", M);
-                a = b;
-                View<int**> c(b);
-
-                a(0, 2) = 1;
-                b(0, 2) = 2;
-                c(0, 2) = 3;
-
-                std::cout << a(0, 2) << std::endl;
-            \end{minted}
-        \end{column}
-        \begin{column}{0.4\linewidth}
-            \structure{Question:} What gets printed?
-
-            \pause
-
-            \structure{Answer:} 3
-        \end{column}
-    \end{columns}
-\end{frame}
-
-% _____________________________________________________________________________
-
-\begin{frame}{Where does the data live?}
-    \begin{center}
-        \includegraphics[width=0.65\textwidth]{view_memory.png}
-    \end{center}
-    \begin{itemize}
-        \item A View data lives only in a specific memory space (Host or Device), not both
-        \item Suppose we created a view on the Host
-    \end{itemize}
-\end{frame}
-
-% _____________________________________________________________________________
-
-\begin{frame}{Where does the data live? CPU version}
-    \begin{center}
-        \includegraphics[width=0.65\textwidth]{host_view_memory.png}
-    \end{center}
-    \begin{itemize}
-        \item If Kokkos is compiled with a \highlight{CPU backend only}, the View data is allocated in the \highlight{Host memory} by default
-        \item Host view data usually \highlight{cannot} be accessed on the Device
-    \end{itemize}
-\end{frame}
-
-% _____________________________________________________________________________
-
-\begin{frame}{Where does the data live? GPU version}
-    \begin{center}
-        \includegraphics[width=0.65\textwidth]{device_view_memory.png}
-    \end{center}
-    \begin{itemize}
-        \item If Kokkos is compiled with a \highlight{GPU backend}, the View data is allocated in the \highlight{Device memory} by default
-        \item Device view data usually \highlight{cannot} be accessed on the Host (we'll see later how to transfer data)
-    \end{itemize}
-\end{frame}
-
-% _____________________________________________________________________________
-
-\begin{frame}{More about views}
-    \begin{itemize}
-        \item Allocations only happen when explicitly specified
-        \item Copy construction and assignment are shallow: you pass Views by value, not by pointer (e.g. C arrays) or by reference
-        \item Reference counting is used for automatic deallocation (like shared pointers)
-        \item Views have a \highlight{limited} number of dimensions (up to 7)
-    \end{itemize}
-\end{frame}
-
-% _____________________________________________________________________________
-
-\begin{frame}[fragile]{Useful methods to manage views}
+\begin{frame}[fragile]{Basic methods to manage views}
     \begin{columns}
         \begin{column}{0.45\linewidth}
             \begin{minted}{C++}
@@ -1057,6 +1014,87 @@
 
 % _____________________________________________________________________________
 
+\begin{frame}{Where are a View data stored?}
+    \begin{center}
+        \includegraphics[width=0.65\textwidth]{view_memory.png}
+    \end{center}
+    \pause
+    \begin{itemize}
+        \item A View data is allocated only in one specific memory (Host or Device), never both
+        \pause
+        \item Suppose we created a view on the Host
+    \end{itemize}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}{Where are a View data stored? CPU version}
+    \begin{center}
+        \includegraphics[width=0.65\textwidth]{host_view_memory.png}
+    \end{center}
+    \begin{itemize}
+        \item If Kokkos is compiled with a \highlight{CPU backend only}, the View data is allocated in the \highlight{Host memory} by default
+        \item View comes with metadata (number of dimensions, size, ...) and data
+        \item Host view data usually \highlight{cannot} be accessed from the Device
+    \end{itemize}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}{Where are a View data stored? GPU version}
+    \begin{center}
+        \includegraphics[width=0.65\textwidth]{device_view_memory.png}
+    \end{center}
+
+    \vspace{-0.5em}
+
+    \begin{itemize}
+        \item If Kokkos is compiled with a \highlight{GPU backend}, the View data is allocated in the \highlight{Device memory} by default
+        \item Metadata are on the Host
+        \item Device view data usually \highlight{cannot} be accessed on the Host (we'll see later how to transfer data)
+    \end{itemize}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}{The concept of memory space}
+    \begin{center}
+        \includegraphics[width=0.7\linewidth]{memory_space.png}
+    \end{center}
+    \begin{itemize}
+        \item Kokkos abstraction for where the data are allocated: \highlight{memory space}
+        \item A View is always associated, at compile time, to a specific memory space (Host or Device)
+        \item By default, view data is allocated
+        \begin{itemize}
+            \item On the Host if no GPU backend is available
+            \item On the Device otherwise
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}[fragile]{How to set a memory space}
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            \begin{minted}{C++}
+                Kokkos::View<int**, MemorySpace>
+                    my_matrix("matrix", 10, 10);
+            \end{minted}
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            \begin{itemize}
+                \item Template argument \texttt{MemorySpace} to specify the memory space when creating a view
+                \item Several ones available
+                \item Using a backend-specific memory space is possible, but it breaks portability
+                \item Default values are usually sufficient for basic usages
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% _____________________________________________________________________________
+
 \begin{frame}{Notion of View layout}
     \begin{center}
         \includegraphics[width=0.8\textwidth]{layout_right_left.png}
@@ -1065,8 +1103,69 @@
         \item Layout is the way multidimensional indices map to linear memory
         \item Kokkos provides an abstraction of the data layout
         \item The default layout of a View depends on the backend (Host or Device)
-        \item Not covered in this talk
     \end{itemize}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}[fragile]{How to set a View layout}
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            \begin{minted}{C++}
+                Kokkos::View<int**,
+                  MemorySpace, Layout>
+                    my_matrix("matrix", 10, 10);
+            \end{minted}
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            \begin{itemize}
+                \item Template argument \texttt{Layout} to specify the layout when creating a view
+                \item If you specify a Layout, you must also specify a memory space
+                \item Several ones available (Left, Right, Block, ...)
+                \item Possible to define your own custom layout
+                \item Default values are usually sufficient for basic usages
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}{More about views}
+    \begin{itemize}
+        \item Allocations only happen when explicitly specified
+        \pause
+        \item Reference counting is used for automatic deallocation (like shared pointers)
+        \pause
+        \item Copy construction and assignment are shallow: you pass Views by value, not by pointer (e.g. C arrays) nor by reference
+    \end{itemize}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}[fragile]{Copy and assignation}
+    \begin{columns}
+        \begin{column}{0.6\linewidth}
+            \begin{minted}{C++}
+                View<int*[5]> a("a", N), b("b", M);
+                a = b;
+                View<int**> c(b);
+
+                a(0, 2) = 1;
+                b(0, 2) = 2;
+                c(0, 2) = 3;
+
+                std::cout << a(0, 2) << std::endl;
+            \end{minted}
+        \end{column}
+        \begin{column}{0.4\linewidth}
+            \structure{Question:} What gets printed?
+
+            \pause
+
+            \structure{Answer:} 3
+        \end{column}
+    \end{columns}
 \end{frame}
 
 % _____________________________________________________________________________
@@ -1117,50 +1216,11 @@
 
 \begin{frame}{How to access data living on the Device from the Host?}
     \begin{center}
-        \includegraphics[width=0.9\textwidth]{device_memory_access.png}
+        \includegraphics<1|handout:0>[width=0.9\textwidth]{device_memory_access_1.png}
+        \includegraphics<2>[width=0.9\textwidth]{device_memory_access_2.png}
     \end{center}
 
-    \structure{Problem:} You cannot!
-\end{frame}
-
-% _____________________________________________________________________________
-
-\begin{frame}{The concept of memory space}
-    \begin{center}
-        \includegraphics[width=0.7\linewidth]{memory_space.png}
-    \end{center}
-    \begin{itemize}
-        \item Kokkos abstraction for where the data lives: \highlight{memory space}
-        \item A View is always associated with a defined memory space (Host or Device) at compile time
-        \item By default, view data is allocated
-        \begin{itemize}
-            \item On the Host if no GPU backend is available
-            \item On the Device otherwise
-        \end{itemize}
-    \end{itemize}
-\end{frame}
-
-% _____________________________________________________________________________
-
-\begin{frame}[fragile]{How to set a memory space}
-    \begin{columns}
-        \begin{column}{0.5\linewidth}
-            \begin{minted}{C++}
-                Kokkos::View<int**, MemorySpace>
-                    my_matrix("matrix", 10, 10);
-            \end{minted}
-        \end{column}
-        \begin{column}{0.5\linewidth}
-            \begin{itemize}
-                \item Template argument \texttt{MemorySpace} to specify the memory space when creating a view
-                \item Several ones available
-                \item Using a backend-specific memory space is possible, but it breaks portability
-                \item Beginners usually do not need to set it (we'll see why)
-            \end{itemize}
-        \end{column}
-    \end{columns}
-
-    \structure{But:} That's not what you need
+    \onslide<2>{\structure{Problem:} You cannot!}
 \end{frame}
 
 % _____________________________________________________________________________
@@ -1183,6 +1243,7 @@
                 \item Created with \texttt{create\_mirror}
                 \item Similar to its original view (shape, layout, etc.)
                 \item Used to create a mirror of a device view on the host
+                \item \texttt{create\_mirror} allocates the memory but it \highlight{doesn't copy the data}!
             \end{itemize}
         \end{column}
     \end{columns}
@@ -1206,7 +1267,7 @@
     \end{center}
     \begin{itemize}
         \item For portability reason, we always use a mirror view whether we compile with a CPU or GPU backend
-        \item With a CPU backend only, the mirror view lives in the same memory space as the original view
+        \item With a CPU backend only, the mirror view is allocated in the same memory space as the original view
     \end{itemize}
 
     \structure{Problem:} Memory is duplicated unnecessarily!
@@ -1229,7 +1290,7 @@
         \end{column}
         \begin{column}{0.475\linewidth}
             \begin{itemize}
-                \item \texttt{create\_mirror\_view} creates a mirror without allocating memory if the mirror view lives in the same memory space as the original view
+                \item \texttt{create\_mirror\_view} creates a mirror without allocating memory if the mirror view is allocated in the same memory space as the original view
                 \item In that case, the mirror view is a shallow copy of the original view (i.e. it targets the same data)
             \end{itemize}
         \end{column}
@@ -1261,36 +1322,34 @@
             \texttt{Kokkos::create\_mirror\_view} & No allocate & Allocate \\
         \end{tblr}
     \end{center}
-
-    \structure{Problem:} How to transfer data, now?
 \end{frame}
 
 % _____________________________________________________________________________
 
-\begin{frame}[fragile]{Deep copy data between memory spaces}
+\begin{frame}[fragile]{Deep copy data between memory space}
     \begin{columns}
-        \begin{column}{0.6\linewidth}
+        \begin{column}{0.61\linewidth}
             \begin{minted}{C++}
                 Kokkos::View<int**>
-                    device_matrix("matrix", Nx, Ny);
+                    device_view("view", Nx, Ny);
 
-                auto host_matrix =
-                    Kokkos::create_mirror(device_matrix);
+                auto host_view =
+                    Kokkos::create_miror_view(device_view);
 
-                initialize(host_matrix);
+                initialize(host_view);
 
                 // from Host to Device
                 Kokkos::deep_copy(
-                    device_matrix,
-                    host_matrix
+                    device_view,
+                    host_view
                 );
             \end{minted}
         \end{column}
         \begin{column}{0.4\linewidth}
             \begin{itemize}
-                \item \texttt{deep\_copy} to copy data between views in different memory spaces
-                \item Views must similar (shape, layout, etc.)
-                \item If the destination view is a shallow copy of the source view (e.g. \texttt{create\_mirror\_view} on Host), the function does nothing (portability)
+                \item \texttt{deep\_copy(dst, src)} copy \texttt{src} to \texttt{dst}, even if the data are in different memory spaces
+                \item Views must be similar (same shape, layout, etc.)
+                \item If \texttt{deep\_copy} detects that the destination view is a shallow copy of the source view (created by \texttt{create\_mirror\_view} for instance), it does nothing
             \end{itemize}
         \end{column}
     \end{columns}
@@ -1303,7 +1362,7 @@
         \includegraphics[width=0.9\textwidth]{host_device_deep_copy.png}
     \end{center}
 
-    \structure{Solution:} With \texttt{deep\_copy}!
+    \structure{Solution:} With \texttt{create\_mirror\_view} and \texttt{deep\_copy}!
 \end{frame}
 
 % _____________________________________________________________________________
