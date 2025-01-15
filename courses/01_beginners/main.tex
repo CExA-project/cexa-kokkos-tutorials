@@ -1309,16 +1309,6 @@
 
 % _____________________________________________________________________________
 
-\begin{frame}{How to access data living on the Host from the Host?}
-    \begin{center}
-        \includegraphics[width=0.9\textwidth]{host_create_mirror_view.png}
-    \end{center}
-
-    \structure{Solution:} Use \texttt{create\_mirror\_view}!
-\end{frame}
-
-% _____________________________________________________________________________
-
 \begin{frame}[fragile]{Mirror functions wrap up}
     \begin{minted}{C++}
         auto mirror = Kokkos::create_mirror(view);
@@ -1329,9 +1319,19 @@
             & \SetCell[c=2]{l} Kokkos compiled on \\
             Mirror function & CPU backend & GPU backend \\
             \texttt{Kokkos::create\_mirror} & Allocate & Allocate \\
-            \texttt{Kokkos::create\_mirror\_view} & No allocate & Allocate \\
+            \texttt{Kokkos::create\_mirror\_view} & Don't allocate & Allocate \\
         \end{tblr}
     \end{center}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}{How to access data living on the Host from the Host?}
+    \begin{center}
+        \includegraphics[width=0.9\textwidth]{host_create_mirror_view.png}
+    \end{center}
+
+    \structure{Solution:} Use \texttt{create\_mirror\_view}!
 \end{frame}
 
 % _____________________________________________________________________________
