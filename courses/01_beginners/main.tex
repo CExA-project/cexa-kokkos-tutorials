@@ -2,7 +2,7 @@
 
 \documentclass[
     aspectratio=169,
-    handout,
+    %handout,
 ]{beamer}
 \usepackage{minted}
 \usepackage{xcolor}
@@ -96,7 +96,7 @@
     \begin{description}[Wednesday 15\textsuperscript{th} 15:30 -- 16:30]
         \item[Wednesday 15\textsuperscript{th} 15:30 -- 16:30] Introduction
         \item[Thursday 16\textsuperscript{th} 10:00 -- 17:00] Course and hands-on
-        \item[Friday 17\textsuperscript{th} 09:00 -- 12:00] Hands-on and introduction to advanced features
+        \item[Friday 17\textsuperscript{th} 09:00 -- 12:00] Hands-on and introduction to intermediate features
     \end{description}
 \end{frame}
 
@@ -163,7 +163,7 @@
                     \item Operating system
                 \end{itemize}
                 \item Tens to hundred of cores in biggest processors to perform parallel operations
-                \item SIMD (Single Instruction Multiple Data) units to accelerate arithmetic operations
+                \item SIMD (Single Instruction Multiple Data) units to vectorise arithmetic operations
             \end{itemize}
         \end{column}
     \end{columns}
@@ -241,7 +241,7 @@
 
 % _____________________________________________________________________________
 
-\begin{frame}{Performance, portability and productivity}
+\begin{frame}{Performance, portability and productivity (aka P3)}
     \begin{columns}[T]
         \begin{column}{0.45\linewidth}
             What \emph{most developers} want
