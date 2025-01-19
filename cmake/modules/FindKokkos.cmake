@@ -49,9 +49,9 @@ include(FetchContent)
 
 FetchContent_Declare(
     kokkos
+    DOWNLOAD_EXTRACT_TIMESTAMP ON
     URL https://github.com/kokkos/kokkos/releases/download/4.5.01/kokkos-4.5.01.zip
     SOURCE_DIR ${CexaKokkosTutorials_KOKKOS_SOURCE_DIR}
-    DOWNLOAD_EXTRACT_TIMESTAMP ON
 )
 FetchContent_MakeAvailable(kokkos)
 set(Kokkos_FOUND True)

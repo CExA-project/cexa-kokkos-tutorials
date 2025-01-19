@@ -79,11 +79,6 @@ int main(int argc, char* argv[]) {
         std::cout << " - Mirror extent: " << extent[0] << " x " << extent[1] << " x " << extent[2] << std::endl;
         std::cout << " - Mirror stride: " << stride[0] << " x " << stride[1] << " x " << stride[2] << std::endl;
 
-#ifdef __unix__
-        getrusage(RUSAGE_SELF, &usage);
-        std::cout << "Total memory usage after `create_mirror_view`: " << usage.ru_maxrss << " KB" << std::endl;
-#endif
-
         // Initialize the matrix
 
         for (int i = 0; i < Nx; i++) {
@@ -102,6 +97,11 @@ int main(int argc, char* argv[]) {
         timer_stop = timer.seconds();
 
         std::cout << "Time to deep copy mirror to matrix: " << timer_stop - timer_start << std::endl;
+
+#ifdef __unix__
+        getrusage(RUSAGE_SELF, &usage);
+        std::cout << "Total memory usage after `create_mirror_view`: " << usage.ru_maxrss << " KB" << std::endl;
+#endif
 
         // _____________________________________________________
         // New mirror view

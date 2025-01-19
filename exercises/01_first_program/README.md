@@ -33,7 +33,8 @@ Recompile your program using the OpenMP backend.
 You can use the following commands:
 
 ```sh
-cmake -B build_openmp -DKokkos_ENABLE_OPENMP=ON
+cmake -B build_openmp \
+    -DKokkos_ENABLE_OPENMP=ON
 cmake --build build_openmp
 ```
 
@@ -117,9 +118,13 @@ Recompile your program now using the Cuda backend, by instance.
 You can use the following commands:
 
 ```bash
-cmake -B build_cuda -DKokkos_ENABLE_CUDA=ON
+cmake -B build_cuda \
+    -DKokkos_ENABLE_CUDA=ON \
+    -DKokkos_ARCH_<ARCH>=ON
 cmake --build build_cuda
 ```
+
+Specify the architecture flag that applies.
 
 Run the program and check the output:
 

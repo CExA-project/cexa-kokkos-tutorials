@@ -12,6 +12,7 @@ on:
   pull_request:
     paths:
       - 'projects/**'
+      - 'cmake/**'
 
 jobs:
   build_test_projects:
