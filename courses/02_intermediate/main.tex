@@ -123,6 +123,149 @@
 
 % _____________________________________________________________________________
 
+\section{Profiling and debugging}
+
+% _____________________________________________________________________________
+
+\begin{frame}{Profiling and debugging tools at hand}
+    \begin{columns}[T]
+        \begin{column}{0.33\linewidth}
+            Kokkos
+
+            \begin{itemize}
+                \item KokkosP interface
+                \item Regions
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.33\linewidth}
+            Kokkos tools
+
+            \begin{itemize}
+                \item Kernel timer
+                \item Kernel logger
+                \item Memory usage
+                \item Memory events
+                \item Space time stack
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.33\linewidth}
+            Third-party tools
+
+            \begin{itemize}
+                \item VTune
+                \item Nsight Systems
+                \item Tau
+                \item Timemory
+                \item Caliper
+                \item HPCToolkit
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}{KokkosP interface}
+    \begin{itemize}
+        \item Provided by Kokkos
+        \item Hooks for tools
+        \item Always available
+        \item No overhead if no tools are used
+    \end{itemize}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}[fragile]{Regions}
+    \begin{columns}
+        \begin{column}{0.6\linewidth}
+            \begin{minted}{C++}
+                Kokkos::Profiling::pushRegion("init");
+
+                Kokkos::parallel_for(
+                    "initialize A",
+                    N,
+                    KOKKOS_LAMBDA(int i) {
+                        view_a(i) = i;
+                    }
+                );
+
+                // other initialization kernels
+
+                Kokkos::Profiling::popRegion();
+            \end{minted}
+        \end{column}
+        \begin{column}{0.4\linewidth}
+            \begin{itemize}
+                \item Provided by Kokkos
+                \item Set regions of interest in your code
+                \item No header needed
+                \item Namespace \texttt{Kokkos::Profiling}
+                \item \texttt{pushRegion} and \texttt{popRegion} to create a region
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}{Kokkos tools}
+    \begin{itemize}
+        \item \githublink{\url{https://github.com/kokkos/kokkos-tools}}
+        \item Has a different version number than Kokkos
+        \item Should be built and installed somewhere
+        \item Use one tool at a time with the environment variable \texttt{KOKKOS\_TOOLS\_LIB}
+    \end{itemize}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}[fragile]{Kernel timer to do a basic profiling}
+    \begin{columns}
+        \begin{column}{0.6\linewidth}
+            \begin{minted}[breakafter=/]{sh}
+                export KOKKOS_TOOLS_LIB=path/to/lib/libkp_kernel_timer.so
+                ./my_program
+                kp_reader ./name_of_report.dat
+            \end{minted}
+        \end{column}
+        \begin{column}{0.4\linewidth}
+            \begin{itemize}
+                \item Simple tool producing some timing analysis
+                \item Export environment variable to use the tool
+                \item Run the program as usual
+                \item Analyze the generated data with the provided \texttt{kp\_reader} program
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}[fragile]{Kernel timer output}
+    \begin{minted}[fontsize=\scriptsize]{text}
+         (Type)   Total Time, Call Count, Avg. Time per Call, %Total Time in Kernels, %Total Program Time
+        -------------------------------------------------------------------------
+        Regions:
+        ...
+        -------------------------------------------------------------------------
+        Kernels:
+        ...
+        -------------------------------------------------------------------------
+        Summary:
+
+        Total Execution Time (incl. Kokkos + non-Kokkos):                   0.00205 seconds
+        Total Time in Kokkos kernels:                                       0.00115 seconds
+        -> Time outside Kokkos kernels:                                  0.00090 seconds
+        -> Percentage in Kokkos kernels:                                   55.98 %
+        Total Calls to Kokkos Kernels:                                            3
+
+        -------------------------------------------------------------------------
+    \end{minted}
+\end{frame}
+
+% _____________________________________________________________________________
+
 \section{Subviews}
 
 % _____________________________________________________________________________
