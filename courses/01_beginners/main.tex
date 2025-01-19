@@ -226,15 +226,27 @@
 
 % _____________________________________________________________________________
 
-\begin{frame}{Host/device model}
-    \begin{itemize}
-        \item The program is always started first on the CPU
-        \item Today's GPUs \highlight{cannot} work standalone
-        \item The CPU is often referred to as the \highlight{Host}
-        \item The CPU orchestrates when the kernels are launched on the GPU and how to make the memory transfers
-        \item The GPU waits for kernels to execute
-        \item The GPU is often referred to as the \highlight{Device}
-    \end{itemize}
+\begin{frame}{Host/Device model}
+    \begin{columns}[T]
+        \begin{column}{0.5\linewidth}
+            CPU
+
+            \begin{itemize}
+                \item Referred to as the \highlight{Host}
+                \item Programs are always started first on it
+                \item Orchestrates when the kernels are launched on the GPU and how to make the CPU/GPU memory transfers
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            GPU
+
+            \begin{itemize}
+                \item Referred to as the \highlight{Device}
+                \item Cannot work standalone
+                \item Waits for kernels to execute (offloading)
+            \end{itemize}
+        \end{column}
+    \end{columns}
 \end{frame}
 
 % _____________________________________________________________________________
