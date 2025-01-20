@@ -226,15 +226,27 @@
 
 % _____________________________________________________________________________
 
-\begin{frame}{Host/device model}
-    \begin{itemize}
-        \item The program is always started first on the CPU
-        \item Today's GPUs \highlight{cannot} work standalone
-        \item The CPU is often referred to as the \highlight{Host}
-        \item The CPU orchestrates when the kernels are launched on the GPU and how to make the memory transfers
-        \item The GPU waits for kernels to execute
-        \item The GPU is often referred to as the \highlight{Device}
-    \end{itemize}
+\begin{frame}{Host/Device model}
+    \begin{columns}[T]
+        \begin{column}{0.5\linewidth}
+            CPU
+
+            \begin{itemize}
+                \item Referred to as the \highlight{Host}
+                \item Programs are always started first on it
+                \item Orchestrates when the kernels are launched on the GPU and how to make the CPU/GPU memory transfers
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            GPU
+
+            \begin{itemize}
+                \item Referred to as the \highlight{Device}
+                \item Cannot work standalone
+                \item Waits for kernels to execute (offloading)
+            \end{itemize}
+        \end{column}
+    \end{columns}
 \end{frame}
 
 % _____________________________________________________________________________
@@ -556,13 +568,13 @@
 
 % _____________________________________________________________________________
 
-\begin{frame}[fragile]{Real world case}
+\begin{frame}[fragile]{Real world case: NVIDIA GPU}
     \begin{columns}
         \begin{column}{0.475\linewidth}
             \begin{center}
-                \includegraphics[width=\textwidth]{kokkos_a100_backend.png}
+                \includegraphics[width=\textwidth]{kokkos_a100_compilation.png}
             \end{center}
-            \begin{minted}{bash}
+            \begin{minted}{sh}
                 cmake \
                     -B ${build_dir} \
                     -DKokkos_ENABLE_OPENMP=ON \
@@ -573,11 +585,77 @@
         \end{column}
         \begin{column}{0.525\linewidth}
             \begin{itemize}
-                \item Compiling for a multi-core Xeon Skylake CPU and a A100 NVIDIA GPU
+                \item Compiling for a multi-core Xeon Skylake CPU and an NVIDIA A100 GPU
+                \item Compiler is GCC (default)
                 \item OpenMP option for the multi-core CPU
                 \item Skylake option, mostly for vectorization (optional)
                 \item Cuda option for the GPU
                 \item A100 option, for the correct architecture (mandatory)
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}[fragile]{Real world case: AMD GPU}
+    \begin{columns}
+        \begin{column}{0.475\linewidth}
+            \begin{center}
+                \includegraphics[width=\textwidth]{kokkos_mi300x_compilation.png}
+            \end{center}
+            \begin{minted}{sh}
+                cmake \
+                    -B ${build_dir} \
+                    -DCMAKE_CXX_COMPILER=hipcc \
+                    -DKokkos_ENABLE_OPENMP=ON \
+                    -DKokkos_ARCH_SKX=ON \
+                    -DKokkos_ENABLE_HIP=ON \
+                    -DKokkos_ARCH_AMD_GHX90A
+            \end{minted}
+        \end{column}
+        \begin{column}{0.525\linewidth}
+            \begin{itemize}
+                \item Compiling for a multi-core Xeon Skylake CPU and an AMD MI300X GPU
+                \item Compiler is the HIP compiler
+                \item OpenMP option for the multi-core CPU
+                \item Skylake option, mostly for vectorization (optional)
+                \item HIP option for the GPU
+                \item MI300X option, for the correct architecture (mandatory)
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}[fragile]{Real world case: Intel GPU}
+    \begin{columns}
+        \begin{column}{0.475\linewidth}
+            \begin{center}
+                \includegraphics[width=\textwidth]{kokkos_gpu_max_compilation.png}
+            \end{center}
+            \begin{minted}{sh}
+                cmake \
+                -B ${build_dir} \
+                    -DCMAKE_CXX_COMPILER=icpx \
+                    -DCMAKE_CXX_FLAGS=\
+                        "-fp-model=precise" \
+                    -DKokkos_ENABLE_OPENMP=ON \
+                    -DKokkos_ARCH_SKX=ON \
+                    -DKokkos_ENABLE_SYCL=ON \
+                    -DKokkos_ARCH_INTEL_PVC=ON
+            \end{minted}
+        \end{column}
+        \begin{column}{0.525\linewidth}
+            \begin{itemize}
+                \item Compiling for a multi-core Xeon Skylake CPU and an Intel GPU Max
+                \item Compiler is the Intel LLVM compiler
+                \item Add flag to use high precision math operators
+                \item OpenMP option for the multi-core CPU
+                \item Skylake option, mostly for vectorization (optional)
+                \item SYCL option for the GPU
+                \item PVC option, for the correct architecture (mandatory)
             \end{itemize}
         \end{column}
     \end{columns}
@@ -665,13 +743,13 @@
             \begin{block}{Pros}
                 \begin{itemize}
                     \item Good for production
+                    \item Has dev mode
                     \item Can bring the backend libs
                 \end{itemize}
             \end{block}
             \begin{alertblock}{Cons}
                 \begin{itemize}
                     \item Not trivial
-                    \item Not for dev
                 \end{itemize}
             \end{alertblock}
         \end{column}
@@ -1339,6 +1417,7 @@
                         \item Timing
                         \item Memory (on Unixes only)
                     \end{itemize}
+                    \item Increase the size of the problem to make the differences more visible
                 \end{itemize}
             \end{block}
         \end{column}
@@ -1567,6 +1646,8 @@
                 \begin{itemize}
                     \item Write a simple parallel loop
                     \item Measure the difference of performance between CPU and GPU
+                    \item Increase the size of the problem to make the difference more visible
+                    \item At which size the GPU is more efficient?
                 \end{itemize}
             \end{block}
         \end{column}
@@ -1929,6 +2010,8 @@
                 \begin{itemize}
                     \item Perform a parallel reduction
                     \item Measure the difference of performance between CPU and GPU
+                    \item Increase the size of the problem to make the differences more visible
+                    \item At which size the GPU is more efficient?
                 \end{itemize}
             \end{block}
         \end{column}
