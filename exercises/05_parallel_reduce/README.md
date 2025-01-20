@@ -2,7 +2,7 @@
 
 ## Objective
 
-The goal of this exercise is to manipulate the Kokkos parallel reduction.
+The goal of this exercise is to use a Kokkos parallel reduction.
 
 ## Step 1: create a 2D matrix
 
