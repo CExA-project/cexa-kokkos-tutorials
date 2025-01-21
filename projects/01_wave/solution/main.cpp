@@ -22,7 +22,8 @@ void write_grid(const Kokkos::View<double**>::HostMirror& U,
                 unsigned int Ny, 
                 double dx,
                 double dy,
-                unsigned int it);
+                unsigned int it,
+                unsigned int padding);
 
 // __________________________________________________________________________
 //
@@ -152,6 +153,12 @@ int main(int argc, char* argv[]) {
     system("rm -rf diags");
     system("mkdir -p diags");
 
+    // Maximum number of characters for the iteration number
+    const unsigned int iteration_number_padding =
+        number_of_iteration == 0
+            ? 1
+            : static_cast<unsigned int>(std::log10(number_of_iteration)) + 1;
+
     // __________________________________________________________________________
     // Print summary of parameters
 
@@ -227,7 +234,7 @@ int main(int argc, char* argv[]) {
 
     Kokkos::fence();
 
-    write_grid(U_host, Nx, Ny, dx,dy, 0);
+    write_grid(U_host, Nx, Ny, dx,dy, 0, iteration_number_padding);
 
     Kokkos::deep_copy(U, U_host);
     Kokkos::deep_copy(U_prev, U_prev_host);
@@ -319,7 +326,7 @@ int main(int argc, char* argv[]) {
         // write the grid to a file
         if (it % output_period == 0) {
             Kokkos::deep_copy(U_host, U);
-            write_grid(U_host, Nx, Ny, dx,dy, it);
+            write_grid(U_host, Nx, Ny, dx,dy, it, iteration_number_padding);
         }
 
         // Print iteration information in the terminal
@@ -372,11 +379,12 @@ void write_grid(const Kokkos::View<double**>::HostMirror& U,
                 unsigned int Ny, 
                 double dx,
                 double dy,
-                unsigned int it) {
+                unsigned int it,
+                unsigned int padding) {
 
     // File name of the form grid_0000.json
     std::stringstream filename("");
-    filename << "diags/grid_" << std::setfill('0') << std::setw(4) << it << ".json";
+    filename << "diags/grid_" << std::setfill('0') << std::setw(padding) << it << ".json";
 
     std::ofstream file(filename.str());
     file <<  "{\n";
