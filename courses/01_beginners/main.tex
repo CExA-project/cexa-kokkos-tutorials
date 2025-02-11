@@ -553,9 +553,9 @@
                 \small
                 \begin{tblr}[theme=kokkostable]{ll}
                     GPU model & Option \\
-                    AMD MI300A & \texttt{-DKokkos\_ARCH\_AMD\_GHX942\_APU=ON} \\
-                    AMD MI300X & \texttt{-DKokkos\_ARCH\_AMD\_GHX942=ON} \\
-                    AMD MI250X & \texttt{-DKokkos\_ARCH\_AMD\_GHX90A=ON} \\
+                    AMD MI300A & \texttt{-DKokkos\_ARCH\_AMD\_GFX942\_APU=ON} \\
+                    AMD MI300X & \texttt{-DKokkos\_ARCH\_AMD\_GFX942=ON} \\
+                    AMD MI250X & \texttt{-DKokkos\_ARCH\_AMD\_GFX90A=ON} \\
                     Intel GPU Max & \texttt{-DKokkos\_ARCH\_INTEL\_PVC=ON} \\
                     NVIDIA H200 & \texttt{-DKokkos\_ARCH\_HOPPER90=ON} \\
                     NVIDIA A100 & \texttt{-DKokkos\_ARCH\_AMPERE80=ON} \\
@@ -611,7 +611,7 @@
                     -DKokkos_ENABLE_OPENMP=ON \
                     -DKokkos_ARCH_SKX=ON \
                     -DKokkos_ENABLE_HIP=ON \
-                    -DKokkos_ARCH_AMD_GHX90A
+                    -DKokkos_ARCH_AMD_GFX90A
             \end{minted}
         \end{column}
         \begin{column}{0.525\linewidth}
@@ -1174,7 +1174,7 @@
             \begin{itemize}
                 \item Template argument \texttt{Layout} to specify the layout when creating a view
                 \item If you specify a Layout, you must also specify a memory space
-                \item Several ones available (Left, Right, Block, ...)
+                \item Several ones available (Left, Right, Stride, ...)
                 \item Possible to define your own custom layout
                 \item Default values are usually sufficient for basic usages
             \end{itemize}
