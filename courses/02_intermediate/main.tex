@@ -3,6 +3,7 @@
 \documentclass[
     aspectratio=169,
     handout,
+    presentation,
 ]{beamer}
 
 \usepackage{minted}
@@ -136,6 +137,10 @@
                 \item KokkosP interface
                 \item Regions
             \end{itemize}
+
+            \vspace{1em}
+
+            \structure{Note:} Not actual tools, but used by tools of the two other categories
         \end{column}
         \begin{column}{0.33\linewidth}
             Kokkos tools
@@ -168,7 +173,12 @@
 \begin{frame}{KokkosP interface}
     \begin{itemize}
         \item Provided by Kokkos
-        \item Hooks for tools
+        \item Hooks
+        \begin{itemize}
+            \item Parallel constructs
+            \item Fences
+        \end{itemize}
+        \item Designed for other tools to use it
         \item Always available
         \item No overhead if no tools are used
     \end{itemize}
@@ -190,16 +200,14 @@
                     }
                 );
 
-                // other initialization kernels
-
                 Kokkos::Profiling::popRegion();
             \end{minted}
         \end{column}
         \begin{column}{0.4\linewidth}
             \begin{itemize}
-                \item Provided by Kokkos
                 \item Set regions of interest in your code
-                \item No header needed
+                \item Provided by Kokkos
+                \item No specific header needed
                 \item Namespace \texttt{Kokkos::Profiling}
                 \item \texttt{pushRegion} and \texttt{popRegion} to create a region
             \end{itemize}
@@ -220,18 +228,19 @@
 
 % _____________________________________________________________________________
 
-\begin{frame}[fragile]{Kernel timer to do a basic profiling}
+\begin{frame}[fragile]{Kernel timer for a basic profiling}
     \begin{columns}
         \begin{column}{0.6\linewidth}
             \begin{minted}[breakafter=/]{sh}
-                export KOKKOS_TOOLS_LIB=path/to/lib/libkp_kernel_timer.so
+                export KOKKOS_TOOLS_LIB=/absolute/path/to/libkp_kernel_timer.so
+
                 ./my_program
                 kp_reader ./name_of_report.dat
             \end{minted}
         \end{column}
         \begin{column}{0.4\linewidth}
             \begin{itemize}
-                \item Simple tool producing some timing analysis
+                \item Simple tool for a basic timing analysis
                 \item Export environment variable to use the tool
                 \item Run the program as usual
                 \item Analyze the generated data with the provided \texttt{kp\_reader} program
@@ -262,6 +271,62 @@
 
         -------------------------------------------------------------------------
     \end{minted}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}[fragile]{Kernel timer output (for regions)}
+    \begin{minted}[fontsize=\scriptsize]{text}
+         (Type)   Total Time, Call Count, Avg. Time per Call, %Total Time in Kernels, %Total Program Time
+        -------------------------------------------------------------------------
+
+        Regions:
+
+        - mirror and copy
+        (REGION)   0.000924 1 0.000924 80.448319 45.038345
+        - initialization
+        (REGION)   0.000514 1 0.000514 44.748858 25.052289
+    \end{minted}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}[fragile]{Kernel timer output (for kernels)}
+    \begin{minted}[fontsize=\scriptsize]{text}
+         (Type)   Total Time, Call Count, Avg. Time per Call, %Total Time in Kernels, %Total Program Time
+
+        -------------------------------------------------------------------------
+        Kernels:
+
+        - Kokkos::View::initialization [vector_mirror] via memset
+        (ParFor)   0.000646 1 0.000646 56.226650 31.478039
+        - Initialize
+        (ParFor)   0.000484 1 0.000484 42.133665 23.588194
+        - Kokkos::View::initialization [vector] via memset
+        (ParFor)   0.000019 1 0.000019 1.639685 0.917964
+    \end{minted}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}[fragile]{Kernel logger for a basic debugging}
+    \begin{columns}
+        \begin{column}{0.6\linewidth}
+            \begin{minted}[breakafter=/]{sh}
+                export KOKKOS_TOOLS_LIB=/absolute/path/to/libkp_kernel_logger.so
+
+                ./my_program
+            \end{minted}
+        \end{column}
+        \begin{column}{0.4\linewidth}
+            \begin{itemize}
+                \item Simple tool for a basic timing analysis
+                \item Export environment variable to use the tool
+                \item Run the program as usual
+                \item Analyze the generated data with the provided \texttt{kp\_reader} program
+            \end{itemize}
+        \end{column}
+    \end{columns}
 \end{frame}
 
 % _____________________________________________________________________________
