@@ -15,7 +15,7 @@ You can either clone the Kokkos repository, download a release archive, or use t
 Use the following command to clone the repository into a directory called `kokkos` and use the latest release.
 
 ```sh
-git clone git@github.com:kokkos/kokkos.git --branch 4.5.01
+git clone https://github.com/kokkos/kokkos.git --branch 4.5.01
 ```
 
 ### Download a release archive
