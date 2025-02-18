@@ -1,8 +1,8 @@
 handout:
-	latexmk -pdfxe -shell-escape -jobname=handout $<
+	latexmk -pdfxe -shell-escape -jobname=$@
 
 presentation:
-	latexmk -pdfxe -shell-escape -usepretex="\def\createHandout{}" -jobname=presentation $<
+	latexmk -pdfxe -shell-escape -usepretex="\def\createHandout{}" -jobname=$@
 
 all: handout presentation
 
