@@ -9,8 +9,10 @@ all: handout presentation
 clean:
 	latexmk -c -jobname=handout
 	latexmk -c -jobname=presentation
+	latexmk -c
 
 cleanall:
 	latexmk -C -jobname=handout
 	latexmk -C -jobname=presentation
+	latexmk -C
 	rm -rf _minted-*
