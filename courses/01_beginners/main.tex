@@ -1,9 +1,14 @@
 % !TeX program = xelatex
 
+% Create command `createHandout` only if it doesn't already exists.
+% To compile in presentation mode, pass a command createHandout doing nothing.
+\providecommand{\createHandout}{handout}
+
 \documentclass[
     aspectratio=169,
-    handout,
+    \createHandout
 ]{beamer}
+
 \usepackage{minted}
 \usepackage{xcolor}
 \usepackage{tcolorbox}
