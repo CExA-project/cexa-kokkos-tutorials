@@ -136,6 +136,7 @@ Recompile your program now using the Cuda backend, by instance.
 You can use the following commands:
 
 ```sh
+cd exercise
 cmake -B build_cuda \
     -DKokkos_ENABLE_CUDA=ON \
     -DKokkos_ARCH_<ARCH>=ON
