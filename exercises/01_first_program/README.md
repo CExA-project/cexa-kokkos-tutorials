@@ -21,6 +21,15 @@ cmake -B build_serial
 cmake --build build_serial
 ```
 
+If you have already installed Kokkos in exercise 0, then you can use the following commands instead:
+
+```sh
+cd exercise
+cmake -B build_serial \
+    -DKokkos_ROOT=path/to/kokkos/serial/install
+cmake --build build_serial
+```
+
 Run the program and check the output:
 
 ```sh
@@ -35,6 +44,15 @@ You can use the following commands:
 ```sh
 cmake -B build_openmp \
     -DKokkos_ENABLE_OPENMP=ON
+cmake --build build_openmp
+```
+
+If you have already installed Kokkos in exercise 0, then you can use the following commands instead:
+
+```sh
+cd exercise
+cmake -B build_openmp \
+    -DKokkos_ROOT=path/to/kokkos/openmp/install
 cmake --build build_openmp
 ```
 
@@ -117,7 +135,8 @@ Kokkos::OpenMP thread_pool_topology[ 1 x 10 x 1 ]
 Recompile your program now using the Cuda backend, by instance.
 You can use the following commands:
 
-```bash
+```sh
+cd exercise
 cmake -B build_cuda \
     -DKokkos_ENABLE_CUDA=ON \
     -DKokkos_ARCH_<ARCH>=ON
@@ -125,6 +144,15 @@ cmake --build build_cuda
 ```
 
 Specify the architecture flag that applies.
+
+If you have already installed Kokkos in exercise 0, then you can use the following commands instead:
+
+```sh
+cd exercise
+cmake -B build_cuda \
+    -DKokkos_ROOT=path/to/kokkos/cuda/install
+cmake --build build_cuda
+```
 
 Run the program and check the output:
 
