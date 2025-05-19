@@ -12,10 +12,12 @@ if(NOT CMAKE_BUILD_TYPE)
     )
 endif()
 
-option(
+set(
     CexaKokkosTutorials_KOKKOS_SOURCE_DIR
-    "Path to the local source directory of Kokkos"
     "${CMAKE_CURRENT_LIST_DIR}/../vendor/kokkos"
+    CACHE
+    PATH
+    "Path to the local source directory of Kokkos"
 )
 
 # find Kokkos as an already existing target
