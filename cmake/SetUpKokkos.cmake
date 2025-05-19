@@ -12,13 +12,19 @@ if(NOT CMAKE_BUILD_TYPE)
     )
 endif()
 
+option(
+    CexaKokkosTutorials_KOKKOS_SOURCE_DIR
+    "Path to the local source directory of Kokkos"
+    "${CMAKE_CURRENT_LIST_DIR}/../vendor/kokkos"
+)
+
 # find Kokkos as an already existing target
 if(TARGET Kokkos::kokkos)
     return()
 endif()
 
 # find Kokkos as installed
-find_package(Kokkos CONFIG)
+find_package(Kokkos QUIET)
 if(Kokkos_FOUND)
     message(STATUS "Kokkos provided as installed: ${Kokkos_DIR} (version \"${Kokkos_VERSION}\")")
 
@@ -26,13 +32,6 @@ if(Kokkos_FOUND)
 endif()
 
 # find Kokkos as an existing source directory
-set(
-    CexaKokkosTutorials_KOKKOS_SOURCE_DIR
-    "${CMAKE_CURRENT_SOURCE_DIR}/../../../vendor/kokkos"
-    CACHE
-    PATH
-    "Path to the local source directory of Kokkos"
-)
 if(EXISTS "${CexaKokkosTutorials_KOKKOS_SOURCE_DIR}/CMakeLists.txt")
     message(STATUS "Kokkos provided as a source directory: ${CexaKokkosTutorials_KOKKOS_SOURCE_DIR}")
 
@@ -54,4 +53,3 @@ FetchContent_Declare(
     SOURCE_DIR ${CexaKokkosTutorials_KOKKOS_SOURCE_DIR}
 )
 FetchContent_MakeAvailable(kokkos)
-set(Kokkos_FOUND True)
