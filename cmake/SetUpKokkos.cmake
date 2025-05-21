@@ -1,3 +1,18 @@
+# Setup Kokkos as either an external dependency, or an inlined dependency. In
+# the former, Kokkos has already been compiled and installed, and its install
+# path is given to CMake with `Kokkos_ROOT` option. In the later, Kokkos
+# sources are either already present as a Git submodule, or they are downloaded
+# by this script using CMake `FetchContent`; in either case Kokkos sources are
+# located in `/vendor/kokkos` and compiled along with the project, which means
+# that Kokkos options must be passed at configuration time. If the option
+# `CMAKE_DISABLE_FIND_PACKAGE_Kokkos` is `ON`, then no installed instance of
+# Kokkos will be used, and only the inline build of Kokkos will take place.
+# Conversely, if the option `CMAKE_REQUIRE_FIND_PACKAGE_Kokkos` is `ON`, then
+# only an installed instance of Kokkos will be used.
+#
+# See
+# https://kokkos.org/kokkos-core-wiki/get-started/integrating-kokkos-into-your-cmake-project.html#supporting-both-external-and-embedded-kokkos
+
 # set CMAKE_BUILD_TYPE if not defined
 if(NOT CMAKE_BUILD_TYPE)
     set(default_build_type "RelWithDebInfo")
