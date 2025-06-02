@@ -6,11 +6,18 @@ The goal is to get familiar with the compiling process.
 ## Step 1: Simple Kokkos program
 
 In `exercise`, open the file `main.cpp`, initialize and finalize Kokkos.
-Do not forget to add the header.
+Do not forget to include the header.
 
 Add a call to the `Kokkos::print_configuration` function to print the configuration of Kokkos.
 
 ## Step 2: Compile the program with the serial backend
+
+Open the `CMakeLists.txt` file and check its content.
+In all this tutorial, Kokkos is included to your build with the `/cmake/SetUpKokkos.cmake` script, either as an external dependency, or as an inlined dependency.
+In the former, Kokkos has already been compiled and installed, and its install path is given to CMake with `Kokkos_ROOT` option.
+In the later, Kokkos sources are either already present as a Git submodule, or they are downloaded by the script using CMake `FetchContent`; in either case Kokkos sources are located in `/vendor/kokkos` and compiled along with the project, which means that Kokkos options must be passed at configuration time.
+If the option `CMAKE_DISABLE_FIND_PACKAGE_Kokkos` is `ON`, then no installed instance of Kokkos will be used, and only the inline build of Kokkos will take place.
+Conversely, if the option `CMAKE_REQUIRE_FIND_PACKAGE_Kokkos` is `ON`, then only an installed instance of Kokkos will be used.
 
 Compile your program using the serial backend.
 You can use the following commands:
@@ -21,6 +28,7 @@ cmake -B build_serial
 cmake --build build_serial
 ```
 
+This would use build Kokkos along with your code.
 If you have already installed Kokkos in exercise 0, then you can use the following commands instead:
 
 ```sh
