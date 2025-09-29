@@ -1,10 +1,10 @@
+all: handout presentation
+
 handout:
 	latexmk -pdfxe -shell-escape -jobname=$@
 
 presentation:
 	latexmk -pdfxe -shell-escape -usepretex="\def\createHandout{}" -jobname=$@
-
-all: handout presentation
 
 clean:
 	latexmk -c -jobname=handout
