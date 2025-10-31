@@ -12,6 +12,7 @@ from matplotlib import *
 from matplotlib.pyplot import *
 import matplotlib.animation as animation
 from mpl_toolkits.mplot3d import Axes3D
+import re
 
 # ______________________________________________________________________________
 # RCParams - personalize the figure output
@@ -51,7 +52,8 @@ else:
 
 file_list = glob.glob("{}/grid_*.json".format(file_path))
 
-file_list = sorted(file_list)
+iter_number_re = re.compile(r"{}/grid_(\d+).json".format(file_path))
+file_list = sorted(file_list, key=lambda p: int(iter_number_re.match(p).group(1)))
 
 # ______________________________________________________________________________
 # Animation function

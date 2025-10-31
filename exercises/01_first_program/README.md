@@ -6,11 +6,18 @@ The goal is to get familiar with the compiling process.
 ## Step 1: Simple Kokkos program
 
 In `exercise`, open the file `main.cpp`, initialize and finalize Kokkos.
-Do not forget to add the header.
+Do not forget to include the header.
 
 Add a call to the `Kokkos::print_configuration` function to print the configuration of Kokkos.
 
 ## Step 2: Compile the program with the serial backend
+
+Open the `CMakeLists.txt` file and check its content.
+In all this tutorial, Kokkos is included to your build with the `/cmake/SetUpKokkos.cmake` script, either as an external dependency, or as an inlined dependency.
+In the former, Kokkos has already been compiled and installed, and its install path is given to CMake with `Kokkos_ROOT` option.
+In the later, Kokkos sources are either already present as a Git submodule, or they are downloaded by the script using CMake `FetchContent`; in either case Kokkos sources are located in `/vendor/kokkos` and compiled along with the project, which means that Kokkos options must be passed at configuration time.
+If the option `CMAKE_DISABLE_FIND_PACKAGE_Kokkos` is `ON`, then no installed instance of Kokkos will be used, and only the inline build of Kokkos will take place.
+Conversely, if the option `CMAKE_REQUIRE_FIND_PACKAGE_Kokkos` is `ON`, then only an installed instance of Kokkos will be used.
 
 Compile your program using the serial backend.
 You can use the following commands:
@@ -18,6 +25,16 @@ You can use the following commands:
 ```sh
 cd exercise
 cmake -B build_serial
+cmake --build build_serial
+```
+
+This would use build Kokkos along with your code.
+If you have already installed Kokkos in exercise 0, then you can use the following commands instead:
+
+```sh
+cd exercise
+cmake -B build_serial \
+    -DKokkos_ROOT=path/to/kokkos/serial/install
 cmake --build build_serial
 ```
 
@@ -35,6 +52,15 @@ You can use the following commands:
 ```sh
 cmake -B build_openmp \
     -DKokkos_ENABLE_OPENMP=ON
+cmake --build build_openmp
+```
+
+If you have already installed Kokkos in exercise 0, then you can use the following commands instead:
+
+```sh
+cd exercise
+cmake -B build_openmp \
+    -DKokkos_ROOT=path/to/kokkos/openmp/install
 cmake --build build_openmp
 ```
 
@@ -117,7 +143,8 @@ Kokkos::OpenMP thread_pool_topology[ 1 x 10 x 1 ]
 Recompile your program now using the Cuda backend, by instance.
 You can use the following commands:
 
-```bash
+```sh
+cd exercise
 cmake -B build_cuda \
     -DKokkos_ENABLE_CUDA=ON \
     -DKokkos_ARCH_<ARCH>=ON
@@ -125,6 +152,15 @@ cmake --build build_cuda
 ```
 
 Specify the architecture flag that applies.
+
+If you have already installed Kokkos in exercise 0, then you can use the following commands instead:
+
+```sh
+cd exercise
+cmake -B build_cuda \
+    -DKokkos_ROOT=path/to/kokkos/cuda/install
+cmake --build build_cuda
+```
 
 Run the program and check the output:
 

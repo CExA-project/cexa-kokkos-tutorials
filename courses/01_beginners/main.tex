@@ -1,8 +1,12 @@
 % !TeX program = xelatex
 
+% Create command `createHandout` only if it doesn't already exists.
+% To compile in presentation mode, pass a command createHandout doing nothing.
+\providecommand{\createHandout}{handout}
+
 \documentclass[
     aspectratio=169,
-    handout,
+    \createHandout
 ]{beamer}
 
 \usepackage{minted}
@@ -401,7 +405,7 @@
         \pause
         \item Kokkos' tools and Kernels
         \begin{itemize}
-            \item Profiling, tuning and debuging tools
+            \item Profiling, tuning and debugging tools
             \item Interacting with Python and Fortran
             \item Library extensions: Kokkos-Kernels for Linear Algebra, Kokkos-FFT, Kokkos-Comm and more
         \end{itemize}
@@ -485,7 +489,7 @@
             \begin{itemize}
                 \item Defaults to the serial backend
                 \item Use the default compiler or specify it with \texttt{-DCMAKE\_CXX\_COMPILER=<command>}
-                \item Minimum supported version of the compilers detailed \doclink{\href{https://kokkos.org/kokkos-core-wiki/requirements.html}{in the doc}}
+                \item Minimum supported version of the compilers detailed \doclink{\href{https://kokkos.org/kokkos-core-wiki/get-started/requirements.html}{in the doc}}
             \end{itemize}
             \begin{minted}{bash}
                 cmake \
@@ -560,7 +564,7 @@
                 \item Add the architecture option \texttt{-DKokkos\_ARCH\_<NAME>=ON}
                 \item CPU architecture is optional, for optimization
                 \item GPU architecture is mandatory, deduced if device is present
-                \item All CMake options are available \doclink{\href{https://kokkos.org/kokkos-core-wiki/keywords.html}{in the doc}}
+                \item All CMake options are available \doclink{\href{https://kokkos.org/kokkos-core-wiki/get-started/configuration-guide.html}{in the doc}}
             \end{itemize}
         \end{column}
         \pause
@@ -569,9 +573,9 @@
                 \small
                 \begin{tblr}[theme=kokkostable]{ll}
                     GPU model & Option \\
-                    AMD MI300A & \texttt{-DKokkos\_ARCH\_AMD\_GHX942\_APU=ON} \\
-                    AMD MI300X & \texttt{-DKokkos\_ARCH\_AMD\_GHX942=ON} \\
-                    AMD MI250X & \texttt{-DKokkos\_ARCH\_AMD\_GHX90A=ON} \\
+                    AMD MI300A & \texttt{-DKokkos\_ARCH\_AMD\_GFX942\_APU=ON} \\
+                    AMD MI300X & \texttt{-DKokkos\_ARCH\_AMD\_GFX942=ON} \\
+                    AMD MI250X & \texttt{-DKokkos\_ARCH\_AMD\_GFX90A=ON} \\
                     Intel GPU Max & \texttt{-DKokkos\_ARCH\_INTEL\_PVC=ON} \\
                     NVIDIA H200 & \texttt{-DKokkos\_ARCH\_HOPPER90=ON} \\
                     NVIDIA A100 & \texttt{-DKokkos\_ARCH\_AMPERE80=ON} \\
@@ -627,7 +631,7 @@
                     -DKokkos_ENABLE_OPENMP=ON \
                     -DKokkos_ARCH_SKX=ON \
                     -DKokkos_ENABLE_HIP=ON \
-                    -DKokkos_ARCH_AMD_GHX90A
+                    -DKokkos_ARCH_AMD_GFX90A
             \end{minted}
         \end{column}
         \begin{column}{0.525\linewidth}
@@ -1190,7 +1194,7 @@
             \begin{itemize}
                 \item Template argument \texttt{Layout} to specify the layout when creating a view
                 \item If you specify a Layout, you must also specify a memory space
-                \item Several ones available (Left, Right, Block, ...)
+                \item Several ones available (Left, Right, Stride, ...)
                 \item Possible to define your own custom layout
                 \item Default values are usually sufficient for basic usages
             \end{itemize}
@@ -1381,7 +1385,7 @@
                     device_view("view", Nx, Ny);
 
                 auto host_view =
-                    Kokkos::create_miror_view(device_view);
+                    Kokkos::create_mirror_view(device_view);
 
                 initialize(host_view);
 
@@ -1800,7 +1804,7 @@
                 \item 2 loop patterns
                 \begin{itemize}
                     \item No extra code before/after the inner loop
-                    \item Loops are collapsable (OpenMP \texttt{collapse})
+                    \item Loops are collapsible (OpenMP \texttt{collapse})
                 \end{itemize}
                 \item 2 execution policies
                 \begin{itemize}

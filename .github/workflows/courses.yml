@@ -19,10 +19,20 @@ jobs:
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v4
-      - name: Compile LaTeX document
+      - name: Build beginers course
         uses: xu-cheng/latex-action@v3
         with:
           working_directory: courses/01_beginners/
+          pre_compile: |
+            tlmgr update --self && tlmgr update minted
+            latexminted --version
+          root_file: main.tex
+          latexmk_shell_escape: true
+          latexmk_use_xelatex: true
+      - name: Build intermediate course
+        uses: xu-cheng/latex-action@v3
+        with:
+          working_directory: courses/02_intermediate/
           pre_compile: |
             tlmgr update --self && tlmgr update minted
             latexminted --version

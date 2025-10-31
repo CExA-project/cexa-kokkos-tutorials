@@ -7,7 +7,7 @@
    viewBox="0 0 290.83136 104.84011"
    version="1.1"
    id="svg1"
-   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
    sodipodi:docname="layout_right_left.svg"
    inkscape:export-filename="layout_right_left.png"
    inkscape:export-xdpi="96"
@@ -27,15 +27,16 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      inkscape:zoom="1.149005"
-     inkscape:cx="540.90278"
-     inkscape:cy="323.75838"
-     inkscape:window-width="1916"
-     inkscape:window-height="1143"
-     inkscape:window-x="2560"
-     inkscape:window-y="36"
+     inkscape:cx="419.92855"
+     inkscape:cy="262.83611"
+     inkscape:window-width="2560"
+     inkscape:window-height="1403"
+     inkscape:window-x="1920"
+     inkscape:window-y="0"
      inkscape:window-maximized="1"
      inkscape:current-layer="layer1"
-     showgrid="false" />
+     showgrid="false"
+     inkscape:pageshadow="0" />
   <defs
      id="defs1">
     <marker
@@ -185,8 +186,8 @@
     <rect
        x="65.233238"
        y="355.70578"
-       width="412.14215"
-       height="60.19688"
+       width="425.7192"
+       height="58.462034"
        id="rect39" />
   </defs>
   <g
@@ -197,9 +198,9 @@
     <rect
        style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.499999;stroke-linecap:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="rect40"
-       width="92.799492"
+       width="113.70201"
        height="11.743855"
-       x="48.599033"
+       x="38.147774"
        y="-17.830582"
        rx="1"
        ry="1" />
@@ -275,27 +276,27 @@
        style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect15);display:inline;fill:none;stroke:#000000;stroke-width:1.13386;stroke-linecap:round;stroke-dasharray:none"><tspan
          x="172.38086"
          y="370.84609"
-         id="tspan1975"><tspan
+         id="tspan27854"><tspan
            style="fill:#000000;stroke:none"
-           id="tspan1973">Layout left
+           id="tspan27852">Layout left
 </tspan></tspan><tspan
          x="132.0293"
          y="392.04611"
-         id="tspan1979"><tspan
+         id="tspan27858"><tspan
            style="fill:#000000;stroke:none"
-           id="tspan1977">Column major in 2D
+           id="tspan27856">Column major in 2D
 </tspan></tspan><tspan
          x="178.62109"
          y="413.24612"
-         id="tspan1983"><tspan
+         id="tspan27862"><tspan
            style="fill:#000000;stroke:none"
-           id="tspan1981">(Fortran)
+           id="tspan27860">(Fortran)
 </tspan></tspan><tspan
          x="127.18555"
          y="434.44613"
-         id="tspan1987"><tspan
+         id="tspan27866"><tspan
            style="fill:#000000;stroke:none"
-           id="tspan1985">Device default layout</tspan></tspan></text>
+           id="tspan27864">Device default layout</tspan></tspan></text>
     <text
        xml:space="preserve"
        transform="matrix(0.26458333,0,0,0.26458333,-12.071097,-98.828739)"
@@ -303,7 +304,7 @@
        style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect15-4);display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.13386;stroke-linecap:round;stroke-dasharray:none"><tspan
          x="212.37598"
          y="370.84609"
-         id="tspan1989">N</tspan></text>
+         id="tspan27868">N</tspan></text>
     <text
        xml:space="preserve"
        transform="matrix(0.26458333,0,0,0.26458333,34.074495,-52.122244)"
@@ -311,7 +312,7 @@
        style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect15-4-5);display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.13386;stroke-linecap:round;stroke-dasharray:none"><tspan
          x="211.4873"
          y="370.84609"
-         id="tspan1991">M</tspan></text>
+         id="tspan27870">M</tspan></text>
     <rect
        style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-dasharray:none"
        id="rect16"
@@ -384,27 +385,27 @@
        style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect29);display:inline;fill:none;stroke:#000000;stroke-width:1.13386;stroke-linecap:round;stroke-dasharray:none"><tspan
          x="165.58398"
          y="370.84609"
-         id="tspan1995"><tspan
+         id="tspan27874"><tspan
            style="fill:#000000;stroke:none"
-           id="tspan1993">Layout right
+           id="tspan27872">Layout right
 </tspan></tspan><tspan
          x="147.35156"
          y="392.04611"
-         id="tspan1999"><tspan
+         id="tspan27878"><tspan
            style="fill:#000000;stroke:none"
-           id="tspan1997">Row major in 2D
+           id="tspan27876">Row major in 2D
 </tspan></tspan><tspan
          x="118.65527"
          y="413.24612"
-         id="tspan2003"><tspan
+         id="tspan27882"><tspan
            style="fill:#000000;stroke:none"
-           id="tspan2001">(C, C++, Python, Java)
+           id="tspan27880">(C, C++, Python, Java)
 </tspan></tspan><tspan
          x="135.56934"
          y="434.44613"
-         id="tspan2007"><tspan
+         id="tspan27886"><tspan
            style="fill:#000000;stroke:none"
-           id="tspan2005">Host default layout</tspan></tspan></text>
+           id="tspan27884">Host default layout</tspan></tspan></text>
     <path
        style="fill:none;fill-opacity:1;stroke:#ff0000;stroke-width:0.5;stroke-linecap:round;stroke-dasharray:1, 0.5;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#ConcaveTriangle)"
        d="M 9.4439469,9.7696003 V 81.087684 l 10.7860691,-70.683142 0.115136,70.242351 9.63471,-67.633735"
@@ -427,13 +428,13 @@
        sodipodi:nodetypes="cc" />
     <text
        xml:space="preserve"
-       transform="matrix(0.26458333,0,0,0.26458333,22.509297,-108.79904)"
+       transform="matrix(0.26458333,0,0,0.26458333,21.382602,-108.79904)"
        id="text39"
        style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect39);display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.13386;stroke-linecap:round;stroke-dasharray:none"><tspan
-         x="112.67578"
+         x="71.334961"
          y="370.84609"
-         id="tspan2011"><tspan
+         id="tspan27890"><tspan
            style="fill:#ffffff"
-           id="tspan2009">Kokkos::view(double**) matrix(M,N)</tspan></tspan></text>
+           id="tspan27888">Kokkos::View&lt;double**&gt; matrix(&quot;name&quot;, M, N)</tspan></tspan></text>
   </g>
 </svg>
