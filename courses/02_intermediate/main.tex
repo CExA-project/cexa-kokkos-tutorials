@@ -162,6 +162,7 @@
             \begin{itemize}
                 \item VTune
                 \item Nsight Systems
+                \item Nsight Compute
                 \item Tau
                 \item Timemory
                 \item Caliper
@@ -226,6 +227,7 @@
         \item Has a different version number than Kokkos
         \item Should be built and installed somewhere
         \item Use one tool at a time with the environment variable \texttt{KOKKOS\_TOOLS\_LIB}
+        \item Do not ship it within your program (this is a dev tool!)
     \end{itemize}
 \end{frame}
 
@@ -235,7 +237,7 @@
     \begin{columns}
         \begin{column}{0.6\linewidth}
             \begin{minted}[breakafter=/]{sh}
-                export KOKKOS_TOOLS_LIB=/absolute/path/to/libkp_kernel_timer.so
+                export KOKKOS_TOOLS_LIBS=/absolute/path/to/libkp_kernel_timer.so
 
                 ./my_program
                 kp_reader ./name_of_report.dat
@@ -255,7 +257,7 @@
 % _____________________________________________________________________________
 
 \begin{frame}[fragile]{Kernel timer output}
-    \begin{minted}[fontsize=\scriptsize]{text}
+    \begin{minted}[fontsize=\scriptsize,breaklines=false]{text}
          (Type)   Total Time, Call Count, Avg. Time per Call, %Total Time in Kernels, %Total Program Time
         -------------------------------------------------------------------------
         Regions:
@@ -266,9 +268,9 @@
         -------------------------------------------------------------------------
         Summary:
 
-        Total Execution Time (incl. Kokkos + non-Kokkos):                   0.00205 seconds
-        Total Time in Kokkos kernels:                                       0.00115 seconds
-        -> Time outside Kokkos kernels:                                  0.00090 seconds
+        Total Execution Time (incl. Kokkos + non-Kokkos):                   0.20500 seconds
+        Total Time in Kokkos kernels:                                       0.11500 seconds
+        -> Time outside Kokkos kernels:                                  0.09000 seconds
         -> Percentage in Kokkos kernels:                                   55.98 %
         Total Calls to Kokkos Kernels:                                            3
 
@@ -279,35 +281,45 @@
 % _____________________________________________________________________________
 
 \begin{frame}[fragile]{Kernel timer output (for regions)}
-    \begin{minted}[fontsize=\scriptsize]{text}
+    \begin{minted}[fontsize=\scriptsize,breaklines=false]{text}
          (Type)   Total Time, Call Count, Avg. Time per Call, %Total Time in Kernels, %Total Program Time
         -------------------------------------------------------------------------
 
         Regions:
 
         - mirror and copy
-        (REGION)   0.000924 1 0.000924 80.448319 45.038345
+        (REGION)   0.092400 1 0.092400 80.448319 45.038345
         - initialization
-        (REGION)   0.000514 1 0.000514 44.748858 25.052289
+        (REGION)   0.051400 1 0.051400 44.748858 25.052289
     \end{minted}
+
+    \begin{itemize}
+    	\item Regions are named after what you set in \texttt{pushRegion}
+    	\item One set of two lines per region
+    \end{itemize}
 \end{frame}
 
 % _____________________________________________________________________________
 
 \begin{frame}[fragile]{Kernel timer output (for kernels)}
-    \begin{minted}[fontsize=\scriptsize]{text}
+    \begin{minted}[fontsize=\scriptsize,breaklines=false]{text}
          (Type)   Total Time, Call Count, Avg. Time per Call, %Total Time in Kernels, %Total Program Time
 
         -------------------------------------------------------------------------
         Kernels:
 
         - Kokkos::View::initialization [vector_mirror] via memset
-        (ParFor)   0.000646 1 0.000646 56.226650 31.478039
+        (ParFor)   0.064600 1 0.064600 56.226650 31.478039
         - Initialize
-        (ParFor)   0.000484 1 0.000484 42.133665 23.588194
+        (ParFor)   0.048400 1 0.048400 42.133665 23.588194
         - Kokkos::View::initialization [vector] via memset
-        (ParFor)   0.000019 1 0.000019 1.639685 0.917964
+        (ParFor)   0.001900 1 0.001900 1.639685 0.917964
     \end{minted}
+
+    \begin{itemize}
+	    \item Kernels are named after what you set in \texttt{parallel\_*}, or have default names
+	    \item One set of two lines per kernel
+    \end{itemize}
 \end{frame}
 
 % _____________________________________________________________________________
@@ -316,7 +328,7 @@
     \begin{columns}
         \begin{column}{0.6\linewidth}
             \begin{minted}[breakafter=/]{sh}
-                export KOKKOS_TOOLS_LIB=/absolute/path/to/libkp_kernel_logger.so
+                export KOKKOS_TOOLS_LIBS=/absolute/path/to/libkp_kernel_logger.so
 
                 ./my_program
             \end{minted}
@@ -327,6 +339,37 @@
                 \item Export environment variable to use the tool
                 \item Run the program as usual
                 \item Analyze the generated data with the provided \texttt{kp\_reader} program
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}[fragile]{NVTX connector for NVIDIA tools}
+    \begin{columns}
+        \begin{column}{0.6\linewidth}
+            \begin{minted}[breakafter=/]{sh}
+                export KOKKOS_TOOLS_LIBS=/absolute/path/to/libkp_nvtx_connector.so
+
+                # nsight systems
+                nsys profile -o report ./my_program
+                nsys-ui report.nsys-rep
+
+                # nsight compute
+                ncu -o report ./my_program
+            \end{minted}
+        \end{column}
+        \begin{column}{0.4\linewidth}
+            \begin{itemize}
+                \item Simple tool to convert Kokkos named regions/kernels to appear on NVIDIA tools reports
+                \begin{itemize}
+                    \item Nsight Systems
+                    \item Nsight Compute
+                \end{itemize}
+                \item Export environment variable to use the tool
+                \item Run the program as usual
+                \item Open the generated report in either tool
             \end{itemize}
         \end{column}
     \end{columns}
