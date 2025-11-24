@@ -174,46 +174,63 @@
 
 % _____________________________________________________________________________
 
-\begin{frame}{KokkosP interface}
-    \begin{itemize}
-        \item Provided by Kokkos
-        \item Hooks
-        \begin{itemize}
-            \item Parallel constructs
-            \item Fences
-        \end{itemize}
-        \item Designed for other tools to use it
-        \item Always available
-        \item No overhead if no tools are used
-    \end{itemize}
+\begin{frame}[fragile]{KokkosP interface}
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            \begin{minted}{C++}
+                Kokkos::parallel_for(
+                    "initialize A",
+                    N,
+                    KOKKOS_LAMBDA(int i) {
+                        // ...
+                    }
+                );
+
+                Kokkos::fence(
+                    "wait for initialize A"
+                );
+            \end{minted}
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            \begin{itemize}
+                \item Provided by Kokkos
+                \item Hooks
+                \begin{itemize}
+                    \item Parallel constructs
+                    \item Fences
+                \end{itemize}
+                \item Designed for other tools to use it
+                \item Always available
+                \item No overhead if no tools are used
+            \end{itemize}
+        \end{column}
+    \end{columns}
 \end{frame}
 
 % _____________________________________________________________________________
 
 \begin{frame}[fragile]{Regions}
     \begin{columns}
-        \begin{column}{0.6\linewidth}
+        \begin{column}{0.5\linewidth}
             \begin{minted}{C++}
-                Kokkos::Profiling::pushRegion("init");
-
-                Kokkos::parallel_for(
-                    "initialize A",
-                    N,
-                    KOKKOS_LAMBDA(int i) {
-                        view_a(i) = i;
-                    }
+                Kokkos::Profiling::pushRegion(
+                    "initialization"
                 );
+
+                // ...
 
                 Kokkos::Profiling::popRegion();
             \end{minted}
         \end{column}
-        \begin{column}{0.4\linewidth}
+        \begin{column}{0.5\linewidth}
             \begin{itemize}
+                \item Provided by Kokkos
                 \item Set regions of interest in your code
                 \item Provided by Kokkos
                 \item No specific header needed
                 \item Namespace \texttt{Kokkos::Profiling}
                 \item \texttt{pushRegion} and \texttt{popRegion} to create a region
+                \item Regions can be nested
             \end{itemize}
         \end{column}
     \end{columns}
@@ -225,7 +242,7 @@
     \begin{itemize}
         \item \githublink{\url{https://github.com/kokkos/kokkos-tools}}
         \item Has a different version number than Kokkos
-        \item Should be built and installed somewhere
+        \item Should be built and installed somewhere (this requires to install Kokkos too)
         \item Use one tool at a time with the environment variable \texttt{KOKKOS\_TOOLS\_LIB}
         \item Do not ship it within your program (this is a dev tool!)
     \end{itemize}
@@ -318,6 +335,7 @@
 
     \begin{itemize}
 	    \item Kernels are named after what you set in \texttt{parallel\_*}, or have default names
+        \item Some internal kernels are visible
 	    \item One set of two lines per kernel
     \end{itemize}
 \end{frame}
@@ -358,11 +376,12 @@
 
                 # nsight compute
                 ncu -o report ./my_program
+                ncu-ui report.ncu-rep
             \end{minted}
         \end{column}
         \begin{column}{0.4\linewidth}
             \begin{itemize}
-                \item Simple tool to convert Kokkos named regions/kernels to appear on NVIDIA tools reports
+                \item Simple tool to convert Kokkos named regions/kernels into NVTX regions for NVIDIA tools
                 \begin{itemize}
                     \item Nsight Systems
                     \item Nsight Compute
@@ -371,6 +390,22 @@
                 \item Run the program as usual
                 \item Open the generated report in either tool
             \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Display NVTX name of kernels in Nsight Systems}
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            \begin{enumerate}
+                \item Tools $\rightarrow$ Options
+                \item Behavior $\rightarrow$ Report
+                \item Set "Rename CUDA Kernels by NVTX" to \emph{Yes}
+                \item Re-open the report
+            \end{enumerate}
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            \includegraphics[width=\linewidth]{nsight_systems_options}
         \end{column}
     \end{columns}
 \end{frame}
