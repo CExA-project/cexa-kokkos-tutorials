@@ -176,22 +176,24 @@
 
 \begin{frame}[fragile]{KokkosP interface}
     \begin{columns}
-        \begin{column}{0.5\linewidth}
+        \begin{column}{0.55\linewidth}
             \begin{minted}{C++}
+                Kokkos::View<int *> view("view", N);
+
                 Kokkos::parallel_for(
-                    "initialize A",
+                    "compute",
                     N,
                     KOKKOS_LAMBDA(int i) {
-                        // ...
+                        view(i) = // ...
                     }
                 );
 
                 Kokkos::fence(
-                    "wait for initialize A"
+                    "wait for compute"
                 );
             \end{minted}
         \end{column}
-        \begin{column}{0.5\linewidth}
+        \begin{column}{0.45\linewidth}
             \begin{itemize}
                 \item Provided by Kokkos
                 \item Hooks
@@ -214,7 +216,7 @@
         \begin{column}{0.5\linewidth}
             \begin{minted}{C++}
                 Kokkos::Profiling::pushRegion(
-                    "initialization"
+                    "computation"
                 );
 
                 // ...
@@ -241,9 +243,10 @@
 \begin{frame}{Kokkos tools}
     \begin{itemize}
         \item \githublink{\url{https://github.com/kokkos/kokkos-tools}}
+        \item \doclink{\url{https://github.com/kokkos/kokkos-tools/wiki}}
         \item Has a different version number than Kokkos
         \item Should be built and installed somewhere (this requires to install Kokkos too)
-        \item Use one tool at a time with the environment variable \texttt{KOKKOS\_TOOLS\_LIB}
+        \item Use one tool at a time with the environment variable \texttt{KOKKOS\_TOOLS\_LIBS}
         \item Do not ship it within your program (this is a dev tool!)
     \end{itemize}
 \end{frame}
@@ -258,6 +261,11 @@
 
                 ./my_program
                 kp_reader ./name_of_report.dat
+            \end{minted}
+
+            \begin{minted}[fontsize=\scriptsize]{text}
+                KokkosP: Simple Kernel Timer Library Initialized (sequence is 0, version: 20240906)
+                KokkosP: Kernel timing written to /path/to/name_of_report.dat
             \end{minted}
         \end{column}
         \begin{column}{0.4\linewidth}
@@ -274,7 +282,7 @@
 % _____________________________________________________________________________
 
 \begin{frame}[fragile]{Kernel timer output}
-    \begin{minted}[fontsize=\scriptsize,breaklines=false]{text}
+    \begin{minted}[fontsize=\scriptsize,breaklines=true]{text}
          (Type)   Total Time, Call Count, Avg. Time per Call, %Total Time in Kernels, %Total Program Time
         -------------------------------------------------------------------------
         Regions:
@@ -285,11 +293,11 @@
         -------------------------------------------------------------------------
         Summary:
 
-        Total Execution Time (incl. Kokkos + non-Kokkos):                   0.20500 seconds
-        Total Time in Kokkos kernels:                                       0.11500 seconds
-        -> Time outside Kokkos kernels:                                  0.09000 seconds
-        -> Percentage in Kokkos kernels:                                   55.98 %
-        Total Calls to Kokkos Kernels:                                            3
+        Total Execution Time (incl. Kokkos + non-Kokkos):                   0.00038 seconds
+        Total Time in Kokkos kernels:                                       0.00030 seconds
+        -> Time outside Kokkos kernels:                                  0.00008 seconds
+        -> Percentage in Kokkos kernels:                                   78.75 %
+        Total Calls to Kokkos Kernels:                                            2
 
         -------------------------------------------------------------------------
     \end{minted}
@@ -298,20 +306,19 @@
 % _____________________________________________________________________________
 
 \begin{frame}[fragile]{Kernel timer output (for regions)}
-    \begin{minted}[fontsize=\scriptsize,breaklines=false]{text}
+    \begin{minted}[fontsize=\scriptsize,breaklines=true]{text}
          (Type)   Total Time, Call Count, Avg. Time per Call, %Total Time in Kernels, %Total Program Time
         -------------------------------------------------------------------------
 
         Regions:
 
-        - mirror and copy
-        (REGION)   0.092400 1 0.092400 80.448319 45.038345
-        - initialization
-        (REGION)   0.051400 1 0.051400 44.748858 25.052289
+        - computation
+        (REGION)   0.000349 1 0.000349 117.590361 92.599620
     \end{minted}
 
     \begin{itemize}
     	\item Regions are named after what you set in \texttt{pushRegion}
+        \item Descending order
     	\item One set of two lines per region
     \end{itemize}
 \end{frame}
@@ -319,23 +326,22 @@
 % _____________________________________________________________________________
 
 \begin{frame}[fragile]{Kernel timer output (for kernels)}
-    \begin{minted}[fontsize=\scriptsize,breaklines=false]{text}
+    \begin{minted}[fontsize=\scriptsize,breaklines=true]{text}
          (Type)   Total Time, Call Count, Avg. Time per Call, %Total Time in Kernels, %Total Program Time
 
         -------------------------------------------------------------------------
         Kernels:
 
-        - Kokkos::View::initialization [vector_mirror] via memset
-        (ParFor)   0.064600 1 0.064600 56.226650 31.478039
-        - Initialize
-        (ParFor)   0.048400 1 0.048400 42.133665 23.588194
-        - Kokkos::View::initialization [vector] via memset
-        (ParFor)   0.001900 1 0.001900 1.639685 0.917964
+        - compute
+        (ParFor)   0.000282 1 0.000282 94.939759 74.762808
+        - Kokkos::View::initialization [view] via memset
+        (ParFor)   0.000015 1 0.000015 5.060241 3.984820
     \end{minted}
 
     \begin{itemize}
-	    \item Kernels are named after what you set in \texttt{parallel\_*}, or have default names
-        \item Some internal kernels are visible
+	    \item Kernels are named after what you set in parallel constructs (\texttt{parallel\_*})
+        \item Some internal kernels are visible: Views initialization
+        \item Descending order
 	    \item One set of two lines per kernel
     \end{itemize}
 \end{frame}
@@ -350,16 +356,48 @@
 
                 ./my_program
             \end{minted}
+
+            \begin{minted}[fontsize=\scriptsize]{text}
+                KokkosP: Kernel Logger Library Initialized (sequence is 0, version: 20240906)
+            \end{minted}
         \end{column}
         \begin{column}{0.4\linewidth}
             \begin{itemize}
                 \item Simple tool for a basic timing analysis
                 \item Export environment variable to use the tool
                 \item Run the program as usual
-                \item Analyze the generated data with the provided \texttt{kp\_reader} program
             \end{itemize}
         \end{column}
     \end{columns}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}[fragile]{Kernel logger output}
+    \begin{minted}[fontsize=\tiny]{text}
+        KokkosP: Entering profiling region: computation
+        KokkosP: Allocate<Cuda> name: view pointer: 0x7c67126aa000 size: 80000
+        KokkosP: Executing fence on device 33554433 with unique execution identifier 0
+        KokkosP: computation
+        KokkosP:       SharedAllocationRecord<Kokkos::CudaSpace, void>::SharedAllocationRecord(): fence after copying header from HostSpace
+        KokkosP: Execution of fence 0 is completed.
+        KokkosP: Executing parallel-for kernel on device 33554433 with unique execution identifier 1
+        KokkosP: computation
+        KokkosP:       Kokkos::View::initialization [view] via memset
+        KokkosP: Execution of kernel 1 is completed.
+        KokkosP: Executing fence on device 33554433 with unique execution identifier 2
+        KokkosP: computation
+
+        ...
+
+        KokkosP: Kokkos library finalization called.
+    \end{minted}
+
+    \begin{itemize}
+        \item All activity listed (parallel constructs, fences, View creations...)
+        \item Useful for tracking chaining of kernels
+        \item Difficult to read when the kernels are asynchronous
+    \end{itemize}
 \end{frame}
 
 % _____________________________________________________________________________
@@ -377,6 +415,10 @@
                 # nsight compute
                 ncu -o report ./my_program
                 ncu-ui report.ncu-rep
+            \end{minted}
+
+            \begin{minted}[fontsize=\scriptsize]{text}
+                KokkosP: NVTX Analyzer Connector (sequence is 0, version: 20240906)
             \end{minted}
         \end{column}
         \begin{column}{0.4\linewidth}
@@ -410,6 +452,51 @@
     \end{columns}
 \end{frame}
 
+\begin{frame}{Nsight Systems overview}
+    \begin{columns}
+        \begin{column}{0.75\linewidth}
+            \includegraphics[width=\linewidth]{nsight_systems_example}
+        \end{column}
+        \begin{column}{0.25\linewidth}
+            \begin{itemize}
+                \item Activity against execution time
+                \item Cuda activity
+                \begin{itemize}
+                    \item Kernels
+                    \item Memory
+                \end{itemize}
+                \item NVTX
+                \begin{itemize}
+                    \item Parallel constructs
+                    \item Fences
+                    \item Regions
+                \end{itemize}
+                \item Cuda API
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Nsight Compute overview}
+    \begin{columns}
+        \begin{column}{0.75\linewidth}
+            \includegraphics[width=\linewidth]{nsight_compute_example}
+        \end{column}
+        \begin{column}{0.25\linewidth}
+            \begin{itemize}
+                \item Details of each kernel
+                \item Many metrics
+                \begin{itemize}
+                    \item Speed of light
+                    \item Occupancy
+                    \item
+                \end{itemize}
+                \item Can give suggestions
+                \item Corresponding PTX-source
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
 % _____________________________________________________________________________
 
 \section{Subviews}
