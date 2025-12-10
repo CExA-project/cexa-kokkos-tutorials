@@ -669,6 +669,7 @@
         \begin{column}{0.6\linewidth}
           Even simple instruction like '\texttt{+}' are decomposed into several smaller assembly instructions:
 
+					%rewrite with https://en.wikipedia.org/wiki/Race_condition#Example
           \includegraphics{race_condition1.png}
         \end{column}
     \end{columns}
@@ -766,20 +767,20 @@
       \hline
       Operation & Replaces \\
       \hline
-      Kokkos::atomic\_add(\&x, y)    & x += y \\
-      Kokkos::atomic\_and(\&x, y)    & x \&= y \\
-      Kokkos::atomic\_dec(\&x)       & x-- \\
-      Kokkos::atomic\_inc(\&x)       & x++ \\
-      Kokkos::atomic\_lshift(\&x, y) & x = x << y \\
-      Kokkos::atomic\_max(\&x, y)    & x = std::max(x, y) \\
-      Kokkos::atomic\_min(\&x, y)    & x = std::min(x, y) \\
-      Kokkos::atomic\_mod(\&x, y)    & x \%= y \\
-      Kokkos::atomic\_nand(\&x, y)   & x = !(x \&\& y) \\
-      Kokkos::atomic\_or(\&x, y)     & x |= y \\
-      Kokkos::atomic\_rshift(\&x, y) & x = x >> y \\
-      Kokkos::atomic\_sub(\&x, y)    & x -= y \\
-      Kokkos::atomic\_store(\&x, y)  & x = y \\
-      Kokkos::atomic\_xor(\&x, y)    & x \^{}= y \\
+			\texttt{Kokkos::atomic\_add(\&x, y)}    & \texttt{x += y} \\
+			\texttt{Kokkos::atomic\_and(\&x, y)}    & \texttt{x \&= y} \\
+			\texttt{Kokkos::atomic\_dec(\&x)}       & \texttt{x--} \\
+			\texttt{Kokkos::atomic\_inc(\&x)}       & \texttt{x++} \\
+			\texttt{Kokkos::atomic\_lshift(\&x, y)} & \texttt{x = x << y} \\
+			\texttt{Kokkos::atomic\_max(\&x, y)}    & \texttt{x = std::max(x, y)} \\
+			\texttt{Kokkos::atomic\_min(\&x, y)}    & \texttt{x = std::min(x, y)} \\
+			\texttt{Kokkos::atomic\_mod(\&x, y)}    & \texttt{x \%= y} \\
+			\texttt{Kokkos::atomic\_nand(\&x, y)}   & \texttt{x = !(x \&\& y)} \\
+			\texttt{Kokkos::atomic\_or(\&x, y)}     & \texttt{x |= y} \\
+			\texttt{Kokkos::atomic\_rshift(\&x, y)} & \texttt{x = x >> y} \\
+			\texttt{Kokkos::atomic\_sub(\&x, y)}    & \texttt{x -= y} \\
+			\texttt{Kokkos::atomic\_store(\&x, y)}  & \texttt{x = y} \\
+			\texttt{Kokkos::atomic\_xor(\&x, y)}    & \texttt{x \^{}= y} \\
       \hline
     \end{tabular}
     \end{column}
@@ -788,67 +789,6 @@
         Other common operations are available with the format \texttt{Kokkos::atomic\_[op]}.
     \end{column}
   \end{columns}
-\end{frame}
-
-\begin{frame}[fragile]{Atomic operations - fetch}
-    \begin{columns}
-        \begin{column}{0.4\linewidth}
-            \begin{minted}{C++}
-              auto old_value =
-                atomic_fetch_[op](
-                  ptr_to_value,
-                  update_value);
-
-              auto new_value =
-                atomic_[op]_fetch(
-                  ptr_to_value,
-                  update_value);
-            \end{minted}
-        \end{column}
-        \begin{column}{0.6\linewidth}
-          \texttt{atomic\_fetch\_[op]}:
-          \begin{itemize}
-            \item atomically performs the operation \texttt{[op]} with the operands \texttt{*ptr\_to\_value} and \texttt{update\_value},
-            \item returns the value \texttt{*ptr\_to\_value} had \structure{before} the operation.
-          \end{itemize}
-          \texttt{atomic\_[op]\_fetch}:
-          \begin{itemize}
-            \item atomically performs the operation \texttt{[op]} with the operands \texttt{*ptr\_to\_value} and \texttt{update\_value},
-            \item returns the value \texttt{*ptr\_to\_value} has \structure{after} the operation.
-          \end{itemize}
-        \end{column}
-    \end{columns}
-\end{frame}
-
-\begin{frame}[fragile]{Atomic operations - Exchange}
-    \begin{columns}
-        \begin{column}{0.4\linewidth}
-            \begin{minted}{C++}
-              old_value =
-                atomic_exchange(
-                  ptr_to_value,
-                  desired);
-
-              old_value =
-                atomic_compare_exchange(
-                  ptr_to_value,
-                  expected,
-                  desired);
-            \end{minted}
-        \end{column}
-        \begin{column}{0.6\linewidth}
-          \texttt{atomic\_exchange}:
-          \begin{itemize}
-            \item atomically affects the value \texttt{desired} to \texttt{*ptr\_to\_value},
-            \item returns the value \texttt{*ptr\_to\_value} had before the call.
-          \end{itemize}
-          \texttt{atomic\_compare\_exchange}:
-          \begin{itemize}
-            \item atomically affects the value \texttt{desired} to \texttt{*ptr\_to\_value}, \structure{if} the old value of \texttt{*ptr\_to\_value} was equal to \texttt{expected},
-            \item returns the value \texttt{*ptr\_to\_value} had before the call, whether the exchange happened or not.
-          \end{itemize}
-        \end{column}
-    \end{columns}
 \end{frame}
 
 \begin{frame}[fragile]{Atomic - Performances}
@@ -864,12 +804,12 @@
   For some of your needs, more performant alternative exist, like \texttt{parallel\_reduce} or \texttt{Kokkos::ScatterView}.
 \end{frame}
 
+%TODO: Scatterview here
+
 % _____________________________________________________________________________
 
 \section{Layouts}
 
 % _____________________________________________________________________________
-
-\section{Scatter Views}
 
 \end{document}
