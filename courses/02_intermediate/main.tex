@@ -54,6 +54,12 @@
     breaklines,
 }
 
+\usemintedstyle[text]{vim}
+\setminted[text]{
+    bgcolor=lightmain,
+    fontsize=\scriptsize,
+}
+
 \NewTblrTheme{kokkostable}{
     \SetTblrInner{
         width=\linewidth,
@@ -227,11 +233,11 @@
         \begin{column}{0.5\linewidth}
             \begin{itemize}
                 \item Provided by Kokkos
-                \item Set regions of interest in your code
-                \item Provided by Kokkos
                 \item No specific header needed
                 \item Namespace \texttt{Kokkos::Profiling}
-                \item \texttt{pushRegion} and \texttt{popRegion} to create a region
+                \item Set regions of interest in your code
+                \item \texttt{pushRegion} to create a region
+                \item \texttt{popRegion} to remove a region
                 \item Regions can be nested
             \end{itemize}
         \end{column}
@@ -242,11 +248,14 @@
 
 \begin{frame}{Kokkos tools}
     \begin{itemize}
+        \item Library of the Kokkos ecosystem
         \item \githublink{\url{https://github.com/kokkos/kokkos-tools}}
         \item \doclink{\url{https://github.com/kokkos/kokkos-tools/wiki}}
         \item Has a different version number than Kokkos
         \item Should be built and installed somewhere (this requires to install Kokkos too)
         \item Use one tool at a time with the environment variable \texttt{KOKKOS\_TOOLS\_LIBS}
+
+        Mind the \texttt{S}!
         \item Do not ship it within your program (this is a dev tool!)
     \end{itemize}
 \end{frame}
@@ -260,12 +269,16 @@
                 export KOKKOS_TOOLS_LIBS=/absolute/path/to/libkp_kernel_timer.so
 
                 ./my_program
-                kp_reader ./name_of_report.dat
             \end{minted}
 
-            \begin{minted}[fontsize=\scriptsize]{text}
+            \usemintedstyle{vim}
+            \begin{minted}{text}
                 KokkosP: Simple Kernel Timer Library Initialized (sequence is 0, version: 20240906)
                 KokkosP: Kernel timing written to /path/to/name_of_report.dat
+            \end{minted}
+
+            \begin{minted}{sh}
+                kp_reader ./name_of_report.dat
             \end{minted}
         \end{column}
         \begin{column}{0.4\linewidth}
@@ -282,7 +295,7 @@
 % _____________________________________________________________________________
 
 \begin{frame}[fragile]{Kernel timer output}
-    \begin{minted}[fontsize=\scriptsize,breaklines=true]{text}
+    \begin{minted}{text}
          (Type)   Total Time, Call Count, Avg. Time per Call, %Total Time in Kernels, %Total Program Time
         -------------------------------------------------------------------------
         Regions:
@@ -306,7 +319,7 @@
 % _____________________________________________________________________________
 
 \begin{frame}[fragile]{Kernel timer output (for regions)}
-    \begin{minted}[fontsize=\scriptsize,breaklines=true]{text}
+    \begin{minted}{text}
          (Type)   Total Time, Call Count, Avg. Time per Call, %Total Time in Kernels, %Total Program Time
         -------------------------------------------------------------------------
 
@@ -326,7 +339,7 @@
 % _____________________________________________________________________________
 
 \begin{frame}[fragile]{Kernel timer output (for kernels)}
-    \begin{minted}[fontsize=\scriptsize,breaklines=true]{text}
+    \begin{minted}{text}
          (Type)   Total Time, Call Count, Avg. Time per Call, %Total Time in Kernels, %Total Program Time
 
         -------------------------------------------------------------------------
@@ -357,7 +370,7 @@
                 ./my_program
             \end{minted}
 
-            \begin{minted}[fontsize=\scriptsize]{text}
+            \begin{minted}{text}
                 KokkosP: Kernel Logger Library Initialized (sequence is 0, version: 20240906)
             \end{minted}
         \end{column}
@@ -417,7 +430,7 @@
                 ncu-ui report.ncu-rep
             \end{minted}
 
-            \begin{minted}[fontsize=\scriptsize]{text}
+            \begin{minted}{text}
                 KokkosP: NVTX Analyzer Connector (sequence is 0, version: 20240906)
             \end{minted}
         \end{column}
@@ -489,7 +502,7 @@
                 \begin{itemize}
                     \item Speed of light
                     \item Occupancy
-                    \item
+                    \item ...
                 \end{itemize}
                 \item Can give suggestions
                 \item Corresponding PTX-source
@@ -497,6 +510,53 @@
         \end{column}
     \end{columns}
 \end{frame}
+
+\begin{frame}{Apex autotuner}
+    \begin{itemize}
+        \item Apex is an autotuner which supports Kokkos natively
+        \item Third-party that has to be installed
+        \item \githublink{\url{https://github.com/UO-OACISS/apex}}
+        \item \doclink{\url{https://uo-oaciss.github.io/apex/}}
+        \item \doclink{\url{https://github.com/UO-OACISS/apex/wiki}}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Use of Apex autotuner}
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            \begin{minted}[breakafter=/]{sh}
+                /path/to/apex_exec --apex:kokkos --apex:cuda ./my_program
+            \end{minted}
+
+            \begin{minted}[fontsize=\tiny]{text}
+                          (            )
+                   (      )\ )      ( /(
+                   )\    (()/( (    )\())
+                ((((_)(   /(_)))\  ((_)\
+                 )\ _ )\ (_)) ((_) __((_)
+                 (_)_\(_)| _ \| __|\ \/ /
+                  / _ \  |  _/| _|  >  <
+                 /_/ \_\ |_|  |___|/_/\_\
+
+                APEX Version: v2.7.1-593cd822-develop
+                Built on: 14:22:04 Dec 10 2025 (Release)
+                C++ Language Standard version : 201703
+                GCC Compiler version : 13.3.0
+                Configured features: Pthread, CUDA, PLUGINS
+
+                Executing command line: ./my_program
+            \end{minted}
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            \begin{itemize}
+                \item Analysis of Kokkos parallel constructs
+                \item Analysis of data movements
+                \item Analysis of task dependencies
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
 % _____________________________________________________________________________
 
 \section{Subviews}
