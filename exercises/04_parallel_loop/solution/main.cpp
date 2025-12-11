@@ -47,7 +47,7 @@ int main(int argc, char* argv[]) {
         // _____________________________________________________
         // Create a mirror view of the vector
 
-        Kokkos::View<double*>::HostMirror mirror = Kokkos::create_mirror_view(vector);
+        auto mirror = Kokkos::create_mirror_view(vector);
 
         // _____________________________________________________
         // Deep copy the vector to the mirror view
