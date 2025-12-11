@@ -34,6 +34,7 @@ void display(const Kokkos::View<double ***> &field, const float ratioZ) {
                 }
 
     std::cout << "Slice at z = " << sliceIndexZ << std::endl;
+    std::cout << "y" << std::endl;
     std::cout << "┌";
     for (int j = 0; j < sizeXScreen; j++) std::cout << "─";
     std::cout << "┐" << std::endl;
@@ -59,5 +60,5 @@ void display(const Kokkos::View<double ***> &field, const float ratioZ) {
 
     std::cout << "└";
     for (int j = 0; j < sizeXScreen; j++) std::cout << "─";
-    std::cout << "┘" << std::endl;
+    std::cout << "┘ x" << std::endl;
 }
