@@ -17,7 +17,7 @@
 // __________________________________________________________________________
 // Function headers
 
-void write_grid(const Kokkos::View<double**>::HostMirror& U, 
+void write_grid(const Kokkos::View<double**>::host_mirror_type& U, 
                 unsigned int Nx, 
                 unsigned int Ny, 
                 double dx,
@@ -374,7 +374,7 @@ int main(int argc, char* argv[]) {
         "data" : U
     }
 */
-void write_grid(const Kokkos::View<double**>::HostMirror& U,
+void write_grid(const Kokkos::View<double**>::host_mirror_type& U,
                 unsigned int Nx, 
                 unsigned int Ny, 
                 double dx,

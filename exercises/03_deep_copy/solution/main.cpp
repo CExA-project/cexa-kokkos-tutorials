@@ -66,7 +66,7 @@ int main(int argc, char* argv[]) {
         // Create a mirror view of the matrix using create_mirror_view
 
         std::cout << " 2) Creating the 3D view `mirror` with create_mirror_view()" << std::endl;
-        Kokkos::View<double***>::HostMirror mirror = Kokkos::create_mirror_view(matrix);
+        auto mirror = Kokkos::create_mirror_view(matrix);
 
         extent[0] = mirror.extent(0);
         extent[1] = mirror.extent(1);
@@ -107,7 +107,7 @@ int main(int argc, char* argv[]) {
         // New mirror view
 
         std::cout << " 3) Creating the 3D view `mirror_2` with create_mirror()" << std::endl;
-        Kokkos::View<double***>::HostMirror mirror_2 = Kokkos::create_mirror(matrix);
+        auto mirror_2 = Kokkos::create_mirror(matrix);
 
         // _____________________________________________________
         // Deep copy the matrix to the new mirror view
