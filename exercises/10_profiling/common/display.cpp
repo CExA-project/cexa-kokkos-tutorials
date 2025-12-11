@@ -3,7 +3,8 @@
 #include <cmath>
 #include <iostream>
 
-int getSizeScreen(const int size, const int sizeTarget, const float adjust = 0.1, const int maxAdjustSteps = 1000) {
+int getSizeScreen(const int size, const int sizeTarget,
+                  const float adjust = 0.1, const int maxAdjustSteps = 1000) {
     if (size <= sizeTarget) {
         return size;
     }
