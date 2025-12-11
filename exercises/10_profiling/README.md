@@ -29,7 +29,7 @@ cmake --install build
 
 Export some environment variables to make it easily useable:
 
-```
+```sh
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/path/to/kokkos-tools/lib
 export PATH=$PATH:/path/to/kokkos-tools/bin
 ```
@@ -39,7 +39,7 @@ export PATH=$PATH:/path/to/kokkos-tools/bin
 A region is a block of code which performs several operations which can be considered as sub-steps for a larger grain step.
 To set a region:
 
-```
+```cpp
 Kokkos::Profiling::pushRegion("name of the region");
 
 // block of code
@@ -178,4 +178,4 @@ Here is the roofline for the first kernel in the iteration loop, executed on a A
 
 ![Roofline](./images/roofline.png)
 
-Depending on the available GPU, you may see what limits the performance of the kernel.
+Depending on the available GPU, you may see what limits the performance of the kernel (e.g. compute bound, memory bound, etc.).
