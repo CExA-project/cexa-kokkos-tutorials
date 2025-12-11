@@ -14,6 +14,10 @@
 \useoutertheme{cexa-kokkos}
 \usecolortheme{cexa-kokkos}
 
+% Custom theme command
+\def\inserttitlegraphicbg{}
+\newcommand{\titlegraphicbg}[1]{\def\inserttitlegraphicbg{#1}}
+
 % Exercice frame
 \newenvironment{exerciseframe}[1]{%
     \exerciseframecolor%
