@@ -3,16 +3,22 @@
 #include <cmath>
 #include <iostream>
 
-int getSizeScreen(const int size, const int sizeTarget, const float adjust = 0.1) {
+int getSizeScreen(const int size, const int sizeTarget, const float adjust = 0.1, const int maxAdjustSteps = 1000) {
     if (size <= sizeTarget) {
         return size;
     }
 
     // adjust the screen size so it is more a submultiple of the initial size
     int sizeScreen = size / std::ceil(size * 1.0 / sizeTarget);
-    while (std::abs(size * 1.0 / sizeScreen - size / sizeScreen) > adjust) {
+    for (int i = 0; i < maxAdjustSteps; i++) {
+        float ratio = size * 1.0 / sizeScreen;
+        if (std::abs(ratio - std::floor(ratio)) <= adjust) {
+            return sizeScreen;
+        }
         sizeScreen++;
     }
+
+    // if the maximum number of adjust steps is reached
     return sizeScreen;
 }
 
