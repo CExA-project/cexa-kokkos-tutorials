@@ -13,6 +13,11 @@
         \ifnum\thepage=1\relax%
             % first page
             \fill[color=gray] (0, 0.7\paperheight) rectangle (\the\paperwidth, \the\paperheight);
+            \ifx\inserttitlegraphicbg\empty
+                \node[inner sep=0pt, anchor=south west] at (0, 0.7\paperheight) {\includegraphics[width=\the\paperwidth]{kokkos_code_bw}};
+            \else
+                \node[inner sep=0pt, anchor=south west] at (0, 0.7\paperheight) {\inserttitlegraphicbg};
+            \fi
             \fill[color=main] (0, 0.3\paperheight) rectangle (\the\paperwidth, 0.70\paperheight);
 
             \node[anchor=south west, inner sep=0pt] at (0, 0.3\paperheight) {\includegraphics[height=0.4\paperheight]{kokkos_wire.pdf}};
