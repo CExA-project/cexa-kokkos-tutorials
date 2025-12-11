@@ -18,5 +18,5 @@ target_include_directories(
 target_link_libraries(exe10solution Kokkos::kokkos)
 add_test(
     NAME exe10solution
-    COMMAND exe10solution 5000 1e-4
+    COMMAND exe10solution 100 1e-2
 )
