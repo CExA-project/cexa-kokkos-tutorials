@@ -20,7 +20,7 @@ void display(const Kokkos::View<double ***> &field, const float ratioZ) {
     const float ratioX = sizeX / sizeXScreen;
     const float ratioY = sizeY / sizeYScreen;
 
-    Kokkos::View<double **, Kokkos::DefaultHostExecutionSpace> sliceHostSrceen(
+    Kokkos::View<double **, Kokkos::DefaultHostExecutionSpace> sliceHostScreen(
         "slice host screen", sizeXScreen, sizeYScreen);
 
     // resize by taking the average of the skipped elements
@@ -28,7 +28,7 @@ void display(const Kokkos::View<double ***> &field, const float ratioZ) {
         for (int j = 0; j < sizeYScreen; j++)
             for (int iLocal = 0; iLocal < ratioX; iLocal++)
                 for (int jLocal = 0; jLocal < ratioY; jLocal++) {
-                    sliceHostSrceen(i, j) +=
+                    sliceHostScreen(i, j) +=
                         sliceHost(i * ratioX + iLocal, j * ratioY + jLocal) /
                         (ratioX * ratioY);
                 }
@@ -41,7 +41,7 @@ void display(const Kokkos::View<double ***> &field, const float ratioZ) {
     for (int j = 0; j < sizeYScreen; j++) {
         std::cout << "│";
         for (int i = 0; i < sizeXScreen; i++) {
-            int value = sliceHostSrceen(i, j) * 5;
+            int value = sliceHostScreen(i, j) * 5;
             if (value < 1) {
                 std::cout << " ";
             } else if (value < 2) {
