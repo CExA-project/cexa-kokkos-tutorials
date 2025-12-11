@@ -102,7 +102,7 @@
 % _____________________________________________________________________________
 
 \begin{frame}{Prerequisites}
-    This course is intended for developers who have have followed the basic course of the tutorials
+    This course is intended for developers who have followed the basic course of the tutorials
 
     \vspace{1em}
 
@@ -160,6 +160,9 @@
                 \item Memory usage
                 \item Memory events
                 \item Space time stack
+                \item NVTX connector
+                \item ROCTX connector
+                \item ...
             \end{itemize}
         \end{column}
         \begin{column}{0.33\linewidth}
@@ -173,6 +176,7 @@
                 \item Timemory
                 \item Caliper
                 \item HPCToolkit
+                \item ...
             \end{itemize}
         \end{column}
     \end{columns}
@@ -201,6 +205,7 @@
         \end{column}
         \begin{column}{0.45\linewidth}
             \begin{itemize}
+                \item Profiling tools interface
                 \item Provided by Kokkos
                 \item Hooks
                 \begin{itemize}
@@ -332,7 +337,7 @@
 
     \begin{itemize}
     	\item Regions are named after what you set in \texttt{pushRegion}
-        \item Descending order
+        \item Descending order of time
     	\item One set of two lines per region
     \end{itemize}
 \end{frame}
@@ -355,7 +360,7 @@
     \begin{itemize}
 	    \item Kernels are named after what you set in parallel constructs (\texttt{parallel\_*})
         \item Some internal kernels are visible: Views initialization
-        \item Descending order
+        \item Descending order of time
 	    \item One set of two lines per kernel
     \end{itemize}
 \end{frame}
@@ -377,7 +382,7 @@
         \end{column}
         \begin{column}{0.4\linewidth}
             \begin{itemize}
-                \item Simple tool for a basic timing analysis
+                \item Simple tool for a basic logging of your program's activity
                 \item Export environment variable to use the tool
                 \item Run the program as usual
             \end{itemize}
@@ -416,19 +421,28 @@
 
 % _____________________________________________________________________________
 
-\begin{frame}[fragile]{NVTX connector for NVIDIA tools}
+\begin{frame}{NVTX connector for NVIDIA tools}
+    \begin{itemize}
+        \item NVIDIA Tools Extension
+        \item Simple connector to convert Kokkos named regions/kernels into NVTX regions for NVIDIA tools
+        \begin{itemize}
+            \item Nsight Systems
+            \item Nsight Compute
+        \end{itemize}
+        \item Lot of documentation about how to use these tools right
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{NVTX connector and Nsight Systems}
     \begin{columns}
         \begin{column}{0.6\linewidth}
             \begin{minted}[breakafter=/]{sh}
                 export KOKKOS_TOOLS_LIBS=/absolute/path/to/libkp_nvtx_connector.so
 
-                # nsight systems
-                nsys profile -o report ./my_program
+                nsys profile \
+                    -o report \
+                    ./my_program
                 nsys-ui report.nsys-rep
-
-                # nsight compute
-                ncu -o report ./my_program
-                ncu-ui report.ncu-rep
             \end{minted}
 
             \begin{minted}{text}
@@ -437,14 +451,12 @@
         \end{column}
         \begin{column}{0.4\linewidth}
             \begin{itemize}
-                \item Simple tool to convert Kokkos named regions/kernels into NVTX regions for NVIDIA tools
-                \begin{itemize}
-                    \item Nsight Systems
-                    \item Nsight Compute
-                \end{itemize}
+                \item Analyze a program as a whole
+                \item Do not run your program for too long when profiling!
+                \item About 10 iterations is enough
                 \item Export environment variable to use the tool
                 \item Run the program as usual
-                \item Open the generated report in either tool
+                \item Open the generated report
             \end{itemize}
         \end{column}
     \end{columns}
@@ -485,7 +497,40 @@
                     \item Fences
                     \item Regions
                 \end{itemize}
-                \item Cuda API
+                \item Cuda API calls
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{NVTX connector and Nsight Compute}
+    \begin{columns}
+        \begin{column}{0.6\linewidth}
+            \begin{minted}[breakafter=/]{sh}
+                export KOKKOS_TOOLS_LIBS=/absolute/path/to/libkp_nvtx_connector.so
+
+                ncu \
+                    -o report \
+                    --nvtx \
+                    --nvtx-include "<NVTX region>/" \
+                    --set detailed \
+                    ./my_program
+                ncu-ui report.ncu-rep
+            \end{minted}
+
+            \begin{minted}{text}
+                KokkosP: NVTX Analyzer Connector (sequence is 0, version: 20240906)
+            \end{minted}
+        \end{column}
+        \begin{column}{0.4\linewidth}
+            \begin{itemize}
+                \item Kernel by kernel analysis
+                \item Use NVTX region to profile only certain kernels
+                \item The more the metrics, the slower the profiling
+                \item Run only for few iterations
+                \item Export environment variable to use the tool
+                \item Run the program as usual
+                \item Open the generated report
             \end{itemize}
         \end{column}
     \end{columns}
@@ -507,6 +552,7 @@
                 \end{itemize}
                 \item Can give suggestions
                 \item Corresponding PTX-source
+                \item Check online resources!
             \end{itemize}
         \end{column}
     \end{columns}

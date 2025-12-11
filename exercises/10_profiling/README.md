@@ -132,6 +132,13 @@ nsys-ui report.nsys-rep
 
 You should identify the calls to the Cuda API, along with the NVTX regions, which correspond to the regions and labels you introduced in the code.
 
+In the profiler, you can set to name the kernels after the NVTX region they belong to (instead of having a very generic Kokkos name).
+To that aim, in Nsight Systems, open the "Tools" menu and select "Options."
+In the dialog box, navigate to "Behavior,", then "Report."
+Select "Yes" in the drop-down menu for "Rename CUDA kernels by NVTX," then re-open the report.
+
+![Nsight Systems option](../../images/nsight_systems_options.png)
+
 ### Nsight Compute
 
 Run your program for 1 iteration through Nsight Comptu:
