@@ -183,7 +183,7 @@ int main(int argc, char* argv[]) {
     summary << "  - CFL factor: " << CFL_factor << "\n";
     summary << "  - Sound speed: " << c << "\n";
     summary << "  - Grid output period: " << output_period << "\n";
-    summary << "  - Number of threads: " << Kokkos::DefaultHostExecutionSpace::concurrency() << "\n";
+    summary << "  - Number of threads: " << Kokkos::DefaultHostExecutionSpace().concurrency() << "\n";
     summary << "  - Total memory used for grids: " << Nx*Ny*3.*sizeof(double)/(1024.*1024) << " MB\n";
     summary << std::endl;
 
