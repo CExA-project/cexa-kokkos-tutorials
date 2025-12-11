@@ -9,3 +9,5 @@ add_subdirectory(02_basic_view)
 add_subdirectory(03_deep_copy)
 add_subdirectory(04_parallel_loop)
 add_subdirectory(05_parallel_reduce)
+
+add_subdirectory(10_profiling)
