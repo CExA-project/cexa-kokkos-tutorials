@@ -3,6 +3,19 @@
 #include <cmath>
 #include <iostream>
 
+int getSizeScreen(const int size, const int sizeTarget, const float adjust = 0.1) {
+    if (size <= sizeTarget) {
+        return size;
+    }
+
+    // adjust the screen size so it is more a submultiple of the initial size
+    int sizeScreen = size / std::ceil(size * 1.0 / sizeTarget);
+    while (std::abs(size * 1.0 / sizeScreen - size / sizeScreen) > adjust) {
+        sizeScreen++;
+    }
+    return sizeScreen;
+}
+
 void display(const Kokkos::View<double ***> &field, const float ratioZ) {
     const int sizeX = field.extent(0);
     const int sizeY = field.extent(1);
@@ -15,10 +28,10 @@ void display(const Kokkos::View<double ***> &field, const float ratioZ) {
     Kokkos::deep_copy(sliceHost, slice);
 
     // resize to the size of the screen
-    const int sizeXScreen = std::min(30, sizeX);
-    const int sizeYScreen = std::min(15, sizeY / 2);
-    const float ratioX = sizeX / sizeXScreen;
-    const float ratioY = sizeY / sizeYScreen;
+    const int sizeXScreen = getSizeScreen(sizeX, 30);
+    const int sizeYScreen = getSizeScreen(sizeY, 15);
+    const int ratioX = sizeX / sizeXScreen;
+    const int ratioY = sizeY / sizeYScreen;
 
     Kokkos::View<double **, Kokkos::DefaultHostExecutionSpace> sliceHostScreen(
         "slice host screen", sizeXScreen, sizeYScreen);
