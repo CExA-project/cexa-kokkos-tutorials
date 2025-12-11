@@ -5,16 +5,16 @@
 #include <stdexcept>
 
 void printUsage() {
-    std::cout << R"(exe10 [SIZE [RESIDUAL_MIN [ITERATION_MAX]]] [-h]
+    std::cout << R"(exe10 [ITERATION_MAX [RESIDUAL_MIN [SIZE]]] [-h]
 
 Solve the 3D heat equation.
 
-    SIZE
-        Size of the problem for one dimension (will be replicated for the other dimensions). Default to 100.
-    RESIDUAL_MIN
-        Minimal value of the residual. Default to 1e-8.
     ITERATION_MAX
         Maximal number of iterations. Default to 100000.
+    RESIDUAL_MIN
+        Minimal value of the residual. Default to 1e-8.
+    SIZE
+        Size of the problem for one dimension (will be replicated for the other dimensions). Default to 100.
 
     -h
         Display this help message and exit.
@@ -38,16 +38,9 @@ Arguments::Arguments(int argc, char* argv[]) {
     }
 
     try {
-        // first argument for size
+        // first argument for iterations
         if (argc > 1) {
-            size = std::stoi(argv[1]);
-
-            if (size <= 0) {
-                throw std::invalid_argument("size sign error");
-            }
-            if (size < 2) {
-                throw std::invalid_argument("size too small");
-            }
+            iterationMax = std::stoi(argv[1]);
         }
         // second argument for residual
         if (argc > 2) {
@@ -57,9 +50,16 @@ Arguments::Arguments(int argc, char* argv[]) {
                 throw std::invalid_argument("residualMin sign error");
             }
         }
-        // third argument for iterations
+        // third argument for size
         if (argc > 3) {
-            iterationMax = std::stoi(argv[3]);
+            size = std::stoi(argv[3]);
+
+            if (size <= 0) {
+                throw std::invalid_argument("size sign error");
+            }
+            if (size < 2) {
+                throw std::invalid_argument("size too small");
+            }
         }
     } catch (const std::invalid_argument& error) {
         std::cerr << "Error processing arguments: " << error.what()
@@ -70,9 +70,9 @@ Arguments::Arguments(int argc, char* argv[]) {
 }
 
 void Arguments::describe() {
+    std::cout << "Iteration max: " << iterationMax << std::endl;
+    std::cout << "Residual min: " << residualMin << std::endl;
     std::cout << "Size in one direction: " << size << std::endl;
     std::cout << "Size in total: " << size * size * size << std::endl;
-    std::cout << "Residual min: " << residualMin << std::endl;
-    std::cout << "Iteration max: " << iterationMax << std::endl;
 }
 

@@ -83,7 +83,6 @@ void compute(const int sizeX, const int sizeY, const int sizeZ,
     } else {
         std::cout << "Did not converge after " << iterationMax
                   << " iterations, final residual is " << residual << std::endl;
-        return;
     }
 
     display(field);
