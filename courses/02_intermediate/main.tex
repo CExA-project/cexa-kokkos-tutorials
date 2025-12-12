@@ -649,28 +649,40 @@
 \section{Atomics}
 
 \begin{frame}[fragile]{Atomics - Race condition}
+  Even simple instruction like '\texttt{++}' are decomposed into several smaller assembly instructions:
     \begin{columns}
-        \begin{column}{0.4\linewidth}
+        \begin{column}{0.5\linewidth}
             \begin{minted}{C++}
-              Kokkos::View<double*>
-                v("v", 2);
-              // Init v with
-              // v(0) = 4
-              // v(1) = 5
-
-              Kokkos::View<double> res;
+              Kokkos::View<double> res = 0;
               Kokkos::parallel_for(
                 Kokkos::RangePolicy(0,2),
                 KOKKOS_LAMBDA(int i) {
-                  res() = res() + v(i);
+                  res()++;
                 });
             \end{minted}
         \end{column}
-        \begin{column}{0.6\linewidth}
-          Even simple instruction like '\texttt{+}' are decomposed into several smaller assembly instructions:
-
-					%rewrite with https://en.wikipedia.org/wiki/Race_condition#Example
-          \includegraphics{race_condition1.png}
+        \begin{column}{0.5\linewidth}
+          \begin{tabular}{|c|c|c|c|}
+            \hline
+            Thread1 & Thread2 &  & res \\
+            \hline
+             & & & 0 \\
+             \hline
+             read value & & ← & 0 \\
+             \hline
+             increment value & &  & 0 \\
+             \hline
+             write value & & → & 1 \\
+             \hline
+             & & & 1 \\
+             \hline
+             & read value & ← & 1 \\
+             \hline
+             & increment value &  & 1 \\
+             \hline
+             & write value & → & 2 \\
+             \hline
+          \end{tabular}
         \end{column}
     \end{columns}
 \end{frame}
@@ -705,55 +717,72 @@
 %}
 
 \begin{frame}[fragile]{Atomics - Race condition}
+  But execution between threads is independent. Their is no guarantee over the order of instructions:
     \begin{columns}
-        \begin{column}{0.4\linewidth}
+        \begin{column}{0.5\linewidth}
             \begin{minted}{C++}
-              Kokkos::View<double*>
-                v("v", 2);
-              // Init v with
-              // v(0) = 4
-              // v(1) = 5
-
-              Kokkos::View<double> res;
+              Kokkos::View<double> res = 0;
               Kokkos::parallel_for(
                 Kokkos::RangePolicy(0,2),
                 KOKKOS_LAMBDA(int i) {
-                  res() = res() + v(i);
-                });
-            \end{minted}
-        \end{column}
-        \begin{column}{0.6\linewidth}
-          When several cores run in parallel, instructions can interleave and generate \structure{race conditions}:
-
-          \includegraphics[width=1\textwidth]{race_condition2.png}
-        \end{column}
-    \end{columns}
-\end{frame}
-
-\begin{frame}[fragile]{Atomic Operations}
-    \begin{columns}
-        \begin{column}{0.4\linewidth}
-            \begin{minted}{C++}
-              Kokkos::View<double*>
-                v("v", 2);
-              // Init v with
-              // v(0) = 4
-              // v(1) = 5
-
-              Kokkos::View<double> res;
-              Kokkos::parallel_for(
-                Kokkos::RangePolicy(0,2),
-                KOKKOS_LAMBDA(int i) {
-                  // res() += v(i)
-                  Kokkos::atomic_add(
-                    &res(), v(i));
+                  res()++;
                 });
             \end{minted}
         \end{column}
         \begin{column}{0.5\linewidth}
-          \texttt{atomic\_add} execute the \texttt{LOAD}, \texttt{STORE} and \texttt{ADD} in a single atomic step,
-          guarantying the absence of race condition during the addition.
-          \includegraphics[width=1\textwidth]{race_condition3.png}
+          \begin{tabular}{|c|c|c|c|}
+            \hline
+            Thread1 & Thread2 &  & res \\
+            \hline
+             & & & 0 \\
+             \hline
+             read value & & ← & 0 \\
+             \hline
+             & read value & ← & 0 \\
+             \hline
+             increment value & &  & 0 \\
+             \hline
+             write value & & → & 1 \\
+             \hline
+             & & & 1 \\
+             \hline
+             & increment value &  & 1 \\
+             \hline
+             & write value & → & 1 \\
+             \hline
+          \end{tabular}
+        \end{column}
+    \end{columns}
+    When several threads are accessing the same data, it may generate \structure{race conditions}.
+\end{frame}
+
+\begin{frame}[fragile]{Atomic Operations}
+  \texttt{atomic\_inc} execute the \texttt{Write}, \texttt{Read} and \texttt{++} in a single atomic step,
+  guarantying the absence of race condition during the operation:
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            \begin{minted}{C++}
+              Kokkos::View<double> res = 0;
+              Kokkos::parallel_for(
+                Kokkos::RangePolicy(0,2),
+                KOKKOS_LAMBDA(int i) {
+                  // res()++
+                  Kokkos::atomic_inc(&res());
+                });
+            \end{minted}
+        \end{column}
+        \begin{column}{0.5\linewidth}
+          \begin{tabular}{|c|c|c|c|}
+            \hline
+            Thread1 & Thread2 &  & res \\
+            \hline
+            & & & 0 \\
+            \hline
+            atomic\_inc & & ←→ & 1 \\
+            \hline
+            & atomic\_inc & ←→ & 2 \\
+            \hline
+          \end{tabular}
         \end{column}
     \end{columns}
   \pause
@@ -762,7 +791,10 @@
 
 \begin{frame}[fragile]{Atomic operations}
   \begin{columns}
-    \begin{column}{0.55\linewidth}
+    \begin{column}{0.35\linewidth}
+      Other common operations are available with the format \texttt{Kokkos::atomic\_[op]}:
+    \end{column}
+    \begin{column}{0.75\linewidth}
     \begin{tabular}{|l|c|}
       \hline
       Operation & Replaces \\
@@ -783,10 +815,6 @@
 			\texttt{Kokkos::atomic\_xor(\&x, y)}    & \texttt{x \^{}= y} \\
       \hline
     \end{tabular}
-    \end{column}
-
-      \begin{column}{0.35\linewidth}
-        Other common operations are available with the format \texttt{Kokkos::atomic\_[op]}.
     \end{column}
   \end{columns}
 \end{frame}
