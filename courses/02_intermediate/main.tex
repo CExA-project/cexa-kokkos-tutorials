@@ -134,30 +134,74 @@
 
 % _____________________________________________________________________________
 
-\section{Profiling and debugging}
+\section{Debugging and profiling}
 
-% _____________________________________________________________________________
+\begin{frame}{What is this about?}
+    \begin{columns}[T]
+        \begin{column}{0.5\linewidth}
+            \begin{center}
+                \textbf{Debugging}
+            \end{center}
+            \begin{itemize}
+                \item Errors may happen
+                \item Print-debugging is cumbersome
+                \item Developers need real tools
+                \begin{itemize}
+                    \item \texttt{gdb} (CPU)
+                    \item \texttt{compute-sanitizer} (Cuda)
+                    \item \texttt{cuda-gdb} (Cuda)
+                    \item ...
+                \end{itemize}
+                \item What can Kokkos do?
+            \end{itemize}
+        \end{column}
+        \pause
+        \begin{column}{0.5\linewidth}
+            \begin{center}
+                \textbf{Profiling}
+            \end{center}
+            \begin{itemize}
+                \item You don't want to blind-optimize
+                \item \texttt{time} has its limits
+                \item You don't want to create timers by yourself
+                \item Developers need real tools
+                \begin{itemize}
+                    \item \texttt{perf} (CPU)
+                    \item VTune (CPU)
+                    \item NSight Systems/Compute (Cuda)
+                    \item ...
+                \end{itemize}
+                \item What can Kokkos do?
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
 
-\begin{frame}{Profiling and debugging tools at hand}
+\begin{frame}{Kokkos debugging and profiling tools at hand}
     \begin{columns}[T]
         \begin{column}{0.33\linewidth}
-            Kokkos
-
+            \begin{center}
+                \textbf{Kokkos}
+            \end{center}
             \begin{itemize}
                 \item KokkosP interface
                 \item Regions
             \end{itemize}
-
-            \vspace{1em}
-
-            \structure{Note:} Not actual tools, but used by tools of the two other categories
+            \begin{block}{Note}
+                Not actual tools, but used by other tools
+            \end{block}
+            \begin{block}{Remark}
+                Same interface for debugging and profiling
+            \end{block}
         \end{column}
+        \pause
         \begin{column}{0.33\linewidth}
-            Kokkos tools
-
+            \begin{center}
+                \textbf{Kokkos tools}
+            \end{center}
             \begin{itemize}
-                \item Kernel timer
                 \item Kernel logger
+                \item Kernel timer
                 \item Memory usage
                 \item Memory events
                 \item Space time stack
@@ -166,9 +210,11 @@
                 \item ...
             \end{itemize}
         \end{column}
+        \pause
         \begin{column}{0.33\linewidth}
-            Third-party tools
-
+            \begin{center}
+                \textbf{Third-party tools}
+            \end{center}
             \begin{itemize}
                 \item VTune
                 \item Nsight Systems
@@ -177,13 +223,12 @@
                 \item Timemory
                 \item Caliper
                 \item HPCToolkit
+                \item Apex
                 \item ...
             \end{itemize}
         \end{column}
     \end{columns}
 \end{frame}
-
-% _____________________________________________________________________________
 
 \begin{frame}[fragile]{KokkosP interface}
     \begin{columns}
@@ -221,8 +266,6 @@
     \end{columns}
 \end{frame}
 
-% _____________________________________________________________________________
-
 \begin{frame}[fragile]{Regions}
     \begin{columns}
         \begin{column}{0.5\linewidth}
@@ -242,15 +285,15 @@
                 \item No specific header needed
                 \item Namespace \texttt{Kokkos::Profiling}
                 \item Set regions of interest in your code
-                \item \texttt{pushRegion} to create a region
-                \item \texttt{popRegion} to remove a region
+                \begin{itemize}
+                    \item \texttt{pushRegion} to create a region
+                    \item \texttt{popRegion} to remove a region
+                \end{itemize}
                 \item Regions can be nested
             \end{itemize}
         \end{column}
     \end{columns}
 \end{frame}
-
-% _____________________________________________________________________________
 
 \begin{frame}{Kokkos tools}
     \begin{itemize}
@@ -266,7 +309,56 @@
     \end{itemize}
 \end{frame}
 
-% _____________________________________________________________________________
+\begin{frame}[fragile]{Kernel logger for a basic debugging}
+    \begin{columns}
+        \begin{column}{0.6\linewidth}
+            \begin{minted}[breakafter=/]{sh}
+                export KOKKOS_TOOLS_LIBS=/absolute/path/to/libkp_kernel_logger.so
+
+                ./my_program
+            \end{minted}
+
+            \begin{minted}{text}
+                KokkosP: Kernel Logger Library Initialized (sequence is 0, version: 20240906)
+            \end{minted}
+        \end{column}
+        \begin{column}{0.4\linewidth}
+            \begin{itemize}
+                \item Simple tool for a basic logging of your program's activity
+                \item Export environment variable to use the tool
+                \item Run the program as usual
+                \item When loaded, a tool always print something on screen
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Kernel logger output}
+    \begin{minted}[fontsize=\tiny]{text}
+        KokkosP: Entering profiling region: computation
+        KokkosP: Allocate<Cuda> name: view pointer: 0x7c67126aa000 size: 80000
+        KokkosP: Executing fence on device 33554433 with unique execution identifier 0
+        KokkosP: computation
+        KokkosP:       SharedAllocationRecord<Kokkos::CudaSpace, void>::SharedAllocationRecord(): fence after copying header from HostSpace
+        KokkosP: Execution of fence 0 is completed.
+        KokkosP: Executing parallel-for kernel on device 33554433 with unique execution identifier 1
+        KokkosP: computation
+        KokkosP:       Kokkos::View::initialization [view] via memset
+        KokkosP: Execution of kernel 1 is completed.
+        KokkosP: Executing fence on device 33554433 with unique execution identifier 2
+        KokkosP: computation
+
+        ...
+
+        KokkosP: Kokkos library finalization called.
+    \end{minted}
+
+    \begin{itemize}
+        \item All activity listed (parallel constructs, fences, View creations...)
+        \item Useful for tracking chaining of kernels
+        \item Difficult to read for long executions or when the kernels are asynchronous
+    \end{itemize}
+\end{frame}
 
 \begin{frame}[fragile]{Kernel timer for a basic profiling}
     \begin{columns}
@@ -299,8 +391,6 @@
     \end{columns}
 \end{frame}
 
-% _____________________________________________________________________________
-
 \begin{frame}[fragile]{Kernel timer output}
     \begin{minted}{text}
          (Type)   Total Time, Call Count, Avg. Time per Call, %Total Time in Kernels, %Total Program Time
@@ -312,6 +402,20 @@
         ...
         -------------------------------------------------------------------------
         Summary:
+        ...
+        -------------------------------------------------------------------------
+    \end{minted}
+    \begin{itemize}
+        \item 3 sections in the report
+        \item Let's analyze them
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Kernel timer output (for summary)}
+    \begin{minted}{text}
+         (Type)   Total Time, Call Count, Avg. Time per Call, %Total Time in Kernels, %Total Program Time
+        -------------------------------------------------------------------------
+        Summary:
 
         Total Execution Time (incl. Kokkos + non-Kokkos):                   0.00038 seconds
         Total Time in Kokkos kernels:                                       0.00030 seconds
@@ -321,9 +425,11 @@
 
         -------------------------------------------------------------------------
     \end{minted}
+    \begin{itemize}
+        \item Global metrics of the execution of the program
+        \item Example for a very simple code
+    \end{itemize}
 \end{frame}
-
-% _____________________________________________________________________________
 
 \begin{frame}[fragile]{Kernel timer output (for regions)}
     \begin{minted}{text}
@@ -338,12 +444,10 @@
 
     \begin{itemize}
     	\item Regions are named after what you set in \texttt{pushRegion}
-        \item Descending order of time
+        \item Descending order of cumulated duration
     	\item One set of two lines per region
     \end{itemize}
 \end{frame}
-
-% _____________________________________________________________________________
 
 \begin{frame}[fragile]{Kernel timer output (for kernels)}
     \begin{minted}{text}
@@ -361,76 +465,22 @@
     \begin{itemize}
 	    \item Kernels are named after what you set in parallel constructs (\texttt{parallel\_*})
         \item Some internal kernels are visible: Views initialization
-        \item Descending order of time
+        \item Descending order of cumulated duration
 	    \item One set of two lines per kernel
     \end{itemize}
 \end{frame}
 
-% _____________________________________________________________________________
-
-\begin{frame}[fragile]{Kernel logger for a basic debugging}
-    \begin{columns}
-        \begin{column}{0.6\linewidth}
-            \begin{minted}[breakafter=/]{sh}
-                export KOKKOS_TOOLS_LIBS=/absolute/path/to/libkp_kernel_logger.so
-
-                ./my_program
-            \end{minted}
-
-            \begin{minted}{text}
-                KokkosP: Kernel Logger Library Initialized (sequence is 0, version: 20240906)
-            \end{minted}
-        \end{column}
-        \begin{column}{0.4\linewidth}
-            \begin{itemize}
-                \item Simple tool for a basic logging of your program's activity
-                \item Export environment variable to use the tool
-                \item Run the program as usual
-            \end{itemize}
-        \end{column}
-    \end{columns}
-\end{frame}
-
-% _____________________________________________________________________________
-
-\begin{frame}[fragile]{Kernel logger output}
-    \begin{minted}[fontsize=\tiny]{text}
-        KokkosP: Entering profiling region: computation
-        KokkosP: Allocate<Cuda> name: view pointer: 0x7c67126aa000 size: 80000
-        KokkosP: Executing fence on device 33554433 with unique execution identifier 0
-        KokkosP: computation
-        KokkosP:       SharedAllocationRecord<Kokkos::CudaSpace, void>::SharedAllocationRecord(): fence after copying header from HostSpace
-        KokkosP: Execution of fence 0 is completed.
-        KokkosP: Executing parallel-for kernel on device 33554433 with unique execution identifier 1
-        KokkosP: computation
-        KokkosP:       Kokkos::View::initialization [view] via memset
-        KokkosP: Execution of kernel 1 is completed.
-        KokkosP: Executing fence on device 33554433 with unique execution identifier 2
-        KokkosP: computation
-
-        ...
-
-        KokkosP: Kokkos library finalization called.
-    \end{minted}
-
-    \begin{itemize}
-        \item All activity listed (parallel constructs, fences, View creations...)
-        \item Useful for tracking chaining of kernels
-        \item Difficult to read when the kernels are asynchronous
-    \end{itemize}
-\end{frame}
-
-% _____________________________________________________________________________
-
 \begin{frame}{NVTX connector for NVIDIA tools}
     \begin{itemize}
-        \item NVIDIA Tools Extension
-        \item Simple connector to convert Kokkos named regions/kernels into NVTX regions for NVIDIA tools
+        \item Simple connector to convert Kokkos named regions/kernels into NVTX regions
+        \item NVIDIA Tools eXtension
+        \item For NVIDIA tools
         \begin{itemize}
             \item Nsight Systems
             \item Nsight Compute
         \end{itemize}
         \item Lot of documentation about how to use these tools right
+        \item Equivalent ROCTX connector for AMD
     \end{itemize}
 \end{frame}
 
@@ -453,28 +503,12 @@
         \begin{column}{0.4\linewidth}
             \begin{itemize}
                 \item Analyze a program as a whole
+                \item Export environment variable to use the tool
+                \item Run the program through \texttt{nsys}
                 \item Do not run your program for too long when profiling!
                 \item About 10 iterations is enough
-                \item Export environment variable to use the tool
-                \item Run the program as usual
                 \item Open the generated report
             \end{itemize}
-        \end{column}
-    \end{columns}
-\end{frame}
-
-\begin{frame}{Display NVTX name of kernels in Nsight Systems}
-    \begin{columns}
-        \begin{column}{0.5\linewidth}
-            \begin{enumerate}
-                \item Tools $\rightarrow$ Options
-                \item Behavior $\rightarrow$ Report
-                \item Set "Rename CUDA Kernels by NVTX" to \emph{Yes}
-                \item Re-open the report
-            \end{enumerate}
-        \end{column}
-        \begin{column}{0.5\linewidth}
-            \includegraphics[width=\linewidth]{nsight_systems_options}
         \end{column}
     \end{columns}
 \end{frame}
@@ -504,6 +538,26 @@
     \end{columns}
 \end{frame}
 
+\begin{frame}{Display NVTX name of kernels in Nsight Systems}
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            \begin{itemize}
+                \item Kernels are named after function name, which for Kokkos is an obscure internal name
+                \item Set to rename the kernels after the NVTX name
+                \begin{enumerate}
+                    \item Tools $\rightarrow$ Options
+                    \item Behavior $\rightarrow$ Report
+                    \item Set "Rename CUDA Kernels by NVTX" to \emph{Yes}
+                    \item Re-open the report
+                \end{enumerate}
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            \includegraphics[width=\linewidth]{nsight_systems_options}
+        \end{column}
+    \end{columns}
+\end{frame}
+
 \begin{frame}[fragile]{NVTX connector and Nsight Compute}
     \begin{columns}
         \begin{column}{0.6\linewidth}
@@ -526,11 +580,12 @@
         \begin{column}{0.4\linewidth}
             \begin{itemize}
                 \item Kernel by kernel analysis
-                \item Use NVTX region to profile only certain kernels
-                \item The more the metrics, the slower the profiling
-                \item Run only for few iterations
                 \item Export environment variable to use the tool
-                \item Run the program as usual
+                \item Run the program through \texttt{ncu}
+                \item Use NVTX region to profile only certain kernels
+                \item Set of metrics to collect
+                \item The more the metrics, the slower the profiling
+                \item Run for about 10 iterations
                 \item Open the generated report
             \end{itemize}
         \end{column}

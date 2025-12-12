@@ -121,7 +121,9 @@ export KOKKOS_TOOLS_LIBS=/path/to/kokkos-tools/lib/libkp_nvtx_connector.so
 Run your program for 10 iterations through Nsight Systems:
 
 ```sh
-nsys profile -o report ./exe10 10
+nsys profile \
+         -o report -f true \
+         ./exe10 10
 ```
 
 This should generate a `.nsys-rep` report file that you can open with the graphical interface of Nsight Systems:
@@ -141,12 +143,12 @@ Select "Yes" in the drop-down menu for "Rename CUDA kernels by NVTX," then re-op
 
 ### Nsight Compute
 
-Run your program for 1 iteration through Nsight Comptu:
+Run your program for 10 iterations through Nsight Comptu:
 
 ```sh
 ncu \
         -o report -f \
-        ./exe10solution 1
+        ./exe10 10
 ```
 
 This should generate a `.ncu-rep` report file that you can open with the graphical interface of Nsight Compute:
@@ -162,7 +164,7 @@ As it may be too cumbersome to identify the desired kernel, it is better to call
 ncu \
         -o report -f \
         --nvtx --nvtx-include "<name of the NVTX region>/" \
-        ./exe10solution 1
+        ./exe10 10
 ```
 
 with `<name of the NVTX region>/` replaced by the name of the region of interest.
@@ -177,7 +179,7 @@ ncu \
         -o report -f \
         --nvtx --nvtx-include "<name of the NVTX region>/" \
         --set detailed \
-        ./exe10solution 1
+        ./exe10 10
 ```
 
 In the graphical interface, open the new report, navigate to the "GPU Speed Of Light Throughput" section, then select "GPU Throughput Rooflines" in the drop-down menu on the right (or scroll at the bottom of the section for old versions of Nsight Compute) to display the roofline graph for a specific compute intensive kernel.
