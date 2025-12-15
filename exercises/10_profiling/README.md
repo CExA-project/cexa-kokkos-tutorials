@@ -27,7 +27,7 @@ cmake --build build --parallel 10
 cmake --install build
 ```
 
-Export some environment variables to make it easily useable:
+Export some environment variables to make it easily useable (especially for calling `kp_reader`):
 
 ```sh
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/path/to/kokkos-tools/lib
@@ -69,7 +69,8 @@ export KOKKOS_TOOLS_LIBS=/path/to/kokkos-tools/lib/libkp_kernel_timer.so
 Run your program after building it (on either backend):
 
 ```sh
-./exe10
+./exe10  # for GPU
+./exe10 100000 1e-5  # for CPU
 ```
 
 A `.dat` file containing the timings should have been generated in the same working directory.
@@ -143,7 +144,7 @@ Select "Yes" in the drop-down menu for "Rename CUDA kernels by NVTX," then re-op
 
 ### Nsight Compute
 
-Run your program for 10 iterations through Nsight Comptu:
+Run your program for 10 iterations through Nsight Compute:
 
 ```sh
 ncu \
