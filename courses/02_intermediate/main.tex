@@ -185,7 +185,7 @@
             \end{center}
             \begin{itemize}
                 \item KokkosP interface
-                \item Regions
+                \item Profiling regions
             \end{itemize}
             \begin{block}{Note}
                 Not actual tools, but used by other tools
@@ -205,6 +205,7 @@
                 \item Memory usage
                 \item Memory events
                 \item Space time stack
+                \item VTune connector
                 \item NVTX connector
                 \item ROCTX connector
                 \item ...
@@ -260,13 +261,13 @@
                 \end{itemize}
                 \item Designed for other tools to use it
                 \item Always available
-                \item No overhead if no tools are used
+                \item Really small overhead if no tools are used (check of a Boolean)
             \end{itemize}
         \end{column}
     \end{columns}
 \end{frame}
 
-\begin{frame}[fragile]{Regions}
+\begin{frame}[fragile]{Profiling regions}
     \begin{columns}
         \begin{column}{0.5\linewidth}
             \begin{minted}{C++}
@@ -355,7 +356,7 @@
     \end{minted}
 
     \begin{itemize}
-        \item All activity listed (parallel constructs, fences, View creations...)
+        \item All Kokkos activity listed (parallel constructs, fences, View creations...)
         \item Useful for tracking chaining of kernels
         \item Difficult to read for long executions or when the kernels are asynchronous
         \item Good idea to redirect the output to a file
@@ -614,6 +615,30 @@
         \end{column}
     \end{columns}
 \end{frame}
+
+\begin{exerciseframe}{Exercise 10: Profiling a Kokkos program}
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            \begin{center}
+                \includegraphics[width=0.9\textwidth]{sleeping_otter.png}
+            \end{center}
+
+            Go to the exercise \githublink{\href{https://github.com/CExA-project/cexa-kokkos-tutorials/tree/main/exercises/10_profiling}{10\_profiling}} and follow the instructions
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            \begin{block}{Goal of this exercise}
+                \begin{itemize}
+                    \item Use Kokkos profiling regions
+                    \item Use meaningful labels in parallel constructs and fences
+                    \item Debug with the simple kernel timer
+                    \item Profile with the simple kernel logger
+                    \item Profile with Nsight Systems
+                    \item Profile with Nsight Compute
+                \end{itemize}
+            \end{block}
+        \end{column}
+    \end{columns}
+\end{exerciseframe}
 
 % _____________________________________________________________________________
 
