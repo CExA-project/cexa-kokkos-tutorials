@@ -5,18 +5,30 @@
 #include <cstring>
 #include <iostream>
 
+// custom headers for the exercise
 #include "arguments.hpp"
 #include "display.hpp"
 
+/**
+ * Solve the heat equation iteratively.
+ * @param[in] sizeX Number of elements in the X dimension.
+ * @param[in] sizeY Number of elements in the Y dimension.
+ * @param[in] sizeZ Number of elements in the Z dimension.
+ * @param[in] iterationMax Maximum number of iterations to run.
+ * @param[in] residualMin Minimum residual to reach during the iterative resolution.
+ */
 void compute(const int sizeX, const int sizeY, const int sizeZ,
              const std::size_t iterationMax, const double residualMin) {
+    /**
+     * Start initialization
+     */
     Kokkos::Profiling::pushRegion("preparation");
 
     // fields
     Kokkos::View<double ***> field("field", sizeX, sizeY, sizeZ);
     Kokkos::View<double ***> fieldTemp("field temp", sizeX, sizeY, sizeZ);
 
-    // initialize
+    // initialize hot
     Kokkos::parallel_for(
         "initialize hot",
         Kokkos::MDRangePolicy<Kokkos::Rank<3>>({0, 0, 0}, {1, sizeY, sizeZ}),
@@ -24,6 +36,7 @@ void compute(const int sizeX, const int sizeY, const int sizeZ,
             field(i, j, k) = 1;
         });
 
+    // initialize cold
     Kokkos::parallel_for(
         "initialize cold",
         Kokkos::MDRangePolicy<Kokkos::Rank<3>>({1, 0, 0},
@@ -32,10 +45,17 @@ void compute(const int sizeX, const int sizeY, const int sizeZ,
             field(i, j, k) = 0;
         });
 
+    // wait for all initializations to complete
     Kokkos::fence("wait for initialize hot and cold");
 
+    /**
+     * End initialization
+     */
     Kokkos::Profiling::popRegion();
 
+    /**
+     * Start computation
+     */
     Kokkos::Profiling::pushRegion("computation");
 
     // iteration loop
@@ -59,6 +79,7 @@ void compute(const int sizeX, const int sizeY, const int sizeZ,
                            field(i, j, k - 1));
             });
 
+        // wait for compute new field
         Kokkos::fence("wait for compute new field");
 
         // compute residual
@@ -74,7 +95,7 @@ void compute(const int sizeX, const int sizeY, const int sizeZ,
             },
             Kokkos::Max<double>(residual));
 
-        // invert fields
+        // swap fields
         Kokkos::parallel_for(
             "swap fields",
             Kokkos::MDRangePolicy<Kokkos::Rank<3>>(
@@ -83,8 +104,13 @@ void compute(const int sizeX, const int sizeY, const int sizeZ,
                 field(i, j, k) = fieldTemp(i, j, k);
             });
 
+        // wait for swap fields
         Kokkos::fence("wait for swap fields");
     }
+
+    /**
+     * End computation
+     */
     Kokkos::Profiling::popRegion();
 
     if (iteration < iterationMax) {
@@ -95,11 +121,18 @@ void compute(const int sizeX, const int sizeY, const int sizeZ,
                   << " iterations, final residual is " << residual << std::endl;
     }
 
+    /**
+     * Start analysis
+     */
     Kokkos::Profiling::pushRegion("display");
 
     display(field);
 
     Kokkos::Profiling::popRegion();
+
+    /**
+     * End analysis
+     */
 }
 
 int main(int argc, char *argv[]) {

@@ -5,11 +5,31 @@
 #include <cstring>
 #include <iostream>
 
+// custom headers for the exercise
 #include "arguments.hpp"
 #include "display.hpp"
 
+/**
+ * Solve the heat equation iteratively.
+ * @param[in] sizeX Number of elements in the X dimension.
+ * @param[in] sizeY Number of elements in the Y dimension.
+ * @param[in] sizeZ Number of elements in the Z dimension.
+ * @param[in] iterationMax Maximum number of iterations to run.
+ * @param[in] residualMin Minimum residual to reach during the iterative resolution.
+ */
 void compute(const int sizeX, const int sizeY, const int sizeZ,
              const std::size_t iterationMax, const double residualMin) {
+    /**
+     * Exercise:
+     *
+     * 1. Identify regions of the code and delimit then with `Kokkos::Profiling::pushRegion("name of the region")` and `Kokkos::Profiling::popRegion()`.
+     * 2. Identify the parallel constructs and add the missing labels.
+     */
+
+    /**
+     * Start initialization
+     */
+
     // fields
     Kokkos::View<double ***> field("field", sizeX, sizeY, sizeZ);
     Kokkos::View<double ***> fieldTemp("field temp", sizeX, sizeY, sizeZ);
@@ -32,6 +52,14 @@ void compute(const int sizeX, const int sizeY, const int sizeZ,
     // wait for all initializations to complete
     Kokkos::fence();
 
+    /**
+     * End initialization
+     */
+
+    /**
+     * Start computation
+     */
+
     // iteration loop
     std::size_t iteration;
     double residual = 10;
@@ -52,6 +80,7 @@ void compute(const int sizeX, const int sizeY, const int sizeZ,
                            field(i, j, k - 1));
             });
 
+        // wait for compute new field
         Kokkos::fence();
 
         // compute residual
@@ -74,8 +103,13 @@ void compute(const int sizeX, const int sizeY, const int sizeZ,
                 field(i, j, k) = fieldTemp(i, j, k);
             });
 
-        Kokkos::fence("wait for swap fields");
+        // wait for swap fields
+        Kokkos::fence();
     }
+
+    /**
+     * End computation
+     */
 
     if (iteration < iterationMax) {
         std::cout << "Converged with residual " << residual << " after "
@@ -85,7 +119,15 @@ void compute(const int sizeX, const int sizeY, const int sizeZ,
                   << " iterations, final residual is " << residual << std::endl;
     }
 
+    /**
+     * Start analysis
+     */
+
     display(field);
+
+    /**
+     * End analysis
+     */
 }
 
 int main(int argc, char *argv[]) {
