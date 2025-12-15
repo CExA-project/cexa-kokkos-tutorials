@@ -241,8 +241,26 @@
 
 \begin{frame}{Main difference between CPU and GPU}
     \begin{center}
-        \includegraphics[width=0.8\textwidth]{cpu_vs_gpu.png}
+        \includegraphics[width=0.75\textwidth]{cpu_vs_gpu.png}
     \end{center}
+    \begin{columns}
+        \begin{column}{0.4\linewidth}
+            \begin{itemize}
+                \item From about 10 to 200 cores
+                \item Complex core architecture and instruction sets
+                \item Versatility
+                \item SIMD model
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.4\linewidth}
+            \begin{itemize}
+                \item 1000s of threads
+                \item Simple threads
+                \item Specialized for intensive arithmetic computations
+                \item SIMT model
+            \end{itemize}
+        \end{column}
+    \end{columns}
 \end{frame}
 
 % _____________________________________________________________________________
@@ -250,8 +268,9 @@
 \begin{frame}{Host/Device model}
     \begin{columns}[T]
         \begin{column}{0.5\linewidth}
-            CPU
-
+            \begin{center}
+                \textbf{CPU}
+            \end{center}
             \begin{itemize}
                 \item Referred to as the \highlight{Host}
                 \item Programs are always started first on it
@@ -259,8 +278,9 @@
             \end{itemize}
         \end{column}
         \begin{column}{0.5\linewidth}
-            GPU
-
+            \begin{center}
+                \textbf{GPU}
+            \end{center}
             \begin{itemize}
                 \item Referred to as the \highlight{Device}
                 \item Cannot work standalone
@@ -305,10 +325,9 @@
 \begin{frame}{Performance, portability and productivity}
     \begin{columns}[T]
         \begin{column}{0.45\linewidth}
-            What \emph{most developers} want
-
-            \vspace{1em}
-
+            \begin{center}
+            \textbf{What \emph{most developers} want}
+            \end{center}
             \begin{description}[Performance]
                 \item[Performance] Get the best performance on a specific hardware
                 \item[Portability] Run the same code on different hardware
@@ -317,10 +336,9 @@
         \end{column}
         \pause
         \begin{column}{0.55\linewidth}
-            What \emph{developers for science} also want
-
-            \vspace{1em}
-
+            \begin{center}
+                \textbf{What \emph{developers for science} also want}
+            \end{center}
             \begin{description}[Interporability]
                 \item[Maturity] Production-ready (i.e. not research product)
                 \item[Community] Contributors, support, documentation, examples
@@ -335,11 +353,10 @@
 
 \begin{frame}{Do \emph{you} need performance portability?}
     \begin{columns}[T]
-        \begin{column}{0.5\linewidth}
-            Probably \emph{yes} if you...
-
-            \vspace{1em}
-
+        \begin{column}{0.6\linewidth}
+            \begin{center}
+                \textbf{Probably \emph{yes} if you...}
+            \end{center}
             \begin{itemize}
                 \item Want your code to run on different hardware technologies (CPU, GPU)
                 \item Have performance requirements
@@ -349,11 +366,10 @@
             \end{itemize}
         \end{column}
         \pause
-        \begin{column}{0.5\linewidth}
-            Maybe \emph{no} if you...
-
-            \vspace{1em}
-
+        \begin{column}{0.4\linewidth}
+            \begin{center}
+                \textbf{Probably \emph{no} if you...}
+            \end{center}
             \begin{itemize}
                 \item Need to tune your algorithms to work as fast as possible on a given hardware
                 \item Want to explore a new architecture
@@ -365,7 +381,7 @@
 % _____________________________________________________________________________
 
 \begin{frame}{Kokkos programming model}
-    Kokkos is a performance portability parallel programming model build upon the C++-17 standard, designed to abstract already existing parallel programming models
+    Kokkos is a performance portability parallel programming model build upon the C++-20 standard, designed to abstract already existing parallel programming models
 
     \vspace{0.5em}
 
@@ -427,6 +443,26 @@
     \begin{center}
         \includegraphics[width=0.9\textwidth]{kokkos-cpp-standard.png}
     \end{center}
+\end{frame}
+
+\begin{frame}{Kokkos governance}
+    \begin{columns}
+        \begin{column}{0.45\linewidth}
+            \centering
+
+            \includegraphics[width=0.6\linewidth]{hpsf}
+
+            \vspace{2em}
+
+            \includegraphics[width=0.8\linewidth]{kokkos_text}
+        \end{column}
+        \begin{column}{0.55\linewidth}
+            \begin{itemize}
+                \item Kokkos is a project of the High Performance Software Foundation (HPSF, part of the Linux Foundation)
+                \item Sustainability of the development for the long run
+            \end{itemize}
+        \end{column}
+    \end{columns}
 \end{frame}
 
 % _____________________________________________________________________________
@@ -521,7 +557,7 @@
         \begin{column}{0.45\linewidth}
             \begin{itemize}
                 \item Add the option \texttt{-DKokkos\_ENABLE\_<BACKEND>=ON} to enable a specific backend
-                \item Only one CPU backend and one GPU backend maximum can be compiled at a time
+                \item Only one CPU backend and one GPU backend maximum can be compiled at a time (plus Serial backend)
             \end{itemize}
             \begin{minted}[texcomments]{bash}
                 cmake \
@@ -551,7 +587,7 @@
 
     \begin{frame}{Warning regarding the backends}
     \begin{itemize}
-        \item All backends \highlight{do not have the same level of maturity}, some are experimental!
+        \item All backends \highlight{may not have the same level of maturity}
         \item The backend environment (for instance Cuda) must be available on the target machine, \highlight{Kokkos does not install it for you}!
     \end{itemize}
 \end{frame}
@@ -693,13 +729,13 @@
             \item Using CMake
             \item With Spack
         \end{itemize}
-        \item None of them is a perfect solution
+        \item None of them is the perfect solution
     \end{itemize}
 \end{frame}
 
 % _____________________________________________________________________________
 
-\begin{frame}{Different ways to treat the Kokkos dependency}
+\begin{frame}{Different ways to handle the Kokkos dependency}
     \begin{columns}[T]
         \begin{column}{0.25\linewidth}
             \strut Build and install it
@@ -740,7 +776,7 @@
         \end{column}
         \pause
         \begin{column}{0.25\linewidth}
-            \strut Using CMake
+            \strut CMake FetchContent
 
             \emph{\small\strut(inline build)}
 
@@ -752,6 +788,7 @@
             \begin{alertblock}{Cons}
                 \begin{itemize}
                     \item Not trivial for the dev to do it right
+                    \item Not very clean
                 \end{itemize}
             \end{alertblock}
         \end{column}
@@ -870,7 +907,7 @@
                     include(FetchContent)
                     FetchContent_Declare(
                         kokkos
-                        URL https://github.com/kokkos/kokkos/releases/download/4.5.01/kokkos-4.5.01.zip
+                        URL https://github.com/kokkos/kokkos/releases/download/5.0.0/kokkos-5.0.0.zip
                     )
                     FetchContent_MakeAvailable(kokkos)
                 endif()
@@ -1108,7 +1145,7 @@
     \end{center}
     \begin{itemize}
         \item If Kokkos is compiled with a \highlight{CPU backend only}, the View data is allocated in the \highlight{Host memory} by default
-        \item View comes with metadata (number of dimensions, size, ...) and data
+        \item View comes with metadata (number of dimensions, size, etc.) and data
         \item Host view data usually \highlight{cannot} be accessed from the Device
     \end{itemize}
 \end{frame}
@@ -1186,15 +1223,13 @@
     \begin{columns}
         \begin{column}{0.5\linewidth}
             \begin{minted}{C++}
-                Kokkos::View<int**,
-                  MemorySpace, Layout>
-                    my_matrix("matrix", 10, 10);
+                Kokkos::View<int**, Layout>
+                  my_matrix("matrix", 10, 10);
             \end{minted}
         \end{column}
         \begin{column}{0.5\linewidth}
             \begin{itemize}
                 \item Template argument \texttt{Layout} to specify the layout when creating a view
-                \item If you specify a Layout, you must also specify a memory space
                 \item Several ones available (Left, Right, Stride, ...)
                 \item Possible to define your own custom layout
                 \item Default values are usually sufficient for basic usages
@@ -1211,7 +1246,7 @@
         \pause
         \item Reference counting is used for automatic deallocation (like shared pointers)
         \pause
-        \item Copy construction and assignment are shallow: you pass Views by value, not by pointer (e.g. C arrays) nor by reference
+        \item Copy construction and assignment are shallow: you pass Views by value, not by pointer (e.g. C arrays); you can still pass by reference
     \end{itemize}
 \end{frame}
 
@@ -1380,13 +1415,15 @@
 
 \begin{frame}[fragile]{Deep copy data between memory space}
     \begin{columns}
-        \begin{column}{0.61\linewidth}
+        \begin{column}{0.5\linewidth}
             \begin{minted}{C++}
                 Kokkos::View<int**>
                     device_view("view", Nx, Ny);
 
                 auto host_view =
-                    Kokkos::create_mirror_view(device_view);
+                    Kokkos::create_mirror_view(
+                        device_view
+                    );
 
                 initialize(host_view);
 
@@ -1397,9 +1434,10 @@
                 );
             \end{minted}
         \end{column}
-        \begin{column}{0.4\linewidth}
+        \begin{column}{0.5\linewidth}
             \begin{itemize}
                 \item \texttt{deep\_copy(dst, src)} copy \texttt{src} to \texttt{dst}, even if the data are in different memory spaces
+                \item Beware of \highlight{arguments order!}
                 \item Views must be similar (same shape, layout, etc.)
                 \item If \texttt{deep\_copy} detects that the destination view is a shallow copy of the source view (created by \texttt{create\_mirror\_view} for instance), it does nothing
             \end{itemize}
@@ -1479,8 +1517,9 @@
 \begin{frame}[fragile]{Comparison of Kokkos and OpenMP parallel loops}
     \begin{columns}[T]
         \begin{column}{0.5\linewidth}
-            OpenMP version
-
+            \begin{center}
+                \textbf{OpenMP version}
+            \end{center}
             \begin{minted}{C++}
                 #pragma omp parallel for
                 for (int i = 0; i < N; i++) {
@@ -1493,8 +1532,9 @@
         \end{column}
         \pause
         \begin{column}{0.5\linewidth}
-            Kokkos version
-
+            \begin{center}
+                \textbf{Kokkos version}
+            \end{center}
             \begin{minted}{C++}
                 Kokkos::parallel_for(
                     "my_loop",
@@ -1504,6 +1544,9 @@
                     }
                 );
             \end{minted}
+
+            \vspace{-0.75em}
+
             \begin{block}{Note}
                 Works on CPUs and GPUs depending on the compiled backend
             \end{block}
@@ -1643,6 +1686,7 @@
             \begin{itemize}
                 \item \texttt{fence} to wait for asynchronous work to be completed
                 \item Equivalent to OpenMP \texttt{barrier} or to \texttt{MPI\_Wait}
+                \item Fence label (bonus for debugging!)
             \end{itemize}
         \end{column}
     \end{columns}
@@ -1692,9 +1736,9 @@
         \begin{column}{0.45\linewidth}
             \begin{itemize}
                 \item Kokkos way to tell how a loop is executed: \highlight{execution policy}
-                \item \texttt{RangePolicy} for single-dimensional loops
-                \item \texttt{ExecutionSpace} for specifying where the loop is executed (defaults to \texttt{DefaultExecutionSpace})
-                \item \texttt{start\_index} and \texttt{end\_index} are the beginning and the end (excluded) of the loop
+                \item \mintinline{c++}{RangePolicy} for single-dimensional loops
+                \item \mintinline{c++}{ExecutionSpace} for specifying where the loop is executed (defaults to \mintinline{c++}{DefaultExecutionSpace})
+                \item \mintinline{c++}{start_index} and \mintinline{c++}{end_index} are the beginning and the end (excluded) of the loop
             \end{itemize}
         \end{column}
     \end{columns}
@@ -1897,7 +1941,8 @@
                 \item One scalar variable collects something for each iteration (sum, max, min, etc.)
                 \item Same constraints as before
                 \pause
-                \item Horrible truth: \texttt{result} value \highlight{depends} on iteration order!
+                \item Horrible truth: \mintinline{c++}{result} \highlight{depends} on iteration order!
+                \item This is due to rounding errors and unknown iteration order
             \end{itemize}
         \end{column}
     \end{columns}
@@ -1910,7 +1955,7 @@
         \begin{column}{0.5\linewidth}
             \begin{minted}{C++}
                 // no initialization needed,
-                // handled by parallel reduce
+                // handled by parallel_reduce
                 double result;
 
                 Kokkos::parallel_reduce(
@@ -1928,10 +1973,11 @@
         \end{column}
         \begin{column}{0.5\linewidth}
             \begin{itemize}
-                \item \texttt{parallel\_reduce} to perform reductions
+                \item \mintinline{c++}{parallel_reduce} to perform reductions
                 \item Works like \texttt{parallel\_for} (e.g. execution space)
-                \item Reducer object (here \texttt{Sum}), templated with the result type
+                \item Reducer object (here \mintinline{c++}{Sum}), templated with the result type
                 \item Extra last argument to the kernel: a reference to the local result
+                \item Do not try to read this local result in the kernel (it's a partial result)
             \end{itemize}
         \end{column}
     \end{columns}
