@@ -309,7 +309,7 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]{Kernel logger for a basic debugging}
+\begin{frame}[fragile]{Simple kernel logger for a basic debugging}
     \begin{columns}
         \begin{column}{0.6\linewidth}
             \begin{minted}[breakafter=/]{sh}
@@ -324,16 +324,17 @@
         \end{column}
         \begin{column}{0.4\linewidth}
             \begin{itemize}
-                \item Simple tool for a basic logging of your program's activity
+                \item Simple tool for a basic logging of your program's Kokkos-related activity
                 \item Export environment variable to use the tool
                 \item Run the program as usual
+                \item Run for a few number of iterations if possible
                 \item When loaded, a tool always print something on screen
             \end{itemize}
         \end{column}
     \end{columns}
 \end{frame}
 
-\begin{frame}[fragile]{Kernel logger output}
+\begin{frame}[fragile]{Simple kernel logger output}
     \begin{minted}[fontsize=\tiny]{text}
         KokkosP: Entering profiling region: computation
         KokkosP: Allocate<Cuda> name: view pointer: 0x7c67126aa000 size: 80000
@@ -357,10 +358,11 @@
         \item All activity listed (parallel constructs, fences, View creations...)
         \item Useful for tracking chaining of kernels
         \item Difficult to read for long executions or when the kernels are asynchronous
+        \item Good idea to redirect the output to a file
     \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]{Kernel timer for a basic profiling}
+\begin{frame}[fragile]{Simple kernel timer for a basic profiling}
     \begin{columns}
         \begin{column}{0.6\linewidth}
             \begin{minted}[breakafter=/]{sh}
@@ -391,7 +393,7 @@
     \end{columns}
 \end{frame}
 
-\begin{frame}[fragile]{Kernel timer output}
+\begin{frame}[fragile]{Simple kernel timer output}
     \begin{minted}{text}
          (Type)   Total Time, Call Count, Avg. Time per Call, %Total Time in Kernels, %Total Program Time
         -------------------------------------------------------------------------
@@ -411,7 +413,7 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]{Kernel timer output (for summary)}
+\begin{frame}[fragile]{Simple kernel timer output (for summary)}
     \begin{minted}{text}
          (Type)   Total Time, Call Count, Avg. Time per Call, %Total Time in Kernels, %Total Program Time
         -------------------------------------------------------------------------
@@ -431,7 +433,7 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]{Kernel timer output (for regions)}
+\begin{frame}[fragile]{Simple kernel timer output (for regions)}
     \begin{minted}{text}
          (Type)   Total Time, Call Count, Avg. Time per Call, %Total Time in Kernels, %Total Program Time
         -------------------------------------------------------------------------
@@ -449,7 +451,7 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]{Kernel timer output (for kernels)}
+\begin{frame}[fragile]{Simple kernel timer output (for kernels)}
     \begin{minted}{text}
          (Type)   Total Time, Call Count, Avg. Time per Call, %Total Time in Kernels, %Total Program Time
 

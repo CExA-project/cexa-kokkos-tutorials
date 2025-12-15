@@ -95,10 +95,11 @@ Set the environment variable to use the simple kernel logger:
 export KOKKOS_TOOLS_LIBS=/path/to/kokkos-tools/lib/libkp_kernel_logger.so
 ```
 
-Run your program for only one iteration:
+Run your program for only one iteration and redirect the output to a file:
 
 ```sh
-./exe10 1
+./exe10 1 >./log
+cat ./log
 ```
 
 You should be able to trace the execution of the different kernels.
