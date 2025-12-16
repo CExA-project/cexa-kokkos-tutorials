@@ -143,11 +143,11 @@
     \begin{center}
         \includegraphics[width=\textwidth]{top10_super_computers.png}
 
-        \caption{Extract of the Top500 (top supercomputers in the world) in November 2024}
+        \caption{Extract of the Top500 (top supercomputers in the world) in November 2025}
     \end{center}
     \begin{itemize}
         \item Heterogeneous nodes: mix of CPU and GPU accelerators
-        \item Many CPU (Intel, AMD, ARM, RISC) and GPU vendors (NVIDIA, AMD, Intel)
+        \item Many CPU (AMD, Intel NVIDIA) and GPU vendors (AMD, Intel NVIDIA)
     \end{itemize}
 \end{frame}
 
@@ -178,7 +178,7 @@
         \includegraphics[width=0.8\textwidth]{top500_cpu_gpu_share_history.png}
     \end{center}
 
-    \structure{Note:} Does not include exotic and Intel Knight Landing accelerators
+    \structure{Note:} Does not include exotic accelerators (Intel Knight Landing, etc.)
 \end{frame}
 
 % _____________________________________________________________________________
@@ -692,6 +692,9 @@
             \begin{center}
                 \includegraphics[width=\textwidth]{kokkos_gpu_max_compilation.png}
             \end{center}
+
+            \vspace{-0.5em}
+
             \begin{minted}{sh}
                 cmake \
                 -B ${build_dir} \
@@ -726,7 +729,7 @@
         \begin{itemize}
             \item Build and install it
             \item As a Git submodule
-            \item Using CMake
+            \item Using CMake FetchContent
             \item With Spack
         \end{itemize}
         \item None of them is the perfect solution
@@ -738,7 +741,7 @@
 \begin{frame}{Different ways to handle the Kokkos dependency}
     \begin{columns}[T]
         \begin{column}{0.25\linewidth}
-            \strut Build and install it
+            \strut Build and install
 
             \emph{\small\strut(external library)}
 
@@ -757,7 +760,7 @@
         \end{column}
         \pause
         \begin{column}{0.25\linewidth}
-            \strut As a Git submodule
+            \strut Git submodule
 
             \emph{\small\strut(inline build)}
 
@@ -794,7 +797,7 @@
         \end{column}
         \pause
         \begin{column}{0.25\linewidth}
-            \strut With Spack
+            \strut Spack
 
             \emph{\small\strut(external library)}
 
