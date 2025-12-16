@@ -229,8 +229,13 @@
         \end{column}
         \begin{column}{0.5\linewidth}
             \begin{itemize}
-                \item GPUs are designed to achieve massive parallelism of simple kernels
-                \item Hundreds of computing units, thousands of threads
+                \item GPUs are specialized
+                \begin{itemize}
+                    \item Massive parallelism of simple kernels
+                    \item Intensive arithmetic computations
+                \end{itemize}
+
+                \item Hundreds of computing units, hundred of thousands of threads
                 \item Large SIMT vector unit (Single Instruction Multiple Threads) per computing unit
             \end{itemize}
         \end{column}
@@ -239,24 +244,35 @@
 
 % _____________________________________________________________________________
 
+\begin{frame}{SIMD versus SIMT}
+    \begin{center}
+        \includegraphics[width=\textwidth]{SIMD_vs_SIMT.png}
+    \end{center}
+\end{frame}
+
+% _____________________________________________________________________________
+
 \begin{frame}{Main difference between CPU and GPU}
     \begin{center}
         \includegraphics[width=0.75\textwidth]{cpu_vs_gpu.png}
     \end{center}
+
+    \vspace{-0.5em}
+
     \begin{columns}
         \begin{column}{0.4\linewidth}
             \begin{itemize}
                 \item From about 10 to 200 cores
-                \item Complex core architecture and instruction sets
-                \item Versatility
+                \item Complex core architecture and instructions set
+                \item General purpose
                 \item SIMD model
             \end{itemize}
         \end{column}
         \begin{column}{0.4\linewidth}
             \begin{itemize}
-                \item 1000s of threads
-                \item Simple threads
-                \item Specialized for intensive arithmetic computations
+                \item 1,000,000s of threads
+                \item Simple threads architecture and instructions set
+                \item Specialization
                 \item SIMT model
             \end{itemize}
         \end{column}
@@ -288,14 +304,6 @@
             \end{itemize}
         \end{column}
     \end{columns}
-\end{frame}
-
-% _____________________________________________________________________________
-
-\begin{frame}{SIMD versus SIMT}
-    \begin{center}
-        \includegraphics[width=\textwidth]{SIMD_vs_SIMT.png}
-    \end{center}
 \end{frame}
 
 % _____________________________________________________________________________
@@ -1148,7 +1156,7 @@
     \end{center}
     \begin{itemize}
         \item If Kokkos is compiled with a \highlight{CPU backend only}, the View data is allocated in the \highlight{Host memory} by default
-        \item View comes with metadata (number of dimensions, size, etc.) and data
+        \item View comes with metadata (number of dimensions, extents, etc.) and data
         \item Host view data usually \highlight{cannot} be accessed from the Device
     \end{itemize}
 \end{frame}
@@ -1249,7 +1257,7 @@
         \pause
         \item Reference counting is used for automatic deallocation (like shared pointers)
         \pause
-        \item Copy construction and assignment are shallow: you pass Views by value, not by pointer (e.g. C arrays); you can still pass by reference
+        \item Copy construction and assignment are shallow: you pass Views by value, not by pointer (e.g. C arrays); you can still pass by constant reference
     \end{itemize}
 \end{frame}
 
@@ -1439,7 +1447,7 @@
         \end{column}
         \begin{column}{0.5\linewidth}
             \begin{itemize}
-                \item \texttt{deep\_copy(dst, src)} copy \texttt{src} to \texttt{dst}, even if the data are in different memory spaces
+                \item \texttt{deep\_copy(destination, source)} copy \texttt{source} to \texttt{destination}, even if the data are in different memory spaces
                 \item Beware of \highlight{arguments order!}
                 \item Views must be similar (same shape, layout, etc.)
                 \item If \texttt{deep\_copy} detects that the destination view is a shallow copy of the source view (created by \texttt{create\_mirror\_view} for instance), it does nothing
