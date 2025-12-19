@@ -651,7 +651,7 @@
 \section{Atomics}
 
 \begin{frame}[fragile]{Race condition}
-  Porting a code creating an histogram:
+  Porting a code creating a histogram:
   \begin{columns}
     \begin{column}{0.5\linewidth}
       \begin{minted}{C++}
@@ -741,7 +741,7 @@
               histo(i%5) += i;
             \end{minted}
 
-            When several threads are accessing the same data, it will generate \structure{race conditions}.
+            When several threads are accessing the same data, it will generate \highlight{race conditions}.
         \end{column}
         \begin{column}{0.5\linewidth}
           \SetTblrInner{rowsep=0pt}
@@ -762,7 +762,7 @@
 \end{frame}
 
 \begin{frame}[fragile]{Atomic operation}
-  Replacing the addition with its atomic counterpart solve the problem:
+  Replacing the addition with its atomic counterpart solves the problem:
   \begin{columns}
     \begin{column}{0.40\linewidth}
       \begin{minted}{C++}
@@ -783,7 +783,7 @@
       \end{minted}
     \end{column}
   \end{columns}
-  Note that the \texttt{atomic\_add} instruction takes a pointer and not a
+  \structure{Note:} \texttt{atomic\_add} takes a pointer and not a
   reference as first argument, as the instruction needs to have an access to
   the actual memory address of the modified variable.
 \end{frame}
@@ -792,7 +792,7 @@
     \begin{columns}
         \begin{column}{0.55\linewidth}
           \texttt{atomic\_add} executes the \texttt{Write}, \texttt{Read} and \texttt{Add} in a single atomic step,
-          guarantying the absence of race condition during the operation:
+          guarantying the absence of race conditions during the operation:
             \begin{minted}{C++}
               Kokkos::atomic_add(&histo(i%5), i);
             \end{minted}
@@ -859,8 +859,8 @@
   \begin{columns}
     \begin{column}{0.50\linewidth}
       \begin{itemize}
-        \item If you need to access a View exclusively through atomic operation, you
-          can also create an alias for this View with the \texttt{Atomic} \texttt{MemoryTraits}
+        \item If you need to access a View exclusively through atomic operations, you
+          can also create an alias with the \texttt{Atomic} memory trait
         \item It guaranties that any operation done through the alias are done atomically
       \end{itemize}
     \end{column}
@@ -869,7 +869,7 @@
         Kokkos::View<double*> histo(5);
         Kokkos::deep_copy(histo, 0);
 
-        View<int*, MemoryTraits<Atomic>> 
+        Kokkos::View<int*, Kokkos::MemoryTraits<Kokkos::Atomic>> 
           histo_atomic = histo;
 
         Kokkos::parallel_for(
@@ -900,7 +900,7 @@
             necessary
           \item Algorithm can sometime be changed when porting from CPU to GPU
             in order to remove the need for atomics (colouring, replacing in
-            place algorithm with out of place algorithm,~…)
+            place algorithm with out of place algorithm, etc.)
         \end{itemize}
       \end{block}
     \end{column}
