@@ -791,7 +791,7 @@
 \begin{frame}[fragile]{Atomic operation}
     \begin{columns}
         \begin{column}{0.55\linewidth}
-          \texttt{atomic\_add} executes the \texttt{Write}, \texttt{Read} and \texttt{Add} in a single atomic step,
+          \texttt{atomic\_add} executes the write, read and add in a single atomic step,
           guarantying the absence of race conditions during the operation:
             \begin{minted}{C++}
               Kokkos::atomic_add(&histo(i%5), i);
@@ -857,19 +857,20 @@
 
 \begin{frame}[fragile]{Atomic Memory Trait}
   \begin{columns}
-    \begin{column}{0.50\linewidth}
+    \begin{column}{0.40\linewidth}
       \begin{itemize}
         \item If you need to access a View exclusively through atomic operations, you
           can also create an alias with the \texttt{Atomic} memory trait
         \item It guaranties that any operation done through the alias are done atomically
       \end{itemize}
     \end{column}
-    \begin{column}{0.50\linewidth}
+    \begin{column}{0.71\linewidth}
       \begin{minted}{C++}
         Kokkos::View<double*> histo(5);
         Kokkos::deep_copy(histo, 0);
 
-        Kokkos::View<int*, Kokkos::MemoryTraits<Kokkos::Atomic>> 
+        Kokkos::View<int*,
+                     Kokkos::MemoryTraits<Kokkos::Atomic>>
           histo_atomic = histo;
 
         Kokkos::parallel_for(
@@ -893,8 +894,7 @@
     \end{itemize}
     \end{column}
     \begin{column}{0.55\linewidth}
-      \begin{block}
-        {\vspace*{-3ex}} % hide the title box of the block
+      \begin{block}{Remarks}
         \begin{itemize}
           \item Atomics should be used with care and only when strictly
             necessary
