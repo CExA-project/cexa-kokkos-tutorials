@@ -798,8 +798,9 @@
             \end{minted}
         \end{column}
         \begin{column}{0.5\linewidth}
-        \begin{itemize}
-          \item Either:
+          \noindent Either:
+
+          \vspace{0.5em}
           \SetTblrInner{rowsep=0pt}
           \begin{tblr}{colspec={cccc},rowspec={Q[lightmain]Q[white]Q[thread1]Q[thread6]}}
             \textbf{Thread 1} & \textbf{Thread 6} &  & \textbf{res} \\
@@ -809,7 +810,11 @@
             &  &  & 7 \\
           \end{tblr}
           \pause
-        \item Or:
+          \vspace{0.5em}
+
+          \noindent Or: 
+
+          \vspace{0.5em}
           \SetTblrInner{rowsep=0pt}
           \begin{tblr}{colspec={cccc},rowspec={Q[lightmain]Q[white]Q[thread6]Q[thread1]}}
             \textbf{Thread 1} & \textbf{Thread 6} &  & \textbf{res} \\
@@ -818,7 +823,6 @@
             atomic add & & ←→ & 7 \\
             &  &  & 7 \\
           \end{tblr}
-        \end{itemize}
         \end{column}
     \end{columns}
 \end{frame}
@@ -851,6 +855,33 @@
   \end{columns}
 \end{frame}
 
+\begin{frame}[fragile]{Atomic Memory Trait}
+  \begin{columns}
+    \begin{column}{0.50\linewidth}
+      \begin{itemize}
+        \item If you need to access a View exclusively through atomic operation, you
+          can also create an alias for this View with the \texttt{Atomic} \texttt{MemoryTraits}
+        \item It guaranties that any operation done through the alias are done atomically
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.50\linewidth}
+      \begin{minted}{C++}
+        Kokkos::View<double*> histo(5);
+        Kokkos::deep_copy(histo, 0);
+
+        View<int*, MemoryTraits<Atomic>> 
+          histo_atomic = histo;
+
+        Kokkos::parallel_for(
+          Kokkos::RangePolicy(0,N),
+          KOKKOS_LAMBDA(int i) {
+            histo_atomic(i%5) += i;
+          });
+      \end{minted}
+    \end{column}
+  \end{columns}
+\end{frame}
+
 \begin{frame}[fragile]{Performances}
   \begin{columns}
     \begin{column}{0.45\linewidth}
@@ -862,7 +893,8 @@
     \end{itemize}
     \end{column}
     \begin{column}{0.55\linewidth}
-      \begin{exampleblock}{\vspace*{-3ex}}
+      \begin{block}
+        {\vspace*{-3ex}} % hide the title box of the block
         \begin{itemize}
           \item Atomics should be used with care and only when strictly
             necessary
@@ -870,7 +902,7 @@
             in order to remove the need for atomics (colouring, replacing in
             place algorithm with out of place algorithm,~…)
         \end{itemize}
-      \end{exampleblock}
+      \end{block}
     \end{column}
   \end{columns}
 \end{frame}
