@@ -666,7 +666,6 @@
     \begin{column}{0.5\linewidth}
       \begin{minted}{C++}
         Kokkos::View<double*> histo(5);
-        Kokkos::deep_copy(histo, 0);
 
         Kokkos::parallel_for(
           Kokkos::RangePolicy(0,N),
@@ -867,7 +866,6 @@
     \begin{column}{0.71\linewidth}
       \begin{minted}{C++}
         Kokkos::View<double*> histo(5);
-        Kokkos::deep_copy(histo, 0);
 
         Kokkos::View<int*,
                      Kokkos::MemoryTraits<Kokkos::Atomic>>
