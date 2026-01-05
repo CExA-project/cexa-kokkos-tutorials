@@ -867,7 +867,7 @@
       \begin{minted}{C++}
         Kokkos::View<double*> histo(5);
 
-        Kokkos::View<int*,
+        Kokkos::View<double*,
                      Kokkos::MemoryTraits<Kokkos::Atomic>>
           histo_atomic = histo;
 
