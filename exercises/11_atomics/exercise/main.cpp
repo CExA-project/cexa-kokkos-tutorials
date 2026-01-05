@@ -1,0 +1,35 @@
+#include <iostream>
+#include <Kokkos_Core.hpp>
+
+void generate_histogram (Kokkos::View<double*> histo, const int n) {
+
+  Kokkos::parallel_for(
+    Kokkos::RangePolicy(0, n),
+    KOKKOS_LAMBDA(int i) {
+      histo(i % histo.size()) += i;
+    });
+}
+
+int main(int argc, char *argv[]) {
+  Kokkos::initialize(argc, argv);
+
+  {
+    const int N = 200;
+    Kokkos::View<double*> histo("histo", 5);
+
+    generate_histogram(histo, N);
+
+    auto res_ = create_mirror_view(histo);
+    Kokkos::deep_copy(res_, histo);
+
+    std::cout << "res_: " << (int) res_(0) << std::endl;
+
+    const int nsum = N / histo.size();
+    const int computed_sum = (nsum * (nsum - 1) / 2) * 5;
+    std::cout << "Computed sum:" << computed_sum << std::endl;
+
+    std::cout << "DIFF " << computed_sum - (int)res_(0) << std::endl;
+  }
+
+  Kokkos::finalize();
+}
