@@ -947,7 +947,7 @@
     \begin{columns}
         \begin{column}{0.6\linewidth}
             \begin{minted}[breakafter=/]{cmake}
-                find_package(Kokkos CONFIG)
+                find_package(Kokkos QUIET)
                 if(NOT Kokkos_FOUND)
                     include(FetchContent)
                     FetchContent_Declare(
@@ -961,7 +961,7 @@
         \begin{column}{0.4\linewidth}
             \begin{itemize}
                 \item \texttt{find\_package} command to find Kokkos if it's already installed
-                \item \texttt{CONFIG} skips the CMake Module mode search
+                \item \texttt{QUIET} disables informational messages, even if the package is not found
                 \item \texttt{FetchContent\_*} commands to download Kokkos if needed
                 \item This is the "Kokkos is managed using CMake" approach
             \end{itemize}
