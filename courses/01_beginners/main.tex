@@ -35,13 +35,8 @@
 
 \AtBeginSection{
     \begin{frame}{Outline}
-        \tableofcontents[currentsection, hideothersubsections]
-    \end{frame}
-}
-
-\AtBeginSubsection{
-    \begin{frame}{Outline}
-        \tableofcontents[currentsection, currentsubsection]
+        \renewcommand{\baselinestretch}{0.25}
+        \tableofcontents[currentsection]
     \end{frame}
 }
 
@@ -122,7 +117,8 @@
 \end{frame}
 
 \begin{frame}{Outline}
-    \tableofcontents[hidesubsections]
+    \renewcommand{\baselinestretch}{0.5}
+    \tableofcontents
 \end{frame}
 
 % _____________________________________________________________________________
@@ -132,9 +128,36 @@
 % _____________________________________________________________________________
 
 \begin{frame}{Presentation of CExA}
+    \begin{columns}
+        \begin{column}{0.55\linewidth}
+            \begin{center}
+                \includegraphics[width=\linewidth]{cexa.png}
+            \end{center}
+        \end{column}
+        \begin{column}{0.45\linewidth}
+            \begin{itemize}
+                \item \highlight{C}omputing at \highlight{Ex}ascale with \highlight{A}ccelerators at CEA
+                \item Alice Recoque exascale supercomputer in 2026, at CEA
+                \item Joint effort at CEA to help the migration of HPC codes to GPU
+                \begin{itemize}
+                    \item Provide GPU programming model (long term, sustainable)
+                    \item Support application demonstrators (CEA applications)
+                    \item Propose dissemination of information (training, meetings)
+                \end{itemize}
+            \end{itemize}
+        \end{column}
+    \end{columns}
+
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}{Top500 GPU-CPU system share}
     \begin{center}
-        \includegraphics[width=0.65\textwidth]{cexa.png}
+        \includegraphics[width=0.8\textwidth]{top500_cpu_gpu_share_history.png}
     \end{center}
+
+    \structure{Note:} Does not include exotic accelerators (Intel Knight Landing, etc.)
 \end{frame}
 
 % _____________________________________________________________________________
@@ -169,16 +192,6 @@
 
     \caption{French academic and CEA supercomputers}
     \end{center}
-\end{frame}
-
-% _____________________________________________________________________________
-
-\begin{frame}{Top500 GPU-CPU system share}
-    \begin{center}
-        \includegraphics[width=0.8\textwidth]{top500_cpu_gpu_share_history.png}
-    \end{center}
-
-    \structure{Note:} Does not include exotic accelerators (Intel Knight Landing, etc.)
 \end{frame}
 
 % _____________________________________________________________________________
@@ -407,13 +420,13 @@
 \begin{frame}{Kokkos parallelism scope}
     \begin{itemize}
         \item Kokkos only handle node-level parallelism
-        \item You still need a model for distributed memory parallelism (e.g. MPI)
+        \item You still need a model for distributed memory parallelism (e.g.\ MPI, Kokkos-Comm)
     \end{itemize}
 \end{frame}
 
 % _____________________________________________________________________________
 
-\begin{frame}{Kokkos: a tool for both C++ beginners and experts}
+\begin{frame}{What Kokkos provides you}
     \begin{itemize}
         \item Kokkos' basic capabilities
         \begin{itemize}
@@ -428,11 +441,13 @@
             \item Hierarchical patterns for maximizing parallelism
         \end{itemize}
         \pause
-        \item Kokkos' tools and Kernels
+        \item Kokkos' libraries
         \begin{itemize}
-            \item Profiling, tuning and debugging tools
-            \item Interacting with Python and Fortran
-            \item Library extensions: Kokkos-Kernels for Linear Algebra, Kokkos-FFT, Kokkos-Comm and more
+            \item Profiling, tuning and debugging tools (Kokkos tools)
+            \item Python and Fortran interfaces (PyKokkos, Kokkos-Fortran-interop)
+            \item Linear algebra (Kokkos-Kernels)
+            \item FFT (Kokkos-FFT)
+            \item Distributed memory parallelism (Kokkos-Comm)
         \end{itemize}
     \end{itemize}
 \end{frame}
@@ -453,7 +468,7 @@
     \end{center}
 \end{frame}
 
-\begin{frame}{Kokkos governance}
+\begin{frame}{Kokkos history and governance}
     \begin{columns}
         \begin{column}{0.45\linewidth}
             \centering
@@ -466,7 +481,9 @@
         \end{column}
         \begin{column}{0.55\linewidth}
             \begin{itemize}
-                \item Kokkos is a project of the High Performance Software Foundation (HPSF, part of the Linux Foundation)
+                \item Kokkos was initially developed in American laboratories in 2011
+                \item Kokkos is a project of the High Performance Software Foundation (HPSF, part of the Linux Foundation) since 2023
+                \item Not a purely American project anymore
                 \item Sustainability of the development for the long run
             \end{itemize}
         \end{column}
@@ -486,11 +503,7 @@
 
 % _____________________________________________________________________________
 
-\section{Beginners course}
-
-% _____________________________________________________________________________
-
-\subsection{The basics of Kokkos}
+\section{The basics of Kokkos}
 
 % _____________________________________________________________________________
 
@@ -827,7 +840,7 @@
 
 % _____________________________________________________________________________
 
-\subsection{First steps with Kokkos}
+\section{First steps with Kokkos}
 
 % _____________________________________________________________________________
 
@@ -989,7 +1002,7 @@
 
 % _____________________________________________________________________________
 
-\subsection[Data container]{Data container}
+\section[Data container]{Data container}
 
 % _____________________________________________________________________________
 
@@ -1496,7 +1509,7 @@
 
 % _____________________________________________________________________________
 
-\subsection{Parallel loops}
+\section{Parallel loops}
 
 % _____________________________________________________________________________
 
@@ -1732,7 +1745,7 @@
 
 % _____________________________________________________________________________
 
-\subsection{Extending loop policies}
+\section{Extending loop policies}
 
 % _____________________________________________________________________________
 
@@ -1932,7 +1945,7 @@
 
 % _____________________________________________________________________________
 
-\subsection[Parallel reduction]{Parallel reduction}
+\section{Parallel reduction}
 
 % _____________________________________________________________________________
 
