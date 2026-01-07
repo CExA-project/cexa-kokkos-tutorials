@@ -668,7 +668,7 @@
         Kokkos::View<double*> histo(5);
 
         Kokkos::parallel_for(
-          Kokkos::RangePolicy(0,N),
+          N,
           KOKKOS_LAMBDA(int i) {
             histo(i%5) += i;
           });
@@ -737,7 +737,7 @@
     \begin{column}{0.40\linewidth}
       \begin{minted}{C++}
         Kokkos::parallel_for(
-          Kokkos::RangePolicy(0,N),
+          N,
           KOKKOS_LAMBDA(int i) {
             histo(i%5) += i;
           });
@@ -746,7 +746,7 @@
     \begin{column}{0.56\linewidth}
       \begin{minted}{C++}
         Kokkos::parallel_for(
-          Kokkos::RangePolicy(0,N),
+          N,
           KOKKOS_LAMBDA(int i) {
             Kokkos::atomic_add(&histo(i%5), i);
           });
@@ -804,7 +804,7 @@
     \end{column}
     \begin{column}{0.75\linewidth}
       \SetTblrInner{rowsep=0pt}
-      \begin{tblr}[theme=kokkostable]{lc}
+      \begin{tblr}[theme=kokkostable]{ll}
         Operation & Replaces \\
         \texttt{Kokkos::atomic\_add(\&x, y)}    & \texttt{x += y} \\
         \texttt{Kokkos::atomic\_sub(\&x, y)}    & \texttt{x -= y} \\
@@ -831,16 +831,17 @@
         \item It guarantees that any operation done through the alias are done atomically
       \end{itemize}
     \end{column}
-    \begin{column}{0.71\linewidth}
+    \begin{column}{0.6\linewidth}
       \begin{minted}{C++}
         Kokkos::View<double*> histo(5);
 
-        Kokkos::View<double*,
-                     Kokkos::MemoryTraits<Kokkos::Atomic>>
-          histo_atomic = histo;
+        Kokkos::View<
+            double*,
+            Kokkos::MemoryTraits<Kokkos::Atomic>
+        > histo_atomic = histo;
 
         Kokkos::parallel_for(
-          Kokkos::RangePolicy(0,N),
+          N,
           KOKKOS_LAMBDA(int i) {
             histo_atomic(i%5) += i;
           });
