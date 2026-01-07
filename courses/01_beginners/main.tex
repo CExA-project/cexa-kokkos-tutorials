@@ -961,7 +961,7 @@
         \begin{column}{0.4\linewidth}
             \begin{itemize}
                 \item \texttt{find\_package} command to find Kokkos if it's already installed
-                \item \texttt{CONFIG} allows to continue if Kokkos is not found
+                \item \texttt{CONFIG} skips the CMake Module mode search
                 \item \texttt{FetchContent\_*} commands to download Kokkos if needed
                 \item This is the "Kokkos is managed using CMake" approach
             \end{itemize}
@@ -977,9 +977,9 @@
             \begin{minted}{bash}
                 # configure
                 cmake \
-                    -B ${build_dir} \
-                    -DCMAKE_CXX_COMPILER=${compiler} \
-                    <other options>
+                    -D CMAKE_CXX_COMPILER=${compiler} \
+                    <other options> \
+                    -B ${build_dir}
 
                 # build
                 cmake \
@@ -1301,9 +1301,9 @@
     \begin{columns}
         \begin{column}{0.6\linewidth}
             \begin{minted}{C++}
-                View<int*[5]> a("a", N), b("b", M);
+                Kokkos::View<int*[5]> a("a", 10), b("b", 15);
                 a = b;
-                View<int**> c(b);
+                Kokkos::View<int**> c(b);
 
                 a(0, 2) = 1;
                 b(0, 2) = 2;
