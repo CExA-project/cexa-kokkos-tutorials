@@ -1983,11 +1983,10 @@
         \end{column}
         \begin{column}{0.5\linewidth}
             \begin{itemize}
-                \item One scalar variable collects something for each iteration (sum, max, min, etc.)
-                \item Same constraints as before
+                \item One scalar variable collects something for each iteration (sum, max, min, etc.), to produce one final global result.
                 \pause
-                \item Horrible truth: \mintinline{c++}{result} \highlight{depends} on iteration order!
-                \item This is due to rounding errors and unknown iteration order
+                \item Horrible truth: \mintinline{c++}{result} could \highlight{depend} on iteration order!
+                \item This is due to floating point arithmetic being not associative.
             \end{itemize}
         \end{column}
     \end{columns}
@@ -2019,10 +2018,11 @@
         \begin{column}{0.5\linewidth}
             \begin{itemize}
                 \item \mintinline{c++}{parallel_reduce} to perform reductions
-                \item Works like \texttt{parallel\_for} (e.g. execution space)
+                \item Works like \texttt{parallel\_for} (e.g. specify execution policy etc)
                 \item Reducer object (here \mintinline{c++}{Sum}), templated with the result type
                 \item Extra last argument to the kernel: a reference to the local result
-                \item Do not try to read this local result in the kernel (it's a partial result)
+                \item Update local result in a consistent manner w.r.t. global result.
+                \item Only update and not read this local result in the kernel (it's a partial result)
             \end{itemize}
         \end{column}
     \end{columns}
@@ -2032,7 +2032,8 @@
 
 \begin{frame}{About reducers}
     \begin{itemize}
-        \item Kokkos provides reducers for the most common operations:
+        \item The Reducer object is an instance of a class that implements the Reducer concept
+        \item Kokkos provides implementations of the Reducer concept for the most common operations:
         \begin{itemize}
             \item \texttt{Kokkos::Sum}: Sum of the elements
             \item \texttt{Kokkos::Max}: and \texttt{Kokkos::Min}: Maximum and minimum element
@@ -2040,7 +2041,7 @@
             \item \texttt{Kokkos::MaxLoc} and \texttt{Kokkos::MinLoc}: Maximum and minimum element with their index
             \item More \doclink{\href{https://kokkos.org/kokkos-core-wiki/ProgrammingGuide/Custom-Reductions-Built-In-Reducers.html}{in the doc}}
         \end{itemize}
-        \item You can also create your own reducer, not covered in this talk
+        \item You can also create your own Reducer, not covered in this talk
     \end{itemize}
 \end{frame}
 
@@ -2055,7 +2056,7 @@
             KOKKOS_LAMBDA (int i, double& local_result) {
                 local_result += A(i);
             },
-            result // shortcut for sum
+            result // Only in the case of Sum, no need of the Reducer object
         );
     \end{minted}
 \end{frame}
@@ -2070,6 +2071,7 @@
             N,
             KOKKOS_LAMBDA (int i, double& local_max_value) {
                 local_max_value = Kokkos::max(A(i), local_max_value);
+                // local operation consistent with global goal
             },
             Kokkos::Max<double>(max_value)
         );
@@ -2081,14 +2083,18 @@
 
     \pause
 
-    \structure{Beware:} \texttt{Kokkos::max} is not the same as \texttt{Kokkos::Max<double>}!
+    \structure{Beware:} \texttt{Kokkos::max} is a mathematical operator, \texttt{Kokkos::Max<double>} defines a Reducer object for obtaining the maximum of a set of double values.
 \end{frame}
 
 % _____________________________________________________________________________
 
 \begin{frame}[fragile]{Min and index reduction example}
+    \begin{itemize}
+        \item Always think about the type that holds both the intermediate results and the global result
+        \item In this case, Kokkos::ValLocScalar<Scalar, Index>: a structure containing val and loc variables
+        \item In general, the type can be obtained as $value_type$ of the Reducer object.
+    \end{itemize}
     \begin{minted}{C++}
-        // Use a structure containing val and loc variables
         using minloc_type = Kokkos::MinLoc<double, int>::value_type;
 
         minloc_type minloc;
