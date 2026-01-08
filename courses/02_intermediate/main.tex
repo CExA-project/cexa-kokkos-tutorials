@@ -69,6 +69,8 @@
         row{1}={bg=lightmain},
     }
 }
+\colorlet{thread1}{lightalert}
+\colorlet{thread6}{lightexample}
 
 \graphicspath{{../../images/}}
 
@@ -648,12 +650,235 @@
 
 \section{Atomics}
 
+\begin{frame}[fragile]{Race condition}
+  Porting a code creating a histogram:
+  \begin{columns}
+    \begin{column}{0.5\linewidth}
+      \begin{minted}{C++}
+        double histo[5] = {0};
+
+        for (int i=0; i < N; i++) {
+          histo[i%5] += i;
+        }
+      \end{minted}
+    \end{column}
+    \pause
+    \begin{column}{0.5\linewidth}
+      \begin{minted}{C++}
+        Kokkos::View<double*> histo(5);
+
+        Kokkos::parallel_for(
+          N,
+          KOKKOS_LAMBDA(int i) {
+            histo(i%5) += i;
+          });
+      \end{minted}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Race condition}
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            Even simple instructions like increment are decomposed into several smaller assembly instructions:
+            \begin{minted}{C++}
+              histo(i%5) += i;
+            \end{minted}
+        \end{column}
+        \begin{column}{0.5\linewidth}
+          \SetTblrInner{rowsep=0pt}
+          \begin{tblr}{colspec={cccc},rowspec={Q[lightmain]Q[white]Q[thread1]Q[thread1]Q[thread1]Q[white]Q[thread6]Q[thread6]Q[thread6]Q[white]}}
+            \textbf{Thread 1} & \textbf{Thread 6} &  & \textbf{res} \\
+            & & & 0 \\
+            read value & & ← & 0 \\
+            add 1 & &  & 0 \\
+            write value & & → & 1 \\
+            & & & 1 \\
+            & read value & ← & 1 \\
+            & add 6 &  & 1 \\
+            & write value & → & 7 \\
+            & & & 7 \\
+          \end{tblr}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Race condition}
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            Execution between threads is independent. There is no guarantee over the order of instructions:
+            \begin{minted}{C++}
+              histo(i%5) += i;
+            \end{minted}
+
+            When several threads are accessing the same data, it will generate \highlight{race conditions}.
+        \end{column}
+        \begin{column}{0.5\linewidth}
+          \SetTblrInner{rowsep=0pt}
+          \begin{tblr}{colspec={cccc},rowspec={Q[lightmain]Q[white]Q[thread1]Q[thread6]Q[thread1]Q[thread1]Q[white]Q[thread6]Q[thread6]Q[white]}}
+            \textbf{Thread 1} & \textbf{Thread 6} &  & \textbf{res} \\
+             & & & 0 \\
+             read value & & ← & 0 \\
+             & read value & ← & 0 \\
+             add 1 & & & 0 \\
+             write value & & → & 1 \\
+             & & & 1 \\
+             & add 6 & & 1 \\
+             & write value & → & 6 \\
+             & & & 6 \\
+          \end{tblr}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Atomic operation}
+  Replacing the addition with its atomic counterpart solves the problem:
+  \begin{columns}
+    \begin{column}{0.40\linewidth}
+      \begin{minted}{C++}
+        Kokkos::parallel_for(
+          N,
+          KOKKOS_LAMBDA(int i) {
+            histo(i%5) += i;
+          });
+      \end{minted}
+    \end{column}
+    \begin{column}{0.56\linewidth}
+      \begin{minted}{C++}
+        Kokkos::parallel_for(
+          N,
+          KOKKOS_LAMBDA(int i) {
+            Kokkos::atomic_add(&histo(i%5), i);
+          });
+      \end{minted}
+    \end{column}
+  \end{columns}
+  \structure{Note:} \texttt{atomic\_add} takes a pointer and not a
+  reference as first argument, as the instruction needs to have an access to
+  the actual memory address of the modified variable.
+\end{frame}
+
+\begin{frame}[fragile]{Atomic operation}
+    \begin{columns}
+        \begin{column}{0.55\linewidth}
+          \texttt{atomic\_add} executes the write, read and add in a single atomic step,
+          guarantying the absence of race conditions during the operation:
+            \begin{minted}{C++}
+              Kokkos::atomic_add(&histo(i%5), i);
+            \end{minted}
+        \end{column}
+        \begin{column}{0.5\linewidth}
+          \noindent Either:
+
+          \vspace{0.5em}
+          \SetTblrInner{rowsep=0pt}
+          \begin{tblr}{colspec={cccc},rowspec={Q[lightmain]Q[white]Q[thread1]Q[thread6]}}
+            \textbf{Thread 1} & \textbf{Thread 6} &  & \textbf{res} \\
+            & & & 0 \\
+            atomic add & & ←→ & 1 \\
+            & atomic add & ←→ & 7 \\
+            &  &  & 7 \\
+          \end{tblr}
+          \pause
+          \vspace{0.5em}
+
+          \noindent Or: 
+
+          \vspace{0.5em}
+          \SetTblrInner{rowsep=0pt}
+          \begin{tblr}{colspec={cccc},rowspec={Q[lightmain]Q[white]Q[thread6]Q[thread1]}}
+            \textbf{Thread 1} & \textbf{Thread 6} &  & \textbf{res} \\
+            & & & 0 \\
+            & atomic add & ←→ & 6 \\
+            atomic add & & ←→ & 7 \\
+            &  &  & 7 \\
+          \end{tblr}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Operations}
+  \begin{columns}
+    \begin{column}{0.35\linewidth}
+      Other common operations are available with the format \texttt{Kokkos::atomic\_[op]}:
+    \end{column}
+    \begin{column}{0.75\linewidth}
+      \SetTblrInner{rowsep=0pt}
+      \begin{tblr}[theme=kokkostable]{ll}
+        Operation & Replaces \\
+        \texttt{Kokkos::atomic\_add(\&x, y)}    & \texttt{x += y} \\
+        \texttt{Kokkos::atomic\_sub(\&x, y)}    & \texttt{x -= y} \\
+        \texttt{Kokkos::atomic\_mul(\&x, y)}    & \texttt{x *= y} \\
+        \texttt{Kokkos::atomic\_div(\&x, y)}    & \texttt{x /= y} \\
+        \texttt{Kokkos::atomic\_and(\&x, y)}    & \texttt{x \&= y} \\
+        \texttt{Kokkos::atomic\_or(\&x, y)}     & \texttt{x |= y} \\
+        \texttt{Kokkos::atomic\_xor(\&x, y)}    & \texttt{x \^{}= y} \\
+        \texttt{Kokkos::atomic\_max(\&x, y)}    & \texttt{x = std::max(x, y)} \\
+        \texttt{Kokkos::atomic\_min(\&x, y)}    & \texttt{x = std::min(x, y)} \\
+        \texttt{Kokkos::atomic\_store(\&x, y)}  & \texttt{x = y} \\
+        ... & ... \\
+      \end{tblr}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Atomic Memory Trait}
+  \begin{columns}
+    \begin{column}{0.40\linewidth}
+      \begin{itemize}
+        \item If you need to access a View exclusively through atomic operations, you
+          can also create an alias with the \texttt{Atomic} memory trait
+        \item It guarantees that any operation done through the alias are done atomically
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.6\linewidth}
+      \begin{minted}{C++}
+        Kokkos::View<double*> histo(5);
+
+        Kokkos::View<
+            double*,
+            Kokkos::MemoryTraits<Kokkos::Atomic>
+        > histo_atomic = histo;
+
+        Kokkos::parallel_for(
+          N,
+          KOKKOS_LAMBDA(int i) {
+            histo_atomic(i%5) += i;
+          });
+      \end{minted}
+    \end{column}
+  \end{columns}
+  \structure{Note:} It is preferable to give an explicit name to the alias because it will be the only way to know that the operations performed on it are atomics.
+\end{frame}
+
+\begin{frame}[fragile]{Performances}
+  \begin{columns}
+    \begin{column}{0.45\linewidth}
+    Atomics can have a huge impact on performance: 
+    \begin{itemize}
+      \item The instruction itself is slower than the one it replaces
+      \item They may generate extra synchronisation points
+      \item They bypass and invalidate cache lines
+    \end{itemize}
+    \end{column}
+    \begin{column}{0.55\linewidth}
+      \begin{block}{Remarks}
+        \begin{itemize}
+          \item Atomics should be used with care and only when strictly
+            necessary
+          \item Algorithm can sometime be changed when porting from CPU to GPU
+            in order to remove the need for atomics (colouring, replacing in
+            place algorithm with out of place algorithm, etc.)
+        \end{itemize}
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
 % _____________________________________________________________________________
 
 \section{Layouts}
 
 % _____________________________________________________________________________
-
-\section{Scatter Views}
 
 \end{document}

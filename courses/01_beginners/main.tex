@@ -170,7 +170,7 @@
     \end{center}
     \begin{itemize}
         \item Heterogeneous nodes: mix of CPU and GPU accelerators
-        \item Many CPU (AMD, Intel NVIDIA) and GPU vendors (AMD, Intel NVIDIA)
+        \item Many CPU (AMD, Intel, NVIDIA) and GPU vendors (AMD, Intel, NVIDIA)
     \end{itemize}
 \end{frame}
 
@@ -192,6 +192,16 @@
 
     \caption{French academic and CEA supercomputers}
     \end{center}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}{Top500 GPU-CPU system share}
+    \begin{center}
+        \includegraphics[width=0.8\textwidth]{top500_cpu_gpu_share_history.png}
+    \end{center}
+
+    \structure{Note:} Does not include exotic accelerators (Intel Knights Landing, etc.)
 \end{frame}
 
 % _____________________________________________________________________________
@@ -413,7 +423,7 @@
 % _____________________________________________________________________________
 
 \begin{frame}{Kokkos programming model}
-    Kokkos is a performance portability parallel programming model build upon the C++-20 standard, designed to abstract already existing parallel programming models
+    Kokkos is a performance portability parallel programming model built upon the C++-20 standard, designed to abstract already existing parallel programming models
 
     \vspace{0.5em}
 
@@ -430,7 +440,7 @@
 
 \begin{frame}{Kokkos parallelism scope}
     \begin{itemize}
-        \item Kokkos only handle node-level parallelism
+        \item Kokkos only handles node-level parallelism
         \item You still need a model for distributed memory parallelism (e.g.\ MPI, Kokkos-Comm)
     \end{itemize}
 \end{frame}
@@ -700,7 +710,7 @@
                     -DKokkos_ENABLE_OPENMP=ON \
                     -DKokkos_ARCH_SKX=ON \
                     -DKokkos_ENABLE_HIP=ON \
-                    -DKokkos_ARCH_AMD_GFX90A
+                    -DKokkos_ARCH_AMD_GFX90A=ON
             \end{minted}
         \end{column}
         \begin{column}{0.525\linewidth}
@@ -729,7 +739,7 @@
 
             \begin{minted}{sh}
                 cmake \
-                -B ${build_dir} \
+                    -B ${build_dir} \
                     -DCMAKE_CXX_COMPILER=icpx \
                     -DCMAKE_CXX_FLAGS=\
                         "-fp-model=precise" \
