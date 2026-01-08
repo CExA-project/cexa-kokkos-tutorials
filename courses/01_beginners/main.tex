@@ -319,6 +319,17 @@
     \end{columns}
 \end{frame}
 
+\begin{frame}{Host/Device communications}
+    \begin{center}
+        \includegraphics[width=0.8\linewidth]{cpu_gpu_memory}
+    \end{center}
+    \begin{itemize}
+        \item CPU and GPU are connected with the PCIe bus
+        \item The bus memory bandwidth is a fraction of the RAM (CPU memory) or VRAM (GPU memory) bandwidth
+        \item Transferring data between host and device is costly
+    \end{itemize}
+\end{frame}
+
 % _____________________________________________________________________________
 
 \begin{frame}{What's the motivation of putting GPUs in supercomputers?}
@@ -511,7 +522,7 @@
     \begin{itemize}
         \item Source code in the \githublink{\href{https://github.com/kokkos/kokkos}{Kokkos GitHub repository}}
         \item C++ library, mostly header-only
-        \item Requires CMake and a C++ compiler
+        \item Requires CMake (no Makefiles!)
         \item Different ways to add it to your project
         \begin{itemize}
             \item External library
@@ -899,7 +910,7 @@
     \begin{columns}
         \begin{column}{0.6\linewidth}
             \begin{minted}{cmake}
-                cmake_minimum_required(VERSION 3.21)
+                cmake_minimum_required(VERSION 3.22)
 
                 project(my_kokkos_project LANGUAGES CXX)
 
