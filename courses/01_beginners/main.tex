@@ -977,9 +977,9 @@
             \begin{minted}{bash}
                 # configure
                 cmake \
-                    -D CMAKE_CXX_COMPILER=${compiler} \
-                    <other options> \
-                    -B ${build_dir}
+                    -B ${build_dir} \
+                    -DCMAKE_CXX_COMPILER=${compiler} \
+                    <other options>
 
                 # build
                 cmake \
