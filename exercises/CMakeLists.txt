@@ -11,3 +11,4 @@ add_subdirectory(04_parallel_loop)
 add_subdirectory(05_parallel_reduce)
 
 add_subdirectory(10_profiling)
+add_subdirectory(11_atomics)
