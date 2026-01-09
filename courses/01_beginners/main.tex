@@ -15,6 +15,7 @@
 \usepackage{graphicx}
 \usepackage{fontspec}
 \usepackage{tabularray}
+\UseTblrLibrary{diagbox}
 
 % allow to look for themes in another folder
 % https://tex.stackexchange.com/a/284157/301699
@@ -2129,6 +2130,128 @@
         \end{column}
     \end{columns}
 \end{exerciseframe}
+
+% _____________________________________________________________________________
+
+\section{Function annotation}
+
+% _____________________________________________________________________________
+
+\begin{frame}[fragile]{Function annotation}
+  \begin{columns}
+    \begin{column}{0.5\linewidth}
+      \begin{minted}{C++}
+        Kokkos::parallel_for(
+            "my_loop", N,
+            [=](int i) {
+              A(i) = B(i) + C(i) * D(i);
+            }
+          );
+      \end{minted}
+    \end{column}
+    \begin{column}{0.5\linewidth}
+      \begin{itemize}
+        \item This code works when compiling with a CPU backend!
+        \item Why do we need to use \texttt{KOKKOS\_LAMBDA} inside parallel construct rather than standard C++ lambda?
+      \end{itemize}
+    \end{column}
+  \end{columns}
+  \pause
+  \pause
+  But Fails when compiled on CUDA backend with a cryptic error message:
+  \begin{minted}{C++}
+    error: The closure type for a lambda ("lambda [](int)->void") cannot be used in the template argument type of a __global__ function template instantiation, unless the lambda is defined within a __device__ or __global__ function
+  \end{minted}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}[fragile]{Function annotation}
+  \begin{columns}
+    \begin{column}{0.47\linewidth}
+      \begin{minted}{C++}
+        __device__
+        void device_function(){}
+
+        __host__
+        void host_function() {}
+
+        __host__ __device__
+        void host_device_function() {}
+
+        auto lambda =
+          __host__ __device__ [] () {};
+      \end{minted}
+    \end{column}
+    \begin{column}{0.55\linewidth}
+      \begin{itemize}
+        \item GPU backends need special annotation to know which code will be run on the host and which code will run on the device
+        \item Lambda also need to be annotated
+        \item Function be annotated with both \texttt{\_\_host\_\_} and \texttt{\_\_device\_\_} will be callable from the host and the device
+        \item \texttt{\_\_host\_\_} is implicit if no annotated is given
+        \item Neither \texttt{\_\_host\_\_} nor \texttt{\_\_device\_\_} are known by CPU backends, and will produce compilation errors
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}[fragile]{Function annotation}
+  Calling a function with the wrong annotation will generate errors and warnings:
+  \begin{center}
+    \begin{tblr}[theme=kokkostable]{colspec=cccc}
+      \diagbox{Caller}{Calling}& \texttt{\_\_host\_\_}  & \texttt{\_\_device\_\_} & both\\
+      \texttt{\_\_host\_\_} & Ok & Error & Ok \\
+      \texttt{\_\_device\_\_} & Error & Ok & Ok \\
+      both & Warning & Error & Ok \\
+    \end{tblr}
+  \end{center}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}[fragile]{Function annotation}
+  \begin{columns}
+    \begin{column}{0.45\linewidth}
+      \begin{minted}{C++}
+        KOKKOS_FUNCTION
+        void device_function(){}
+
+        KOKKOS_FUNCTION
+        void host_function() {}
+
+        KOKKOS_FUNCTION
+        void host_device_function() {}
+
+        auto lambda =
+          KOKKOS_LAMBDA () {};
+      \end{minted}
+    \end{column}
+    \begin{column}{0.55\linewidth}
+      \begin{itemize}
+        \item \texttt{KOKKOS\_FUNCTION} and \texttt{KOKKOS\_LAMBDA} expand to :
+          \begin{itemize}
+            \item \texttt{\_\_host\_\_ \_\_device\_\_} when compiling for a GPU backend
+            \item nothing when compiling for a CPU backend
+          \end{itemize}
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}[fragile]{Function annotation}
+  \begin{center}
+    \begin{tblr}[theme=kokkostable]{colspec=cccc}
+      \diagbox{Caller}{Calling}& No annotation  & \texttt{KOKKOS\_FUNCTION} & \texttt{KOKKOS\_LAMBDA} \\
+      No annotation & Ok & Ok & Ok \\
+      \texttt{KOKKOS\_FUNCTION} & Error & Ok & Ok \\
+      \texttt{KOKKOS\_LAMBDA} & Error & Ok & Ok \\
+    \end{tblr}
+  \end{center}
+\end{frame}
 
 % _____________________________________________________________________________
 
