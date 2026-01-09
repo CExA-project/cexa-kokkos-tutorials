@@ -163,7 +163,7 @@
                 \textbf{Profiling}
             \end{center}
             \begin{itemize}
-                \item You don't want to blind-optimize
+                \item You want to optimize real bottlenecks
                 \item \texttt{time} has its limits
                 \item You don't want to create timers by yourself
                 \item Developers need real tools
@@ -256,7 +256,7 @@
             \begin{itemize}
                 \item Profiling tools interface
                 \item Provided by Kokkos
-                \item Hooks
+                \item Hooks in Kokkos functions
                 \begin{itemize}
                     \item Parallel constructs
                     \item Fences
@@ -310,6 +310,36 @@
         Mind the \texttt{S}!
         \item Do not ship it within your program (this is a dev tool!)
     \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Guided tour for a dummy code}
+    \begin{columns}
+        \begin{column}{0.6\linewidth}
+           \begin{minted}[fontsize=\scriptsize]{C++}
+                Kokkos::Profiling::pushRegion("computation");
+
+                Kokkos::View<int *> view("view", N);
+
+                Kokkos::parallel_for(
+                    "compute",
+                    N,
+                    KOKKOS_LAMBDA(int i) {
+                        view(i) = i;
+                    }
+                );
+
+                Kokkos::fence("wait for compute");
+
+                Kokkos::Profiling::popRegion();
+            \end{minted}
+        \end{column}
+        \begin{column}{0.4\linewidth}
+            \begin{itemize}
+                \item Very simple code
+                \item Let's try some tools on it
+            \end{itemize}
+        \end{column}
+    \end{columns}
 \end{frame}
 
 \begin{frame}[fragile]{Simple kernel logger for a basic debugging}
@@ -782,7 +812,7 @@
           \pause
           \vspace{0.5em}
 
-          \noindent Or: 
+          \noindent Or:
 
           \vspace{0.5em}
           \SetTblrInner{rowsep=0pt}
@@ -854,7 +884,7 @@
 \begin{frame}[fragile]{Performances}
   \begin{columns}
     \begin{column}{0.45\linewidth}
-    Atomics can have a huge impact on performance: 
+    Atomics can have a huge impact on performance:
     \begin{itemize}
       \item The instruction itself is slower than the one it replaces
       \item They may generate extra synchronisation points
