@@ -921,7 +921,7 @@
         \begin{column}{0.5\linewidth}
             \begin{itemize}
                 \item Modern CPUs have instructions working on multiple inputs (i.e. add 4 pairs of numbers with a single instruction)
-                \item SIMD: \textbf{S}ingle \textbf{I}nstruction \textbf{M}ultiple \textbf{D}ata
+                \item SIMD: \highlight{S}ingle \highlight{I}nstruction \highlight{M}ultiple \highlight{D}ata
                 \item Theoretically N times faster with SIMD units of size N
             \end{itemize}
         \end{column}
@@ -930,7 +930,7 @@
 
 \begin{frame}[fragile]{What is vectorization}
     \begin{itemize}
-        \item To vectorize, we use special instructions called \textbf{intrinsics}
+        \item To vectorize, we use special instructions called \highlight{intrinsics}
         \item Intrinsics are only portable between CPUs using the same instruction set:
         \begin{itemize}
             \item x86 $\rightarrow$ SSE, AVX
@@ -976,9 +976,9 @@
 
     They offer:
     \begin{itemize}
-        \item higher level types and functions to manipulate vectors and intrinsics
-        \item a C++ api to the C intrinsics
-        \item a portable abstraction over the platform specific intrinsics
+        \item Higher level types and functions to manipulate vectors and intrinsics
+        \item A C++ api to the C intrinsics
+        \item A portable abstraction over the platform specific intrinsics
     \end{itemize}
 
     Kokkos comes with a vectorization library: Kokkos SIMD
@@ -1046,13 +1046,11 @@
         \item A \texttt{simd} type wrapping platform specific intrinsics
         \item A corresponding \texttt{simd\_mask} type
         \item Operators for doing basic operations on these types (arithmetic, bitwise, shift, comparison, ...)
-            \begin{itemize}
-                \item No need to remember complicated intrinsics names
-                    \begin{minted}{C++}
-                    simd<int> a, b, c;
-                    a *= (a + b) & (c << 2);
-                    \end{minted}
-            \end{itemize}
+        \item No need to remember complicated intrinsics names
+          \begin{minted}{C++}
+              Kokkos::Experimental::simd<int> a, b, c;
+              a *= (a + b) & (c << 2);
+          \end{minted}
         \item Auxiliary functions (load, store, etc)
         \item Math functions working on simd types
     \end{itemize}
@@ -1060,51 +1058,53 @@
 
 \begin{frame}[fragile]{Kokkos SIMD}
     \begin{itemize}
-        \item Kokkos SIMD supports the following datatypes: float, double, int32\_t, uint32\_t, int64\_t, uint64\_t
+        \item Kokkos SIMD supports the following datatypes: \texttt{float}, \texttt{double}, \texttt{int32\_t}, \texttt{uint32\_t}, \texttt{int64\_t}, \texttt{uint64\_t}
         \item \texttt{simd<T>} will default to the vector type with the largest size for type \texttt{T}
-        \item You can also explicitly request a size: \texttt{simd<float, N>}
-            \begin{itemize}
-                \item Be careful, different platforms have different vector sizes
-            \end{itemize}
+        \item You can also explicitely request a size: \texttt{simd<float, N>}
+
+              Be careful, different platforms have different vector sizes
         \item If really needed, you can also directly specify an abi: \texttt{basic\_simd<float, abi>}
     \end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]{Supported SIMD abis}
     \begin{center}
-        \begin{tblr}[theme=kokkostable]{|c|c|c|}
-        \hline
-        ISA & abis & compatible datatypes \\\hline
-        - & \texttt{scalar} & all \\\hline
+        \begin{tblr}[theme=kokkostable]{ccc}
+        ISA & abis & compatible datatypes \\
+        - & \texttt{scalar} & all \\
         \SetCell[r=2]{c} AVX2 & \texttt{avx2\_fixed\_size<4>} & all \\
-                              & \texttt{avx2\_fixed\_size<8>} & \texttt{float}, \texttt{int32\_t}, \texttt{uint32\_t} \\\hline
+                              & \texttt{avx2\_fixed\_size<8>} & \texttt{float}, \texttt{int32\_t}, \texttt{uint32\_t} \\
         \SetCell[r=2]{c} AVX512 & \texttt{avx512\_fixed\_size<8>} & all \\
-                                & \texttt{avx512\_fixed\_size<16>} & \texttt{float}, \texttt{int32\_t}, \texttt{uint32\_t} \\\hline
+                                & \texttt{avx512\_fixed\_size<16>} & \texttt{float}, \texttt{int32\_t}, \texttt{uint32\_t} \\
         \SetCell[r=2]{c} NEON & \texttt{neon\_fixed\_size<2>} & all \\
-                              & \texttt{neon\_fixed\_size<4>} & \texttt{float}, \texttt{int32\_t}, \texttt{uint32\_t} \\\hline
+                              & \texttt{neon\_fixed\_size<4>} & \texttt{float}, \texttt{int32\_t}, \texttt{uint32\_t} \\
         \SetCell[r=2]{c} SVE & \texttt{sve\_fixed\_size<N/2>} & \texttt{double}, \texttt{int64\_t}, \texttt{uint64\_t}, \texttt{int32\_t} \\
-                             & \texttt{sve\_fixed\_size<N>} & \texttt{float}, \texttt{int32\_t}, \texttt{uint32\_t} \\\hline
+                             & \texttt{sve\_fixed\_size<N>} & \texttt{float}, \texttt{int32\_t}, \texttt{uint32\_t} \\
         \end{tblr}
     \end{center}
 \end{frame}
 
 \begin{frame}[fragile]{Initializing a vector}
-    There are different ways to initialize a vector:
     \begin{itemize}
         \item Default construction: the values will be uninitialized
+            \vspace{-5pt}
             \begin{minted}{C++}
-                simd<double> x;
+                Kokkos::Experimental::simd<double> x;
             \end{minted}
         \item Set every element to the same value
+            \vspace{-5pt}
             \begin{minted}{C++}
-                simd<double> x(5.);
+                Kokkos::Experimental::simd<double> x(5.);
             \end{minted}
         \item Set each value individually
+            \vspace{-5pt}
             \begin{minted}{C++}
-                simd<double> x(KOKKOS_LAMBDA(int idx) { return idx * idx; });
+                Kokkos::Experimental::simd<double> x(KOKKOS_LAMBDA(int idx) { return idx * idx; });
             \end{minted}
         \item Load the values from memory
+            \vspace{-5pt}
             \begin{minted}{C++}
+                using namespace Kokkos::Experimental::simd;
                 x = simd_unchecked_load<simd<double>>(ptr, simd_flag_default);
                 x = simd_unchecked_load<simd<double>>(ptr, simd_flag_aligned);
             \end{minted}
@@ -1130,7 +1130,7 @@
             // store the result vector in memory
         }
     \end{minted}
-    Note: we iterate by steps of \texttt{VEC\_WIDTH}, since we compute \texttt{VEC\_WIDTH} elements simultaneously.
+    \structure{Note:} we iterate by steps of \texttt{VEC\_WIDTH}, since we compute \texttt{VEC\_WIDTH} elements simultaneously.
 \end{frame}
 
 \begin{frame}[fragile]{Example 1}
@@ -1168,15 +1168,15 @@
         \item Acts like a vector of booleans
         \item Initialized like a \texttt{simd} vector
             \begin{minted}{C++}
-                simd_mask<double> m;       // uninitialized
-                simd_mask<double> m(true); // every value is true
+                Kokkos::Experimental::simd_mask<double> m;       // uninitialized
+                Kokkos::Experimental::simd_mask<double> m(true); // every value is true
                 // true on even indices, false on odd ones
-                simd_mask<double> m(KOKKOS_LAMBDA(int i) { return i % 2 == 0; });
+                Kokkos::Experimental::simd_mask<double> m(KOKKOS_LAMBDA(int i) { return i % 2 == 0; });
             \end{minted}
         \item This is the type returned by comparison operations
             \begin{minted}{C++}
-                simd<double> x;
-                simd_mask<double> m = x > 0.;
+                Kokkos::Experimental::simd<double> x;
+                Kokkos::Experimental::simd_mask<double> m = x > 0.;
             \end{minted}
         \item Related useful functions: \texttt{all\_of}, \texttt{any\_of}, \texttt{none\_of}
     \end{itemize}
@@ -1198,7 +1198,7 @@
             \begin{itemize}
                 \item Consider the following vector \texttt{\{-1, 2, 0, 1\}}
                 \item Different values of the vector would enter different branches
-                \item Solution: the \texttt{condition} function
+                \item \structure{Solution:} the \texttt{condition} function
             \end{itemize}
     \end{itemize}
 \end{frame}
@@ -1230,7 +1230,7 @@
     \end{minted}
     \begin{itemize}
         \item \texttt{condition} takes a \texttt{simd\_mask}, and two vectors, and selects elements from both vectors depending on the values in the mask
-        \item Note: both branches are evaluated
+        \item \structure{Note:} both branches are evaluated
     \end{itemize}
 \end{frame}
 
