@@ -2092,26 +2092,37 @@
 % _____________________________________________________________________________
 
 \begin{frame}[fragile]{Min and index reduction example}
-    \begin{itemize}
-        \item Pay attention the type of the intermediate and the global results
-        \item In this case, Kokkos::ValLocScalar<Scalar, Index>: contains val and loc
-        \item In general, the type can be obtained as \texttt{value\_type} of the Reducer object
-    \end{itemize}
-    \begin{minted}{C++}
-        using minloc_type = Kokkos::MinLoc<double, int>::value_type;
-        minloc_type minloc;
-        ...
-        Kokkos::parallel_reduce(
-            "MinLocReduce", N,
-            KOKKOS_LAMBDA (const int i, minloc_type& local_minloc_value) {
-                if (A(i) < local_minloc_value.val) {
-                    local_minloc_value.val = A(i);
-                    local_minloc_value.loc = i;
-                }
-            },
-            Kokkos::MinLoc<double, int>(minloc)
-        );
-    \end{minted}
+    \begin{columns}
+        \begin{column}{0.55\linewidth}
+            \begin{minted}[fontsize=\scriptsize]{C++}
+                    using minloc_type =
+                        Kokkos::MinLoc<double, int>::value_type;
+
+                    minloc_type minloc;
+                    Kokkos::parallel_reduce(
+                        "min_loc_reduction",
+                        N,
+                        KOKKOS_LAMBDA (
+                            int i,
+                            minloc_type& local_minloc_value
+                        ) {
+                            if (A(i) < local_minloc_value.val) {
+                                local_minloc_value.val = A(i);
+                                local_minloc_value.loc = i;
+                            }
+                        },
+                        Kokkos::MinLoc<double, int>(minloc)
+                    );
+                \end{minted}
+        \end{column}
+        \begin{column}{0.45\linewidth}
+            \begin{itemize}
+                \item Pay attention to the type of the intermediate and the global results
+                \item Here, \texttt{Kokkos::MinLoc<double, int>::value\_type}: contains the value and the location
+                \item In general, the type can be obtained as \texttt{value\_type} of the Reducer object
+            \end{itemize}
+        \end{column}
+    \end{columns}
 \end{frame}
 % _____________________________________________________________________________
 
