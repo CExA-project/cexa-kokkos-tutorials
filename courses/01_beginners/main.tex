@@ -2006,7 +2006,7 @@
                     "my_reduction",
                     N,
                     KOKKOS_LAMBDA (
-                        int i,
+                        const int i,
                         double& local_result
                     ) {
                         local_result += i;
@@ -2049,10 +2049,12 @@
 \begin{frame}[fragile]{Sum reduction example}
     \begin{minted}{C++}
         double result;
+        Kokkos::View<double*> A;
+        ...
         Kokkos::parallel_reduce(
             "my_reduction",
             N,
-            KOKKOS_LAMBDA (int i, double& local_result) {
+            KOKKOS_LAMBDA (const int i, double& local_result) {
                 local_result += A(i);
             },
             result // Only in the case of Sum, no need of the Reducer object
@@ -2065,10 +2067,12 @@
 \begin{frame}[fragile]{Max reduction example}
     \begin{minted}{C++}
         double max_value;
+        Kokkos::View<double*> A;
+        ...
         Kokkos::parallel_reduce(
             "my_reduction",
             N,
-            KOKKOS_LAMBDA (int i, double& local_max_value) {
+            KOKKOS_LAMBDA (const int i, double& local_max_value) {
                 local_max_value = Kokkos::max(A(i), local_max_value);
                 // local reduction consistent with the Reducer object
             },
@@ -2089,24 +2093,42 @@
 
 \begin{frame}[fragile]{Min and index reduction example}
     \begin{itemize}
-        \item Always think about the type that holds both the intermediate results and the global result
-        \item In this case, Kokkos::ValLocScalar<Scalar, Index>: a structure containing val and loc variables
-        \item In general, the type can be obtained as \texttt{value_type} of the Reducer object
+        \item Pay attention the type of the intermediate and the global results
+        \item In this case, Kokkos::ValLocScalar<Scalar, Index>: contains val and loc
+        \item In general, the type can be obtained as \texttt{value\_type} of the Reducer object
     \end{itemize}
     \begin{minted}{C++}
         using minloc_type = Kokkos::MinLoc<double, int>::value_type;
-
         minloc_type minloc;
+        ...
         Kokkos::parallel_reduce(
-            "MinLocReduce",
-            N,
-            KOKKOS_LAMBDA (int i, minloc_type& local_minloc_value) {
+            "MinLocReduce", N,
+            KOKKOS_LAMBDA (const int i, minloc_type& local_minloc_value) {
                 if (A(i) < local_minloc_value.val) {
                     local_minloc_value.val = A(i);
                     local_minloc_value.loc = i;
                 }
             },
             Kokkos::MinLoc<double, int>(minloc)
+        );
+    \end{minted}
+\end{frame}
+% _____________________________________________________________________________
+
+\begin{frame}[fragile]{Combining multiple reductions}
+    \begin{itemize}
+        \item Multiple Reducer objects can be specified in the same \texttt{parallel\_reduce}
+    \end{itemize}
+    \begin{minted}{C++}
+        double sum_val,  min_val;
+
+        Kokkos::parallel_reduce(
+            "SumMinReduce", N,
+            KOKKOS_LAMBDA (const int i, double& local_sum, double& local_min) {
+                local_sum += A(i);
+                local_min = Kokkos::min(A(i), local_min);
+            },
+            sum_val, Kokkos::Min<double>(min_val) 
         );
     \end{minted}
 \end{frame}
