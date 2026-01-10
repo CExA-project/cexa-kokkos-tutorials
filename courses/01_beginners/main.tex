@@ -2186,9 +2186,9 @@
     \begin{column}{0.55\linewidth}
       \begin{itemize}
         \item GPU backends need special annotation to know which code will be run on the host and which code will run on the device
-        \item Lambda also need to be annotated
-        \item Function be annotated with both \texttt{\_\_host\_\_} and \texttt{\_\_device\_\_} will be callable from the host and the device
-        \item \texttt{\_\_host\_\_} is implicit if no annotated is given
+        \item Lambdas also need to be annotated
+        \item Function annotated with both \texttt{\_\_host\_\_} and \texttt{\_\_device\_\_} will be callable from the host and the device
+        \item \texttt{\_\_host\_\_} is implicit if no annotation is given
         \item Neither \texttt{\_\_host\_\_} nor \texttt{\_\_device\_\_} are known by CPU backends, and will produce compilation errors
       \end{itemize}
     \end{column}
