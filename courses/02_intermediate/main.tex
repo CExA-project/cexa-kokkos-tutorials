@@ -1083,10 +1083,10 @@
 \begin{frame}[fragile]{Kokkos SIMD}
     \begin{itemize}
         \item Kokkos SIMD supports the following datatypes: \texttt{float}, \texttt{double}, \texttt{int32\_t}, \texttt{uint32\_t}, \texttt{int64\_t}, \texttt{uint64\_t}
-        \item \texttt{simd<T>} will default to the vector type with the largest size for type \texttt{T}
-        \item You can also explicitly request a size: \texttt{simd<float, N>}\\
+        \item \texttt{Kokkos::Experimental::simd<T>} will default to the vector type with the largest size for type \texttt{T}
+        \item You can also explicitly request a size: \texttt{Kokkos::Experimental::simd<float, N>}\\
               Be careful, different platforms have different vector sizes
-        \item If really needed, you can also directly specify an abi: \texttt{basic\_simd<float, abi>}
+        \item If really needed, you can also directly specify an abi: \texttt{Kokkos::Experimental::basic\_simd<float, abi>}
     \end{itemize}
     \begin{block}{SIMD abi}
         In Kokkos SIMD, abis are types used to identify an instruction set and a vector length. Using an abi directly is \highlight{not portable}.
