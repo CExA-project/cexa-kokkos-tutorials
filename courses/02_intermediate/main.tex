@@ -930,7 +930,9 @@
 
 \begin{frame}[fragile]{What is vectorization}
     \begin{itemize}
-        \item To vectorize, we use special instructions called \highlight{intrinsics}
+        \item To vectorize, we use special functions called \highlight{intrinsics}
+        \item These are usually C functions provided by the compiler
+        \item They map to hardware instructions
         \item Intrinsics are only portable between CPUs using the same instruction set:
         \begin{itemize}
             \item x86 $\rightarrow$ SSE, AVX
@@ -939,8 +941,10 @@
             \item ...
         \end{itemize}
     \end{itemize}
+\end{frame}
 
-    For example, adding two simd vectors:
+\begin{frame}[fragile]{Example: usage of SIMD intrinsics}
+    For example, adding two SIMD vectors of \texttt{double} using intrinsics:
     \begin{columns}
         \begin{column}{0.5\linewidth}
             \begin{center}
@@ -966,7 +970,39 @@
         \end{column}
     \end{columns}
 
-    \structure{Problem:} writing a code for each instruction set is repetitive.
+    \vspace{10pt}
+
+    We run into \highlight{two problems}:
+    \begin{enumerate}
+        \item Writing code using intrinsics is not portable
+        \item Writing code for each instruction set is repetitive and time-consuming
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}[fragile]{What about auto-vectorization?}
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            \begin{itemize}
+                \item With the right flags, compilers can vectorize some parts of your code
+                \item Not a solution to our problem, since vectorization is not guaranteed
+                \item Sometimes the code is too complex for the compiler to optimize (aliasing, dependencies, ...)
+                \item \texttt{\#pragma ivdep} or \texttt{\#pragma omp simd} can help, but we cannot put pragmas on a Kokkos parallel loop
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            \begin{minted}{C++}
+                #pragma ivdep
+                for (int i = 0; i < m; i++)
+                    a[i] = a[i + k] * c;
+            \end{minted}
+            \begin{minted}{C++}
+                Kokkos::parallel_for("loop", m,
+                    KOKKOS_LAMBDA(int i) {
+                        a(i) = a(i + k) * c;
+                    });
+            \end{minted}
+        \end{column}
+    \end{columns}
 \end{frame}
 
 \begin{frame}[fragile]{Vectorization libraries}
@@ -977,14 +1013,21 @@
     They offer:
     \begin{itemize}
         \item Higher level types and functions to manipulate vectors and intrinsics
-        \item A C++ api to the C intrinsics
+        \item A C++ API to the C intrinsics
         \item A portable abstraction over the platform specific intrinsics
     \end{itemize}
+\end{frame}
 
-    Kokkos comes with a vectorization library: Kokkos SIMD
-
+\begin{frame}[fragile]{Vectorization libraries: Kokkos SIMD}
     \begin{columns}
         \begin{column}{0.4\linewidth}
+            Kokkos comes with a vectorization library: \highlight{Kokkos SIMD}
+            \begin{itemize}
+                \item The platform specific vector type is abstracted away
+                \item We use regular C++ operators to manipulate vectors
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.6\linewidth}
             \begin{center}
                 \caption{AVX2}
                 \begin{minted}{C++}
@@ -994,8 +1037,6 @@
                     a = _mm256_add_pd(a, b);
                 \end{minted}
             \end{center}
-        \end{column}
-        \begin{column}{0.6\linewidth}
             \begin{center}
                 \caption{Kokkos SIMD}
                 \begin{minted}{C++}
@@ -1009,42 +1050,25 @@
     \end{columns}
 \end{frame}
 
-\begin{frame}[fragile]{C++ standard SIMD}
+\begin{frame}[fragile]{Vectorization libraries: C++ standard SIMD}
     \begin{itemize}
         \item The C++26 standard will include SIMD facilities
             \begin{minted}{C++}
                 std::simd<double> x;
             \end{minted}
         \item Kokkos SIMD follows the same API
-        \item But also makes it work on GPU
-    \end{itemize}
-\end{frame}
-
-\begin{frame}[fragile]{What about auto-vectorization?}
-    \begin{itemize}
-        \item With the right flags, compilers can vectorize some parts of your code
-        \item Sometimes the code is too complex for the compiler to optimize (aliasing, dependencies, ...)
-        \item \texttt{\#pragma ivdep} or \texttt{\#pragma omp simd} can sometimes help
-            \begin{minted}{C++}
-                #pragma ivdep
-                for (int i = 0; i < m; i++)
-                    a[i] = a[i + k] * c;
-            \end{minted}
-        \item We cannot put pragmas on a Kokkos parallel loop
-            \begin{minted}{C++}
-                Kokkos::parallel_for("loop", m,
-                    KOKKOS_LAMBDA(int i) {
-                        a(i) = a(i + k) * c;
-                    });
-            \end{minted}
+        \item It solves the portability between CPUs
+        \item But Kokkos requires portability between CPU and GPU
+        \item Using vectorized CPU instructions on the GPU is not possible \\
+              We will see later how Kokkos handles this
     \end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]{Kokkos SIMD}
     Kokkos SIMD provides:
     \begin{itemize}
-        \item A \texttt{simd} type wrapping platform specific intrinsics
-        \item A corresponding \texttt{simd\_mask} type
+        \item A \texttt{Kokkos::Experimental::simd} type wrapping platform specific vectors
+        \item A corresponding \texttt{Kokkos::Experimental::simd\_mask} type
         \item Operators for doing basic operations on these types (arithmetic, bitwise, shift, comparison, ...)
         \item No need to remember complicated intrinsics names
           \begin{minted}{C++}
@@ -1052,7 +1076,7 @@
               a *= (a + b) & (c << 2);
           \end{minted}
         \item Auxiliary functions (load, store, etc)
-        \item Math functions working on simd types
+        \item Math functions working on SIMD types
     \end{itemize}
 \end{frame}
 
@@ -1060,17 +1084,19 @@
     \begin{itemize}
         \item Kokkos SIMD supports the following datatypes: \texttt{float}, \texttt{double}, \texttt{int32\_t}, \texttt{uint32\_t}, \texttt{int64\_t}, \texttt{uint64\_t}
         \item \texttt{simd<T>} will default to the vector type with the largest size for type \texttt{T}
-        \item You can also explicitely request a size: \texttt{simd<float, N>}
-
+        \item You can also explicitly request a size: \texttt{simd<float, N>}\\
               Be careful, different platforms have different vector sizes
         \item If really needed, you can also directly specify an abi: \texttt{basic\_simd<float, abi>}
     \end{itemize}
+    \begin{block}{SIMD abi}
+        In Kokkos SIMD, abis are types used to identify an instruction set and a vector length. Using an abi directly is \highlight{not portable}.
+    \end{block}
 \end{frame}
 
 \begin{frame}[fragile]{Supported SIMD abis}
     \begin{center}
         \begin{tblr}[theme=kokkostable]{ccc}
-        ISA & abis & compatible datatypes \\
+        ISA & abi & compatible datatypes \\
         - & \texttt{scalar} & all \\
         \SetCell[r=2]{c} AVX2 & \texttt{avx2\_fixed\_size<4>} & all \\
                               & \texttt{avx2\_fixed\_size<8>} & \texttt{float}, \texttt{int32\_t}, \texttt{uint32\_t} \\
@@ -1104,82 +1130,67 @@
         \item Load the values from memory
             \vspace{-5pt}
             \begin{minted}{C++}
-                using namespace Kokkos::Experimental::simd;
-                x = simd_unchecked_load<simd<double>>(ptr, simd_flag_default);
-                x = simd_unchecked_load<simd<double>>(ptr, simd_flag_aligned);
+                using namespace Kokkos::Experimental;
+                auto x = simd_unchecked_load<simd<double>>(ptr, simd_flag_default);
+                auto x = simd_unchecked_load<simd<double>>(ptr, simd_flag_aligned);
             \end{minted}
     \end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]{Vectorizing a loop}
     A loop typically has the following structure:
-    \vspace{-5pt}
     \begin{minted}{C++}
-        for (int i = 0; i < N; i++) {
-            // load input data
-            // do some computation
-            // store the result
-        }
+        Kokkos::parallel_for("loop", N,
+            KOKKOS_LAMBDA(int i) {
+                // load input data
+                // do some computation
+                // store the result
+            });
     \end{minted}
+
+\end{frame}
+
+\begin{frame}[fragile]{Vectorizing a loop}
     A vectorized loop follows the same pattern:
-    \vspace{-5pt}
     \begin{minted}{C++}
-        for (int i = 0; i < N; i += VEC_WIDTH) {
-            // load input data into vectors
-            // do some computation
-            // store the result vector in memory
-        }
+        Kokkos::parallel_for("vectorized loop", N / VEC_WIDTH,
+            KOKKOS_LAMBDA(int i) {
+                // load input data into vectors
+                // do some computation
+                // store the result vector in memory
+            });
     \end{minted}
-    \structure{Note:} we iterate by steps of \texttt{VEC\_WIDTH}, since we compute \texttt{VEC\_WIDTH} elements simultaneously.
+    \structure{Note:} We iterate from 0 to \texttt{N / VEC\_WIDTH}, since we compute \texttt{VEC\_WIDTH} elements per iteration.
 \end{frame}
 
-\begin{frame}[fragile]{Example 1}
-    Let's start with a simple function
+\begin{frame}[fragile]{Example: adding two views}
+    Let's start with a simple kernel
     \begin{minted}{C++}
-        void compute(double* A, double* B, double* C, int N) {
-            for (int i = 0; i < N; i++) {
-                A[i] = A[i] * B[i] + C[i];
+        Kokkos::View<double*> A("A", N);
+        Kokkos::View<double*> B("B", N);
+        Kokkos::parallel_for("add", N,
+            KOKKOS_LAMBDA(int i) {
+                A(i) += B(i);
             }
-        }
+        );
     \end{minted}
 \end{frame}
 
-\begin{frame}[fragile]{Example 1}
+\begin{frame}[fragile]{Example: adding two views}
     The vectorized version is as follows
     \begin{minted}{C++}
-        void compute_simd(double* A, double* B, double* C, int N) {
-            using namespace Kokkos::Experimental;
-            using simd_type = simd<double>;
-            simd_type a, b, c;
-            for (int i = 0; i < N; i += simd_type::size()) {
-                a = simd_unchecked_load<simd_type>(&A[i]);
-                b = simd_unchecked_load<simd_type>(&B[i]);
-                c = simd_unchecked_load<simd_type>(&C[i]);
-                a = a * b + c;
-                simd_unchecked_store(a, &A[i], simd_flag_default);
-            }
-        }
+        Kokkos::View<double*> A("A", N);
+        Kokkos::View<double*> B("B", N);
+        using simd_type = Kokkos::Experimental::simd<double>;
+        Kokkos::parallel_for("add", N / simd_type::size(),
+            KOKKOS_LAMBDA(int i) {
+                std::size_t idx = i * simd_type::size();
+                simd_type a = Kokkos::Experimental::simd_unchecked_load<simd_type>(&A(idx));
+                simd_type b = Kokkos::Experimental::simd_unchecked_load<simd_type>(&B(idx));
+                a += b;
+                Kokkos::Experimental::simd_unchecked_store(a, &A(idx), Kokkos::Experimental::simd_flag_default);
+            });
     \end{minted}
-\end{frame}
-
-\begin{frame}[fragile]{Masks}
-    \begin{itemize}
-        \item The other important type is \texttt{simd\_mask}
-        \item Acts like a vector of booleans
-        \item Initialized like a \texttt{simd} vector
-            \begin{minted}{C++}
-                Kokkos::Experimental::simd_mask<double> m;       // uninitialized
-                Kokkos::Experimental::simd_mask<double> m(true); // every value is true
-                // true on even indices, false on odd ones
-                Kokkos::Experimental::simd_mask<double> m(KOKKOS_LAMBDA(int i) { return i % 2 == 0; });
-            \end{minted}
-        \item This is the type returned by comparison operations
-            \begin{minted}{C++}
-                Kokkos::Experimental::simd<double> x;
-                Kokkos::Experimental::simd_mask<double> m = x > 0.;
-            \end{minted}
-        \item Related useful functions: \texttt{all\_of}, \texttt{any\_of}, \texttt{none\_of}
-    \end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]{Conditionals}
@@ -1191,43 +1202,66 @@
                     if (A[i] > 0)
                         A[i] = std::sqrt(A[i]);
                     else
-                        A[i] = 0.;
+                        A[i] = 0;
                 }
             \end{minted}
         \item We cannot use an \texttt{if} branch with a vector
             \begin{itemize}
                 \item Consider the following vector \texttt{\{-1, 2, 0, 1\}}
                 \item Different values of the vector would enter different branches
-                \item \structure{Solution:} the \texttt{condition} function
+                \item \structure{Solution:} the \texttt{condition} function, which selects values from two vectors according to a \highlight{mask}
             \end{itemize}
     \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]{Example 2}
+\begin{frame}[fragile]{Masks}
+    \begin{itemize}
+        \item \texttt{Kokkos::Experimental::simd\_mask} acts like a vector of booleans
+        \item Initialized like a \texttt{simd} vector
+            \begin{minted}{C++}
+                using namespace Kokkos::Experimental;
+                simd_mask<double> m;       // uninitialized
+                simd_mask<double> m(true); // every value is true
+                // true on even indices, false on odd ones
+                simd_mask<double> m(KOKKOS_LAMBDA(int i) { return i % 2 == 0; });
+            \end{minted}
+        \item This is the type returned by comparison operations
+            \begin{minted}{C++}
+                Kokkos::Experimental::simd<double> x;
+                Kokkos::Experimental::simd_mask<double> m = x > 0.;
+            \end{minted}
+        \item They can be used in the \texttt{condition} function, or to conditionally load/store elements of a vector
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Example 2: vectorizing with conditionals}
+    Here is a kernel computing $a = \sqrt{a}$ if $a$ is positive, or $a = 0$ otherwise
     \begin{minted}{C++}
-        void compute(double* A, int N) {
-            for (int i = 0; i < N; i++) {
-                if (A[i] > 0)
-                    A[i] = std::sqrt(A[i]);
+        Kokkos::View<double*> A("A", N);
+        Kokkos::parallel_for("sqrt", N,
+            KOKKOS_LAMBDA(int i) {
+                if (A(i) > 0)
+                    A(i) = Kokkos::sqrt(A(i));
                 else
-                    A[i] = 0.;
-            }
-        }
+                    A(i) = 0.;
+            }):
     \end{minted}
 \end{frame}
 
-\begin{frame}[fragile]{Example 2}
+\begin{frame}[fragile]{Example 2: vectorizing with conditionals}
+    Here is the vectorized version
     \begin{minted}{C++}
-        void compute_simd(double* A, int N) {
-            using namespace Kokkos::Experimental;
-            using simd_type = simd<double>;
-            for (int i = 0; i < N; i += simd_type::size()) {
-                simd_type a = simd_unchecked_load<simd_type>(&A[i]);
-                a = condition(a > 0, Kokkos::sqrt(A[i]), 0.);
-                simd_unchecked_store(a, &A[i], simd_flag_default);
-            }
-        }
+        Kokkos::View<double*> A("A", N);
+        using simd_type = Kokkos::Experimental::simd<double>;
+        Kokkos::parallel_for("sqrt", N / simd_type::size(),
+            KOKKOS_LAMBDA(int i) {
+                std::size_t idx = i * simd_type::size();
+                simd_type a = Kokkos::Experimental::simd_unchecked_load<simd_type>(&A(idx));
+                a = condition(a > 0, Kokkos::sqrt(a), 0.);
+                Kokkos::Experimental::simd_unchecked_store(a, &A(idx), Kokkos::Experimental::simd_flag_default);
+            });
     \end{minted}
+    \vspace{-10pt}
     \begin{itemize}
         \item \texttt{condition} takes a \texttt{simd\_mask}, and two vectors, and selects elements from both vectors depending on the values in the mask
         \item \structure{Note:} both branches are evaluated
@@ -1236,12 +1270,10 @@
 
 \begin{frame}[fragile]{What about GPUs?}
     \begin{itemize}
-    \item The point is to have a portable vectorization library
-    \item Because it's in Kokkos, it should also be usable inside a kernel
-    \item But we cannot use vectorized (CPU) instructions on GPU
+    \item We said previously that we cannot use vectorized CPU instructions on GPU
+    \item But we just used SIMD inside a \texttt{Kokkos::parallel\_for}
     \item To keep portability, we default to a scalar type when using a GPU backend
     \end{itemize}
-
 
     \begin{center}
         \begin{tblr}[theme=kokkostable]{colspec=lll, row{2}={bg=lightmain}}
