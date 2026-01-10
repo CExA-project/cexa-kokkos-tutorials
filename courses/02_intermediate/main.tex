@@ -1234,7 +1234,7 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]{Example 2: vectorizing with conditionals}
+\begin{frame}[fragile]{Example: vectorizing with conditionals}
     Here is a kernel computing $a = \sqrt{a}$ if $a$ is positive, or $a = 0$ otherwise
     \begin{minted}{C++}
         Kokkos::View<double*> A("A", N);
@@ -1248,7 +1248,7 @@
     \end{minted}
 \end{frame}
 
-\begin{frame}[fragile]{Example 2: vectorizing with conditionals}
+\begin{frame}[fragile]{Example: vectorizing with conditionals}
     Here is the vectorized version
     \begin{minted}{C++}
         Kokkos::View<double*> A("A", N);
