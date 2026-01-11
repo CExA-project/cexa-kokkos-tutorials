@@ -15,6 +15,7 @@
 \usepackage{graphicx}
 \usepackage[no-math]{fontspec}
 \usepackage{tabularray}
+\UseTblrLibrary{diagbox}
 
 % allow to look for themes in another folder
 % https://tex.stackexchange.com/a/284157/301699
@@ -47,6 +48,12 @@
     xleftmargin=0.5em,
     xrightmargin=0.5em,
     breaklines,
+}
+
+\usemintedstyle[text]{vim}
+\setminted[text]{
+    bgcolor=lightmain,
+    fontsize=\scriptsize,
 }
 
 \NewTblrTheme{kokkostable}{
@@ -2240,6 +2247,161 @@
         \end{column}
     \end{columns}
 \end{exerciseframe}
+
+% _____________________________________________________________________________
+
+\section{Function annotation}
+
+% _____________________________________________________________________________
+
+\begin{frame}[fragile]{Why do we need \texttt{KOKKOS\_LAMBDA}?}
+  \begin{columns}
+    \begin{column}{0.4\linewidth}
+      \begin{minted}{C++}
+        Kokkos::parallel_for(
+            "my_loop", N,
+            [=] (int i) {
+                A(i) = B(i) + C(i) * D(i);
+            }
+        );
+      \end{minted}
+    \end{column}
+    \begin{column}{0.6\linewidth}
+      \begin{itemize}
+        \item Let's create a \texttt{parallel\_for} without \texttt{KOKKOS\_LAMBDA}
+        \item This code works when compiled with a CPU backend
+        \pause
+        \item But fails when compiled on CUDA backend with a cryptic error message:
+        \begin{minted}[fontsize=\scriptsize]{text}
+            error: The closure type for a lambda ("lambda [](int)->void") cannot be used in the template argument type of a __global__ function template instantiation, unless the lambda is defined within a __device__ or __global__ function
+          \end{minted}
+      \end{itemize}
+    \end{column}
+  \end{columns}
+
+  \pause
+  \structure{Question:} Why do we need to use \texttt{KOKKOS\_LAMBDA} inside parallel constructs rather than the standard C++ lambda syntax?
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}[fragile]{Function annotations}
+  \begin{columns}
+    \begin{column}{0.47\linewidth}
+      \begin{minted}{C++}
+        __device__
+        void device_function(){}
+
+        __host__
+        void host_function() {}
+
+        __host__ __device__
+        void host_device_function() {}
+
+        auto lambda =
+          __host__ __device__ [] () {};
+      \end{minted}
+    \end{column}
+    \begin{column}{0.55\linewidth}
+      \begin{itemize}
+        \item GPU backends need special annotation to know which code will be run on the host and which code will run on the device
+        \item Lambdas also need to be annotated
+        \item Function annotated with both \texttt{\_\_host\_\_} and \texttt{\_\_device\_\_} will be callable from the host and the device
+        \item \texttt{\_\_host\_\_} is implicit if no annotation is given
+        \item Neither \texttt{\_\_host\_\_} nor \texttt{\_\_device\_\_} are known by CPU backends, and will produce compilation errors
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}[fragile]{Annotated functions calls}
+  Calling a function with the wrong annotation will generate errors and warnings:
+  \begin{center}
+    \begin{tblr}[theme=kokkostable]{colspec=llll}
+      \diagbox[linecolor=white,linewidth=2pt]{Caller}{Calling}& \texttt{\_\_host\_\_}  & \texttt{\_\_device\_\_} & both\\
+      \texttt{\_\_host\_\_} & Ok & Error & Ok \\
+      \texttt{\_\_device\_\_} & Error & Ok & Ok \\
+      both & Warning & Error & Ok \\
+    \end{tblr}
+  \end{center}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}[fragile]{Kokkos annotation macros}
+  \begin{columns}
+    \begin{column}{0.45\linewidth}
+      \begin{minted}{C++}
+        KOKKOS_FUNCTION
+        void device_function(){}
+
+        KOKKOS_FUNCTION
+        void host_function() {}
+
+        KOKKOS_FUNCTION
+        void host_device_function() {}
+
+        auto lambda =
+          KOKKOS_LAMBDA () {};
+      \end{minted}
+    \end{column}
+    \begin{column}{0.55\linewidth}
+      \begin{itemize}
+        \item \texttt{KOKKOS\_FUNCTION} and \texttt{KOKKOS\_LAMBDA} will have the following annotations:
+          \begin{itemize}
+            \item \texttt{\_\_host\_\_ \_\_device\_\_} when compiling for a GPU backend
+            \item Nothing when compiling for a CPU backend
+          \end{itemize}
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}[fragile]{Annotated functions calls (with Kokkos macros)}
+  \begin{center}
+    \begin{tblr}[theme=kokkostable]{colspec=llll}
+      \diagbox[linecolor=white,linewidth=2pt]{Caller}{Calling}& No macro  & \texttt{KOKKOS\_FUNCTION} & \texttt{KOKKOS\_LAMBDA} \\
+      No macro & Ok & Ok & Ok \\
+      \texttt{KOKKOS\_FUNCTION} & Error & Ok & Ok \\
+      \texttt{KOKKOS\_LAMBDA} & Error & Ok & Ok \\
+    \end{tblr}
+  \end{center}
+\end{frame}
+
+\begin{frame}[fragile]{Use of annotated functions in Kokkos}
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            \begin{minted}{C++}
+                KOKKOS_FUNCTION
+                int function(int i) {
+                    // ...
+                }
+
+                void compute() {
+                    Kokkos::parallel_for(
+                        "compute",
+                        N,
+                        KOKKOS_LAMBDA (int i) {
+                            int a = function(i);
+                            // ...
+                        }
+                    );
+                }
+            \end{minted}
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            \begin{itemize}
+                \item You already know where to use \texttt{KOKKOS\_LAMBDA}
+                \pause
+                \item \texttt{KOKKOS\_FUNCTION} can be used to create free functions called in a lambda
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
 
 % _____________________________________________________________________________
 
