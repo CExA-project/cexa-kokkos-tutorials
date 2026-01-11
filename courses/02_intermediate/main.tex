@@ -1130,9 +1130,7 @@
         \item Load the values from memory
             \vspace{-5pt}
             \begin{minted}{C++}
-                using namespace Kokkos::Experimental;
-                auto x = simd_unchecked_load<simd<double>>(ptr, simd_flag_default);
-                auto x = simd_unchecked_load<simd<double>>(ptr, simd_flag_aligned);
+                Kokkos::Experimental::simd<double> x(ptr, Kokkos::Experimental::simd_flag_default);
             \end{minted}
     \end{itemize}
 \end{frame}
@@ -1185,9 +1183,12 @@
         Kokkos::parallel_for("add", N / simd_type::size(),
             KOKKOS_LAMBDA(int i) {
                 std::size_t idx = i * simd_type::size();
-                simd_type a = Kokkos::Experimental::simd_unchecked_load<simd_type>(&A(idx));
-                simd_type b = Kokkos::Experimental::simd_unchecked_load<simd_type>(&B(idx));
+                // load the values
+                simd_type a(&A(idx), Kokkos::Experimental::simd_flag_default);
+                simd_type b(&B(idx), Kokkos::Experimental::simd_flag_default);
+                // perform the computation
                 a += b;
+                // store the result
                 Kokkos::Experimental::simd_unchecked_store(a, &A(idx), Kokkos::Experimental::simd_flag_default);
             });
     \end{minted}
@@ -1256,7 +1257,7 @@
         Kokkos::parallel_for("sqrt", N / simd_type::size(),
             KOKKOS_LAMBDA(int i) {
                 std::size_t idx = i * simd_type::size();
-                simd_type a = Kokkos::Experimental::simd_unchecked_load<simd_type>(&A(idx));
+                simd_type a(&A(idx), Kokkos::Experimental::simd_flag_default);
                 a = condition(a > 0, Kokkos::sqrt(a), 0.);
                 Kokkos::Experimental::simd_unchecked_store(a, &A(idx), Kokkos::Experimental::simd_flag_default);
             });
