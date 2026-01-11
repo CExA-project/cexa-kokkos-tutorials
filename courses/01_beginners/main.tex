@@ -1569,9 +1569,12 @@
   This can be accomplished in Kokkos using a subview as follows:
   \begin{minted}{C++}
     auto slicei0 = Kokkos::subview(v, i0, Kokkos::ALL, Kokkos::ALL);
-    auto slicei0 = Kokkos::subview(v, i0, 
-                                   std::make_pair(0, v.extent(1)),
-                                   std::make_pair(0, v.extent(2)));
+    auto slicei1 = Kokkos::subview(
+        v,
+        i0, 
+        Kokkos::pair(0, v.extent(1)),
+        Kokkos::pair(0, v.extent(2))
+    );
     // extent(N) returns the size of dimension N of the View
   \end{minted}
 \end{frame}
