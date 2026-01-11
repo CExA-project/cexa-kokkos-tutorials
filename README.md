@@ -9,8 +9,8 @@ This course is intended for beginners and intermediate users who are not expert 
 This course is part of the [CExA project](https://cexa-project.github.io/).
 
 <p align="center">
-    <img src="./images/kokkos.png" alt="Kokkos" width="100"/>
-    <img src="./images/cexa_logo.png" alt="CExA" width="100"/>
+    <img src="./images/kokkos.png" alt="Kokkos" height="100"/>
+    <img src="./images/cexa_logo.png" alt="CExA" height="100"/>
 </p>
 
 ## Content
