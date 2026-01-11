@@ -1,5 +1,8 @@
 # Exercise 11: Correct race condition using atomics
 
+> [!WARNING]
+> This documentation is a stub which will be completed in the next version.
+
 ## Objective
 
 The goal of this exercise is to profile an existing Kokkos program which solves the heat equation.
