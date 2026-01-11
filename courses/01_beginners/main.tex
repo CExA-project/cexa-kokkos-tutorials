@@ -13,7 +13,7 @@
 \usepackage{xcolor}
 \usepackage{tcolorbox}
 \usepackage{graphicx}
-\usepackage{fontspec}
+\usepackage[no-math]{fontspec}
 \usepackage{tabularray}
 
 % allow to look for themes in another folder
@@ -1527,6 +1527,79 @@
         \end{column}
     \end{columns}
 \end{exerciseframe}
+
+% _____________________________________________________________________________
+
+\begin{frame}{Subviews description}
+  \begin{itemize}
+    \item A subview is a ’slice’ of a View that behaves as a View
+      \pause
+      \begin{itemize}
+        \item Same syntax as a View - access data using (multi-)index entries
+          \pause
+        \item The ’slice’ and original View point to the same data - no extra
+          memory allocation or copying
+      \end{itemize}
+      \pause
+    \item Can be constructed on host or within a kernel (no allocation
+      of memory occurs)
+      \pause
+    \item Similar capability as provided by Matlab, Fortran, Python, etc.
+      using ’colon’ notation
+  \end{itemize}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}[fragile]{Usage demo}
+  Begin with a View:
+  \begin{minted}{C++}
+    Kokkos::View<double ***> v("v", N0, N1, N2);
+  \end{minted}
+  \pause
+  Say we want a 2-dimensional slice at an index i0 in the first
+  dimension - that is, in Matlab/Fortran/Python notation:
+  \begin{minted}{python}
+    slicei0 = v[i0, :, :]
+  \end{minted}
+  \pause
+  This can be accomplished in Kokkos using a subview as follows:
+  \begin{minted}{C++}
+    auto slice = Kokkos::subview(v, i0, Kokkos::ALL, Kokkos::ALL);
+  \end{minted}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}[fragile]{Syntax}
+  \begin{minted}{C++}
+    Kokkos::subview(view, arg0, ...);
+  \end{minted}
+  \begin{itemize}
+    \item \texttt{view}: First argument to the subview is the view of which a slice will be taken
+    \item \texttt{argN}: Slice info for rank $N$ - provide same number of arguments as rank
+    \item Options for \texttt{argN}:
+      \begin{description}[partial range]
+        \item[index] integral type single value
+        \item[partial range] \texttt{std::pair} or \texttt{Kokkos::pair} of integral types to provide sub-range of a rank’s range $[0, N)$
+        \item[full range] use \texttt{Kokkos::ALL} rather than providing the full range as a pair
+      \end{description}
+    \end{itemize}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}[fragile]{Subviews suggested usage}
+  \begin{itemize}
+    \item Use \texttt{auto} to determine the return type of a subview
+    \item A subview can help with encapsulation - e.g. can pass into functions expecting a lower-dimensional View
+    \item Use \texttt{Kokkos::pair} for partial ranges if subview created within a kernel
+    \item Avoid usage if very few data accesses will be made to the subview
+      \begin{itemize}
+        \item Construction of subview costs 20-40 operations
+      \end{itemize}
+  \end{itemize}
+\end{frame}
 
 % _____________________________________________________________________________
 
