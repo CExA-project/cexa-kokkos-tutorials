@@ -76,7 +76,7 @@
 
 %Information to be included in the title page:
 \title{Kokkos intermediate course}
-\author{The CExA team}
+\author{\scriptsize Paul Zehner, Paul Gannay, Trévis Morvany}
 \institute{CEA}
 \date{\today}
 \titlegraphic{%
@@ -105,7 +105,7 @@
 % _____________________________________________________________________________
 
 \begin{frame}{Prerequisites}
-    This course is intended for developers who have followed the basic course of the tutorials
+    This course is intended for developers who have followed the Kokkos basic course
 
     \vspace{1em}
 
@@ -126,7 +126,7 @@
     \begin{itemize}
         \item Course + practical work: full day
         \item Course + corrected exercise: half day
-        \item Short version: 3 hours
+        \item Short version: 2 hours
     \end{itemize}
 \end{frame}
 
@@ -674,10 +674,6 @@
 
 % _____________________________________________________________________________
 
-\section{Subviews}
-
-% _____________________________________________________________________________
-
 \section{Atomics}
 
 \begin{frame}[fragile]{Race condition}
@@ -904,10 +900,6 @@
     \end{column}
   \end{columns}
 \end{frame}
-
-% _____________________________________________________________________________
-
-\section{Layouts}
 
 % _____________________________________________________________________________
 
@@ -1286,6 +1278,18 @@
             \texttt{basic\_simd<T, abi<N>>} & \texttt{basic\_simd<T, abi<N>>} & \texttt{basic\_simd<T, abi<N>>} \\
         \end{tblr}
     \end{center}
+\end{frame}
+
+\section{Conclusion}
+
+\begin{frame}{Conclusion}
+    Congratulation, you have learned intermediate notions of Kokkos!
+
+    \begin{itemize}
+        \item How to debug and profile a Kokkos program
+        \item How and why to use atomic operations
+        \item How to use SIMDs
+    \end{itemize}
 \end{frame}
 
 \end{document}

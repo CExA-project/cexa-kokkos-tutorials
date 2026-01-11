@@ -69,8 +69,8 @@
 \graphicspath{{../../images/}}
 
 %Information to be included in the title page:
-\title[Kokkos and performance portability]{Kokkos and performance portability:\\an introduction for all}
-\author{Mathieu Lobet and the CExA team}
+\title{Kokkos basic course}
+\author{\scriptsize Mathieu Lobet, Paul Zehner, Paul Gannay, Hariprasad Kannan, Thomas Padioleau}
 \institute{CEA}
 \date{\today}
 \titlegraphic{%
@@ -164,7 +164,7 @@
         \includegraphics[width=0.8\textwidth]{top500_cpu_gpu_share_history.png}
     \end{center}
 
-    \structure{Note:} Does not include exotic accelerators (Intel Knight Landing, etc.)
+    \structure{Note:} Does not include exotic accelerators (Intel Knights Landing, etc.)
 \end{frame}
 
 % _____________________________________________________________________________
@@ -2219,7 +2219,7 @@
                 local_sum += A(i);
                 local_min = Kokkos::min(A(i), local_min);
             },
-            sum_val, Kokkos::Min<double>(min_val) 
+            sum_val, Kokkos::Min<double>(min_val)
         );
     \end{minted}
 \end{frame}
