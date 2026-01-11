@@ -920,9 +920,9 @@
         \end{column}
         \begin{column}{0.5\linewidth}
             \begin{itemize}
-                \item Modern CPUs have instructions working on multiple inputs (i.e. add 4 pairs of numbers with a single instruction)
+                \item Modern CPUs have instructions capable of doing multiple computations at the same time (i.e do 4 distinct additions with a single instruction)
                 \item SIMD: \highlight{S}ingle \highlight{I}nstruction \highlight{M}ultiple \highlight{D}ata
-                \item Theoretically N times faster with SIMD units of size N
+                \item Can get up to N times faster with SIMD units of size N
             \end{itemize}
         \end{column}
     \end{columns}
@@ -931,9 +931,9 @@
 \begin{frame}[fragile]{What is vectorization}
     \begin{itemize}
         \item To vectorize, we use special functions called \highlight{intrinsics}
-        \item These are usually C functions provided by the compiler
+        \item These are functions provided by the compiler
         \item They map to hardware instructions
-        \item Intrinsics are only portable between CPUs using the same instruction set:
+        \item SIMD intrinsics are only portable between CPUs using the same instruction set:
         \begin{itemize}
             \item x86 $\rightarrow$ SSE, AVX
             \item ARM $\rightarrow$ NEON, SVE
@@ -985,7 +985,7 @@
             \begin{itemize}
                 \item With the right flags, compilers can vectorize some parts of your code
                 \item Not a solution to our problem, since vectorization is not guaranteed
-                \item Sometimes the code is too complex for the compiler to optimize (aliasing, dependencies, ...)
+                \item Sometimes the code is too complex for the compiler to vectorize (aliasing, dependencies, ...)
                 \item \texttt{\#pragma ivdep} or \texttt{\#pragma omp simd} can help, but we cannot put pragmas on a Kokkos parallel loop
             \end{itemize}
         \end{column}
@@ -1012,8 +1012,8 @@
 
     They offer:
     \begin{itemize}
-        \item Higher level types and functions to manipulate vectors and intrinsics
-        \item A C++ API to the C intrinsics
+        \item Higher level types and functions to manipulate vectors
+        \item A C++ API to the SIMD intrinsics
         \item A portable abstraction over the platform specific intrinsics
     \end{itemize}
 \end{frame}
@@ -1086,7 +1086,7 @@
         \item \texttt{Kokkos::Experimental::simd<T>} will default to the vector type with the largest size for type \texttt{T}
         \item You can also explicitly request a size: \texttt{Kokkos::Experimental::simd<float, N>}\\
               Be careful, different platforms have different vector sizes
-        \item If really needed, you can also directly specify an abi: \texttt{Kokkos::Experimental::basic\_simd<float, abi>}
+        \item If needed, you can also directly specify an abi: \texttt{Kokkos::Experimental::basic\_simd<float, abi>}
     \end{itemize}
     \begin{block}{SIMD abi}
         In Kokkos SIMD, abis are types used to identify an instruction set and a vector length. Using an abi directly is \highlight{not portable}.
@@ -1162,7 +1162,7 @@
 \end{frame}
 
 \begin{frame}[fragile]{Example: adding two views}
-    Let's start with a simple kernel
+    Let's start with a simple kernel adding two views
     \begin{minted}{C++}
         Kokkos::View<double*> A("A", N);
         Kokkos::View<double*> B("B", N);
@@ -1199,12 +1199,13 @@
         \item Loops are not always simple
         \item Complex control flows can be problematic
             \begin{minted}{C++}
-                for (int i = 0; i < N; i++) {
-                    if (A[i] > 0)
-                        A[i] = std::sqrt(A[i]);
-                    else
-                        A[i] = 0;
-                }
+                Kokkos::parallel_for("loop", N,
+                    KOKKOS_LAMBDA(int i) {
+                        if (A(i) > 0)
+                            A(i) = Kokkos::sqrt(A(i));
+                        else
+                            A(i) = 0;
+                    });
             \end{minted}
         \item We cannot use an \texttt{if} branch with a vector
             \begin{itemize}
@@ -1280,11 +1281,10 @@
         \begin{tblr}[theme=kokkostable]{colspec=lll, row{2}={bg=lightmain}}
             & \SetCell[c=2]{c} Kokkos compiled on \\
             SIMD alias & CPU backend & GPU backend \\
-            \texttt{simd<T>} & \texttt{basic\_simd<T, avx2<8>>} & \texttt{basic\_simd<T, scalar>} \\
-            \texttt{simd<T, 4>} & \texttt{basic\_simd<T, avx2<4>>} & \texttt{basic\_simd<T, scalar>} \\
-            \texttt{basic\_simd<T, avx2<N>>} & \texttt{basic\_simd<T, avx2<N>>} & \texttt{basic\_simd<T, avx2<N>>} \\
+            \texttt{simd<T>} & \texttt{basic\_simd<T, abi<...>>} & \texttt{basic\_simd<T, scalar>} \\
+            \texttt{simd<T, N>} & \texttt{basic\_simd<T, abi<N>>} & \texttt{basic\_simd<T, scalar>} \\
+            \texttt{basic\_simd<T, abi<N>>} & \texttt{basic\_simd<T, abi<N>>} & \texttt{basic\_simd<T, abi<N>>} \\
         \end{tblr}
-        \caption{Note: here \texttt{T} is a 32bit datatype, we illustrate with avx2 but it's similar for other abis}
     \end{center}
 \end{frame}
 
