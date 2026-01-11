@@ -7,9 +7,9 @@
    viewBox="0 0 306.74907 81.653893"
    version="1.1"
    id="svg1"
-   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
    sodipodi:docname="host_mirror_view.svg"
-   inkscape:export-filename="/local/home/pz277238/Projets/cexa_kokkos_tutorials/images/host_mirror_view.png"
+   inkscape:export-filename="host_mirror_view.png"
    inkscape:export-xdpi="200"
    inkscape:export-ydpi="200"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
@@ -27,13 +27,13 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
-     inkscape:zoom="0.95335449"
-     inkscape:cx="719.03999"
-     inkscape:cy="198.77181"
+     inkscape:zoom="2.2443806"
+     inkscape:cx="505.2619"
+     inkscape:cy="186.02014"
      inkscape:window-width="1920"
-     inkscape:window-height="1016"
-     inkscape:window-x="2225"
-     inkscape:window-y="1467"
+     inkscape:window-height="1011"
+     inkscape:window-x="0"
+     inkscape:window-y="32"
      inkscape:window-maximized="1"
      inkscape:current-layer="layer1"
      inkscape:pageshadow="0"
@@ -978,7 +978,7 @@
        xlink:href="#linearGradient3545"
        id="linearGradient3"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0.32768817,0,0,0.32768817,30.515204,29.277842)"
+       gradientTransform="matrix(0.32768817,0,0,0.32768817,30.515204,40.860457)"
        x1="157.66574"
        y1="59.868374"
        x2="133.44421"
@@ -15154,7 +15154,7 @@
        width="9.1960106"
        height="2.2070429"
        x="73.613853"
-       y="47.240711"
+       y="58.823326"
        rx="0.098306455"
        ry="0.098306455" />
     <text
@@ -15164,16 +15164,16 @@
        style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect3548);display:inline;fill:none;fill-opacity:1;stroke:#000000;stroke-width:3.77953;stroke-dasharray:none;stroke-opacity:1"><tspan
          x="374.05957"
          y="329.80312"
-         id="tspan89296"><tspan
+         id="tspan20604"><tspan
            style="fill:#ffffff;stroke:none"
-           id="tspan89294">Kokkos compiled with </tspan></tspan><tspan
+           id="tspan20602">Kokkos compiled with </tspan></tspan><tspan
          x="381.93555"
          y="351.00314"
-         id="tspan89302"><tspan
+         id="tspan20610"><tspan
            style="fill:#ffffff;stroke:none"
-           id="tspan89298">a C</tspan><tspan
+           id="tspan20606">a C</tspan><tspan
            style="fill:#ffffff;stroke:none"
-           id="tspan89300">PU backend only</tspan></tspan></text>
+           id="tspan20608">PU backend only</tspan></tspan></text>
     <rect
        style="fill:url(#linearGradient3551);stroke:#000000;stroke-width:0.1;stroke-dasharray:none;stroke-opacity:1"
        id="rect3550"
@@ -15678,22 +15678,22 @@
        y="0"><tspan
          x="-82.158203"
          y="341.28359"
-         id="tspan89304">Kokkos::View&lt;int*&gt; view(N);
+         id="tspan20612">Kokkos::View&lt;int*&gt; device_view(N);
 </tspan><tspan
          x="-82.158203"
          y="362.48361"
-         id="tspan89306">
+         id="tspan20614">
 </tspan><tspan
          x="-82.158203"
          y="383.68362"
-         id="tspan89308">auto mirror_view =
+         id="tspan20616">auto mirror_view =
 </tspan><tspan
          x="-82.158203"
          y="404.88363"
-         id="tspan89310">    Kokkos::create_mirror(device_view);</tspan></text>
+         id="tspan20618">    Kokkos::create_mirror(device_view);</tspan></text>
     <path
        style="font-variation-settings:normal;opacity:1;fill:none;fill-opacity:1;stroke:#1300c9;stroke-width:0.8;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-start:url(#Dot);marker-end:url(#ConcaveTriangle)"
-       d="m -27.398935,62.76339 c 24.3595197,-1.064353 67.620084,17.260372 63.922538,1.786716"
+       d="M -8.3729461,61.96158 C 15.986574,60.897227 25.330646,79.350178 36.523603,64.550106"
        id="path356"
        sodipodi:nodetypes="cc" />
     <text
@@ -15741,14 +15741,14 @@
        transform="translate(-19.557781,3.6116136)"><tspan
          x="105.69451"
          y="75.284393"
-         id="tspan89314"><tspan
+         id="tspan20622"><tspan
            style="fill:#ffffff"
-           id="tspan89312">mirror view </tspan></tspan><tspan
+           id="tspan20620">mirror view </tspan></tspan><tspan
          x="105.69451"
          y="80.89356"
-         id="tspan89318"><tspan
+         id="tspan20626"><tspan
            style="fill:#ffffff"
-           id="tspan89316">allocation</tspan></tspan></text>
+           id="tspan20624">allocation</tspan></tspan></text>
     <text
        xml:space="preserve"
        style="font-weight:300;font-size:5.29167px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;inline-size:32.6213;display:inline;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.690999;stroke-opacity:1"
@@ -15758,13 +15758,23 @@
        transform="translate(-73.78836,1.7153341)"><tspan
          x="105.69451"
          y="75.284393"
-         id="tspan89322"><tspan
+         id="tspan20630"><tspan
            style="stroke-width:0.691"
-           id="tspan89320">default view </tspan></tspan><tspan
+           id="tspan20628">default view </tspan></tspan><tspan
          x="105.69451"
          y="80.89356"
-         id="tspan89326"><tspan
+         id="tspan20634"><tspan
            style="stroke-width:0.691"
-           id="tspan89324">allocation</tspan></tspan></text>
+           id="tspan20632">allocation</tspan></tspan></text>
+    <path
+       style="font-variation-settings:normal;opacity:1;fill:none;fill-opacity:1;stroke:#1300c9;stroke-width:0.8;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-start:url(#Dot);marker-end:url(#ConcaveTriangle)"
+       d="M -8.3729461,61.96158 C 12.038273,60.066891 9.32957,50.71635 23.790963,50.507096"
+       id="path15171"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="font-variation-settings:normal;opacity:1;fill:none;fill-opacity:1;stroke:#b100ad;stroke-width:0.8;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-start:url(#Dot);marker-end:url(#ConcaveTriangle)"
+       d="M -3.3063706,80.095793 C 27.094533,83.583894 78.86954,105.72069 76.283045,66.334432"
+       id="path15173"
+       sodipodi:nodetypes="cc" />
   </g>
 </svg>
