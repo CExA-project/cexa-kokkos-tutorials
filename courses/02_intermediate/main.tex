@@ -365,6 +365,115 @@
 
 % _____________________________________________________________________________
 
+\section{Algorithms API in Kokkos}
+
+\begin{frame}[fragile]{Acknowledgment}
+Francesco Rizzi, \emph{Implementing the C++ std algorithms library in
+Kokkos: an overview of the main challenges, API differences and
+some implementation details}, Café Kokkos @ CEA, Feb. 2024.
+\end{frame}
+
+\begin{frame}[fragile]{Inspired by STL Algorithms in C++}
+  \begin{itemize}
+    \item Free functions that operate on a range of elements:
+      sorting, searching, counting, transforming etc
+    \item Goal: Ready to use and reliable
+      \begin{itemize}
+        \item Internally use \texttt{Kokkos::parallel\_\{for, reduce, scan\}}
+      \end{itemize}
+    \item Higher abstraction in user code: Function call with a range of elements, operations etc
+    \item Mostly in \texttt{Kokkos::Experimental} namespace
+      \begin{itemize}
+        \item Except for Sort
+        \item Also, there is Random in \texttt{Kokkos} namespace
+      \end{itemize}
+  \end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{Currently available functions}
+  \SetTblrInner{rowsep=0pt}
+  \begin{tblr}[theme=kokkostable]{lX}
+    Algorithm family & Functions \\
+    Sorting and related & \texttt{sort}, \texttt{sort\_by\_key}, \texttt{is\_sorted}, \texttt{is\_sorted\_until} \\
+    Minimum/maximum  & \texttt{min\_element}, \texttt{max\_element}, \texttt{minmax\_element} \\
+    Modifying sequence    & \texttt{copy}, \texttt{move}, \texttt{fill}, \texttt{transform}, \texttt{remove}, \texttt{replace}, \texttt{reverse}, \texttt{rotate}, \texttt{unique}, ... \\
+    Non-modifying sequence & \texttt{count}, \texttt{equal}, \texttt{all\_of}, \texttt{any\_of}, \texttt{find}, \texttt{for\_each}, \texttt{search}, ... \\
+    Numeric & \texttt{adjacent\_difference}, \texttt{reduce}, \texttt{exclusive\_scan}, \texttt{inclusive\_scan}, ... \\
+    Partitioning & \texttt{is\_partitioned}, \texttt{partition\_point}, \texttt{partition\_copy} \\
+    Iterators & \texttt{begin}, \texttt{cbegin}, \texttt{end}, \texttt{cend}, \texttt{distance}, \texttt{iter\_swap} \\
+    Random & \texttt{Random\_XorShift64\_Pool}, ...
+  \end{tblr}
+
+  \vspace{0.5em}
+
+  More in the \doclink{\href{https://kokkos.org/kokkos-core-wiki/API/algorithms-index.html}{documentation}}
+\end{frame}
+
+\begin{frame}[fragile]{API usage}
+  Pass to the function:
+  \begin{itemize}
+    \item Execution space instance
+      \begin{itemize}
+        \item Team Handle under Hierarchical parallelism also possible
+        \item Not elegant. For now, needed by algorithms in \texttt{Kokkos::Experimental} namespace
+        \item Deducing execution space from Views or Iterators is the better way
+      \end{itemize}
+    \item A Rank-1 View or begin and end Iterators
+      \begin{itemize}
+        \item View must be accessible from the execution space
+        \item The Iterators are random access, obtained via \texttt{Kokkos::Experimental::\{begin, cbegin, end, cend\}}
+      \end{itemize}
+    \item Additional function specific arguments
+  \end{itemize}
+  \begin{minted}{C++}
+    auto ret_val_view = algo_name(label, space, view(s), extra_args);
+    auto ret_val_iterator = algo_name(label, space, iterator(s), extra_args);
+  \end{minted}
+\end{frame}
+
+\begin{frame}[fragile]{Example usage}
+  \begin{minted}{C++}
+    namespace KE = Kokkos::Experimental;
+
+    Kokkos::View<double*> my_view("my_view", 13);
+    // In general, View must be accessible from execution space
+    // Fill my_view
+
+    const double old_val{2}, new_val{34};
+    auto def_exec_space = Kokkos::DefaultExecutionSpace();
+
+    // act on the entire view
+    KE::replace(def_exec_space, my_view, old_val, new_val);
+
+    // act on just a subset
+    auto start_at = KE::begin(my_view) + 4;
+    auto end_at = KE::begin(my_view) + 10;
+    KE::replace(def_exec_space, start_at, end_at, old_val, new_val);
+  \end{minted}
+\end{frame}
+
+\begin{frame}[fragile]{Example usage}
+  \begin{minted}{C++}
+    struct MyStruct { /* ... */ }; // Custom type
+
+    struct MyStructLessThanComparator {
+      bool operator()(const MyStruct& a, const MyStruct& b) const {
+        // custom comparator logic
+      }
+    };
+
+    int main() {
+      Kokkos::View<MyStruct*> my_view("my_view", N);
+      ...
+      KE::min_element(def_exec_space, my_view, MyStructLessThanComparator());
+      ...
+    }
+  \end{minted}
+\end{frame}
+
+% _____________________________________________________________________________
+
 \section{SIMD}
 
 \begin{frame}[fragile]{What is vectorization}
@@ -1289,9 +1398,12 @@
 
     \begin{itemize}
         \item How and why to use atomic operations
+        \item How to use the Algorithms API
         \item How to use SIMDs
         \item How to debug and profile a Kokkos program
     \end{itemize}
 \end{frame}
+
+% _____________________________________________________________________________
 
 \end{document}
