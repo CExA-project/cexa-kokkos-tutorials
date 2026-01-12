@@ -13,8 +13,9 @@
 \usepackage{xcolor}
 \usepackage{tcolorbox}
 \usepackage{graphicx}
-\usepackage{fontspec}
+\usepackage[no-math]{fontspec}
 \usepackage{tabularray}
+\UseTblrLibrary{diagbox}
 
 % allow to look for themes in another folder
 % https://tex.stackexchange.com/a/284157/301699
@@ -49,6 +50,12 @@
     breaklines,
 }
 
+\usemintedstyle[text]{vim}
+\setminted[text]{
+    bgcolor=lightmain,
+    fontsize=\scriptsize,
+}
+
 \NewTblrTheme{kokkostable}{
     \SetTblrInner{
         width=\linewidth,
@@ -62,8 +69,8 @@
 \graphicspath{{../../images/}}
 
 %Information to be included in the title page:
-\title[Kokkos and performance portability]{Kokkos and performance portability:\\an introduction for all}
-\author{Mathieu Lobet and the CExA team}
+\title{Kokkos basic course}
+\author{\scriptsize Mathieu Lobet, Paul Zehner, Paul Gannay, Hariprasad Kannan, Thomas Padioleau}
 \institute{CEA}
 \date{\today}
 \titlegraphic{%
@@ -157,7 +164,7 @@
         \includegraphics[width=0.8\textwidth]{top500_cpu_gpu_share_history.png}
     \end{center}
 
-    \structure{Note:} Does not include exotic accelerators (Intel Knight Landing, etc.)
+    \structure{Note:} Does not include exotic accelerators (Intel Knights Landing, etc.)
 \end{frame}
 
 % _____________________________________________________________________________
@@ -192,16 +199,6 @@
 
     \caption{French academic and CEA supercomputers}
     \end{center}
-\end{frame}
-
-% _____________________________________________________________________________
-
-\begin{frame}{Top500 GPU-CPU system share}
-    \begin{center}
-        \includegraphics[width=0.8\textwidth]{top500_cpu_gpu_share_history.png}
-    \end{center}
-
-    \structure{Note:} Does not include exotic accelerators (Intel Knights Landing, etc.)
 \end{frame}
 
 % _____________________________________________________________________________
@@ -1530,6 +1527,79 @@
 
 % _____________________________________________________________________________
 
+\begin{frame}{Subviews description}
+  \begin{itemize}
+    \item A subview is a ’slice’ of a View that behaves as a View
+      \pause
+      \begin{itemize}
+        \item Same syntax as a View - access data using (multi-)index entries
+          \pause
+        \item The ’slice’ and original View point to the same data - no extra
+          memory allocation or copying
+      \end{itemize}
+      \pause
+    \item Can be constructed on host or within a kernel (no allocation
+      of memory occurs)
+      \pause
+    \item Similar capability as provided by Matlab, Fortran, Python, etc.
+      using ’colon’ notation
+  \end{itemize}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}[fragile]{Usage demo}
+  Begin with a View:
+  \begin{minted}{C++}
+    Kokkos::View<double ***> v("v", N0, N1, N2);
+  \end{minted}
+  \pause
+  Say we want a 2-dimensional slice at an index i0 in the first
+  dimension - that is, in Matlab/Fortran/Python notation:
+  \begin{minted}{python}
+    slicei0 = v[i0, :, :]
+  \end{minted}
+  \pause
+  This can be accomplished in Kokkos using a subview as follows:
+  \begin{minted}{C++}
+    auto slice = Kokkos::subview(v, i0, Kokkos::ALL, Kokkos::ALL);
+  \end{minted}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}[fragile]{Syntax}
+  \begin{minted}{C++}
+    Kokkos::subview(view, arg0, ...);
+  \end{minted}
+  \begin{itemize}
+    \item \texttt{view}: First argument to the subview is the view of which a slice will be taken
+    \item \texttt{argN}: Slice info for rank $N$ - provide same number of arguments as rank
+    \item Options for \texttt{argN}:
+      \begin{description}[partial range]
+        \item[index] integral type single value
+        \item[partial range] \texttt{std::pair} or \texttt{Kokkos::pair} of integral types to provide sub-range of a rank’s range $[0, N)$
+        \item[full range] use \texttt{Kokkos::ALL} rather than providing the full range as a pair
+      \end{description}
+    \end{itemize}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}[fragile]{Subviews suggested usage}
+  \begin{itemize}
+    \item Use \texttt{auto} to determine the return type of a subview
+    \item A subview can help with encapsulation - e.g. can pass into functions expecting a lower-dimensional View
+    \item Use \texttt{Kokkos::pair} for partial ranges if subview created within a kernel
+    \item Avoid usage if very few data accesses will be made to the subview
+      \begin{itemize}
+        \item Construction of subview costs 20-40 operations
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+% _____________________________________________________________________________
+
 \section{Parallel loops}
 
 % _____________________________________________________________________________
@@ -1983,11 +2053,10 @@
         \end{column}
         \begin{column}{0.5\linewidth}
             \begin{itemize}
-                \item One scalar variable collects something for each iteration (sum, max, min, etc.)
-                \item Same constraints as before
+                \item One scalar variable collects something for each iteration (sum, max, min, etc.), to produce one final global result
                 \pause
-                \item Horrible truth: \mintinline{c++}{result} \highlight{depends} on iteration order!
-                \item This is due to rounding errors and unknown iteration order
+                \item Horrible truth: \mintinline{c++}{result} could \highlight{depend} on iteration order!
+                \item This is due to floating point arithmetic not being associative and to unknown iteration order
             \end{itemize}
         \end{column}
     \end{columns}
@@ -2007,7 +2076,7 @@
                     "my_reduction",
                     N,
                     KOKKOS_LAMBDA (
-                        int i,
+                        const int i,
                         double& local_result
                     ) {
                         local_result += i;
@@ -2019,10 +2088,11 @@
         \begin{column}{0.5\linewidth}
             \begin{itemize}
                 \item \mintinline{c++}{parallel_reduce} to perform reductions
-                \item Works like \texttt{parallel\_for} (e.g. execution space)
+                \item Works like \texttt{parallel\_for} (e.g. execution policy, etc.)
                 \item Reducer object (here \mintinline{c++}{Sum}), templated with the result type
                 \item Extra last argument to the kernel: a reference to the local result
-                \item Do not try to read this local result in the kernel (it's a partial result)
+                \item Update local result in a manner consistent with global result
+                \item Only update and not read this local result in the kernel (it's a partial result)
             \end{itemize}
         \end{column}
     \end{columns}
@@ -2032,7 +2102,7 @@
 
 \begin{frame}{About reducers}
     \begin{itemize}
-        \item Kokkos provides reducers for the most common operations:
+        \item Kokkos provides implementations of Reducer classes for the most common operations:
         \begin{itemize}
             \item \texttt{Kokkos::Sum}: Sum of the elements
             \item \texttt{Kokkos::Max}: and \texttt{Kokkos::Min}: Maximum and minimum element
@@ -2040,7 +2110,7 @@
             \item \texttt{Kokkos::MaxLoc} and \texttt{Kokkos::MinLoc}: Maximum and minimum element with their index
             \item More \doclink{\href{https://kokkos.org/kokkos-core-wiki/ProgrammingGuide/Custom-Reductions-Built-In-Reducers.html}{in the doc}}
         \end{itemize}
-        \item You can also create your own reducer, not covered in this talk
+        \item You can also create your own Reducer class, not covered in this talk
     \end{itemize}
 \end{frame}
 
@@ -2049,13 +2119,15 @@
 \begin{frame}[fragile]{Sum reduction example}
     \begin{minted}{C++}
         double result;
+        Kokkos::View<double*> A;
+        ...
         Kokkos::parallel_reduce(
             "my_reduction",
             N,
-            KOKKOS_LAMBDA (int i, double& local_result) {
+            KOKKOS_LAMBDA (const int i, double& local_result) {
                 local_result += A(i);
             },
-            result // shortcut for sum
+            result // Only in the case of Sum, no need of the Reducer object
         );
     \end{minted}
 \end{frame}
@@ -2065,11 +2137,14 @@
 \begin{frame}[fragile]{Max reduction example}
     \begin{minted}{C++}
         double max_value;
+        Kokkos::View<double*> A;
+        ...
         Kokkos::parallel_reduce(
             "my_reduction",
             N,
-            KOKKOS_LAMBDA (int i, double& local_max_value) {
+            KOKKOS_LAMBDA (const int i, double& local_max_value) {
                 local_max_value = Kokkos::max(A(i), local_max_value);
+                // local reduction consistent with the Reducer object
             },
             Kokkos::Max<double>(max_value)
         );
@@ -2081,27 +2156,60 @@
 
     \pause
 
-    \structure{Beware:} \texttt{Kokkos::max} is not the same as \texttt{Kokkos::Max<double>}!
+    \structure{Beware:} \texttt{Kokkos::max} is a mathematical operator, \texttt{Kokkos::Max<double>} defines a Reducer object
 \end{frame}
 
 % _____________________________________________________________________________
 
 \begin{frame}[fragile]{Min and index reduction example}
-    \begin{minted}{C++}
-        // Use a structure containing val and loc variables
-        using minloc_type = Kokkos::MinLoc<double, int>::value_type;
+    \begin{columns}
+        \begin{column}{0.55\linewidth}
+            \begin{minted}[fontsize=\scriptsize]{C++}
+                    using minloc_type =
+                        Kokkos::MinLoc<double, int>::value_type;
 
-        minloc_type minloc;
+                    minloc_type minloc;
+                    Kokkos::parallel_reduce(
+                        "min_loc_reduction",
+                        N,
+                        KOKKOS_LAMBDA (
+                            int i,
+                            minloc_type& local_minloc_value
+                        ) {
+                            if (A(i) < local_minloc_value.val) {
+                                local_minloc_value.val = A(i);
+                                local_minloc_value.loc = i;
+                            }
+                        },
+                        Kokkos::MinLoc<double, int>(minloc)
+                    );
+                \end{minted}
+        \end{column}
+        \begin{column}{0.45\linewidth}
+            \begin{itemize}
+                \item Pay attention to the type of the intermediate and the global results
+                \item Here, \texttt{Kokkos::MinLoc<double, int>::value\_type}: contains the value and the location
+                \item In general, the type can be obtained as \texttt{value\_type} of the Reducer object
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+% _____________________________________________________________________________
+
+\begin{frame}[fragile]{Combining multiple reductions}
+    \begin{itemize}
+        \item Multiple Reducer objects can be specified in the same \texttt{parallel\_reduce}
+    \end{itemize}
+    \begin{minted}{C++}
+        double sum_val,  min_val;
+
         Kokkos::parallel_reduce(
-            "MinLocReduce",
-            N,
-            KOKKOS_LAMBDA (int i, minloc_type& local_minloc_value) {
-                if (A(i) < local_minloc_value.val) {
-                    local_minloc_value.val = A(i);
-                    local_minloc_value.loc = i;
-                }
+            "SumMinReduce", N,
+            KOKKOS_LAMBDA (const int i, double& local_sum, double& local_min) {
+                local_sum += A(i);
+                local_min = Kokkos::min(A(i), local_min);
             },
-            Kokkos::MinLoc<double, int>(minloc)
+            sum_val, Kokkos::Min<double>(min_val)
         );
     \end{minted}
 \end{frame}
@@ -2129,6 +2237,161 @@
         \end{column}
     \end{columns}
 \end{exerciseframe}
+
+% _____________________________________________________________________________
+
+\section{Function annotation}
+
+% _____________________________________________________________________________
+
+\begin{frame}[fragile]{Why do we need \texttt{KOKKOS\_LAMBDA}?}
+  \begin{columns}
+    \begin{column}{0.4\linewidth}
+      \begin{minted}{C++}
+        Kokkos::parallel_for(
+            "my_loop", N,
+            [=] (int i) {
+                A(i) = B(i) + C(i) * D(i);
+            }
+        );
+      \end{minted}
+    \end{column}
+    \begin{column}{0.6\linewidth}
+      \begin{itemize}
+        \item Let's create a \texttt{parallel\_for} without \texttt{KOKKOS\_LAMBDA}
+        \item This code works when compiled with a CPU backend
+        \pause
+        \item But fails when compiled on CUDA backend with a cryptic error message:
+        \begin{minted}[fontsize=\scriptsize]{text}
+            error: The closure type for a lambda ("lambda [](int)->void") cannot be used in the template argument type of a __global__ function template instantiation, unless the lambda is defined within a __device__ or __global__ function
+          \end{minted}
+      \end{itemize}
+    \end{column}
+  \end{columns}
+
+  \pause
+  \structure{Question:} Why do we need to use \texttt{KOKKOS\_LAMBDA} inside parallel constructs rather than the standard C++ lambda syntax?
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}[fragile]{Function annotations}
+  \begin{columns}
+    \begin{column}{0.47\linewidth}
+      \begin{minted}{C++}
+        __device__
+        void device_function(){}
+
+        __host__
+        void host_function() {}
+
+        __host__ __device__
+        void host_device_function() {}
+
+        auto lambda =
+          __host__ __device__ [] () {};
+      \end{minted}
+    \end{column}
+    \begin{column}{0.55\linewidth}
+      \begin{itemize}
+        \item GPU backends need special annotation to know which code will be run on the host and which code will run on the device
+        \item Lambdas also need to be annotated
+        \item Function annotated with both \texttt{\_\_host\_\_} and \texttt{\_\_device\_\_} will be callable from the host and the device
+        \item \texttt{\_\_host\_\_} is implicit if no annotation is given
+        \item Neither \texttt{\_\_host\_\_} nor \texttt{\_\_device\_\_} are known by CPU backends, and will produce compilation errors
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}[fragile]{Annotated functions calls}
+  Calling a function with the wrong annotation will generate errors and warnings:
+  \begin{center}
+    \begin{tblr}[theme=kokkostable]{colspec=llll}
+      \diagbox[linecolor=white,linewidth=2pt]{Caller}{Calling}& \texttt{\_\_host\_\_}  & \texttt{\_\_device\_\_} & both\\
+      \texttt{\_\_host\_\_} & Ok & Error & Ok \\
+      \texttt{\_\_device\_\_} & Error & Ok & Ok \\
+      both & Warning & Error & Ok \\
+    \end{tblr}
+  \end{center}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}[fragile]{Kokkos annotation macros}
+  \begin{columns}
+    \begin{column}{0.45\linewidth}
+      \begin{minted}{C++}
+        KOKKOS_FUNCTION
+        void device_function(){}
+
+        KOKKOS_FUNCTION
+        void host_function() {}
+
+        KOKKOS_FUNCTION
+        void host_device_function() {}
+
+        auto lambda =
+          KOKKOS_LAMBDA () {};
+      \end{minted}
+    \end{column}
+    \begin{column}{0.55\linewidth}
+      \begin{itemize}
+        \item \texttt{KOKKOS\_FUNCTION} and \texttt{KOKKOS\_LAMBDA} will have the following annotations:
+          \begin{itemize}
+            \item \texttt{\_\_host\_\_ \_\_device\_\_} when compiling for a GPU backend
+            \item Nothing when compiling for a CPU backend
+          \end{itemize}
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}[fragile]{Annotated functions calls (with Kokkos macros)}
+  \begin{center}
+    \begin{tblr}[theme=kokkostable]{colspec=llll}
+      \diagbox[linecolor=white,linewidth=2pt]{Caller}{Calling}& No macro  & \texttt{KOKKOS\_FUNCTION} & \texttt{KOKKOS\_LAMBDA} \\
+      No macro & Ok & Ok & Ok \\
+      \texttt{KOKKOS\_FUNCTION} & Error & Ok & Ok \\
+      \texttt{KOKKOS\_LAMBDA} & Error & Ok & Ok \\
+    \end{tblr}
+  \end{center}
+\end{frame}
+
+\begin{frame}[fragile]{Use of annotated functions in Kokkos}
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            \begin{minted}{C++}
+                KOKKOS_FUNCTION
+                int function(int i) {
+                    // ...
+                }
+
+                void compute() {
+                    Kokkos::parallel_for(
+                        "compute",
+                        N,
+                        KOKKOS_LAMBDA (int i) {
+                            int a = function(i);
+                            // ...
+                        }
+                    );
+                }
+            \end{minted}
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            \begin{itemize}
+                \item You already know where to use \texttt{KOKKOS\_LAMBDA}
+                \pause
+                \item \texttt{KOKKOS\_FUNCTION} can be used to create free functions called in a lambda
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
 
 % _____________________________________________________________________________
 

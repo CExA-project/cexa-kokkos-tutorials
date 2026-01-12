@@ -9,15 +9,16 @@ This course is intended for beginners and intermediate users who are not expert 
 This course is part of the [CExA project](https://cexa-project.github.io/).
 
 <p align="center">
-    <img src="./images/kokkos.png" alt="Kokkos" width="100"/>
-    <img src="./images/cexa_logo.png" alt="CExA" width="100"/>
+    <img src="./images/kokkos.png" alt="Kokkos" height="100"/>
+    <img src="./images/cexa_logo.png" alt="CExA" height="100"/>
 </p>
 
 ## Content
 
 ### Courses
 
-- [Course 1: Introduction to Kokkos](courses/01_beginners/README.md)
+- [Course 1: Beginners course](courses/01_beginners/README.md)
+- [Course 1: Intermediate course](courses/02_intermediate/README.md)
 
 > [!NOTE]
 > You can get the slides from the [releases](https://github.com/CExA-project/cexa-kokkos-tutorials/releases) page.
@@ -29,6 +30,7 @@ This course is part of the [CExA project](https://cexa-project.github.io/).
 - [Exercise 3: Mirror view and deep copy](exercises/03_deep_copy/README.md)
 - [Exercise 4: Parallel Loop](exercises/04_parallel_loop/README.md)
 - [Exercise 5: Parallel Reduce](exercises/05_parallel_reduce/README.md)
+- [Exercise 10: Debugging and profiling](exercises/10_profiling/README.md)
 
 ### Projects
 
