@@ -368,18 +368,18 @@
 \section{Algorithms API in Kokkos}
 
 \begin{frame}[fragile]{Acknowledgment}
-Francesco Rizzi, Implementing the C++ std algorithms library in 
+Francesco Rizzi, \emph{Implementing the C++ std algorithms library in
 Kokkos: an overview of the main challenges, API differences and
-some implementation details, Kokkos cafe @ CEA, Feb. 2024. 
+some implementation details}, Café Kokkos @ CEA, Feb. 2024.
 \end{frame}
 
 \begin{frame}[fragile]{Inspired by STL Algorithms in C++}
   \begin{itemize}
     \item Free functions that operate on a range of elements:
-      sorting, searching, counting, transforming etc 
+      sorting, searching, counting, transforming etc
     \item Goal: Ready to use and reliable
       \begin{itemize}
-        \item Internally use \texttt{Kokkos::parallel\_\{for, reduce, scan\}} 
+        \item Internally use \texttt{Kokkos::parallel\_\{for, reduce, scan\}}
       \end{itemize}
     \item Higher abstraction in user code: Function call with a range of elements, operations etc
     \item Mostly in \texttt{Kokkos::Experimental} namespace
@@ -393,19 +393,21 @@ some implementation details, Kokkos cafe @ CEA, Feb. 2024.
 
 \begin{frame}[fragile]{Currently available functions}
   \SetTblrInner{rowsep=0pt}
-  \begin{tblr}[theme=kokkostable]{ll}
-    Algorithm Family & Functions \\
-    \texttt{Sorting and related}    & \texttt{sort, sort\_by\_key, is\_sorted, is\_sorted\_until} \\
-    \texttt{Minimum/Maximum}    & \texttt{min\_element, max\_element, minmax\_element} \\
-    \texttt{Modifying Sequence}    & \texttt{copy, move, fill, transform, remove, replace, \\ reverse, rotate, unique, ...} \\
-    \texttt{Non-modifying Sequence}    & \texttt{count, equal, all\_of, any\_of, find, \\ for\_each, search, ...} \\
-    \texttt{Numeric}    & \texttt{adjacent\_difference, reduce, exclusive\_scan, \\ inclusive\_scan, ...} \\
-    \texttt{Partitioning}    & \texttt{is\_partitioned, partition\_point, partition\_copy} \\
-    \texttt{Iterators}    & \texttt{begin, cbegin, end, cend, distance, iter\_swap} \\ 
-    \texttt{Random}    & \texttt{Random\_XorShift64\_Pool, ...} \\
+  \begin{tblr}[theme=kokkostable]{lX}
+    Algorithm family & Functions \\
+    Sorting and related & \texttt{sort}, \texttt{sort\_by\_key}, \texttt{is\_sorted}, \texttt{is\_sorted\_until} \\
+    Minimum/maximum  & \texttt{min\_element}, \texttt{max\_element}, \texttt{minmax\_element} \\
+    Modifying sequence    & \texttt{copy}, \texttt{move}, \texttt{fill}, \texttt{transform}, \texttt{remove}, \texttt{replace}, \texttt{reverse}, \texttt{rotate}, \texttt{unique}, ... \\
+    Non-modifying sequence & \texttt{count}, \texttt{equal}, \texttt{all\_of}, \texttt{any\_of}, \texttt{find}, \texttt{for\_each}, \texttt{search}, ... \\
+    Numeric & \texttt{adjacent\_difference}, \texttt{reduce}, \texttt{exclusive\_scan}, \texttt{inclusive\_scan}, ... \\
+    Partitioning & \texttt{is\_partitioned}, \texttt{partition\_point}, \texttt{partition\_copy} \\
+    Iterators & \texttt{begin}, \texttt{cbegin}, \texttt{end}, \texttt{cend}, \texttt{distance}, \texttt{iter\_swap} \\
+    Random & \texttt{Random\_XorShift64\_Pool}, ...
   \end{tblr}
 
-  \doclink{\url{https://kokkos.org/kokkos-core-wiki/API/algorithms-index.html}}
+  \vspace{0.5em}
+
+  More in the \doclink{\href{https://kokkos.org/kokkos-core-wiki/API/algorithms-index.html}{documentation}}
 \end{frame}
 
 \begin{frame}[fragile]{API usage}
@@ -422,12 +424,11 @@ some implementation details, Kokkos cafe @ CEA, Feb. 2024.
         \item View must be accessible from the execution space
         \item The Iterators are random access, obtained via \texttt{Kokkos::Experimental::\{begin, cbegin, end, cend\}}
       \end{itemize}
-    \item Additional function specific arguments 
+    \item Additional function specific arguments
   \end{itemize}
   \begin{minted}{C++}
-    auto ret_val = algo_name(label, space, view(s), extra_args);
-    ... 
-    auto ret_val = algo_name(label, space, iterator(s), extra_args);
+    auto ret_val_view = algo_name(label, space, view(s), extra_args);
+    auto ret_val_iterator = algo_name(label, space, iterator(s), extra_args);
   \end{minted}
 \end{frame}
 
@@ -454,7 +455,7 @@ some implementation details, Kokkos cafe @ CEA, Feb. 2024.
 
 \begin{frame}[fragile]{Example usage}
   \begin{minted}{C++}
-    struct MyStruct { // Custom type };
+    struct MyStruct { /* ... */ }; // Custom type
 
     struct MyStructLessThanComparator {
       bool operator()(const MyStruct& a, const MyStruct& b) const {
@@ -465,7 +466,7 @@ some implementation details, Kokkos cafe @ CEA, Feb. 2024.
     int main() {
       Kokkos::View<MyStruct*> my_view("my_view", N);
       ...
-      KE::min_element(def_exec_space, my_view, MyStructLessThanComparator());  
+      KE::min_element(def_exec_space, my_view, MyStructLessThanComparator());
       ...
     }
   \end{minted}
