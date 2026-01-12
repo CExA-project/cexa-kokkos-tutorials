@@ -928,7 +928,11 @@ some implementation details, Kokkos cafe @ CEA, Feb. 2024.
         \item Internally use \texttt{Kokkos::parallel\_\{for, reduce, scan\}} 
       \end{itemize}
     \item Higher abstraction in user code: Function call with a range of elements, operations etc
-    \item Mostly in \texttt{Kokkos::Experimental} namespace, except for Sort. Also, there is Random
+    \item Mostly in \texttt{Kokkos::Experimental} namespace
+      \begin{itemize}
+        \item Except for Sort
+        \item Also, there is Random in \texttt{Kokkos} namespace
+      \end{itemize}
   \end{itemize}
 
 \end{frame}
@@ -939,20 +943,15 @@ some implementation details, Kokkos cafe @ CEA, Feb. 2024.
     Algorithm Family & Functions \\
     \texttt{Sorting and related}    & \texttt{sort, sort\_by\_key, is\_sorted, is\_sorted\_until} \\
     \texttt{Minimum/Maximum}    & \texttt{min\_element, max\_element, minmax\_element} \\
-    \texttt{Modifying Sequence}    & \texttt{copy, copy\_if, copy\_n, copy\_backward, move, \\ move\_backward, fill, fill\_n, transform, generate, \\ generate\_n, remove, remove\_if, remove\_copy, \\ remove\_copy\_if, replace, replace\_if, \\ replace\_copy, replace\_copy\_if, swap\_ranges, \\ reverse, reverse\_copy, rotate, rotate\_copy, \\ shift\_left, shift\_right, unique, unique\_copy} \\
-    \texttt{Non-modifying Sequence}    & \texttt{adjacent\_find, count, count\_if, equal, all\_of, \\ any\_of, none\_of, find, find\_if, find\_if\_not, \\ find\_end, find\_first\_of, for\_each, for\_each\_n,\\ lexicographical\_compare, mismatch, search, \\ search\_n}
-  \end{tblr}
-\end{frame}
-
-\begin{frame}[fragile]{Currently available functions}
-  \SetTblrInner{rowsep=0pt}
-  \begin{tblr}[theme=kokkostable]{ll}
-    Algorithm Family & Functions \\
-    \texttt{Numeric}    & \texttt{adjacent\_difference, reduce, exclusive\_scan, \\ inclusive\_scan, transform\_reduce, \\ transform\_exclusive\_scan, transform\_inclusive\_scan} \\
+    \texttt{Modifying Sequence}    & \texttt{copy, move, fill, transform, remove, replace, \\ reverse, rotate, unique, ...} \\
+    \texttt{Non-modifying Sequence}    & \texttt{count, equal, all\_of, any\_of, find, \\ for\_each, search, ...} \\
+    \texttt{Numeric}    & \texttt{adjacent\_difference, reduce, exclusive\_scan, \\ inclusive\_scan, ...} \\
     \texttt{Partitioning}    & \texttt{is\_partitioned, partition\_point, partition\_copy} \\
-    \texttt{Random}    & Based on \texttt{Random\_XorShift64\_Pool} \\
-    \texttt{Iterators}    & \texttt{begin, cbegin, end, cend, distance, iter\_swap} 
+    \texttt{Iterators}    & \texttt{begin, cbegin, end, cend, distance, iter\_swap} \\ 
+    \texttt{Random}    & \texttt{Random\_XorShift64\_Pool, ...} \\
   \end{tblr}
+
+  \doclink{\url{https://kokkos.org/kokkos-core-wiki/API/algorithms-index.html}}
 \end{frame}
 
 \begin{frame}[fragile]{API usage}
@@ -961,11 +960,13 @@ some implementation details, Kokkos cafe @ CEA, Feb. 2024.
     \item Execution space instance
       \begin{itemize}
         \item Team Handle under Hierarchical parallelism also possible
+        \item Not elegant. For now, needed by algorithms in \texttt{Kokkos::Experimental} namespace
+        \item Deducing execution space from Views or Iterators is the better way
       \end{itemize}
-    \item A Rank-1 View or begin and end iterators
+    \item A Rank-1 View or begin and end Iterators
       \begin{itemize}
         \item View must be accessible from the execution space
-        \item The iterators are random access, obtained via \texttt{Kokkos::Experimental::\{begin, cbegin, end, cend\}}
+        \item The Iterators are random access, obtained via \texttt{Kokkos::Experimental::\{begin, cbegin, end, cend\}}
       \end{itemize}
     \item Additional function specific arguments 
   \end{itemize}
@@ -977,15 +978,43 @@ some implementation details, Kokkos cafe @ CEA, Feb. 2024.
 \end{frame}
 
 \begin{frame}[fragile]{Example usage}
-  \begin{center}
-      \includegraphics[width=0.9\textwidth]{replace_algorithm.png}
-  \end{center}
+  \begin{minted}{C++}
+    namespace KE = Kokkos::Experimental;
+
+    Kokkos::View<double*> my_view("my_view", 13);
+    // In general, View must be accessible from execution space
+    // Fill my_view
+
+    const double old_val{2}, new_val{34};
+    auto def_exec_space = Kokkos::DefaultExecutionSpace();
+
+    // act on the entire view
+    KE::replace(def_exec_space, my_view, old_val, new_val);
+
+    // act on just a subset
+    auto start_at = KE::begin(my_view) + 4;
+    auto end_at = KE::begin(my_view) + 10;
+    KE::replace(def_exec_space, start_at, end_at, old_val, new_val);
+  \end{minted}
 \end{frame}
 
 \begin{frame}[fragile]{Example usage}
-  \begin{center}
-      \includegraphics[width=0.9\textwidth]{min_element_algorithm.png}
-  \end{center}
+  \begin{minted}{C++}
+    struct MyStruct { // Custom type };
+
+    struct MyStructLessThanComparator {
+      bool operator()(const MyStruct& a, const MyStruct& b) const {
+        // custom comparator logic
+      }
+    };
+
+    int main() {
+      Kokkos::View<MyStruct*> my_view("my_view", N);
+      ...
+      KE::min_element(def_exec_space, my_view, MyStructLessThanComparator());  
+      ...
+    }
+  \end{minted}
 \end{frame}
 
 % _____________________________________________________________________________
