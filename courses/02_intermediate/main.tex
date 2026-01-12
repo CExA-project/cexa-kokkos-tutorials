@@ -523,8 +523,7 @@
     \begin{itemize}
         \item A \texttt{Kokkos::Experimental::simd} type wrapping platform specific vectors
         \item A corresponding \texttt{Kokkos::Experimental::simd\_mask} type
-        \item Operators for doing basic operations on these types (arithmetic, bitwise, shift, comparison, ...)
-        \item No need to remember complicated intrinsics names
+        \item Operators for doing basic operations on these types (arithmetic, bitwise, shift, comparison, ...), which allows for more readable code
           \begin{minted}{C++}
               Kokkos::Experimental::simd<int> a, b, c;
               a *= (a + b) & (c << 2);
@@ -532,6 +531,9 @@
         \item Auxiliary functions (load, store, etc)
         \item Math functions working on SIMD types
     \end{itemize}
+    \begin{block}{Compiling Kokkos for vectorization}
+        In order to enable vectorization, you should specify a CPU architecture flag with cmake, or use \texttt{-DKokkos\_ARCH\_NATIVE=ON} to optimize for the CPU you are compiling on
+    \end{block}
 \end{frame}
 
 \begin{frame}[fragile]{Kokkos SIMD}
