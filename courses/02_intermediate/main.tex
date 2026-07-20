@@ -139,228 +139,231 @@
 \section{Atomics}
 
 \begin{frame}[fragile]{Race condition}
-  Porting a code creating a histogram:
-  \begin{columns}
-    \begin{column}{0.5\linewidth}
-      \begin{minted}{C++}
-        double histo[5] = {0};
-
-        for (int i=0; i < N; i++) {
-          histo[i%5] += i;
-        }
-      \end{minted}
-    \end{column}
-    \pause
-    \begin{column}{0.5\linewidth}
-      \begin{minted}{C++}
-        Kokkos::View<double*> histo(5);
-
-        Kokkos::parallel_for(
-          N,
-          KOKKOS_LAMBDA(int i) {
-            histo(i%5) += i;
-          });
-      \end{minted}
-    \end{column}
-  \end{columns}
-\end{frame}
-
-\begin{frame}[fragile]{Race condition}
+    Porting a code creating a histogram:
     \begin{columns}
         \begin{column}{0.5\linewidth}
-            Even simple instructions like increment are decomposed into several smaller assembly instructions:
             \begin{minted}{C++}
-              histo(i%5) += i;
+                double histo[5] = {};
+
+                for (int i=0; i < N; i++) {
+                    histo[i % 5] += i;
+                }
             \end{minted}
         \end{column}
+        \pause
         \begin{column}{0.5\linewidth}
-          \SetTblrInner{rowsep=0pt}
-          \begin{tblr}{colspec={cccc},rowspec={Q[lightmain]Q[white]Q[thread1]Q[thread1]Q[thread1]Q[white]Q[thread6]Q[thread6]Q[thread6]Q[white]}}
-            \textbf{Thread 1} & \textbf{Thread 6} &  & \textbf{res} \\
-            & & & 0 \\
-            read value & & ← & 0 \\
-            add 1 & &  & 0 \\
-            write value & & → & 1 \\
-            & & & 1 \\
-            & read value & ← & 1 \\
-            & add 6 &  & 1 \\
-            & write value & → & 7 \\
-            & & & 7 \\
-          \end{tblr}
+            \begin{minted}{C++}
+                Kokkos::View<double*> histo(5);
+
+                Kokkos::parallel_for(
+                N,
+                KOKKOS_LAMBDA(int i) {
+                    histo(i % 5) += i;
+                });
+            \end{minted}
         \end{column}
     \end{columns}
 \end{frame}
 
 \begin{frame}[fragile]{Race condition}
     \begin{columns}
-        \begin{column}{0.5\linewidth}
+        \begin{column}{0.55\linewidth}
+            Even simple instructions like increment are decomposed into several smaller assembly instructions:
+            \begin{minted}{C++}
+                histo(i % 5) += i;
+            \end{minted}
+        \end{column}
+        \begin{column}{0.45\linewidth}
+            \SetTblrInner{rowsep=0pt}
+            \begin{tblr}{colspec={cccc},rowspec={Q[lightmain]Q[white]Q[thread1]Q[thread1]Q[thread1]Q[white]Q[thread6]Q[thread6]Q[thread6]Q[white]}}
+                Thread 1 & Thread 6 &  & Result \\
+                & & & 0 \\
+                read value & & $\leftarrow$ & 0 \\
+                add 1 & &  & 0 \\
+                write value & & $\rightarrow$ & 1 \\
+                & & & 1 \\
+                & read value & $\leftarrow$ & 1 \\
+                & add 6 &  & 1 \\
+                & write value & $\rightarrow$ & 7 \\
+                & & & 7 \\
+            \end{tblr}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Race condition}
+    \begin{columns}
+        \begin{column}{0.55\linewidth}
             Execution between threads is independent. There is no guarantee over the order of instructions:
             \begin{minted}{C++}
-              histo(i%5) += i;
+                histo(i % 5) += i;
             \end{minted}
 
             When several threads are accessing the same data, it will generate \highlight{race conditions}.
         \end{column}
-        \begin{column}{0.5\linewidth}
-          \SetTblrInner{rowsep=0pt}
-          \begin{tblr}{colspec={cccc},rowspec={Q[lightmain]Q[white]Q[thread1]Q[thread6]Q[thread1]Q[thread1]Q[white]Q[thread6]Q[thread6]Q[white]}}
-            \textbf{Thread 1} & \textbf{Thread 6} &  & \textbf{res} \\
-             & & & 0 \\
-             read value & & ← & 0 \\
-             & read value & ← & 0 \\
-             add 1 & & & 0 \\
-             write value & & → & 1 \\
-             & & & 1 \\
-             & add 6 & & 1 \\
-             & write value & → & 6 \\
-             & & & 6 \\
-          \end{tblr}
+        \begin{column}{0.45\linewidth}\\
+            \SetTblrInner{rowsep=0pt}
+            \begin{tblr}{colspec={cccc},rowspec={Q[lightmain]Q[white]Q[thread1]Q[thread6]Q[thread1]Q[thread1]Q[white]Q[thread6]Q[thread6]Q[white]}}
+                Thread 1 & Thread 6 &  & Result \\
+                & & & 0 \\
+                read value & & $\leftarrow$ & 0 \\
+                & read value & $\leftarrow$ & 0 \\
+                add 1 & & & 0 \\
+                write value & & $\rightarrow$ & 1 \\
+                & & & 1 \\
+                & add 6 & & 1 \\
+                & write value & $\rightarrow$ & 6 \\
+                & & & 6 \\
+            \end{tblr}
         \end{column}
     \end{columns}
 \end{frame}
 
 \begin{frame}[fragile]{Atomic operation}
-  Replacing the addition with its atomic counterpart solves the problem:
-  \begin{columns}
-    \begin{column}{0.40\linewidth}
-      \begin{minted}{C++}
-        Kokkos::parallel_for(
-          N,
-          KOKKOS_LAMBDA(int i) {
-            histo(i%5) += i;
-          });
-      \end{minted}
-    \end{column}
-    \begin{column}{0.56\linewidth}
-      \begin{minted}{C++}
-        Kokkos::parallel_for(
-          N,
-          KOKKOS_LAMBDA(int i) {
-            Kokkos::atomic_add(&histo(i%5), i);
-          });
-      \end{minted}
-    \end{column}
-  \end{columns}
-  \structure{Note:} \texttt{atomic\_add} takes a pointer and not a
-  reference as first argument, as the instruction needs to have an access to
-  the actual memory address of the modified variable.
+    Replacing the addition with its atomic counterpart solves the problem:
+    \begin{columns}
+        \begin{column}{0.40\linewidth}
+            \begin{minted}{C++}
+                Kokkos::parallel_for(
+                    N,
+                    KOKKOS_LAMBDA(int i) {
+                        histo(i % 5) += i;
+                    }
+                );
+            \end{minted}
+        \end{column}
+        \begin{column}{0.56\linewidth}
+            \begin{minted}{C++}
+                Kokkos::parallel_for(
+                    N,
+                    KOKKOS_LAMBDA(int i) {
+                        Kokkos::atomic_add(&histo(i % 5), i);
+                    }
+                );
+            \end{minted}
+        \end{column}
+    \end{columns}
+    \structure{Note:} \texttt{atomic\_add} takes a pointer and not a
+    reference as first argument, as the instruction needs to have an access to
+    the actual memory address of the modified variable.
 \end{frame}
 
 \begin{frame}[fragile]{Atomic operation}
     \begin{columns}
         \begin{column}{0.55\linewidth}
-          \texttt{atomic\_add} executes the write, read and add in a single atomic step,
-          guarantying the absence of race conditions during the operation:
+            \texttt{atomic\_add} executes the write, read and add in a single atomic step,
+            guarantying the absence of race conditions during the operation:
             \begin{minted}{C++}
-              Kokkos::atomic_add(&histo(i%5), i);
+                Kokkos::atomic_add(&histo(i % 5), i);
             \end{minted}
         \end{column}
-        \begin{column}{0.5\linewidth}
-          \noindent Either:
+        \begin{column}{0.45\linewidth}
+            \noindent Either:
 
-          \vspace{0.5em}
-          \SetTblrInner{rowsep=0pt}
-          \begin{tblr}{colspec={cccc},rowspec={Q[lightmain]Q[white]Q[thread1]Q[thread6]}}
-            \textbf{Thread 1} & \textbf{Thread 6} &  & \textbf{res} \\
-            & & & 0 \\
-            atomic add & & ←→ & 1 \\
-            & atomic add & ←→ & 7 \\
-            &  &  & 7 \\
-          \end{tblr}
-          \pause
-          \vspace{0.5em}
+            \vspace{0.5em}
+            \SetTblrInner{rowsep=0pt}
+            \begin{tblr}{colspec={cccc},rowspec={Q[lightmain]Q[white]Q[thread1]Q[thread6]}}
+                Thread 1 & Thread 6 &  & Result \\
+                & & & 0 \\
+                atomic add & & $\leftrightarrow$ & 1 \\
+                & atomic add & $\leftrightarrow$ & 7 \\
+                &  &  & 7 \\
+            \end{tblr}
+            \pause
+            \vspace{0.5em}
 
-          \noindent Or:
+            \noindent Or:
 
-          \vspace{0.5em}
-          \SetTblrInner{rowsep=0pt}
-          \begin{tblr}{colspec={cccc},rowspec={Q[lightmain]Q[white]Q[thread6]Q[thread1]}}
-            \textbf{Thread 1} & \textbf{Thread 6} &  & \textbf{res} \\
-            & & & 0 \\
-            & atomic add & ←→ & 6 \\
-            atomic add & & ←→ & 7 \\
-            &  &  & 7 \\
-          \end{tblr}
+            \vspace{0.5em}
+            \SetTblrInner{rowsep=0pt}
+            \begin{tblr}{colspec={cccc},rowspec={Q[lightmain]Q[white]Q[thread6]Q[thread1]}}
+                Thread 1 & Thread 6 &  & Result \\
+                & & & 0 \\
+                & atomic add & $\leftrightarrow$ & 6 \\
+                atomic add & & $\leftrightarrow$ & 7 \\
+                &  &  & 7 \\
+            \end{tblr}
         \end{column}
     \end{columns}
 \end{frame}
 
 \begin{frame}[fragile]{Operations}
-  \begin{columns}
-    \begin{column}{0.35\linewidth}
-      Other common operations are available with the format \texttt{Kokkos::atomic\_[op]}:
-    \end{column}
-    \begin{column}{0.75\linewidth}
-      \SetTblrInner{rowsep=0pt}
-      \begin{tblr}[theme=kokkostable]{ll}
-        Operation & Replaces \\
-        \texttt{Kokkos::atomic\_add(\&x, y)}    & \texttt{x += y} \\
-        \texttt{Kokkos::atomic\_sub(\&x, y)}    & \texttt{x -= y} \\
-        \texttt{Kokkos::atomic\_mul(\&x, y)}    & \texttt{x *= y} \\
-        \texttt{Kokkos::atomic\_div(\&x, y)}    & \texttt{x /= y} \\
-        \texttt{Kokkos::atomic\_and(\&x, y)}    & \texttt{x \&= y} \\
-        \texttt{Kokkos::atomic\_or(\&x, y)}     & \texttt{x |= y} \\
-        \texttt{Kokkos::atomic\_xor(\&x, y)}    & \texttt{x \^{}= y} \\
-        \texttt{Kokkos::atomic\_max(\&x, y)}    & \texttt{x = std::max(x, y)} \\
-        \texttt{Kokkos::atomic\_min(\&x, y)}    & \texttt{x = std::min(x, y)} \\
-        \texttt{Kokkos::atomic\_store(\&x, y)}  & \texttt{x = y} \\
-        ... & ... \\
-      \end{tblr}
-    \end{column}
-  \end{columns}
+    \begin{columns}
+        \begin{column}{0.35\linewidth}
+            Other common operations are available with the format \texttt{Kokkos::atomic\_[op]}:
+        \end{column}
+        \begin{column}{0.75\linewidth}
+            \SetTblrInner{rowsep=0pt}
+            \begin{tblr}[theme=kokkostable]{ll}
+                Operation & Replaces \\
+                \texttt{Kokkos::atomic\_add(\&x, y)}    & \texttt{x += y} \\
+                \texttt{Kokkos::atomic\_sub(\&x, y)}    & \texttt{x -= y} \\
+                \texttt{Kokkos::atomic\_mul(\&x, y)}    & \texttt{x *= y} \\
+                \texttt{Kokkos::atomic\_div(\&x, y)}    & \texttt{x /= y} \\
+                \texttt{Kokkos::atomic\_and(\&x, y)}    & \texttt{x \&= y} \\
+                \texttt{Kokkos::atomic\_or(\&x, y)}     & \texttt{x |= y} \\
+                \texttt{Kokkos::atomic\_xor(\&x, y)}    & \texttt{x \^{}= y} \\
+                \texttt{Kokkos::atomic\_max(\&x, y)}    & \texttt{x = std::max(x, y)} \\
+                \texttt{Kokkos::atomic\_min(\&x, y)}    & \texttt{x = std::min(x, y)} \\
+                \texttt{Kokkos::atomic\_store(\&x, y)}  & \texttt{x = y} \\
+                ... & ... \\
+            \end{tblr}
+        \end{column}
+    \end{columns}
 \end{frame}
 
 \begin{frame}[fragile]{Atomic Memory Trait}
-  \begin{columns}
-    \begin{column}{0.40\linewidth}
-      \begin{itemize}
-        \item If you need to access a View exclusively through atomic operations, you
-          can also create an alias with the \texttt{Atomic} memory trait
-        \item It guarantees that any operation done through the alias are done atomically
-      \end{itemize}
-    \end{column}
-    \begin{column}{0.6\linewidth}
-      \begin{minted}{C++}
-        Kokkos::View<double*> histo(5);
+    \begin{columns}
+        \begin{column}{0.40\linewidth}
+            \begin{itemize}
+                \item If you need to access a View exclusively through atomic operations, you
+                can also create an alias with the \texttt{Atomic} memory trait
+                \item It guarantees that any operation done through the alias are done atomically
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.6\linewidth}
+            \begin{minted}{C++}
+                Kokkos::View<double*> histo(5);
 
-        Kokkos::View<
-            double*,
-            Kokkos::MemoryTraits<Kokkos::Atomic>
-        > histo_atomic = histo;
+                Kokkos::View<
+                    double*,
+                    Kokkos::MemoryTraits<Kokkos::Atomic>
+                > histo_atomic = histo;
 
-        Kokkos::parallel_for(
-          N,
-          KOKKOS_LAMBDA(int i) {
-            histo_atomic(i%5) += i;
-          });
-      \end{minted}
-    \end{column}
-  \end{columns}
-  \structure{Note:} It is preferable to give an explicit name to the alias because it will be the only way to know that the operations performed on it are atomics.
+                Kokkos::parallel_for(
+                    N,
+                    KOKKOS_LAMBDA(int i) {
+                        histo_atomic(i % 5) += i;
+                    }
+                );
+            \end{minted}
+        \end{column}
+    \end{columns}
+    \structure{Note:} It is preferable to give an explicit name to the alias because it will be the only way to know that the operations performed on it are atomics.
 \end{frame}
 
 \begin{frame}[fragile]{Performances}
-  \begin{columns}
-    \begin{column}{0.45\linewidth}
-    Atomics can have a huge impact on performance:
-    \begin{itemize}
-      \item The instruction itself is slower than the one it replaces
-      \item They may generate extra synchronisation points
-      \item They bypass and invalidate cache lines
-    \end{itemize}
-    \end{column}
-    \begin{column}{0.55\linewidth}
-      \begin{block}{Remarks}
-        \begin{itemize}
-          \item Atomics should be used with care and only when strictly
-            necessary
-          \item Algorithm can sometime be changed when porting from CPU to GPU
-            in order to remove the need for atomics (colouring, replacing in
-            place algorithm with out of place algorithm, etc.)
-        \end{itemize}
-      \end{block}
-    \end{column}
-  \end{columns}
+    \begin{columns}
+        \begin{column}{0.45\linewidth}
+            Atomics can have a huge impact on performance:
+            \begin{itemize}
+                \item The instruction itself is slower than the one it replaces
+                \item They may generate extra synchronisation points
+                \item They bypass and invalidate cache lines
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.55\linewidth}
+            \begin{block}{Remarks}
+                \begin{itemize}
+                    \item Atomics should be used with care and only when strictly
+                    necessary
+                    \item Algorithm can sometime be changed when porting from CPU to GPU
+                    in order to remove the need for atomics (coloring, replacing in
+                    place algorithm with out of place algorithm, etc.)
+                \end{itemize}
+            \end{block}
+        \end{column}
+    \end{columns}
 \end{frame}
 
 % _____________________________________________________________________________
@@ -368,108 +371,109 @@
 \section{Algorithms API in Kokkos}
 
 \begin{frame}[fragile]{Acknowledgment}
-Francesco Rizzi, \emph{Implementing the C++ std algorithms library in
-Kokkos: an overview of the main challenges, API differences and
-some implementation details}, Café Kokkos @ CEA, Feb. 2024.
+    Francesco Rizzi, \emph{Implementing the C++ std algorithms library in
+    Kokkos: an overview of the main challenges, API differences and
+    some implementation details}, Café Kokkos @ CEA, Feb. 2024.
 \end{frame}
 
 \begin{frame}[fragile]{Inspired by STL Algorithms in C++}
-  \begin{itemize}
-    \item Free functions that operate on a range of elements:
-      sorting, searching, counting, transforming etc
-    \item Goal: Ready to use and reliable
-      \begin{itemize}
-        \item Internally use \texttt{Kokkos::parallel\_\{for, reduce, scan\}}
-      \end{itemize}
-    \item Higher abstraction in user code: Function call with a range of elements, operations etc
-    \item Mostly in \texttt{Kokkos::Experimental} namespace
-      \begin{itemize}
-        \item Except for Sort
-        \item Also, there is Random in \texttt{Kokkos} namespace
-      \end{itemize}
-  \end{itemize}
-
+    \begin{itemize}
+        \item Free functions that operate on a range of elements:
+        sorting, searching, counting, transforming etc
+        \item Goal: Ready to use and reliable
+        \begin{itemize}
+            \item Internally use \texttt{Kokkos::parallel\_\{for, reduce, scan\}}
+        \end{itemize}
+        \item Higher abstraction in user code: Function call with a range of elements, operations etc
+        \item Mostly in \texttt{Kokkos::Experimental} namespace
+        \begin{itemize}
+            \item Except for Sort
+            \item Also, there is Random in \texttt{Kokkos} namespace
+        \end{itemize}
+    \end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]{Currently available functions}
-  \SetTblrInner{rowsep=0pt}
-  \begin{tblr}[theme=kokkostable]{lX}
-    Algorithm family & Functions \\
-    Sorting and related & \texttt{sort}, \texttt{sort\_by\_key}, \texttt{is\_sorted}, \texttt{is\_sorted\_until} \\
-    Minimum/maximum  & \texttt{min\_element}, \texttt{max\_element}, \texttt{minmax\_element} \\
-    Modifying sequence    & \texttt{copy}, \texttt{move}, \texttt{fill}, \texttt{transform}, \texttt{remove}, \texttt{replace}, \texttt{reverse}, \texttt{rotate}, \texttt{unique}, ... \\
-    Non-modifying sequence & \texttt{count}, \texttt{equal}, \texttt{all\_of}, \texttt{any\_of}, \texttt{find}, \texttt{for\_each}, \texttt{search}, ... \\
-    Numeric & \texttt{adjacent\_difference}, \texttt{reduce}, \texttt{exclusive\_scan}, \texttt{inclusive\_scan}, ... \\
-    Partitioning & \texttt{is\_partitioned}, \texttt{partition\_point}, \texttt{partition\_copy} \\
-    Iterators & \texttt{begin}, \texttt{cbegin}, \texttt{end}, \texttt{cend}, \texttt{distance}, \texttt{iter\_swap} \\
-    Random & \texttt{Random\_XorShift64\_Pool}, ...
-  \end{tblr}
+    \SetTblrInner{rowsep=0pt}
+    \begin{tblr}[theme=kokkostable]{lX}
+        Algorithm family & Functions \\
+        Sorting and related & \texttt{sort}, \texttt{sort\_by\_key}, \texttt{is\_sorted}, \texttt{is\_sorted\_until} \\
+        Minimum/maximum  & \texttt{min\_element}, \texttt{max\_element}, \texttt{minmax\_element} \\
+        Modifying sequence    & \texttt{copy}, \texttt{move}, \texttt{fill}, \texttt{transform}, \texttt{remove}, \texttt{replace}, \texttt{reverse}, \texttt{rotate}, \texttt{unique}, ... \\
+        Non-modifying sequence & \texttt{count}, \texttt{equal}, \texttt{all\_of}, \texttt{any\_of}, \texttt{find}, \texttt{for\_each}, \texttt{search}, ... \\
+        Numeric & \texttt{adjacent\_difference}, \texttt{reduce}, \texttt{exclusive\_scan}, \texttt{inclusive\_scan}, ... \\
+        Partitioning & \texttt{is\_partitioned}, \texttt{partition\_point}, \texttt{partition\_copy} \\
+        Iterators & \texttt{begin}, \texttt{cbegin}, \texttt{end}, \texttt{cend}, \texttt{distance}, \texttt{iter\_swap} \\
+        Random & \texttt{Random\_XorShift64\_Pool}, ...
+    \end{tblr}
 
-  \vspace{0.5em}
+    \vspace{0.5em}
 
-  More in the \doclink{\href{https://kokkos.org/kokkos-core-wiki/API/algorithms-index.html}{documentation}}
+    More in the \doclink{\href{https://kokkos.org/kokkos-core-wiki/API/algorithms-index.html}{documentation}}
 \end{frame}
 
 \begin{frame}[fragile]{API usage}
-  Pass to the function:
-  \begin{itemize}
-    \item Execution space instance
-      \begin{itemize}
-        \item Team Handle under Hierarchical parallelism also possible
-        \item Not elegant. For now, needed by algorithms in \texttt{Kokkos::Experimental} namespace
-        \item Deducing execution space from Views or Iterators is the better way
-      \end{itemize}
-    \item A Rank-1 View or begin and end Iterators
-      \begin{itemize}
-        \item View must be accessible from the execution space
-        \item The Iterators are random access, obtained via \texttt{Kokkos::Experimental::\{begin, cbegin, end, cend\}}
-      \end{itemize}
-    \item Additional function specific arguments
-  \end{itemize}
-  \begin{minted}{C++}
-    auto ret_val_view = algo_name(label, space, view(s), extra_args);
-    auto ret_val_iterator = algo_name(label, space, iterator(s), extra_args);
-  \end{minted}
+    Pass to the function:
+    \begin{itemize}
+        \item Execution space instance
+        \begin{itemize}
+            \item Team Handle under Hierarchical parallelism also possible
+            \item Not elegant. For now, needed by algorithms in \texttt{Kokkos::Experimental} namespace
+            \item Deducing execution space from Views or Iterators is the better way
+        \end{itemize}
+        \item A Rank-1 View or begin and end Iterators
+        \begin{itemize}
+            \item View must be accessible from the execution space
+            \item The Iterators are random access, obtained via \texttt{Kokkos::Experimental::\{begin, cbegin, end, cend\}}
+        \end{itemize}
+        \item Additional function specific arguments
+    \end{itemize}
+    \begin{minted}{C++}
+        auto ret_val_view = algo_name(label, space, view(s), extra_args);
+        auto ret_val_iterator =
+            algo_name(label, space, iterator(s), extra_args);
+    \end{minted}
 \end{frame}
 
 \begin{frame}[fragile]{Example usage}
-  \begin{minted}{C++}
-    namespace KE = Kokkos::Experimental;
+    \begin{minted}{C++}
+        namespace KE = Kokkos::Experimental;
 
-    Kokkos::View<double*> my_view("my_view", 13);
-    // In general, View must be accessible from execution space
-    // Fill my_view
+        Kokkos::View<double*> my_view("my_view", 13);
+        // In general, View must be accessible from execution space
+        // Fill my_view
 
-    const double old_val{2}, new_val{34};
-    auto def_exec_space = Kokkos::DefaultExecutionSpace();
+        const double old_val{2}, new_val{34};
+        auto def_exec_space = Kokkos::DefaultExecutionSpace();
 
-    // act on the entire view
-    KE::replace(def_exec_space, my_view, old_val, new_val);
+        // act on the entire view
+        KE::replace(def_exec_space, my_view, old_val, new_val);
 
-    // act on just a subset
-    auto start_at = KE::begin(my_view) + 4;
-    auto end_at = KE::begin(my_view) + 10;
-    KE::replace(def_exec_space, start_at, end_at, old_val, new_val);
-  \end{minted}
+        // act on just a subset
+        auto start_at = KE::begin(my_view) + 4;
+        auto end_at = KE::begin(my_view) + 10;
+        KE::replace(def_exec_space, start_at, end_at, old_val, new_val);
+    \end{minted}
 \end{frame}
 
 \begin{frame}[fragile]{Example usage}
-  \begin{minted}{C++}
-    struct MyStruct { /* ... */ }; // Custom type
+    \begin{minted}{C++}
+        struct MyStruct { /* ... */ }; // Custom type
 
-    struct MyStructLessThanComparator {
-      bool operator()(const MyStruct& a, const MyStruct& b) const {
-        // custom comparator logic
-      }
-    };
+        struct MyStructLessThanComparator {
+            bool operator()(const MyStruct& a, const MyStruct& b) const {
+                // custom comparator logic
+            }
+        };
 
-    int main() {
-      Kokkos::View<MyStruct*> my_view("my_view", N);
-      ...
-      KE::min_element(def_exec_space, my_view, MyStructLessThanComparator());
-      ...
-    }
-  \end{minted}
+        int main() {
+            Kokkos::View<MyStruct*> my_view("my_view", N);
+            // ...
+            KE::min_element(
+                def_exec_space, my_view, MyStructLessThanComparator());
+            // ...
+        }
+    \end{minted}
 \end{frame}
 
 % _____________________________________________________________________________
@@ -484,8 +488,8 @@ some implementation details}, Café Kokkos @ CEA, Feb. 2024.
         \begin{column}{0.5\linewidth}
             \begin{itemize}
                 \item Modern CPUs have instructions capable of doing multiple computations at the same time (e.g. do 4 distinct additions with a single instruction)
-                \item SIMD: \highlight{S}ingle \highlight{I}nstruction \highlight{M}ultiple \highlight{D}ata
-                \item Can get up to $N$ times faster with SIMD units of size $N$
+                \item SIMD: \structure{S}ingle \structure{I}nstruction \structure{M}ultiple \structure{D}ata
+                \item Can get up to $M$ times faster with SIMD units of size $M$
             \end{itemize}
         \end{column}
     \end{columns}
@@ -562,7 +566,8 @@ some implementation details}, Café Kokkos @ CEA, Feb. 2024.
                 Kokkos::parallel_for("loop", m,
                     KOKKOS_LAMBDA(int i) {
                         a(i) = a(i + k) * c;
-                    });
+                    }
+                );
             \end{minted}
         \end{column}
     \end{columns}
@@ -649,28 +654,29 @@ some implementation details}, Café Kokkos @ CEA, Feb. 2024.
     \begin{itemize}
         \item Kokkos SIMD supports the following datatypes: \texttt{float}, \texttt{double}, \texttt{int32\_t}, \texttt{uint32\_t}, \texttt{int64\_t}, \texttt{uint64\_t}
         \item \texttt{Kokkos::Experimental::simd<T>} will default to the vector type with the largest size for type \texttt{T}
-        \item You can also explicitly request a size: \texttt{Kokkos::Experimental::simd<float, N>}\\
-              Be careful, different platforms have different vector sizes
-        \item If needed, you can also directly specify an abi: \texttt{Kokkos::Experimental::basic\_simd<float, abi>}
+        \item You can also explicitly request a size: \texttt{Kokkos::Experimental::simd<float, N>}
+
+        Be careful, different platforms have different vector sizes
+        \item If needed, you can also directly specify an ABI: \texttt{Kokkos::Experimental::basic\_simd<float, abi>}
     \end{itemize}
-    \begin{block}{SIMD abi}
-        In Kokkos SIMD, abis are types used to identify an instruction set and a vector length. Using an abi directly is \highlight{not portable}.
+    \begin{block}{SIMD ABI}
+        In Kokkos SIMD, ABIs are types used to identify an instruction set and a vector length. Using an ABI directly is \structure{not portable}.
     \end{block}
 \end{frame}
 
-\begin{frame}[fragile]{Supported SIMD abis}
+\begin{frame}[fragile]{Supported SIMD ABIs}
     \begin{center}
         \begin{tblr}[theme=kokkostable]{lll}
-        ISA & abi & Compatible datatypes \\
-        - & \texttt{scalar} & all \\
-        \SetCell[r=2]{c} AVX2 & \texttt{avx2\_fixed\_size<4>} & all \\
-                              & \texttt{avx2\_fixed\_size<8>} & \texttt{float}, \texttt{int32\_t}, \texttt{uint32\_t} \\
-        \SetCell[r=2]{c, bg=white} AVX512 & \texttt{avx512\_fixed\_size<8>} & all \\
-                                & \texttt{avx512\_fixed\_size<16>} & \texttt{float}, \texttt{int32\_t}, \texttt{uint32\_t} \\
-        \SetCell[r=2]{c} NEON & \texttt{neon\_fixed\_size<2>} & all \\
-                              & \texttt{neon\_fixed\_size<4>} & \texttt{float}, \texttt{int32\_t}, \texttt{uint32\_t} \\
-        \SetCell[r=2]{c, bg=white} SVE & \texttt{sve\_fixed\_size<N/2>} & \texttt{double}, \texttt{int64\_t}, \texttt{uint64\_t}, \texttt{int32\_t} \\
-                             & \texttt{sve\_fixed\_size<N>} & \texttt{float}, \texttt{int32\_t}, \texttt{uint32\_t} \\
+            ISA & ABI & Compatible datatypes \\
+            - & \texttt{scalar} & all \\
+            \SetCell[r=2]{c} AVX2 & \texttt{avx2\_fixed\_size<4>} & all \\
+                                  & \texttt{avx2\_fixed\_size<8>} & \texttt{float}, \texttt{int32\_t}, \texttt{uint32\_t} \\
+            \SetCell[r=2]{c, bg=white} AVX512 & \texttt{avx512\_fixed\_size<8>} & all \\
+                                    & \texttt{avx512\_fixed\_size<16>} & \texttt{float}, \texttt{int32\_t}, \texttt{uint32\_t} \\
+            \SetCell[r=2]{c} NEON & \texttt{neon\_fixed\_size<2>} & all \\
+                                  & \texttt{neon\_fixed\_size<4>} & \texttt{float}, \texttt{int32\_t}, \texttt{uint32\_t} \\
+            \SetCell[r=2]{c, bg=white} SVE & \texttt{sve\_fixed\_size<N/2>} & \texttt{double}, \texttt{int64\_t}, \texttt{uint64\_t}, \texttt{int32\_t} \\
+                                 & \texttt{sve\_fixed\_size<N>} & \texttt{float}, \texttt{int32\_t}, \texttt{uint32\_t} \\
         \end{tblr}
     \end{center}
 \end{frame}
@@ -688,14 +694,16 @@ some implementation details}, Café Kokkos @ CEA, Feb. 2024.
                 Kokkos::Experimental::simd<double> x(5.);
             \end{minted}
         \item Set each value individually
-            \vspace{-5pt}
+        \vspace{-5pt}
             \begin{minted}{C++}
-                Kokkos::Experimental::simd<double> x(KOKKOS_LAMBDA(int idx) { return idx * idx; });
+                Kokkos::Experimental::simd<double>
+                    x([](int idx) { return idx * idx; });
             \end{minted}
         \item Load the values from memory
-            \vspace{-5pt}
+        \vspace{-5pt}
             \begin{minted}{C++}
-                Kokkos::Experimental::simd<double> x(ptr, Kokkos::Experimental::simd_flag_default);
+                Kokkos::Experimental::simd<double>
+                    x(ptr, Kokkos::Experimental::simd_flag_default);
             \end{minted}
     \end{itemize}
 \end{frame}
@@ -708,9 +716,9 @@ some implementation details}, Café Kokkos @ CEA, Feb. 2024.
                 // load input data
                 // do some computation
                 // store the result
-            });
+            }
+        );
     \end{minted}
-
 \end{frame}
 
 \begin{frame}[fragile]{Vectorizing a loop}
@@ -721,8 +729,10 @@ some implementation details}, Café Kokkos @ CEA, Feb. 2024.
                 // load input data into vectors
                 // do some computation
                 // store the result vector in memory
-            });
+            }
+        );
     \end{minted}
+
     \structure{Note:} We iterate from 0 to \texttt{N / VEC\_WIDTH}, since we compute \texttt{VEC\_WIDTH} elements per iteration.
 \end{frame}
 
@@ -742,20 +752,20 @@ some implementation details}, Café Kokkos @ CEA, Feb. 2024.
 \begin{frame}[fragile]{Example: adding two views}
     The vectorized version is as follows
     \begin{minted}{C++}
-        Kokkos::View<double*> A("A", N);
-        Kokkos::View<double*> B("B", N);
-        using simd_type = Kokkos::Experimental::simd<double>;
+        namespace KE = Kokkos::Experimental;
+        using simd_type = KE::simd<double>;
         Kokkos::parallel_for("add", N / simd_type::size(),
             KOKKOS_LAMBDA(int i) {
                 std::size_t idx = i * simd_type::size();
                 // load the values
-                simd_type a(&A(idx), Kokkos::Experimental::simd_flag_default);
-                simd_type b(&B(idx), Kokkos::Experimental::simd_flag_default);
+                simd_type a(&A(idx), KE::simd_flag_default);
+                simd_type b(&B(idx), KE::simd_flag_default);
                 // perform the computation
                 a += b;
                 // store the result
-                Kokkos::Experimental::simd_unchecked_store(a, &A(idx), Kokkos::Experimental::simd_flag_default);
-            });
+                KE::simd_unchecked_store(a, &A(idx), KE::simd_flag_default);
+            }
+        );
     \end{minted}
 \end{frame}
 
@@ -763,15 +773,16 @@ some implementation details}, Café Kokkos @ CEA, Feb. 2024.
     \begin{itemize}
         \item Loops are not always simple
         \item Complex control flows can be problematic
-            \begin{minted}{C++}
-                Kokkos::parallel_for("loop", N,
-                    KOKKOS_LAMBDA(int i) {
-                        if (A(i) > 0)
-                            A(i) = Kokkos::sqrt(A(i));
-                        else
-                            A(i) = 0;
-                    });
-            \end{minted}
+        \begin{minted}{C++}
+            Kokkos::parallel_for("loop", N,
+                KOKKOS_LAMBDA(int i) {
+                    if (A(i) > 0)
+                        A(i) = Kokkos::sqrt(A(i));
+                    else
+                        A(i) = 0;
+                }
+            );
+        \end{minted}
         \item We cannot use an \texttt{if} branch with a vector
             \begin{itemize}
                 \item Consider the following vector \texttt{\{-1, 2, 0, 1\}}
@@ -785,18 +796,18 @@ some implementation details}, Café Kokkos @ CEA, Feb. 2024.
     \begin{itemize}
         \item \texttt{Kokkos::Experimental::simd\_mask} acts like a vector of booleans
         \item Initialized like a \texttt{simd} vector
-            \begin{minted}{C++}
-                using namespace Kokkos::Experimental;
-                simd_mask<double> m;       // uninitialized
-                simd_mask<double> m(true); // every value is true
-                // true on even indices, false on odd ones
-                simd_mask<double> m(KOKKOS_LAMBDA(int i) { return i % 2 == 0; });
-            \end{minted}
+        \begin{minted}{C++}
+            namespace KE = Kokkos::Experimental;
+            KE::simd_mask<double> m;       // uninitialized
+            KE::simd_mask<double> m(true); // every value is true
+            // true on even indices, false on odd ones
+            KE::simd_mask<double> m([](int i) { return i % 2 == 0; });
+        \end{minted}
         \item This is the type returned by comparison operations
-            \begin{minted}{C++}
-                Kokkos::Experimental::simd<double> x;
-                Kokkos::Experimental::simd_mask<double> m = x > 0.;
-            \end{minted}
+        \begin{minted}{C++}
+            KE::simd<double> x;
+            KE::simd_mask<double> m = x > 0.;
+        \end{minted}
         \item They can be used in the \texttt{condition} function, to conditionally load/store elements of a vector or in reduction operations
     \end{itemize}
 \end{frame}
@@ -811,22 +822,24 @@ some implementation details}, Café Kokkos @ CEA, Feb. 2024.
                     A(i) = Kokkos::sqrt(A(i));
                 else
                     A(i) = 0.;
-            }):
+            }
+        );
     \end{minted}
 \end{frame}
 
 \begin{frame}[fragile]{Example: vectorizing with conditionals}
     Here is the vectorized version
     \begin{minted}{C++}
-        Kokkos::View<double*> A("A", N);
-        using simd_type = Kokkos::Experimental::simd<double>;
+        namespace KE = Kokkos::Experimental;
+        using simd_type = KE::simd<double>;
         Kokkos::parallel_for("sqrt", N / simd_type::size(),
             KOKKOS_LAMBDA(int i) {
                 std::size_t idx = i * simd_type::size();
-                simd_type a(&A(idx), Kokkos::Experimental::simd_flag_default);
-                a = condition(a > 0, Kokkos::sqrt(a), 0.);
-                Kokkos::Experimental::simd_unchecked_store(a, &A(idx), Kokkos::Experimental::simd_flag_default);
-            });
+                simd_type a(&A(idx), KE::simd_flag_default);
+                a = KE::condition(a > 0, Kokkos::sqrt(a), 0.);
+                KE::simd_unchecked_store(a, &A(idx), KE::simd_flag_default);
+            }
+        );
     \end{minted}
     \vspace{-10pt}
     \begin{itemize}
@@ -837,9 +850,9 @@ some implementation details}, Café Kokkos @ CEA, Feb. 2024.
 
 \begin{frame}[fragile]{What about GPUs?}
     \begin{itemize}
-    \item We said previously that we cannot use vectorized CPU instructions on GPU
-    \item But we just used SIMD inside a \texttt{Kokkos::parallel\_for}
-    \item To keep portability, we default to a scalar type when using a GPU backend
+        \item We said previously that we cannot use vectorized CPU instructions on GPU
+        \item But we just used SIMD inside a \texttt{Kokkos::parallel\_for}
+        \item To keep portability, we default to a scalar type when using a GPU backend
     \end{itemize}
 
     \begin{center}
@@ -848,10 +861,36 @@ some implementation details}, Café Kokkos @ CEA, Feb. 2024.
             SIMD alias & CPU backend & GPU backend \\
             \texttt{simd<T>} & \texttt{basic\_simd<T, abi<...>>} & \texttt{basic\_simd<T, scalar>} \\
             \texttt{simd<T, N>} & \texttt{basic\_simd<T, abi<N>>} & \texttt{basic\_simd<T, scalar>} \\
-            \texttt{basic\_simd<T, abi<N>>} & \texttt{basic\_simd<T, abi<N>>} & \texttt{basic\_simd<T, abi<N>>} \\
         \end{tblr}
     \end{center}
 \end{frame}
+
+\begin{frame}[fragile]{How to use SIMD on host parallel code with a GPU backend?}
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            \begin{minted}{C++}
+                Kokkos::parallel_for(
+                    "host loop",
+                    Kokkos::RangePolicy<
+                        Kokkos::DefaultHostExecutionSpace
+                    >(0, N),
+                    KOKKOS_LAMBDA (int i) {
+                        KE::simd<
+                            double,
+                            Kokkos::avx_2_fixed<2>
+                        > value;
+                    }
+                );
+            \end{minted}
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            \begin{itemize}
+                \item We saw that the ABI is scalar when using any GPU backend
+                \item But what if we want to use SIMD in a host parallel loop of the code?
+                \item For now, you have to resort to the low-level ABI (\highlight{beware}, this is not portable!)
+            \end{itemize}
+        \end{column}
+    \end{columns}
 
 % _____________________________________________________________________________
 
@@ -869,8 +908,9 @@ some implementation details}, Café Kokkos @ CEA, Feb. 2024.
                 \item Developers need real tools
                 \begin{itemize}
                     \item \texttt{gdb} (CPU)
-                    \item \texttt{compute-sanitizer} (Cuda)
-                    \item \texttt{cuda-gdb} (Cuda)
+                    \item \texttt{compute-sanitizer} (CUDA)
+                    \item \texttt{cuda-gdb} (CUDA)
+                    \item \texttt{rocgdb} (HIP)
                     \item ...
                 \end{itemize}
                 \item What can Kokkos do?
@@ -889,7 +929,8 @@ some implementation details}, Café Kokkos @ CEA, Feb. 2024.
                 \begin{itemize}
                     \item \texttt{perf} (CPU)
                     \item VTune (CPU)
-                    \item NSight Systems/Compute (Cuda)
+                    \item Nsight Systems/Compute (CUDA)
+                    \item \texttt{rocprofv2} (HIP)
                     \item ...
                 \end{itemize}
                 \item What can Kokkos do?
@@ -1008,10 +1049,37 @@ some implementation details}, Café Kokkos @ CEA, Feb. 2024.
                 \item Namespace \texttt{Kokkos::Profiling}
                 \item Set regions of interest in your code
                 \begin{itemize}
-                    \item \texttt{pushRegion} to create a region
-                    \item \texttt{popRegion} to remove a region
+                    \item \texttt{pushRegion} to start a region
+                    \item \texttt{popRegion} to end a region
                 \end{itemize}
                 \item Regions can be nested
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Profiling regions (RAII)}
+    \begin{columns}
+        \begin{column}{0.65\linewidth}
+            \begin{minted}{C++}
+                #include <Kokkos_Profiling_ScopedRegion.hpp>
+
+                // ...
+
+                {
+                    Kokkos::Profiling::ScopedRegion
+                        region("computation");
+
+                    // ...
+                }
+            \end{minted}
+        \end{column}
+        \begin{column}{0.35\linewidth}
+            \begin{itemize}
+                \item Provided by Kokkos
+                \item Specific header needed
+                \item \texttt{ScopedRegion} is a class that ensures that \texttt{pushRegion} and \texttt{popRegion} are called correctly
+                \item Set region for a scope
             \end{itemize}
         \end{column}
     \end{columns}
@@ -1024,17 +1092,24 @@ some implementation details}, Café Kokkos @ CEA, Feb. 2024.
         \item \doclink{\url{https://github.com/kokkos/kokkos-tools/wiki}}
         \item Has a different version number than Kokkos
         \item Should be built and installed somewhere (this requires to install Kokkos too)
-        \item Use one tool at a time with the environment variable \texttt{KOKKOS\_TOOLS\_LIBS}
+        \item You should update the environment variables \texttt{PATH} and \texttt{LD\_LIBRARY\_PATH}
+        \item Use one tool at a time with either
+        \begin{itemize}
+            \item The environment variable \texttt{KOKKOS\_TOOLS\_LIBS}
 
-        Mind the \texttt{S}!
+            Mind the \texttt{S}!
+            \item The \texttt{--kokkos-tools-libs} argument of the program
+
+            Mind the \texttt{s}!
+        \end{itemize}
         \item Do not ship it within your program (this is a dev tool!)
     \end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]{Guided tour for a dummy code}
     \begin{columns}
-        \begin{column}{0.6\linewidth}
-           \begin{minted}[fontsize=\scriptsize]{C++}
+        \begin{column}{0.67\linewidth}
+            \begin{minted}{C++}
                 Kokkos::Profiling::pushRegion("computation");
 
                 Kokkos::View<int *> view("view", N);
@@ -1052,7 +1127,7 @@ some implementation details}, Café Kokkos @ CEA, Feb. 2024.
                 Kokkos::Profiling::popRegion();
             \end{minted}
         \end{column}
-        \begin{column}{0.4\linewidth}
+        \begin{column}{0.3\linewidth}
             \begin{itemize}
                 \item Very simple code
                 \item Let's try some tools on it
@@ -1064,10 +1139,9 @@ some implementation details}, Café Kokkos @ CEA, Feb. 2024.
 \begin{frame}[fragile]{Simple kernel logger for a basic debugging}
     \begin{columns}
         \begin{column}{0.6\linewidth}
-            \begin{minted}[breakafter=/]{sh}
-                export KOKKOS_TOOLS_LIBS=/absolute/path/to/libkp_kernel_logger.so
-
-                ./my_program
+            \begin{minted}[breakafter={=}]{sh}
+                ./my_program \
+                    --kokkos-tools-libs=libkp_kernel_logger.so
             \end{minted}
 
             \begin{minted}{text}
@@ -1077,8 +1151,7 @@ some implementation details}, Café Kokkos @ CEA, Feb. 2024.
         \begin{column}{0.4\linewidth}
             \begin{itemize}
                 \item Simple tool for a basic logging of your program's Kokkos-related activity
-                \item Export environment variable to use the tool
-                \item Run the program as usual
+                \item Run the program with the argument
                 \item Run for a few number of iterations if possible
                 \item When loaded, a tool always print something on screen
             \end{itemize}
@@ -1117,10 +1190,9 @@ some implementation details}, Café Kokkos @ CEA, Feb. 2024.
 \begin{frame}[fragile]{Simple kernel timer for a basic profiling}
     \begin{columns}
         \begin{column}{0.6\linewidth}
-            \begin{minted}[breakafter=/]{sh}
-                export KOKKOS_TOOLS_LIBS=/absolute/path/to/libkp_kernel_timer.so
-
-                ./my_program
+            \begin{minted}[breakafter={=}]{sh}
+                ./my_program \
+                    --kokkos-tools-libs=libkp_kernel_timer.so
             \end{minted}
 
             \usemintedstyle{vim}
@@ -1137,8 +1209,7 @@ some implementation details}, Café Kokkos @ CEA, Feb. 2024.
         \begin{column}{0.4\linewidth}
             \begin{itemize}
                 \item Simple tool for a basic timing analysis
-                \item Export environment variable to use the tool
-                \item Run the program as usual
+                \item Run the program with the argument
                 \item Analyze the generated data with the provided \texttt{kp\_reader} program
             \end{itemize}
         \end{column}
@@ -1147,7 +1218,7 @@ some implementation details}, Café Kokkos @ CEA, Feb. 2024.
 
 \begin{frame}[fragile]{Simple kernel timer output}
     \begin{minted}{text}
-         (Type)   Total Time, Call Count, Avg. Time per Call, %Total Time in Kernels, %Total Program Time
+        (Type)   Total Time, Call Count, Avg. Time per Call, %Total Time in Kernels, %Total Program Time
         -------------------------------------------------------------------------
         Regions:
         ...
@@ -1167,7 +1238,7 @@ some implementation details}, Café Kokkos @ CEA, Feb. 2024.
 
 \begin{frame}[fragile]{Simple kernel timer output (for summary)}
     \begin{minted}{text}
-         (Type)   Total Time, Call Count, Avg. Time per Call, %Total Time in Kernels, %Total Program Time
+        (Type)   Total Time, Call Count, Avg. Time per Call, %Total Time in Kernels, %Total Program Time
         -------------------------------------------------------------------------
         Summary:
 
@@ -1187,7 +1258,7 @@ some implementation details}, Café Kokkos @ CEA, Feb. 2024.
 
 \begin{frame}[fragile]{Simple kernel timer output (for regions)}
     \begin{minted}{text}
-         (Type)   Total Time, Call Count, Avg. Time per Call, %Total Time in Kernels, %Total Program Time
+        (Type)   Total Time, Call Count, Avg. Time per Call, %Total Time in Kernels, %Total Program Time
         -------------------------------------------------------------------------
 
         Regions:
@@ -1197,15 +1268,15 @@ some implementation details}, Café Kokkos @ CEA, Feb. 2024.
     \end{minted}
 
     \begin{itemize}
-    	\item Regions are named after what you set in \texttt{pushRegion}
+        \item Regions are named after what you set in \texttt{pushRegion}
         \item Descending order of cumulated duration
-    	\item One set of two lines per region
+        \item One set of two lines per region
     \end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]{Simple kernel timer output (for kernels)}
     \begin{minted}{text}
-         (Type)   Total Time, Call Count, Avg. Time per Call, %Total Time in Kernels, %Total Program Time
+        (Type)   Total Time, Call Count, Avg. Time per Call, %Total Time in Kernels, %Total Program Time
 
         -------------------------------------------------------------------------
         Kernels:
@@ -1217,10 +1288,10 @@ some implementation details}, Café Kokkos @ CEA, Feb. 2024.
     \end{minted}
 
     \begin{itemize}
-	    \item Kernels are named after what you set in parallel constructs (\texttt{parallel\_*})
+        \item Kernels are named after what you set in parallel constructs (\texttt{parallel\_*})
         \item Some internal kernels are visible: Views initialization
         \item Descending order of cumulated duration
-	    \item One set of two lines per kernel
+        \item One set of two lines per kernel
     \end{itemize}
 \end{frame}
 
@@ -1241,24 +1312,25 @@ some implementation details}, Café Kokkos @ CEA, Feb. 2024.
 \begin{frame}[fragile]{NVTX connector and Nsight Systems}
     \begin{columns}
         \begin{column}{0.6\linewidth}
-            \begin{minted}[breakafter=/]{sh}
-                export KOKKOS_TOOLS_LIBS=/absolute/path/to/libkp_nvtx_connector.so
-
+            \begin{minted}[breakafter={=}]{sh}
                 nsys profile \
                     -o report \
-                    ./my_program
-                nsys-ui report.nsys-rep
+                    ./my_program \
+                        --kokkos-tools-libs=libkp_nvtx_connector.so
             \end{minted}
 
             \begin{minted}{text}
                 KokkosP: NVTX Analyzer Connector (sequence is 0, version: 20240906)
             \end{minted}
+
+            \begin{minted}{sh}
+                nsys-ui report.nsys-rep
+            \end{minted}
         \end{column}
         \begin{column}{0.4\linewidth}
             \begin{itemize}
                 \item Analyze a program as a whole
-                \item Export environment variable to use the tool
-                \item Run the program through \texttt{nsys}
+                \item Run the program with the argument through \texttt{nsys}
                 \item Do not run your program for too long when profiling!
                 \item About 10 iterations is enough
                 \item Open the generated report
@@ -1315,27 +1387,28 @@ some implementation details}, Café Kokkos @ CEA, Feb. 2024.
 \begin{frame}[fragile]{NVTX connector and Nsight Compute}
     \begin{columns}
         \begin{column}{0.6\linewidth}
-            \begin{minted}[breakafter=/]{sh}
-                export KOKKOS_TOOLS_LIBS=/absolute/path/to/libkp_nvtx_connector.so
-
+            \begin{minted}[breakafter={=}]{sh}
                 ncu \
                     -o report \
                     --nvtx \
                     --nvtx-include "<NVTX region>/" \
                     --set detailed \
-                    ./my_program
-                ncu-ui report.ncu-rep
+                    ./my_program \
+                        --kokkos-tools-libs=libkp_nvtx_connector.so
             \end{minted}
 
             \begin{minted}{text}
                 KokkosP: NVTX Analyzer Connector (sequence is 0, version: 20240906)
             \end{minted}
+
+            \begin{minted}{sh}
+                ncu-ui report.ncu-rep
+            \end{minted}
         \end{column}
         \begin{column}{0.4\linewidth}
             \begin{itemize}
                 \item Kernel by kernel analysis
-                \item Export environment variable to use the tool
-                \item Run the program through \texttt{ncu}
+                \item Run the program with the argument through \texttt{ncu}
                 \item Use NVTX region to profile only certain kernels
                 \item Set of metrics to collect
                 \item The more the metrics, the slower the profiling
