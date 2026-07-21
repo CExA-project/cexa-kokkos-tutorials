@@ -27,14 +27,14 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
-     inkscape:zoom="0.89743796"
-     inkscape:cx="574.97011"
-     inkscape:cy="72.428405"
-     inkscape:window-width="1916"
-     inkscape:window-height="1125"
+     inkscape:zoom="1.7539341"
+     inkscape:cx="624.31081"
+     inkscape:cy="184.44251"
+     inkscape:window-width="1920"
+     inkscape:window-height="1011"
      inkscape:window-x="0"
-     inkscape:window-y="54"
-     inkscape:window-maximized="0"
+     inkscape:window-y="32"
+     inkscape:window-maximized="1"
      inkscape:current-layer="layer1"
      showgrid="false" />
   <defs
@@ -15157,14 +15157,14 @@
        style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect3548);display:inline;fill:none;fill-opacity:1;stroke:#000000;stroke-width:3.77953;stroke-dasharray:none;stroke-opacity:1"><tspan
          x="374.05957"
          y="329.80312"
-         id="tspan8005"><tspan
+         id="tspan92504"><tspan
            style="fill:#ffffff;stroke:none"
-           id="tspan8003">Kokkos compiled with </tspan></tspan><tspan
+           id="tspan92502">Kokkos compiled with </tspan></tspan><tspan
          x="410.7832"
          y="351.00314"
-         id="tspan8009"><tspan
+         id="tspan92508"><tspan
            style="fill:#ffffff;stroke:none"
-           id="tspan8007">GPU backend</tspan></tspan></text>
+           id="tspan92506">GPU backend</tspan></tspan></text>
     <rect
        style="fill:url(#linearGradient3551);stroke:#000000;stroke-width:0.1;stroke-dasharray:none;stroke-opacity:1"
        id="rect3550"
@@ -15660,26 +15660,26 @@
        y="0"><tspan
          x="-82.158203"
          y="341.28359"
-         id="tspan8011">Kokkos::View&lt;int*&gt; my_view(N);
+         id="tspan92510">Kokkos::View&lt;int*&gt; my_view(&quot;N&quot;, N);
 </tspan><tspan
          x="-82.158203"
          y="362.48361"
-         id="tspan8013">
+         id="tspan92512">
 </tspan><tspan
          x="-82.158203"
          y="383.68362"
-         id="tspan8015">for (int i = 0; i &lt; N ; i++) {
+         id="tspan92514">for (int i = 0; i &lt; N ; i++) {
 </tspan><tspan
          x="-82.158203"
          y="404.88363"
-         id="tspan8017">    my_view(i) = i;
+         id="tspan92516">    my_view(i) = i;
 </tspan><tspan
          x="-82.158203"
          y="426.08364"
-         id="tspan8019">}</tspan></text>
+         id="tspan92518">}</tspan></text>
     <path
        style="font-variation-settings:normal;opacity:1;fill:none;fill-opacity:1;stroke:#1300c9;stroke-width:0.8;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#ConcaveTriangle)"
-       d="m 109.62919,85.950216 c 24.35952,-1.064353 45.19671,-4.617209 55.00286,-20.749582"
+       d="M 120.70062,86.091418 C 145.04837,83.83506 154.8259,81.333007 164.63205,65.200634"
        id="path355"
        sodipodi:nodetypes="cc" />
     <path
@@ -15689,7 +15689,7 @@
        sodipodi:nodetypes="cc" />
     <path
        style="font-variation-settings:normal;opacity:1;fill:none;fill-opacity:1;stroke:#1300c9;stroke-width:0.8;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#ConcaveTriangle)"
-       d="M 109.62919,85.950216 C 133.98871,84.885863 97.517529,79.356856 93.819983,63.8832"
+       d="M 120.70062,86.091418 C 144.83416,75.612298 97.517529,79.356856 93.819983,63.8832"
        id="path356"
        sodipodi:nodetypes="cc" />
     <text

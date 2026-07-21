@@ -417,7 +417,7 @@
     \end{columns}
 \end{frame}
 
-\begin{frame}{Programming models }
+\begin{frame}{Programming models (qualitative)}
     \begin{center}
         \includegraphics[width=0.5\textwidth]{p3.png}
     \end{center}
@@ -586,7 +586,7 @@
                 \item Use the default compiler or specify it with \texttt{-DCMAKE\_CXX\_COMPILER=<command>}
                 \item Minimum supported version of the compilers detailed \href{https://kokkos.org/kokkos-core-wiki/get-started/requirements.html}{in the doc}
             \end{itemize}
-            \begin{minted}{bash}
+            \begin{minted}[fontsize=\scriptsize]{bash}
                 cmake \
                     -B ${build_dir} \
                     -DCMAKE_BUILD_TYPE=Release \
@@ -917,7 +917,7 @@
 
 % _____________________________________________________________________________
 
-\begin{frame}[fragile]{Start a Kokkos program (simpler)}
+\begin{frame}[fragile]{Start a Kokkos program (RAII)}
     \begin{columns}
         \begin{column}{0.6\linewidth}
             \begin{minted}{C++}
@@ -1893,9 +1893,11 @@
 % _____________________________________________________________________________
 
 \begin{frame}[fragile]{Loop policy shortcut}
-    \begin{columns}
+    \begin{columns}[T]
         \begin{column}{0.45\linewidth}
-            Shortcut version\strut
+            \begin{center}
+                \textbf{Shortcut version\strut}
+            \end{center}
 
             \begin{minted}{C++}
                 Kokkos::parallel_for(
@@ -1909,7 +1911,9 @@
         \end{column}
         \pause
         \begin{column}{0.55\linewidth}
-            Explicit version (same)\strut
+            \begin{center}
+                \textbf{Explicit version (same)\strut}
+            \end{center}
 
             \begin{minted}{C++}
                 Kokkos::parallel_for(
@@ -2136,7 +2140,7 @@
             \item \texttt{Kokkos::Max}: and \texttt{Kokkos::Min}: Maximum and minimum element
             \item \texttt{Kokkos::Prod}: Product of the elements
             \item \texttt{Kokkos::MaxLoc} and \texttt{Kokkos::MinLoc}: Maximum and minimum element with their index
-            \item More \href{https://kokkos.org/kokkos-core-wiki/ProgrammingGuide/Custom-Reductions-Built-In-Reducers.html}{in the doc}
+            \item More \doclink{\href{https://kokkos.org/kokkos-core-wiki/ProgrammingGuide/Custom-Reductions-Built-In-Reducers.html}{in the doc}}
         \end{itemize}
         \item You can also create your own Reducer class, not covered in this talk
     \end{itemize}
@@ -2301,7 +2305,6 @@
 
 % _____________________________________________________________________________
 
-end{frame}
 \begin{frame}[fragile]{Function annotations}
     \begin{columns}
         \begin{column}{0.47\linewidth}
@@ -2380,12 +2383,12 @@ end{frame}
 
 \begin{frame}[fragile]{Annotated functions calls (with Kokkos macros)}
     \begin{center}
-        \begin{table}{Effect of calling annotated functions}{l|lll}
-            \diagbox[linecolor=darkmain,linewidth=0.5mm]{Caller}{Calling}& No macro  & \texttt{KOKKOS\_FUNCTION} & \texttt{KOKKOS\_LAMBDA} \\\hline
+        \begin{tblr}[theme=kokkostable]{colspec=llll}
+            \diagbox[linecolor=white,linewidth=2pt]{Caller}{Calling}& No macro  & \texttt{KOKKOS\_FUNCTION} & \texttt{KOKKOS\_LAMBDA} \\
             No macro & Ok & Ok & Ok \\
             \texttt{KOKKOS\_FUNCTION} & Error & Ok & Ok \\
-            \texttt{KOKKOS\_LAMBDA} & Error & Ok & Ok
-        \end{table}
+            \texttt{KOKKOS\_LAMBDA} & Error & Ok & Ok \\
+        \end{tblr}
     \end{center}
 \end{frame}
 
@@ -2421,12 +2424,13 @@ end{frame}
 \end{frame}
 
 \begin{frame}[fragile]{From CUDA/HIP to Kokkos}
-    \begin{columns}
+    \begin{columns}[T]
         \begin{column}{0.55\linewidth}
             \begin{center}
                 \textbf{CUDA code}
             \end{center}
-            \begin{minted}{cuda}
+
+            \begin{minted}[fontsize=\scriptsize]{cuda}
                 auto lambda =
                     __host__ __device__ [] (int i) {
                         // ...
@@ -2448,7 +2452,8 @@ end{frame}
             \begin{center}
                 \textbf{Equivalent Kokkos code}
             \end{center}
-            \begin{minted}{C++}
+
+            \begin{minted}[fontsize=\scriptsize]{C++}
                 auto lambda =
                     KOKKOS_LAMBDA (int i) {
                         // ...

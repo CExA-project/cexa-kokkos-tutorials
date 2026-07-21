@@ -28,12 +28,12 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      inkscape:zoom="0.85047866"
-     inkscape:cx="148.15187"
-     inkscape:cy="332.75379"
-     inkscape:window-width="1916"
-     inkscape:window-height="1143"
+     inkscape:cx="109.35019"
+     inkscape:cy="334.51751"
+     inkscape:window-width="1920"
+     inkscape:window-height="1011"
      inkscape:window-x="0"
-     inkscape:window-y="36"
+     inkscape:window-y="32"
      inkscape:window-maximized="1"
      inkscape:current-layer="layer1"
      inkscape:pageshadow="0"
@@ -15162,14 +15162,14 @@
        style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect3548);display:inline;fill:none;fill-opacity:1;stroke:#000000;stroke-width:3.77953;stroke-dasharray:none;stroke-opacity:1"><tspan
          x="374.05957"
          y="329.80312"
-         id="tspan3826"><tspan
+         id="tspan87110"><tspan
            style="fill:#ffffff;stroke:none"
-           id="tspan3824">Kokkos compiled with </tspan></tspan><tspan
+           id="tspan87108">Kokkos compiled with </tspan></tspan><tspan
          x="410.7832"
          y="351.00314"
-         id="tspan3830"><tspan
+         id="tspan87114"><tspan
            style="fill:#ffffff;stroke:none"
-           id="tspan3828">GPU backend</tspan></tspan></text>
+           id="tspan87112">GPU backend</tspan></tspan></text>
     <rect
        style="fill:url(#linearGradient3551);stroke:#000000;stroke-width:0.1;stroke-dasharray:none;stroke-opacity:1"
        id="rect3550"
@@ -15667,38 +15667,38 @@
        ry="0.30000001" />
     <text
        xml:space="preserve"
-       transform="matrix(0.26458333,0,0,0.26458333,-23.220494,-10.584703)"
+       transform="matrix(0.26458333,0,0,0.26458333,-22.977296,-11.849721)"
        id="text4"
        style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:start;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect355);display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.88976;stroke-linecap:round"
        x="-36.362305"
        y="0"><tspan
          x="-82.158203"
          y="341.28359"
-         id="tspan3832">Kokkos::View&lt;int*&gt; device_view(N);
+         id="tspan87116">Kokkos::View&lt;int*&gt; device_view(&quot;N&quot;, N);
 </tspan><tspan
          x="-82.158203"
          y="362.48361"
-         id="tspan3834">
+         id="tspan87118">
 </tspan><tspan
          x="-82.158203"
          y="383.68362"
-         id="tspan3836">auto host_view =
+         id="tspan87120">auto host_view =
 </tspan><tspan
          x="-82.158203"
          y="404.88363"
-         id="tspan3838">    Kokkos::create_mirror_view(device_view);
+         id="tspan87122">    Kokkos::create_mirror_view(device_view);
 </tspan><tspan
          x="-82.158203"
          y="426.08364"
-         id="tspan3840">initialize(host_view);
+         id="tspan87124">initialize(host_view);
 </tspan><tspan
          x="-82.158203"
          y="447.28365"
-         id="tspan3842">
+         id="tspan87126">
 </tspan><tspan
          x="-82.158203"
          y="468.48367"
-         id="tspan3844">Kokkos::deep_copy(device_view, host_view);</tspan></text>
+         id="tspan87128">Kokkos::deep_copy(device_view, host_view);</tspan></text>
     <text
        xml:space="preserve"
        style="font-weight:300;font-size:2.82222px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.690999"
