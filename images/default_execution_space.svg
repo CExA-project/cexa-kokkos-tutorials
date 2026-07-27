@@ -27,9 +27,9 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
-     inkscape:zoom="0.44804298"
-     inkscape:cx="1066.8619"
-     inkscape:cy="478.74872"
+     inkscape:zoom="1.2672569"
+     inkscape:cx="559.47613"
+     inkscape:cy="232.39171"
      inkscape:window-width="1920"
      inkscape:window-height="1011"
      inkscape:window-x="311"
@@ -3694,16 +3694,16 @@
        style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect3548);display:inline;fill:none;fill-opacity:1;stroke:#000000;stroke-width:3.77953;stroke-dasharray:none;stroke-opacity:1"><tspan
          x="411.91016"
          y="329.80312"
-         id="tspan36788"><tspan
+         id="tspan26985"><tspan
            style="fill:#ffffff;stroke:none"
-           id="tspan36784">Kokkos compiled with C</tspan><tspan
+           id="tspan26981">Kokkos compiled with C</tspan><tspan
            style="fill:#ffffff;stroke:none"
-           id="tspan36786">PU </tspan></tspan><tspan
+           id="tspan26983">PU </tspan></tspan><tspan
          x="491.76367"
          y="351.00314"
-         id="tspan36792"><tspan
+         id="tspan26989"><tspan
            style="fill:#ffffff;stroke:none"
-           id="tspan36790">backend</tspan></tspan></text>
+           id="tspan26987">backend</tspan></tspan></text>
     <g
        id="g25659"
        transform="translate(0,1.3233713)">
@@ -6056,14 +6056,14 @@
        style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect8384);display:inline;fill:none;fill-opacity:1;stroke:#000000;stroke-width:3.77953;stroke-dasharray:none;stroke-opacity:1"><tspan
          x="411.60254"
          y="329.80312"
-         id="tspan36796"><tspan
+         id="tspan26993"><tspan
            style="fill:#ffffff;stroke:none"
-           id="tspan36794">Kokkos compiled with GPU </tspan></tspan><tspan
+           id="tspan26991">Kokkos compiled with GPU </tspan></tspan><tspan
          x="491.76367"
          y="351.00314"
-         id="tspan36800"><tspan
+         id="tspan26997"><tspan
            style="fill:#ffffff;stroke:none"
-           id="tspan36798">backend</tspan></tspan></text>
+           id="tspan26995">backend</tspan></tspan></text>
     <g
        id="g23942"
        transform="translate(0,0.86226838)">
@@ -48720,7 +48720,7 @@
        y="0"><tspan
          x="-82.158203"
          y="341.28359"
-         id="tspan36802">parallel_for(&quot;loop&quot;, RangePolicy&lt;DefaultHostExecutionSpace&gt;(0, N), ... );</tspan></text>
+         id="tspan26999">parallel_for(&quot;loop&quot;, RangePolicy&lt;DefaultHostExecutionSpace&gt;(0, N), ... );</tspan></text>
     <rect
        style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.999997;stroke-dasharray:none;stroke-opacity:1"
        id="rect136471"
@@ -48739,9 +48739,9 @@
        y="0"><tspan
          x="-82.158203"
          y="341.28359"
-         id="tspan36806">parallel_for(&quot;loop&quot;, RangePolicy&lt;<tspan
+         id="tspan27003">parallel_for(&quot;loop&quot;, RangePolicy&lt;<tspan
    style="fill:none"
-   id="tspan36804">Host</tspan>DefaultExecutionSpace&gt;(0, N), ... );</tspan></text>
+   id="tspan27001">Host</tspan>DefaultExecutionSpace&gt;(0, N), ... );</tspan></text>
     <rect
        style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.999997;stroke-dasharray:none;stroke-opacity:1"
        id="rect136481"
@@ -48760,9 +48760,9 @@
        y="0"><tspan
          x="-82.158203"
          y="341.28359"
-         id="tspan36810">parallel_for(&quot;loop&quot;, RangePolicy&lt;<tspan
+         id="tspan27007">parallel_for(&quot;loop&quot;, RangePolicy<tspan
    style="fill:none"
-   id="tspan36808">DefaultHostExecutionSpace</tspan>&gt;(0, N), ... );</tspan></text>
+   id="tspan27005">&lt;DefaultHostExecutionSpace&gt;</tspan>(0, N), ... );</tspan></text>
     <rect
        style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.999997;stroke-dasharray:none;stroke-opacity:1"
        id="rect136491"
@@ -48784,8 +48784,8 @@
        inkscape:export-ydpi="200"><tspan
          x="-82.158203"
          y="341.28359"
-         id="tspan36814">parallel_for(&quot;loop&quot;, <tspan
+         id="tspan27011">parallel_for(&quot;loop&quot;, <tspan
    style="fill:none"
-   id="tspan36812">RangePolicy&lt;DefaultHostExecutionSpace&gt;(0, )</tspan>N, ... );</tspan></text>
+   id="tspan27009">RangePolicy&lt;DefaultHostExecutionSpace&gt;(0, )</tspan>N, ... );</tspan></text>
   </g>
 </svg>

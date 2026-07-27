@@ -1918,7 +1918,7 @@
             \begin{minted}{C++}
                 Kokkos::parallel_for(
                     "my_loop",
-                    Kokkos::RangePolicy<>(0, N),
+                    Kokkos::RangePolicy(0, N),
                     KOKKOS_LAMBDA (int i) {
                         /* ... */
                     }
