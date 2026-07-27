@@ -971,9 +971,9 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      showgrid="false"
-     inkscape:zoom="1.8857623"
-     inkscape:cx="365.89977"
-     inkscape:cy="203.89632"
+     inkscape:zoom="0.94288115"
+     inkscape:cx="353.17283"
+     inkscape:cy="209.46436"
      inkscape:window-width="1920"
      inkscape:window-height="1011"
      inkscape:window-x="311"
@@ -1008,15 +1008,15 @@
     <text
        xml:space="preserve"
        transform="scale(1,-1)"
-       style="font-variant:normal;font-weight:normal;font-size:16px;font-family:Poppins;-inkscape-font-specification:Poppins-Regular;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+       style="font-variant:normal;font-weight:normal;font-size:15.987px;font-family:Poppins;-inkscape-font-specification:Poppins-Regular;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
        id="text2979"
        x="396.42273"
        y="-82.120003"><tspan
+         sodipodi:role="line"
          id="tspan2977"
-         style="font-size:16px;text-align:center;text-anchor:middle"
+         style="text-align:center;text-anchor:middle"
          x="396.42273"
-         y="-82.120003"
-         sodipodi:role="line">Kokkos Core</tspan></text>
+         y="-82.120003">Kokkos Core</tspan></text>
     <path
        d="m 452.693,148.876 v 0 c 0,1.02 0.255,2.012 0.765,2.891 0.511,0.879 1.248,1.587 2.126,2.098 0.879,0.51 1.871,0.793 2.892,0.793 l 58.932,-0.028 v 0 c 1.02,0 2.012,-0.255 2.891,-0.765 0.879,-0.511 1.588,-1.248 2.098,-2.126 0.51,-0.879 0.794,-1.871 0.794,-2.892 v 0 -23.045 0 c 0,-1.021 -0.256,-2.013 -0.766,-2.892 -0.51,-0.879 -1.247,-1.587 -2.126,-2.097 -0.879,-0.511 -1.871,-0.794 -2.891,-0.794 h -58.961 v 0 c -1.02,0 -2.012,0.255 -2.891,0.765 -0.879,0.51 -1.587,1.247 -2.098,2.126 -0.51,0.879 -0.793,1.871 -0.793,2.892 z"
        style="fill:#f3f3f3;fill-opacity:1;fill-rule:evenodd;stroke:none"
@@ -1030,15 +1030,14 @@
     <text
        xml:space="preserve"
        transform="scale(1,-1)"
-       style="font-variant:normal;font-weight:normal;font-size:12px;font-family:Poppins;-inkscape-font-specification:Poppins-Regular;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+       style="font-variant:normal;font-weight:normal;font-size:11.991px;font-family:Poppins;-inkscape-font-specification:Poppins-Regular;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
        id="text2991"
        x="460.37268"
        y="-134.44867"><tspan
          x="460.37268 467.19556 474.04242 481.22504 488.89926 494.99069 501.23801 508.91223"
          y="-134.44867"
          sodipodi:role="line"
-         id="tspan2989"
-         style="font-size:12px">PyKokkos</tspan></text>
+         id="tspan2989">PyKokkos</tspan></text>
     <path
        d="m 297.553,188.164 v 0 c 0,1.842 0.482,3.656 1.417,5.244 0.907,1.587 2.239,2.92 3.827,3.827 1.587,0.935 3.401,1.417 5.244,1.417 l 41.896,-0.028 v 0 c 1.843,0 3.657,-0.482 5.244,-1.418 1.588,-0.907 2.92,-2.239 3.827,-3.826 0.935,-1.588 1.417,-3.402 1.417,-5.245 v 0 -57.628 0 c 0,-1.842 -0.482,-3.657 -1.417,-5.244 -0.907,-1.587 -2.239,-2.92 -3.827,-3.827 -1.587,-0.935 -3.401,-1.417 -5.244,-1.417 h -41.924 v 0 c -1.843,0 -3.657,0.482 -5.244,1.417 -1.588,0.907 -2.92,2.24 -3.827,3.827 -0.936,1.587 -1.418,3.402 -1.418,5.244 z"
        style="fill:#f3f3f3;fill-opacity:1;fill-rule:evenodd;stroke:none"
@@ -1052,19 +1051,19 @@
     <text
        xml:space="preserve"
        transform="scale(1,-1)"
-       style="font-variant:normal;font-weight:normal;font-size:12px;font-family:Poppins;-inkscape-font-specification:Poppins-Regular;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+       style="font-variant:normal;font-weight:normal;font-size:13.011px;font-family:Poppins;-inkscape-font-specification:Poppins-Regular;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
        id="text3003"
        x="328.80536"
        y="-162.93874"><tspan
          sodipodi:role="line"
          id="tspan3001"
-         style="font-size:12px;text-align:center;text-anchor:middle"
+         style="text-align:center;text-anchor:middle"
          x="328.80536"
          y="-162.93874">Kokkos</tspan><tspan
          sodipodi:role="line"
-         style="font-size:12px;text-align:center;text-anchor:middle"
+         style="text-align:center;text-anchor:middle"
          x="328.80536"
-         y="-147.52023"
+         y="-146.22122"
          id="tspan1094">Kernels</tspan></text>
     <path
        d="m 452.58,192.869 v 0 c 0,1.021 0.255,2.013 0.765,2.892 0.51,0.878 1.247,1.587 2.126,2.097 0.879,0.511 1.871,0.794 2.891,0.794 l 58.932,-0.028 v 0 c 1.021,0 2.013,-0.255 2.892,-0.766 0.879,-0.51 1.587,-1.247 2.097,-2.126 0.511,-0.878 0.794,-1.871 0.794,-2.891 v 0 -23.046 0 c 0,-1.02 -0.255,-2.012 -0.765,-2.891 -0.51,-0.879 -1.247,-1.587 -2.126,-2.098 -0.879,-0.51 -1.871,-0.793 -2.892,-0.793 h -58.96 v 0 c -1.021,0 -2.013,0.255 -2.891,0.765 -0.879,0.51 -1.588,1.247 -2.098,2.126 -0.51,0.879 -0.794,1.871 -0.794,2.891 z"
@@ -1079,7 +1078,7 @@
     <text
        xml:space="preserve"
        transform="scale(1,-1)"
-       style="font-variant:normal;font-weight:normal;font-size:12px;font-family:Poppins;-inkscape-font-specification:Poppins-Regular;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+       style="font-variant:normal;font-weight:normal;font-size:9px;font-family:Poppins;-inkscape-font-specification:Poppins-Regular;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
        id="text3021"
        x="487.6655"
        y="-184.95444"><tspan
@@ -1087,12 +1086,12 @@
          y="-184.95444"
          sodipodi:role="line"
          id="tspan1074"
-         style="font-size:12px">Kokkos</tspan><tspan
-         x="487.2905"
-         y="-169.53593"
+         style="font-size:9px">Kokkos</tspan><tspan
+         x="487.6655"
+         y="-173.39056"
          sodipodi:role="line"
          id="tspan1092"
-         style="font-size:10px;letter-spacing:-0.75px">Fortran Interop.</tspan></text>
+         style="font-size:9px">Fortran Inteop.</tspan></text>
     <path
        d="m 371.282,148.876 v 0 c 0,1.02 0.255,2.012 0.765,2.891 0.51,0.879 1.247,1.587 2.126,2.098 0.879,0.51 1.871,0.793 2.892,0.793 l 58.932,-0.028 v 0 c 1.02,0 2.012,-0.255 2.891,-0.765 0.879,-0.511 1.588,-1.248 2.098,-2.126 0.51,-0.879 0.794,-1.871 0.794,-2.892 v 0 -23.045 0 c 0,-1.021 -0.256,-2.013 -0.766,-2.892 -0.51,-0.879 -1.247,-1.587 -2.126,-2.097 -0.879,-0.511 -1.871,-0.794 -2.891,-0.794 h -58.961 v 0 c -1.02,0 -2.012,0.255 -2.891,0.765 -0.879,0.51 -1.588,1.247 -2.098,2.126 -0.51,0.879 -0.793,1.871 -0.793,2.892 z"
        style="fill:#f3f3f3;fill-opacity:1;fill-rule:evenodd;stroke:none"
@@ -1106,19 +1105,19 @@
     <text
        xml:space="preserve"
        transform="scale(1,-1)"
-       style="font-variant:normal;font-weight:normal;font-size:12px;font-family:Poppins;-inkscape-font-specification:Poppins-Regular;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+       style="font-variant:normal;font-weight:normal;font-size:10.998px;font-family:Poppins;-inkscape-font-specification:Poppins-Regular;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
        id="text3039"
        x="406.67374"
        y="-140.38426"><tspan
          x="406.67374"
          y="-140.38426"
          sodipodi:role="line"
-         style="font-size:12px;text-align:center;text-anchor:middle"
+         style="text-align:center;text-anchor:middle"
          id="tspan1084">Kokkos</tspan><tspan
          x="406.67374"
-         y="-124.96576"
+         y="-126.2532"
          sodipodi:role="line"
-         style="font-size:12px;text-align:center;text-anchor:middle"
+         style="text-align:center;text-anchor:middle"
          id="tspan1088">Comm</tspan></text>
     <path
        d="m 371.282,192.869 v 0 c 0,1.021 0.255,2.013 0.765,2.892 0.51,0.878 1.247,1.587 2.126,2.097 0.879,0.511 1.871,0.794 2.892,0.794 l 58.932,-0.028 v 0 c 1.02,0 2.012,-0.255 2.891,-0.766 0.879,-0.51 1.588,-1.247 2.098,-2.126 0.51,-0.878 0.794,-1.871 0.794,-2.891 v 0 -23.046 0 c 0,-1.02 -0.256,-2.012 -0.766,-2.891 -0.51,-0.879 -1.247,-1.587 -2.126,-2.098 -0.879,-0.51 -1.871,-0.793 -2.891,-0.793 h -58.961 v 0 c -1.02,0 -2.012,0.255 -2.891,0.765 -0.879,0.51 -1.588,1.247 -2.098,2.126 -0.51,0.879 -0.793,1.871 -0.793,2.891 z"
@@ -1133,15 +1132,14 @@
     <text
        xml:space="preserve"
        transform="scale(1,-1)"
-       style="font-variant:normal;font-weight:normal;font-size:12px;font-family:Poppins;-inkscape-font-specification:Poppins-Regular;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+       style="font-variant:normal;font-weight:normal;font-size:10.488px;font-family:Poppins;-inkscape-font-specification:Poppins-Regular;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
        id="text3057"
        x="406.29675"
        y="-177.49913"><tspan
          sodipodi:role="line"
          id="tspan3055"
          x="406.29675"
-         y="-177.49913"
-         style="font-size:12px">Kokkos FFT</tspan></text>
+         y="-177.49913">Kokkos FFT</tspan></text>
     <path
        d="m 270.425,121.039 h 5.386 v 77.585 h 10.772 v -77.585 h 5.386 l -10.772,-10.771 z"
        style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#0093a7;font-variation-settings:normal;opacity:1;vector-effect:none;stroke-width:0.73699;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:10;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1"
@@ -1160,15 +1158,14 @@
     <text
        xml:space="preserve"
        transform="scale(1,-1)"
-       style="font-variant:normal;font-weight:normal;font-size:13px;font-family:Poppins;-inkscape-font-specification:Poppins-Regular;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+       style="font-variant:normal;font-weight:normal;font-size:13.011px;font-family:Poppins;-inkscape-font-specification:Poppins-Regular;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
        id="text3077"
        x="152.022"
        y="-299.73499"><tspan
          x="152.022 159.7115 167.99951 174.71318 181.42686 189.71487 196.44156 199.9155 204.59946 212.88747 221.17546 224.42821"
          y="-299.73499"
          sodipodi:role="line"
-         id="tspan3075"
-         style="font-size:13px">Kokkos tools</tspan></text>
+         id="tspan3075">Kokkos tools</tspan></text>
     <path
        d="m 142.696,269.83 v 0 c 0,0.964 0.255,1.899 0.737,2.75 0.482,0.822 1.162,1.53 2.013,2.012 0.822,0.482 1.785,0.737 2.749,0.737 l 88.583,-0.028 v 0 c 0.964,0 1.899,-0.255 2.75,-0.737 0.822,-0.482 1.53,-1.162 2.012,-2.013 0.482,-0.822 0.737,-1.786 0.737,-2.749 v 0 -21.941 0 c 0,-0.963 -0.255,-1.899 -0.737,-2.749 -0.482,-0.822 -1.162,-1.531 -2.012,-2.013 -0.822,-0.482 -1.786,-0.737 -2.75,-0.737 h -88.611 v 0 c -0.964,0 -1.899,0.255 -2.75,0.737 -0.822,0.482 -1.53,1.162 -2.012,2.013 -0.482,0.822 -0.737,1.786 -0.737,2.749 z"
        style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none"
@@ -1266,15 +1263,14 @@
     <text
        xml:space="preserve"
        transform="scale(1,-1)"
-       style="font-variant:normal;font-weight:normal;font-size:13px;font-family:Poppins;-inkscape-font-specification:Poppins-Regular;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+       style="font-variant:normal;font-weight:normal;font-size:13.011px;font-family:Poppins;-inkscape-font-specification:Poppins-Regular;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
        id="text3139"
        x="552.67102"
        y="-299.19699"><tspan
          x="552.67102 560.36047 568.6485 575.36218 582.07587 590.36389 597.09058 600.56451 607.2912 615.57916 624.34857 633.11804 641.53613 646.33722"
          y="-299.19699"
          sodipodi:role="line"
-         id="tspan3137"
-         style="font-size:13px">Kokkos support</tspan></text>
+         id="tspan3137">Kokkos support</tspan></text>
     <g
        id="g1365">
       <path
@@ -1412,15 +1408,14 @@
     <text
        xml:space="preserve"
        transform="scale(1,-1)"
-       style="font-variant:normal;font-weight:normal;font-size:12px;font-family:Poppins;-inkscape-font-specification:Poppins-Regular;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+       style="font-variant:normal;font-weight:normal;font-size:11.991px;font-family:Poppins;-inkscape-font-specification:Poppins-Regular;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
        id="text3211"
        x="464.14499"
        y="-222.151"><tspan
          x="464.14499 470.96786 477.19122 483.67834 490.75302"
          y="-222.151"
          sodipodi:role="line"
-         id="tspan3209"
-         style="font-size:12px">PETSc</tspan></text>
+         id="tspan3209">PETSc</tspan></text>
     <path
        d="m 368.362,235.106 v 0 c 0,0.708 0.199,1.417 0.539,2.04 0.368,0.624 0.879,1.134 1.502,1.503 0.624,0.368 1.332,0.538 2.041,0.538 h 62.306 v 0 c 0.708,0 1.417,-0.198 2.041,-0.538 0.623,-0.369 1.133,-0.879 1.502,-1.503 0.368,-0.623 0.538,-1.332 0.538,-2.04 v 0 l 0.029,-16.328 v 0 c 0,-0.709 -0.199,-1.417 -0.539,-2.041 -0.368,-0.624 -0.878,-1.134 -1.502,-1.502 -0.624,-0.369 -1.332,-0.539 -2.041,-0.539 l -62.334,-0.028 v 0 c -0.709,0 -1.417,0.198 -2.041,0.538 -0.623,0.369 -1.134,0.879 -1.502,1.503 -0.369,0.623 -0.539,1.332 -0.539,2.041 z"
        style="fill:#f3f3f3;fill-opacity:1;fill-rule:evenodd;stroke:none"
@@ -1434,15 +1429,14 @@
     <text
        xml:space="preserve"
        transform="scale(1,-1)"
-       style="font-variant:normal;font-weight:normal;font-size:12px;font-family:Poppins;-inkscape-font-specification:Poppins-Regular;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+       style="font-variant:normal;font-weight:normal;font-size:11.991px;font-family:Poppins;-inkscape-font-specification:Poppins-Regular;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
        id="text3223"
        x="382.87601"
        y="-222.151"><tspan
          x="382.87601 389.36313 393.78781 396.77356 399.66339 402.64917 410.29941 417.97366"
          y="-222.151"
          sodipodi:role="line"
-         id="tspan3221"
-         style="font-size:12px">Trilinos</tspan></text>
+         id="tspan3221">Trilinos</tspan></text>
     <path
        d="m 445.861,264.161 v 0 c 0,0.708 0.199,1.417 0.539,2.041 0.369,0.623 0.879,1.133 1.502,1.502 0.624,0.368 1.333,0.539 2.041,0.539 h 62.306 v 0 c 0.708,0 1.417,-0.199 2.041,-0.539 0.623,-0.369 1.134,-0.879 1.502,-1.502 0.369,-0.624 0.539,-1.333 0.539,-2.041 v 0 l 0.028,-16.328 v 0 c 0,-0.709 -0.198,-1.417 -0.539,-2.041 -0.368,-0.623 -0.878,-1.134 -1.502,-1.502 -0.624,-0.369 -1.332,-0.539 -2.041,-0.539 l -62.334,-0.028 v 0 c -0.708,0 -1.417,0.198 -2.041,0.538 -0.623,0.369 -1.133,0.879 -1.502,1.503 -0.369,0.623 -0.539,1.332 -0.539,2.041 z"
        style="fill:#f3f3f3;fill-opacity:1;fill-rule:evenodd;stroke:none"
@@ -1456,15 +1450,14 @@
     <text
        xml:space="preserve"
        transform="scale(1,-1)"
-       style="font-variant:normal;font-weight:normal;font-size:12px;font-family:Poppins;-inkscape-font-specification:Poppins-Regular;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+       style="font-variant:normal;font-weight:normal;font-size:11.991px;font-family:Poppins;-inkscape-font-specification:Poppins-Regular;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
        id="text3235"
        x="460.97"
        y="-251.20599"><tspan
          x="460.97 469.01596 473.44064 481.58252 489.25677 493.70544"
          y="-251.20599"
          sodipodi:role="line"
-         id="tspan3233"
-         style="font-size:12px">ArborX</tspan></text>
+         id="tspan3233">ArborX</tspan></text>
     <path
        d="m 369.213,264.161 v 0 c 0,0.708 0.198,1.417 0.538,2.041 0.369,0.623 0.879,1.133 1.503,1.502 0.623,0.368 1.332,0.539 2.04,0.539 H 435.6 v 0 c 0.709,0 1.417,-0.199 2.041,-0.539 0.624,-0.369 1.134,-0.879 1.502,-1.502 0.369,-0.624 0.539,-1.333 0.539,-2.041 v 0 l 0.028,-16.328 v 0 c 0,-0.709 -0.198,-1.417 -0.538,-2.041 -0.369,-0.623 -0.879,-1.134 -1.503,-1.502 -0.623,-0.369 -1.332,-0.539 -2.041,-0.539 l -62.334,-0.028 v 0 c -0.708,0 -1.417,0.198 -2.04,0.538 -0.624,0.369 -1.134,0.879 -1.503,1.503 -0.368,0.623 -0.538,1.332 -0.538,2.041 z"
        style="fill:#f3f3f3;fill-opacity:1;fill-rule:evenodd;stroke:none"
@@ -1478,15 +1471,14 @@
     <text
        xml:space="preserve"
        transform="scale(1,-1)"
-       style="font-variant:normal;font-weight:normal;font-size:12px;font-family:Poppins;-inkscape-font-specification:Poppins-Regular;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+       style="font-variant:normal;font-weight:normal;font-size:11.991px;font-family:Poppins;-inkscape-font-specification:Poppins-Regular;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
        id="text3247"
        x="391.35101"
        y="-251.20599"><tspan
          x="391.35101 399.7327 408.24631"
          y="-251.20599"
          sodipodi:role="line"
-         id="tspan3245"
-         style="font-size:12px">DDC</tspan></text>
+         id="tspan3245">DDC</tspan></text>
     <path
        d="m 291.969,241.682 h 13.492 v 57.146 h 27.015 v -57.146 h 13.521 l -27.014,-27.014 z"
        style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none"
@@ -1530,14 +1522,13 @@
     <text
        xml:space="preserve"
        transform="scale(1,-1)"
-       style="font-variant:normal;font-weight:normal;font-size:16px;font-family:Poppins;-inkscape-font-specification:Poppins-Regular;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+       style="font-variant:normal;font-weight:normal;font-size:11.991px;font-family:Poppins;-inkscape-font-specification:Poppins-Regular;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
        id="text3277"
-       x="396.13251"
+       x="314.53201"
        y="-315.241"><tspan
+         x="314.53201 321.61868 329.29291 335.51624 341.63165 349.30591 355.63715 362.23221 370.27817 378.39606 384.65536 392.07779 400.2197 403.33734 411.47925 419.62112 427.6431 430.62888 433.51868 440.80923 448.95111 453.25589 456.24164 463.91589 471.59012"
+         y="-315.241"
          sodipodi:role="line"
-         id="tspan3275"
-         style="font-size:16px;text-align:center;text-anchor:middle"
-         x="396.13251"
-         y="-315.241">Kokkos-based applications</tspan></text>
+         id="tspan3275">Kokkos-based applications</tspan></text>
   </g>
 </svg>
