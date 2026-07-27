@@ -153,13 +153,15 @@
         \pause
         \begin{column}{0.5\linewidth}
             \begin{minted}{C++}
-                Kokkos::View<double*> histo(5);
+                Kokkos::View<double*>
+                    histo("histo", 5);
 
                 Kokkos::parallel_for(
-                N,
-                KOKKOS_LAMBDA(int i) {
-                    histo(i % 5) += i;
-                });
+                    N,
+                    KOKKOS_LAMBDA(int i) {
+                        histo(i % 5) += i;
+                    }
+                );
             \end{minted}
         \end{column}
     \end{columns}
@@ -323,7 +325,7 @@
         \end{column}
         \begin{column}{0.6\linewidth}
             \begin{minted}{C++}
-                Kokkos::View<double*> histo(5);
+                Kokkos::View<double*> histo("histo", 5);
 
                 Kokkos::View<
                     double*,

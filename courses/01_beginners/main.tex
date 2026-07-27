@@ -2409,6 +2409,9 @@
                     }
                 );
             \end{minted}
+            \begin{uncoverenv}<3->
+                \structure{Question:} Why do we need to use \texttt{KOKKOS\_LAMBDA} inside parallel constructs rather than the standard C++ lambda syntax?
+            \end{uncoverenv}
         \end{column}
         \begin{column}{0.6\linewidth}
             \begin{itemize}
@@ -2555,12 +2558,12 @@
 
             \begin{minted}[fontsize=\scriptsize]{cuda}
                 auto lambda =
-                    __host__ __device__ [] (int i) {
+                    __host__ __device__ [=] (int i) {
                         // ...
                     };
 
                 __global__
-                void device_entrypoint() {
+                void entrypoint() {
                     int i =
                         blockIdx.x * blockDim.x +
                         threadIdx.x;
@@ -2568,7 +2571,7 @@
                     if (i < N) lambda(i);
                 }
 
-                device_entrypoint<<<N / 128, 128>>>();
+                entrypoint<<<N / n_threads, n_threads>>>();
             \end{minted}
         \end{column}
         \begin{column}{0.45\linewidth}
