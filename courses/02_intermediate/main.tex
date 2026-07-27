@@ -858,7 +858,7 @@
 
 \begin{frame}[fragile]{How to use SIMD on host parallel code with a GPU backend?}
     \begin{columns}
-        \begin{column}{0.5\linewidth}
+        \begin{column}{0.6\linewidth}
             \begin{minted}{C++}
                 Kokkos::parallel_for(
                     "host loop",
@@ -870,11 +870,12 @@
                             double,
                             Kokkos::avx_2_fixed<2>
                         > value;
+                        // ...
                     }
                 );
             \end{minted}
         \end{column}
-        \begin{column}{0.5\linewidth}
+        \begin{column}{0.4\linewidth}
             \begin{itemize}
                 \item We saw that the ABI is scalar when using any GPU backend
                 \item But what if we want to use SIMD in a host parallel loop of the code?
