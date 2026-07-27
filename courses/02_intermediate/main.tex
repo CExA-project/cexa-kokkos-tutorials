@@ -176,17 +176,16 @@
             \end{minted}
         \end{column}
         \begin{column}{0.45\linewidth}
-            \SetTblrInner{rowsep=0pt}
-            \begin{tblr}{colspec={cccc},rowspec={Q[lightmain]Q[white]Q[thread1]Q[thread1]Q[thread1]Q[white]Q[thread6]Q[thread6]Q[thread6]Q[white]}}
+            \begin{tblr}[theme=kokkostable]{cccc}
                 Thread 1 & Thread 6 &  & Result \\
                 & & & 0 \\
-                read value & & $\leftarrow$ & 0 \\
-                add 1 & &  & 0 \\
-                write value & & $\rightarrow$ & 1 \\
+                \SetRow{thread1} read value & & $\leftarrow$ & 0 \\
+                \SetRow{thread1} add 1 & &  & 0 \\
+                \SetRow{thread1} write value & & $\rightarrow$ & 1 \\
                 & & & 1 \\
-                & read value & $\leftarrow$ & 1 \\
-                & add 6 &  & 1 \\
-                & write value & $\rightarrow$ & 7 \\
+                \SetRow{thread6} & read value & $\leftarrow$ & 1 \\
+                \SetRow{thread6} & add 6 &  & 1 \\
+                \SetRow{thread6} & write value & $\rightarrow$ & 7 \\
                 & & & 7 \\
             \end{tblr}
         \end{column}
@@ -203,18 +202,17 @@
 
             When several threads are accessing the same data, it will generate \highlight{race conditions}.
         \end{column}
-        \begin{column}{0.45\linewidth}\\
-            \SetTblrInner{rowsep=0pt}
-            \begin{tblr}{colspec={cccc},rowspec={Q[lightmain]Q[white]Q[thread1]Q[thread6]Q[thread1]Q[thread1]Q[white]Q[thread6]Q[thread6]Q[white]}}
+        \begin{column}{0.45\linewidth}
+            \begin{tblr}[theme=kokkostable]{cccc}
                 Thread 1 & Thread 6 &  & Result \\
                 & & & 0 \\
-                read value & & $\leftarrow$ & 0 \\
-                & read value & $\leftarrow$ & 0 \\
-                add 1 & & & 0 \\
-                write value & & $\rightarrow$ & 1 \\
+                \SetRow{thread1} read value & & $\leftarrow$ & 0 \\
+                \SetRow{thread6} & read value & $\leftarrow$ & 0 \\
+                \SetRow{thread1} add 1 & & & 0 \\
+                \SetRow{thread1} write value & & $\rightarrow$ & 1 \\
                 & & & 1 \\
-                & add 6 & & 1 \\
-                & write value & $\rightarrow$ & 6 \\
+                \SetRow{thread6} & add 6 & & 1 \\
+                \SetRow{thread6} & write value & $\rightarrow$ & 6 \\
                 & & & 6 \\
             \end{tblr}
         \end{column}
@@ -260,29 +258,22 @@
             \end{minted}
         \end{column}
         \begin{column}{0.45\linewidth}
-            \noindent Either:
-
-            \vspace{0.5em}
-            \SetTblrInner{rowsep=0pt}
-            \begin{tblr}{colspec={cccc},rowspec={Q[lightmain]Q[white]Q[thread1]Q[thread6]}}
+            \begin{tblr}[theme=kokkostable]{cccc}
                 Thread 1 & Thread 6 &  & Result \\
                 & & & 0 \\
-                atomic add & & $\leftrightarrow$ & 1 \\
-                & atomic add & $\leftrightarrow$ & 7 \\
+                \SetRow{thread1} atomic add & & $\leftrightarrow$ & 1 \\
+                \SetRow{thread6} & atomic add & $\leftrightarrow$ & 7 \\
                 &  &  & 7 \\
             \end{tblr}
             \pause
-            \vspace{0.5em}
-
-            \noindent Or:
-
-            \vspace{0.5em}
-            \SetTblrInner{rowsep=0pt}
-            \begin{tblr}{colspec={cccc},rowspec={Q[lightmain]Q[white]Q[thread6]Q[thread1]}}
+            \begin{center}
+                or
+            \end{center}
+            \begin{tblr}[theme=kokkostable]{cccc}
                 Thread 1 & Thread 6 &  & Result \\
                 & & & 0 \\
-                & atomic add & $\leftrightarrow$ & 6 \\
-                atomic add & & $\leftrightarrow$ & 7 \\
+                \SetRow{thread6} & atomic add & $\leftrightarrow$ & 6 \\
+                \SetRow{thread1} atomic add & & $\leftrightarrow$ & 7 \\
                 &  &  & 7 \\
             \end{tblr}
         \end{column}
@@ -291,12 +282,11 @@
 
 \begin{frame}[fragile]{Operations}
     \begin{columns}
-        \begin{column}{0.35\linewidth}
+        \begin{column}{0.25\linewidth}
             Other common operations are available with the format \texttt{Kokkos::atomic\_[op]}:
         \end{column}
         \begin{column}{0.75\linewidth}
-            \SetTblrInner{rowsep=0pt}
-            \begin{tblr}[theme=kokkostable]{ll}
+            \begin{tblr}[theme=kokkostable]{colspec={ll}, rowsep=1pt}
                 Operation & Replaces \\
                 \texttt{Kokkos::atomic\_add(\&x, y)}    & \texttt{x += y} \\
                 \texttt{Kokkos::atomic\_sub(\&x, y)}    & \texttt{x -= y} \\
@@ -396,8 +386,7 @@
 \end{frame}
 
 \begin{frame}[fragile]{Currently available functions}
-    \SetTblrInner{rowsep=0pt}
-    \begin{tblr}[theme=kokkostable]{lX}
+    \begin{tblr}[theme=kokkostable]{colspec={lX}, rowsep=1pt}
         Algorithm family & Functions \\
         Sorting and related & \texttt{sort}, \texttt{sort\_by\_key}, \texttt{is\_sorted}, \texttt{is\_sorted\_until} \\
         Minimum/maximum  & \texttt{min\_element}, \texttt{max\_element}, \texttt{minmax\_element} \\
