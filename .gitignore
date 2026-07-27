@@ -8,6 +8,7 @@
 *.synctex.gz
 *.snm
 *.pdf
+!/images/*.pdf
 *.nav
 *.fdb_latexmk
 *.xdv
