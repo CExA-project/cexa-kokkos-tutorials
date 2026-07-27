@@ -1883,7 +1883,7 @@
             \begin{itemize}
                 \item Kokkos way to tell how a loop is executed: \highlight{execution policy}
                 \item \mintinline{c++}|RangePolicy| for single-dimensional loops
-                \item \mintinline{c++}|ExecutionSpace| for specifying where the loop is executed (we'll discuss about this next week, you can keep the default value for now)
+                \item \mintinline{c++}|ExecutionSpace| for specifying where the loop is executed (defaults to \mintinline{c++}|DefaultExecutionSpace|)
                 \item \mintinline{c++}|start_index| and \mintinline{c++}|end_index| are the beginning (inclusive) and the end (exclusive) of the loop
             \end{itemize}
         \end{column}
