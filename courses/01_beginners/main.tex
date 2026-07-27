@@ -2551,6 +2551,8 @@
                 \textbf{CUDA code}
             \end{center}
 
+            \vspace{-1em}
+
             \begin{minted}[fontsize=\scriptsize]{cuda}
                 auto lambda =
                     __host__ __device__ [] (int i) {
@@ -2574,6 +2576,8 @@
                 \textbf{Equivalent Kokkos code}
             \end{center}
 
+            \vspace{-1em}
+
             \begin{minted}[fontsize=\scriptsize]{C++}
                 auto lambda =
                     KOKKOS_LAMBDA (int i) {
@@ -2586,6 +2590,13 @@
                     lambda
                 );
             \end{minted}
+
+            \pause
+
+            \begin{itemize}
+                \item Kokkos takes care of the entrypoint
+                \item So you focus on the kernel
+            \end{itemize}
         \end{column}
     \end{columns}
 \end{frame}
