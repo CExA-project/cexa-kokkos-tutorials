@@ -607,6 +607,7 @@
                     Clang      & \texttt{clang++} & 15.0.0     \\
                     GCC        & \texttt{g++}     & 10.4.0     \\
                     Intel LLVM & \texttt{icpx}    & 2024.2.1   \\
+                    NVCC       & \texttt{nvcc}    & 12.2       \\
                     NVHPC      & \texttt{nvc++}   & 22.3       \\
                     ROCM       & \texttt{hipcc}   & 6.2.0
                 \end{tblr}
@@ -977,7 +978,7 @@
                     include(FetchContent)
                     FetchContent_Declare(
                         kokkos
-                        URL https://github.com/kokkos/kokkos/releases/download/5.0.0/kokkos-5.0.0.zip
+                        URL https://github.com/kokkos/kokkos/releases/download/5.2.2/kokkos-5.2.2.zip
                     )
                     FetchContent_MakeAvailable(kokkos)
                 endif()

@@ -66,8 +66,8 @@ include(FetchContent)
 FetchContent_Declare(
     kokkos
     DOWNLOAD_EXTRACT_TIMESTAMP ON
-    URL https://github.com/kokkos/kokkos/releases/download/5.0.0/kokkos-5.0.0.tar.gz
-    URL_HASH SHA256=c45f3e19c3eb71fc8b7210cb04cac658015fc1839e7cc0571f7406588ff9bcef
+    URL https://github.com/kokkos/kokkos/releases/download/5.2.2/kokkos-5.2.2.tar.gz
+    URL_HASH SHA256=d6557aaef39302282a15f9c770433d1fcdf4e961dfd6d9ed726b9d0d0f546b9f
     SOURCE_DIR ${CexaKokkosTutorials_KOKKOS_SOURCE_DIR}
 )
 FetchContent_MakeAvailable(kokkos)
