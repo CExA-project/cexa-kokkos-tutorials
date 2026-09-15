@@ -749,12 +749,12 @@
             KOKKOS_LAMBDA(int i) {
                 std::size_t idx = i * simd_type::size();
                 // load the values
-                simd_type a(&A(idx), KE::simd_flag_default);
-                simd_type b(&B(idx), KE::simd_flag_default);
+                simd_type a(&A(idx));
+                simd_type b(&B(idx));
                 // perform the computation
                 a += b;
                 // store the result
-                KE::simd_unchecked_store(a, &A(idx), KE::simd_flag_default);
+                KE::simd_unchecked_store(a, &A(idx));
             }
         );
     \end{minted}
@@ -826,13 +826,13 @@
         Kokkos::parallel_for("sqrt", N / simd_type::size(),
             KOKKOS_LAMBDA(int i) {
                 std::size_t idx = i * simd_type::size();
-                simd_type a(&A(idx), KE::simd_flag_default);
+                simd_type a(&A(idx));
                 a = KE::condition(a > 0, Kokkos::sqrt(a), 0.);
-                KE::simd_unchecked_store(a, &A(idx), KE::simd_flag_default);
+                KE::simd_unchecked_store(a, &A(idx));
             }
         );
     \end{minted}
-    \vspace{-10pt}
+    \vspace{-15pt}
     \begin{itemize}
         \item \texttt{condition} takes a \texttt{simd\_mask}, and two vectors, and selects elements from both vectors depending on the values in the mask
         \item \structure{Note:} both branches are evaluated
