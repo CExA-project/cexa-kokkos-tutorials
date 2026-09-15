@@ -2,3 +2,10 @@
 extend-exclude = [
     "*.svg",
 ]
+
+[default]
+extend-ignore-re = [
+    # ignore the begin line of the tblr environment as the alignment specifiers
+    # may give false positives
+    "\\\\begin\\{tblr\\}.*"
+]
