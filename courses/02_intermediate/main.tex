@@ -657,16 +657,16 @@
 
 \begin{frame}[fragile]{Supported SIMD ABIs}
     \begin{center}
-        \begin{tblr}[theme=kokkostable]{lll}
+        \begin{tblr}[theme=kokkostable]{cll}
             ISA & ABI & Compatible datatypes \\
             - & \texttt{scalar} & all \\
-            \SetCell[r=2]{c} AVX2 & \texttt{avx2\_fixed\_size<4>} & all \\
+            \SetCell[r=2]{} AVX2 & \texttt{avx2\_fixed\_size<4>} & all \\
                                   & \texttt{avx2\_fixed\_size<8>} & \texttt{float}, \texttt{int32\_t}, \texttt{uint32\_t} \\
-            \SetCell[r=2]{c, bg=white} AVX512 & \texttt{avx512\_fixed\_size<8>} & all \\
+            \SetCell[r=2]{bg=white} AVX512 & \texttt{avx512\_fixed\_size<8>} & all \\
                                     & \texttt{avx512\_fixed\_size<16>} & \texttt{float}, \texttt{int32\_t}, \texttt{uint32\_t} \\
-            \SetCell[r=2]{c} NEON & \texttt{neon\_fixed\_size<2>} & all \\
+            \SetCell[r=2]{} NEON & \texttt{neon\_fixed\_size<2>} & all \\
                                   & \texttt{neon\_fixed\_size<4>} & \texttt{float}, \texttt{int32\_t}, \texttt{uint32\_t} \\
-            \SetCell[r=2]{c, bg=white} SVE & \texttt{sve\_fixed\_size<N/2>} & \texttt{double}, \texttt{int64\_t}, \texttt{uint64\_t}, \texttt{int32\_t} \\
+            \SetCell[r=2]{bg=white} SVE & \texttt{sve\_fixed\_size<N/2>} & \texttt{double}, \texttt{int64\_t}, \texttt{uint64\_t}, \texttt{int32\_t} \\
                                  & \texttt{sve\_fixed\_size<N>} & \texttt{float}, \texttt{int32\_t}, \texttt{uint32\_t} \\
         \end{tblr}
     \end{center}
