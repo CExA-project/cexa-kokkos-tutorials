@@ -660,13 +660,13 @@
         \begin{tblr}[theme=kokkostable]{lll}
             ISA & ABI & Compatible datatypes \\
             - & \texttt{scalar} & all \\
-            \SetCell[r=2]{c} AVX2 & \texttt{avx2\_fixed\_size<4>} & all \\
+            \SetCell[r=2]{} AVX2 & \texttt{avx2\_fixed\_size<4>} & all \\
                                   & \texttt{avx2\_fixed\_size<8>} & \texttt{float}, \texttt{int32\_t}, \texttt{uint32\_t} \\
-            \SetCell[r=2]{c, bg=white} AVX512 & \texttt{avx512\_fixed\_size<8>} & all \\
+            \SetCell[r=2]{bg=white} AVX512 & \texttt{avx512\_fixed\_size<8>} & all \\
                                     & \texttt{avx512\_fixed\_size<16>} & \texttt{float}, \texttt{int32\_t}, \texttt{uint32\_t} \\
-            \SetCell[r=2]{c} NEON & \texttt{neon\_fixed\_size<2>} & all \\
+            \SetCell[r=2]{} NEON & \texttt{neon\_fixed\_size<2>} & all \\
                                   & \texttt{neon\_fixed\_size<4>} & \texttt{float}, \texttt{int32\_t}, \texttt{uint32\_t} \\
-            \SetCell[r=2]{c, bg=white} SVE & \texttt{sve\_fixed\_size<N/2>} & \texttt{double}, \texttt{int64\_t}, \texttt{uint64\_t}, \texttt{int32\_t} \\
+            \SetCell[r=2]{bg=white} SVE & \texttt{sve\_fixed\_size<N/2>} & \texttt{double}, \texttt{int64\_t}, \texttt{uint64\_t}, \texttt{int32\_t} \\
                                  & \texttt{sve\_fixed\_size<N>} & \texttt{float}, \texttt{int32\_t}, \texttt{uint32\_t} \\
         \end{tblr}
     \end{center}
@@ -693,8 +693,7 @@
         \item Load the values from memory
         \vspace{-5pt}
             \begin{minted}{C++}
-                Kokkos::Experimental::simd<double>
-                    x(ptr, Kokkos::Experimental::simd_flag_default);
+                Kokkos::Experimental::simd<double> x(ptr);
             \end{minted}
     \end{itemize}
 \end{frame}
@@ -749,12 +748,12 @@
             KOKKOS_LAMBDA(int i) {
                 std::size_t idx = i * simd_type::size();
                 // load the values
-                simd_type a(&A(idx), KE::simd_flag_default);
-                simd_type b(&B(idx), KE::simd_flag_default);
+                simd_type a(&A(idx));
+                simd_type b(&B(idx));
                 // perform the computation
                 a += b;
                 // store the result
-                KE::simd_unchecked_store(a, &A(idx), KE::simd_flag_default);
+                KE::simd_unchecked_store(a, &A(idx));
             }
         );
     \end{minted}
@@ -826,13 +825,13 @@
         Kokkos::parallel_for("sqrt", N / simd_type::size(),
             KOKKOS_LAMBDA(int i) {
                 std::size_t idx = i * simd_type::size();
-                simd_type a(&A(idx), KE::simd_flag_default);
+                simd_type a(&A(idx));
                 a = KE::condition(a > 0, Kokkos::sqrt(a), 0.);
-                KE::simd_unchecked_store(a, &A(idx), KE::simd_flag_default);
+                KE::simd_unchecked_store(a, &A(idx));
             }
         );
     \end{minted}
-    \vspace{-10pt}
+    \vspace{-15pt}
     \begin{itemize}
         \item \texttt{condition} takes a \texttt{simd\_mask}, and two vectors, and selects elements from both vectors depending on the values in the mask
         \item \structure{Note:} both branches are evaluated
