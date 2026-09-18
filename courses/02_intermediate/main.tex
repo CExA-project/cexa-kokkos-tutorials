@@ -1179,7 +1179,7 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]{Simple kernel timer for a basic profiling}
+\begin{frame}[fragile]{Simple kernel timer for basic profiling}
     \begin{columns}
         \begin{column}{0.6\linewidth}
             \begin{minted}[breakafter={=}]{sh}
@@ -1191,18 +1191,16 @@
             \begin{minted}{text}
                 KokkosP: Simple Kernel Timer Library Initialized (sequence is 0, version: 20240906)
                 ...
-                KokkosP: Kernel timing written to /path/to/name_of_report.dat
+                KokkosP: Kernel timing written to /path/to/tuto/hostname-pid.json
             \end{minted}
 
-            \begin{minted}{sh}
-                kp_reader ./name_of_report.dat
-            \end{minted}
         \end{column}
         \begin{column}{0.4\linewidth}
             \begin{itemize}
                 \item Simple tool for a basic timing analysis
                 \item Run the program with the argument
-                \item Analyze the generated data with the provided \texttt{kp\_reader} program
+                \item Outputs everything to the terminal
+                \item Can write to a JSON file with \texttt{KOKKOS\_TOOLS\_TIMER\_JSON}
             \end{itemize}
         \end{column}
     \end{columns}
@@ -1236,8 +1234,8 @@
 
         Total Execution Time (incl. Kokkos + non-Kokkos):                   0.00038 seconds
         Total Time in Kokkos kernels:                                       0.00030 seconds
-        -> Time outside Kokkos kernels:                                  0.00008 seconds
-        -> Percentage in Kokkos kernels:                                   78.75 %
+           -> Time outside Kokkos kernels:                                  0.00008 seconds
+           -> Percentage in Kokkos kernels:                                   78.75 %
         Total Calls to Kokkos Kernels:                                            2
 
         -------------------------------------------------------------------------
