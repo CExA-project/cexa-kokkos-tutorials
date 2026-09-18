@@ -1315,7 +1315,7 @@
 
 \begin{frame}{More about views}
     \begin{itemize}
-        \item Allocations only happen when explicitly specified
+        \item No hidden cost, allocations only happen at View creation
         \pause
         \item Reference counting is used for automatic deallocation (like shared pointers)
         \pause
@@ -1325,11 +1325,12 @@
 
 % _____________________________________________________________________________
 
-\begin{frame}[fragile]{Copy and assignation}
+\begin{frame}[fragile]{Copy and assignment}
     \begin{columns}
         \begin{column}{0.6\linewidth}
             \begin{minted}{C++}
-                Kokkos::View<int*[5]> a("a", 10), b("b", 15);
+                Kokkos::View<int*[5]> a("a", 10),
+                                      b("b", 15);
                 a = b;
                 Kokkos::View<int**> c(b);
 
@@ -1402,7 +1403,6 @@
                 \item A \highlight{mirror} is a view in a different memory space
                 \item Similar to its original view for the rest (shape, layout, etc.)
                 \item Used to create a mirror of a Device view on the Host
-                \item If the original view is already on the Host (CPU backend), it creates a mirror without allocating memory (shallow copy of the original view)
                 \item \texttt{create\_mirror} allocates the memory but it \highlight{doesn't copy the data}!
             \end{itemize}
         \end{column}
@@ -1556,6 +1556,30 @@
         \end{column}
     \end{columns}
 \end{exerciseframe}
+
+% _____________________________________________________________________________
+
+\begin{frame}[fragile]{Extra functionality of \texttt{deep\_copy}}
+  \begin{columns}
+    \begin{column}{0.55\linewidth}
+      \begin{minted}{C++}
+        Kokkos::View<float*> view1(N);
+        // Fill the view with 5.
+        Kokkos::deep_copy(view1, 5.);
+
+        // Create a copy of view1 on the host 
+        auto view2 =
+          create_mirror_view_and_copy(view1);
+      \end{minted}
+    \end{column}
+    \begin{column}{0.45\linewidth}
+      \begin{itemize}
+        \item \texttt{deep\_copy} can be used to fill a view with a specific value
+        \item \texttt{create\_mirror\_view\_and\_copy} performs both \texttt{create\_mirror\_view} and \texttt{deep\_copy}
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
 
 % _____________________________________________________________________________
 
@@ -1797,7 +1821,7 @@
             \begin{itemize}
                 \item With a GPU backend, the parallel loop is executed asynchronously on the GPU
                 \item The loop is launched and the program continues
-                \item Asynchronism is a complex concept for beginners, not covered in this talk (but in the intermediate one)
+                \item Asynchronism is a complex concept for beginners, it won't be covered in this talk
             \end{itemize}
         \end{column}
     \end{columns}
@@ -2158,6 +2182,7 @@
                 \item Horrible truth: \mintinline{c++}{result} could \highlight{depend} on iteration order!
                 \item This is due to floating point arithmetic not being associative and to unknown iteration order
             \end{itemize}
+            %see: https://godbolt.org/z/8z45oxd4W
         \end{column}
     \end{columns}
 \end{frame}
@@ -2313,6 +2338,8 @@
             sum_val, Kokkos::Min<double>(min_val)
         );
     \end{minted}
+
+    \structure{Note:} Be careful that the order of the reducers matches the order of the lambda's arguments
 \end{frame}
 
 % _____________________________________________________________________________
@@ -2542,7 +2569,7 @@
             \begin{itemize}
                 \item You already know where to use \texttt{KOKKOS\_LAMBDA}
                 \pause
-                \item \texttt{KOKKOS\_FUNCTION} can be used to create free functions called in a lambda
+                \item \texttt{KOKKOS\_FUNCTION} can be used to create functions callable from a parallel kernel
             \end{itemize}
         \end{column}
     \end{columns}
@@ -2620,7 +2647,7 @@
         \item How to use mirror Views and deep copy
         \item How to write a parallel loop
         \item How to extend the loop policy
-        \item How to use nested parallel loops
+        \item How to use tightly nested parallel loops
         \item How to write a parallel reduction
         \item How to write a parallel scan
         \item How to use Kokkos macros for functions and lambdas

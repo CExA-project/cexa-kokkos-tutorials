@@ -237,12 +237,14 @@
                 Kokkos::parallel_for(
                     N,
                     KOKKOS_LAMBDA(int i) {
-                        Kokkos::atomic_add(&histo(i % 5), i);
+                        Kokkos::atomic_add(
+                            &histo(i % 5), i);
                     }
                 );
             \end{minted}
         \end{column}
     \end{columns}
+    \pause
     \structure{Note:} \texttt{atomic\_add} takes a pointer and not a
     reference as first argument, as the instruction needs to have an access to
     the actual memory address of the modified variable.
@@ -366,6 +368,8 @@
     Francesco Rizzi, \emph{Implementing the C++ std algorithms library in
     Kokkos: an overview of the main challenges, API differences and
     some implementation details}, Café Kokkos @ CEA, Feb. 2024.
+
+    \awesomelink{download}{\url{https://cexa-project.org/news/2024-02-19-fifth-cexa-coffee/kokkos-algorithms.pdf}}
 \end{frame}
 
 \begin{frame}[fragile]{Inspired by STL Algorithms in C++}
@@ -377,6 +381,7 @@
             \item Internally use \texttt{Kokkos::parallel\_\{for, reduce, scan\}}
         \end{itemize}
         \item Higher abstraction in user code: Function call with a range of elements, operations etc
+        \item Needs to include the header \texttt{Kokkos\_StdAlgorithms.hpp}
         \item Mostly in \texttt{Kokkos::Experimental} namespace
         \begin{itemize}
             \item Except for Sort
@@ -868,7 +873,7 @@
                     KOKKOS_LAMBDA (int i) {
                         KE::simd<
                             double,
-                            Kokkos::avx_2_fixed<2>
+                            KE::simd_abi::avx_2_fixed<2>
                         > value;
                         // ...
                     }
@@ -1083,7 +1088,7 @@
         \item Library of the Kokkos ecosystem
         \item \githublink{\url{https://github.com/kokkos/kokkos-tools}}
         \item \doclink{\url{https://github.com/kokkos/kokkos-tools/wiki}}
-        \item Has a different version number than Kokkos
+        \item Used to have a different version number than Kokkos, version number are in sync since Kokkos 5.2
         \item Should be built and installed somewhere (this requires to install Kokkos too)
         \item You should update the environment variables \texttt{PATH} and \texttt{LD\_LIBRARY\_PATH}
         \item Use one tool at a time with either
