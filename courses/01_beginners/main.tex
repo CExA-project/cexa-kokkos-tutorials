@@ -2178,10 +2178,9 @@
             \begin{itemize}
                 \item One scalar variable collects something for each iteration (sum, max, min, etc.), to produce one final global result
                 \pause
-                \item Horrible truth: \mintinline{c++}{result} could \highlight{depend} on iteration order!
+                \item Horrible truth: \mintinline{c++}{result} \faIcon{link}\href{https://godbolt.org/z/8z45oxd4W}{depends} on iteration order!
                 \item This is due to floating point arithmetic not being associative and to unknown iteration order
             \end{itemize}
-            %see: https://godbolt.org/z/8z45oxd4W
         \end{column}
     \end{columns}
 \end{frame}
