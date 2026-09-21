@@ -1326,7 +1326,7 @@
 
 \begin{frame}[fragile]{Copy and assignment}
     \begin{columns}
-        \begin{column}{0.6\linewidth}
+        \begin{column}{0.5\linewidth}
             \begin{minted}{C++}
                 Kokkos::View<int*[5]> a("a", 10),
                                       b("b", 15);
@@ -1340,7 +1340,7 @@
                 std::cout << a(0, 2) << std::endl;
             \end{minted}
         \end{column}
-        \begin{column}{0.4\linewidth}
+        \begin{column}{0.5\linewidth}
             \structure{Question:} What gets printed?
 
             \pause

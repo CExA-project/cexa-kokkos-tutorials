@@ -222,7 +222,7 @@
 \begin{frame}[fragile]{Atomic operation}
     Replacing the addition with its atomic counterpart solves the problem:
     \begin{columns}
-        \begin{column}{0.40\linewidth}
+        \begin{column}{0.5\linewidth}
             \begin{minted}{C++}
                 Kokkos::parallel_for(
                     N,
@@ -232,7 +232,7 @@
                 );
             \end{minted}
         \end{column}
-        \begin{column}{0.56\linewidth}
+        \begin{column}{0.5\linewidth}
             \begin{minted}{C++}
                 Kokkos::parallel_for(
                     N,
@@ -369,7 +369,9 @@
     Kokkos: an overview of the main challenges, API differences and
     some implementation details}, Café Kokkos @ CEA, Feb. 2024.
 
-    \awesomelink{download}{\url{https://cexa-project.org/news/2024-02-19-fifth-cexa-coffee/kokkos-algorithms.pdf}}
+    \vspace{1em}
+
+    \awesomelink{download}{\href{https://cexa-project.org/news/2024-02-19-fifth-cexa-coffee/kokkos-algorithms.pdf}{Download the presentation}}
 \end{frame}
 
 \begin{frame}[fragile]{Inspired by STL Algorithms in C++}

@@ -6,7 +6,7 @@ The goal of this exercice is to experiment with race conditions and learn how to
 
 ## Step 1: observe the absence of a race condition in serial execution context
 
-Compile the exercice program using NO parallel backend (KOKKOS_ENABLE_SERIAL=ON should be the only backend option).
+Compile the exercice program using **no** parallel backend (`KOKKOS_ENABLE_SERIAL=ON` should be the only backend option).
 Execute the program several time and observe that the result is the same each time.
 
 ## Step 2: observe the race condition
