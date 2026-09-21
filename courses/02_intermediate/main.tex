@@ -1164,11 +1164,11 @@
         KokkosP: computation
         KokkosP:       Kokkos::View::initialization [view] via memset
         KokkosP: Execution of kernel 1 is completed.
-        KokkosP: Executing fence on device 33554433 with unique execution identifier 2
-        KokkosP: computation
 
         ...
 
+        KokkosP: Exiting profiling region: computation
+        KokkosP: Deallocate<Cuda> name: view pointer: 0x7c67126aa000 size: 80000
         KokkosP: Kokkos library finalization called.
     \end{minted}
 
@@ -1191,8 +1191,6 @@
             \usemintedstyle{vim}
             \begin{minted}{text}
                 KokkosP: Simple Kernel Timer Library Initialized (sequence is 0, version: 20240906)
-                ...
-                KokkosP: Kernel timing written to /path/to/tuto/hostname-pid.json
             \end{minted}
 
         \end{column}
@@ -1201,7 +1199,7 @@
                 \item Simple tool for a basic timing analysis
                 \item Run the program with the argument
                 \item Outputs everything to the terminal
-                \item Can write to a JSON file with \texttt{KOKKOS\_TOOLS\_TIMER\_JSON}
+                \item Can write to a JSON file if the environment variable \texttt{KOKKOS\_TOOLS\_TIMER\_JSON} is set
             \end{itemize}
         \end{column}
     \end{columns}
@@ -1445,8 +1443,8 @@
                 \begin{itemize}
                     \item Use Kokkos profiling regions
                     \item Use meaningful labels in parallel constructs and fences
-                    \item Debug with the simple kernel timer
-                    \item Profile with the simple kernel logger
+                    \item Debug with the simple kernel logger
+                    \item Profile with the simple kernel timer
                     \item Profile with Nsight Systems
                     \item Profile with Nsight Compute
                 \end{itemize}

@@ -73,13 +73,6 @@ Run your program after building it (on either backend):
 ./exe10 100000 1e-5  # for CPU
 ```
 
-A `.dat` file containing the timings should have been generated in the same working directory.
-Open it with `kp_reader`:
-
-```sh
-kp_reader name_of_file.dat
-```
-
 You should identify the intensive regions of the code and the intensive kernels.
 If you had to optimize this solver, you should start by these hot spots first.
 
