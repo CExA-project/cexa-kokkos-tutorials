@@ -1090,6 +1090,9 @@
 
                 Kokkos::View<double***[10]>
                     view4("four dimensions", 10, 10, 10);
+
+                Kokkos::View<double[10][10][10]>
+                    view5("three statics dimensions");
             \end{minted}
         \end{column}
         \begin{column}{0.4\linewidth}
@@ -1098,10 +1101,10 @@
                 \item Contains any C++ type (\texttt{int}, \texttt{float}, \texttt{double}, etc)
                 \item Number of dimensions, fixed at compile time (no more than 7)
                 \item Size of each dimension determined at...
-                \begin{description}[\texttt{[n]}]
-                    \item[\texttt{*}] runtime
-                    \item[\texttt{[n]}] compile time
-                \end{description}
+                    \begin{description}[\texttt{[n]}]
+                        \item[\texttt{*}] runtime
+                        \item[\texttt{[n]}] compile time
+                    \end{description}
             \end{itemize}
         \end{column}
     \end{columns}
@@ -1109,7 +1112,7 @@
 
 % _____________________________________________________________________________
 
-\begin{frame}[fragile]{Creating a View (2)}
+\begin{frame}[fragile]{Creating a View}
     \begin{columns}
         \begin{column}{0.6\linewidth}
             \begin{minted}{C++}
@@ -1124,6 +1127,9 @@
 
                 Kokkos::View<double***[10]>
                     view4("four dimensions", 10, 10, 10);
+
+                Kokkos::View<double[10][10][10]>
+                    view5("three statics dimensions");
             \end{minted}
         \end{column}
         \begin{column}{0.4\linewidth}
@@ -1157,7 +1163,7 @@
         \begin{column}{0.4\linewidth}
             \begin{itemize}
                 \item Data are accessed using the parenthesis operator \texttt{(i, j, k, ...)}
-                \item Raw data can be accessed using the \texttt{data()} method (not recommended)
+                \item Raw data can be accessed using the \texttt{data()} method. This is useful when interfacing with third party libraries but should be avoided otherwise
             \end{itemize}
         \end{column}
     \end{columns}
@@ -1327,9 +1333,10 @@
 
 \begin{frame}[fragile]{Copy and assignation}
     \begin{columns}
-        \begin{column}{0.6\linewidth}
+        \begin{column}{0.5\linewidth}
             \begin{minted}{C++}
-                Kokkos::View<int*[5]> a("a", 10), b("b", 15);
+                Kokkos::View<int*[5]> a("a", 10), 
+                                      b("b", 15);
                 a = b;
                 Kokkos::View<int**> c(b);
 
@@ -1339,13 +1346,51 @@
 
                 std::cout << a(0, 2) << std::endl;
             \end{minted}
+            \vspace{1em}
         \end{column}
-        \begin{column}{0.4\linewidth}
+        \begin{column}{0.5\linewidth}
             \structure{Question:} What gets printed?
 
             \pause
 
             \structure{Answer:} 3
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% _____________________________________________________________________________
+
+\begin{frame}[fragile]{Copy and assignation}
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            \begin{uncoverenv}<1->
+                \begin{minted}{C++}
+                    Kokkos::View<int*[5]> a("a", 10),
+                    b("b", 15);
+                \end{minted}
+            \end{uncoverenv}
+            \vspace{-3.5em}
+            \begin{uncoverenv}<2->
+                \begin{minted}{C++}
+                    a = b;
+                \end{minted}
+            \end{uncoverenv}
+            \vspace{-3.5em}
+            \begin{uncoverenv}<3->
+                \begin{minted}{C++}
+                    Kokkos::View<int**> c(b);
+                    a(0, 2) = 1;
+                    b(0, 2) = 2;
+                    c(0, 2) = 3;
+
+                    std::cout << a(0, 2) << std::endl;
+                \end{minted}
+            \end{uncoverenv}
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            \only<1 | handout: 0>{\includegraphics[width=\textwidth]{shallow_copy1.png}}
+            \only<2 | handout: 0>{\includegraphics[width=\textwidth]{shallow_copy2.png}}
+            \only<3- | handout: 1>{\includegraphics[width=\textwidth]{shallow_copy3.png}}
         \end{column}
     \end{columns}
 \end{frame}
