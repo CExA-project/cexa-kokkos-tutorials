@@ -1,18 +1,25 @@
 # Exercise 11: Correct race condition using atomics
 
-> [!WARNING]
-> This documentation is a stub which will be completed in the next version.
-
 ## Objective
 
-The goal of this exercise is to profile an existing Kokkos program which solves the heat equation.
+The goal of this exercice is to experiment with race conditions and learn how to solve them using atomics.
 
-## Step 1:
+## Step 1: observe the absence of a race condition in serial execution context
+
+Compile the exercice program using **no** parallel backend (`KOKKOS_ENABLE_SERIAL=ON` should be the only backend option).
+Execute the program several time and observe that the result is the same each time.
+
+## Step 2: observe the race condition
 
 Compile the exercice program using a parallel backend (Cuda/HIP/OpenMP/...).
+Execute the program several time and observe that the result of the parallel operation changes randomly.
 
-Check that the result of the parallel operation differ with each execution.
+## Step 3: Experiment with atomic operation
 
-## Step 2: use atomic operations to correct the race condition
+Replace the operation in the kernel with an atomic operation.
+Check that it solved the race condition.
 
-Use an atomic operation to correct the race condition.
+## Step 4: Experiment with memory traits
+
+Reset the code to step 2 (remove the atomic operation) and create an alias for the `histo` view with the correct memory trait.
+Check that it solved the race condition.
