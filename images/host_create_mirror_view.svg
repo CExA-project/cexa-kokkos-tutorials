@@ -28,12 +28,12 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      inkscape:zoom="1.2363882"
-     inkscape:cx="134.26204"
+     inkscape:cx="135.07085"
      inkscape:cy="339.69913"
      inkscape:window-width="2556"
-     inkscape:window-height="1365"
+     inkscape:window-height="1347"
      inkscape:window-x="0"
-     inkscape:window-y="54"
+     inkscape:window-y="72"
      inkscape:window-maximized="1"
      inkscape:current-layer="layer1"
      inkscape:pageshadow="0"
@@ -44660,18 +44660,17 @@
        transform="matrix(0.26458333,0,0,0.26458333,-196.61311,-64.990104)"
        id="text3547"
        style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect3548);display:inline;fill:none;fill-opacity:1;stroke:#000000;stroke-width:3.77953;stroke-dasharray:none;stroke-opacity:1"><tspan
-         x="403.64844"
+         x="374.63965"
          y="329.80312"
-         id="tspan32053"><tspan
+         id="tspan13207"><tspan
            style="fill:#ffffff;stroke:none"
-           id="tspan32051">Kokkos compiled </tspan></tspan><tspan
-         x="383.50195"
+           id="tspan13205">Kokkos compiled with a </tspan></tspan><tspan
+         x="398.31641"
          y="351.00314"
-         id="tspan32059"><tspan
+         id="tspan13211"><tspan
            style="fill:#ffffff;stroke:none"
-           id="tspan32055">without </tspan><tspan
-           style="fill:#ffffff;stroke:none"
-           id="tspan32057">GPU backend </tspan></tspan></text>
+           id="tspan13209">CPU backend only
+</tspan></tspan></text>
     <rect
        style="fill:url(#linearGradient3551);stroke:#000000;stroke-width:0.1;stroke-dasharray:none;stroke-opacity:1"
        id="rect3550"
@@ -45167,19 +45166,19 @@
        y="0"><tspan
          x="-82.158203"
          y="341.28359"
-         id="tspan32061">Kokkos::View&lt;int*&gt; device_view(&quot;N&quot;, N);
+         id="tspan13213">Kokkos::View&lt;int*&gt; device_view(&quot;N&quot;, N);
 </tspan><tspan
          x="-82.158203"
          y="362.48361"
-         id="tspan32063">
+         id="tspan13215">
 </tspan><tspan
          x="-82.158203"
          y="383.68362"
-         id="tspan32065">auto mirror_view =
+         id="tspan13217">auto mirror_view =
 </tspan><tspan
          x="-82.158203"
          y="404.88363"
-         id="tspan32067">    Kokkos::create_mirror_view(device_view);</tspan></text>
+         id="tspan13219">    Kokkos::create_mirror_view(device_view);</tspan></text>
     <path
        style="font-variation-settings:normal;opacity:1;fill:none;fill-opacity:1;stroke:#1300c9;stroke-width:0.8;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-start:url(#Dot);marker-end:url(#ConcaveTriangle)"
        d="M 0.18343166,62.137027 C 14.254365,61.656973 27.993202,78.295407 36.523603,64.550106"
@@ -45219,14 +45218,14 @@
        transform="translate(-19.557781,3.6116136)"><tspan
          x="105.69451"
          y="75.284393"
-         id="tspan32071"><tspan
+         id="tspan13223"><tspan
            style="fill:#ffffff"
-           id="tspan32069">mirror view </tspan></tspan><tspan
+           id="tspan13221">mirror view </tspan></tspan><tspan
          x="105.69451"
          y="80.89356"
-         id="tspan32075"><tspan
+         id="tspan13227"><tspan
            style="fill:#ffffff"
-           id="tspan32073">shallow</tspan></tspan></text>
+           id="tspan13225">shallow</tspan></tspan></text>
     <text
        xml:space="preserve"
        style="font-weight:300;font-size:5.29167px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;inline-size:32.6213;display:inline;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.690999;stroke-opacity:1"
@@ -45236,14 +45235,14 @@
        transform="translate(-73.78836,1.7153341)"><tspan
          x="105.69451"
          y="75.284393"
-         id="tspan32079"><tspan
+         id="tspan13231"><tspan
            style="stroke-width:0.691"
-           id="tspan32077">default view </tspan></tspan><tspan
+           id="tspan13229">default view </tspan></tspan><tspan
          x="105.69451"
          y="80.89356"
-         id="tspan32083"><tspan
+         id="tspan13235"><tspan
            style="stroke-width:0.691"
-           id="tspan32081">allocation</tspan></tspan></text>
+           id="tspan13233">allocation</tspan></tspan></text>
     <path
        style="font-variation-settings:normal;opacity:1;fill:none;fill-opacity:1;stroke:#b100ad;stroke-width:0.8;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-start:url(#Dot);marker-end:url(#ConcaveTriangle)"
        d="M 8.7078853,79.365686 C 27.830882,88.352392 97.451062,105.81499 61.100441,61.540068"

@@ -44624,18 +44624,18 @@
        style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect3546);display:inline;fill:none;fill-opacity:1;stroke:#000000;stroke-width:3.77953;stroke-dasharray:none;stroke-opacity:1"><tspan
          x="381.98242"
          y="329.80312"
-         id="tspan107346"><tspan
+         id="tspan19663"><tspan
            style="fill:#000000;stroke:none"
-           id="tspan107344">Default View </tspan></tspan></text>
+           id="tspan19661">Default View </tspan></tspan></text>
     <rect
-       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.845975;stroke-dasharray:none;stroke-opacity:1"
        id="rect3547"
-       width="48.157162"
-       height="18.222971"
-       x="30.255116"
-       y="78.446022"
-       rx="3"
-       ry="3" />
+       width="48.311188"
+       height="13.000118"
+       x="30.178102"
+       y="78.369011"
+       rx="3.0095952"
+       ry="2.1401753" />
     <text
        xml:space="preserve"
        transform="matrix(0.26458333,0,0,0.26458333,-68.978781,-3.3395312)"
@@ -44643,21 +44643,18 @@
        style="font-weight:300;font-size:20px;line-height:106%;font-family:'Clear Sans Light';-inkscape-font-specification:'Clear Sans Light, Light';text-align:center;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect3548);display:inline;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:3.77953;stroke-dasharray:none;stroke-opacity:1"><tspan
          x="390.18848"
          y="329.80312"
-         id="tspan107350"><tspan
+         id="tspan19667"><tspan
            style="stroke:none"
-           id="tspan107348">Kokkos compiled </tspan></tspan><tspan
-         x="401.81934"
+           id="tspan19665">Kokkos compiled </tspan></tspan><tspan
+         x="377.10254"
          y="351.00314"
-         id="tspan107356"><tspan
+         id="tspan19675"><tspan
            style="stroke:none"
-           id="tspan107352">without a</tspan><tspan
+           id="tspan19669">with a</tspan><tspan
            style="stroke:none"
-           id="tspan107354"> GPU </tspan></tspan><tspan
-         x="427.52246"
-         y="372.20315"
-         id="tspan107360"><tspan
+           id="tspan19671"> CPU </tspan><tspan
            style="stroke:none"
-           id="tspan107358">backend</tspan></tspan></text>
+           id="tspan19673">backend</tspan></tspan></text>
     <path
        style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#ConcaveTriangle)"
        d="m 78.369063,87.274112 c 9.167344,0 9.167344,0 9.167344,0"
