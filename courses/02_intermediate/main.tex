@@ -76,7 +76,7 @@
 
 %Information to be included in the title page:
 \title{Kokkos intermediate course}
-\author{\scriptsize Paul Zehner, Paul Gannay, Trévis Morvany}
+\author{\scriptsize Paul Zehner, Paul Gannay, Trévis Morvany, Thomas Padioleau}
 \institute{CEA}
 \date{\today}
 \titlegraphic{%
@@ -1458,6 +1458,257 @@
         \end{column}
     \end{columns}
 \end{exerciseframe}
+
+\section{Kokkos ecosystem}
+
+\begin{frame}{Kokkos ekosystem}
+    \begin{center}
+        \includegraphics[width=0.9\textwidth]{ekokkosystem}
+    \end{center}
+\end{frame}
+
+\begin{frame}{Kokkos-FFT}
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            \begin{itemize}
+                \item What is it?
+                \begin{itemize}
+                    \item Fast Fourier Transform (FFT) interface integrated into the Kokkos ecosystem
+                    \item Enables portable FFT computations on heterogeneous systems
+                \end{itemize}
+                \item Why it matters?
+                \begin{itemize}
+                    \item FFT libraries are usually hardware-specific
+                    \item Managing CPU/GPU differences is complex
+                \end{itemize}
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            \begin{itemize}
+                \item Key features
+                \begin{itemize}
+                    \item Supports 1D, 2D, and 3D FFTs
+                    \item Works directly with Kokkos Views
+                    \item Backend abstraction (e.g., FFTW, cuFFT)
+                \end{itemize}
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{2D FFT example}
+    \begin{minted}[fontsize=\small]{C++}
+        const Kokkos::complex<double> z(1.0, 1.0);
+
+        // 2D C2C FFT (Forward and Backward)
+        const Kokkos::View<Kokkos::complex<double>**>
+            xc2c("xc2c", n0, n1),
+            xc2c_hat("xc2c_hat", n0, n1),
+            xc2c_inv("xc2c_inv", n0, n1);
+
+        Kokkos::Random_XorShift64_Pool<> random_pool(12345);
+        Kokkos::DefaultExecutionSpace exec_space;
+        Kokkos::fill_random(exec_space, xc2c, random_pool, z);
+
+        KokkosFFT::fft2(exec_space, xc2c, xc2c_hat);
+        KokkosFFT::ifft2(exec_space, xc2c_hat, xc2c_inv);
+    \end{minted}
+\end{frame}
+
+\begin{frame}{Kokkos Kernels}
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            \begin{itemize}
+                \item What is it?
+                \begin{itemize}
+                    \item Library of optimized parallel kernels built on Kokkos
+                    \item Provides standard HPC building blocks (BLAS, sparse, graph)
+                \end{itemize}
+                \item Why it matters?
+                \begin{itemize}
+                    \item Avoid reimplementing performance-critical kernels
+                    \item Tuned for CPUs, GPUs, and manycore systems
+                    \item Ensures portability without sacrificing performance
+                \end{itemize}
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            \begin{itemize}
+                \item Key features
+                \begin{itemize}
+                    \item Dense linear algebra (BLAS-level operations)
+                    \item Sparse matrix operations (SpMV, SpGEMM, triangular solves)
+                    \item Graph kernels and utilities
+                \end{itemize}
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{GEMV example}
+    \begin{minted}[fontsize=\scriptsize]{C++}
+        Kokkos::View<double**> A("A", n, m);
+        Kokkos::View<double*> x("x", m), y("y", n);
+
+        Kokkos::parallel_for("InitA", N, KOKKOS_LAMBDA(int i) {
+            for (int j = 0; j < m; j++) {
+                A(i,j) = i + j + 1.0;
+            }
+        });
+
+        Kokkos::parallel_for("InitX", m, KOKKOS_LAMBDA(int i) { x(i) = 1.0; });
+        Kokkos::parallel_for("InitY", n, KOKKOS_LAMBDA(int i) { y(i) = 0.0; });
+
+        double alpha = 1.0, beta  = 0.0;
+        KokkosBlas::gemv("N", alpha, A, x, beta, y);
+
+        // check outcome
+        auto y_host = Kokkos::create_mirror_view_and_copy(Kokkos::HostSpace(), y);
+        for (int i = 0; i < n; i++) {
+            std::cout << "y(" << i << ") = " << y_host(i) << std::endl;
+        }
+    \end{minted}
+\end{frame}
+
+\begin{frame}{Kokkos Comm}
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            \begin{itemize}
+                \item What is it?
+                \begin{itemize}
+                    \item A lightweight C++ library for distributed communication on Kokkos
+                    \item Designed for performance portability across heterogeneous systems (CPU, GPU, multi-node)
+                \end{itemize}
+                \item Why it matters?
+                \begin{itemize}
+                    \item Kokkos handles intra-node parallelism, but inter-node communication is still complex
+                    \item Traditional MPI usage with Kokkos leads to:
+                    \item Code duplication
+                    \item Manual data packing/unpacking
+                    \item Difficult GPU-aware communication
+                \end{itemize}
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            \begin{itemize}
+                \item Key features
+                \begin{itemize}
+                    \item Performance-portable communication API
+                    \item Asynchronous operations (non-blocking send/recv, collectives)
+                    \item Automatic handling of:
+                    \item GPU-aware communication
+                    \item Non-contiguous data (Kokkos Views)
+                    \item Minimal, composable, modern C++20 interface
+                    \item Built on top of existing 	communication libraries:
+                    \item MPI, NCCL (others under exploration)
+                \end{itemize}
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Distributed GEMV example}
+    \vspace{-1em}
+
+    \begin{columns}
+        \begin{column}{0.8\linewidth}
+            \begin{minted}[fontsize=\tiny]{C++}
+                KokkosComm::Handle handle(exec_space, comm_object);
+
+                Kokkos::View<double**> A("A", local_m, global_n); // 1D row-wise partitioning
+                Kokkos::View<double*> x("x", global_n);
+                Kokkos::View<double*> y("y", local_m);
+
+                // Initialize local part of vector x on each process
+                Kokkos::parallel_for(
+                    "init local x",
+                    Kokkos::RangePolicy(exec_space, handle.rank() * local_m, (handle.rank() + 1) * local_m),
+                    KOKKOS_LAMBDA(int i) { x(i) = static_cast<double>(handle.rank * i); }
+                );
+                exec_space.fence();
+
+                auto allgather_req = KokkosComm::allgather(handle, x, x);
+
+                // Initialize local part of A on each process
+                Kokkos::parallel_for(
+                    "init local A",
+                    Kokkos::MDRangePolicy({0, 0}, {local_m, global_n}),
+                    KOKKOS_LAMBDA(int i, int j) { A(i, j) = static_cast<double>(handle.rank() + j); }
+                );
+                exec_space.fence();
+
+                KokkosComm::wait(allgather_req);
+
+                KokkosBlas::gemv("N", alpha, A, x, beta, y);
+            \end{minted}
+        \end{column}
+        \begin{column}{0.2\linewidth}
+            \includegraphics[width=\linewidth]{kokkos_comm_gemv}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Kokkos-Fortran Interop}
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            \begin{itemize}
+                \item What is it?
+                \begin{itemize}
+                    \item Interoperability library
+                    \item Allows Fortran programs to use Kokkos data structures and call Kokkos C++ parallel constructs
+                \end{itemize}
+                \item Why it matters?
+                \begin{itemize}
+                    \item There are large Fortran HPC codes (1 M+ lines of code)
+                    \item Rewriting mature Fortran applications in C++ is costly and risky
+                    \item Local impact on the code
+                \end{itemize}
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            \begin{itemize}
+                \item Key features
+                \begin{itemize}
+                    \item Enable portable GPU acceleration for Fortran programs
+                    \item Interoperability via \texttt{ISO\_C\_BINDING} module
+                    \item Fortran derived-types to handle Kokkos Views, accessible with Fortran pointer arrays
+                    \item Shared Space memory for data synchronization
+                \end{itemize}
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{PyKokkos}
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            \begin{itemize}
+                \item What is it?
+                \begin{itemize}
+                    \item Interoperability library
+                    \item Translation layer
+                \end{itemize}
+                \item Why it matters?
+                \begin{itemize}
+                    \item Python is a popular and good prototyping language
+                    \item Lowers the barrier to using Kokkos
+                    \item Improves productivity for scientists and data analysts working in Python
+                \end{itemize}
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            \begin{itemize}
+                \item Key features
+                \begin{itemize}
+                    \item Enable portable GPU acceleration for Python programs
+                    \item Interoperability with Numpy and Cupy
+                    \item Use main Kokkos concepts directly in Python
+                    \item JIT compilation of Python code for CPU and GPU
+                \end{itemize}
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
 
 \section{Conclusion}
 
