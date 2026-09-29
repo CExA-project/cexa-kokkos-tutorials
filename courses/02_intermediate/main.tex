@@ -845,6 +845,25 @@
     \end{itemize}
 \end{frame}
 
+\begin{frame}[fragile]{SIMD Flags}
+    \begin{itemize}
+        \item On some architectures, SIMD memory operations can be more efficient when the memory is aligned to the size of a vector
+        \item All Kokkos SIMD memory operations accept a flag argument
+            \begin{itemize}
+                \item \texttt{simd\_flag\_default}: unaligned load and stores
+                \item \texttt{simd\_flag\_aligned}: aligned load and stores
+            \end{itemize}
+        \item By default, \texttt{simd\_flag\_default} is used
+    \end{itemize}
+    \begin{minted}{C++}
+        namespace KE = Kokkos::Experimental;
+        using simd_type = KE::simd<double>;
+        simd_type vec(ptr, KE::simd_flag_aligned);
+        vec = KE::simd_unchecked_load<simd_type>(ptr, KE::simd_flag_aligned);
+        KE::simd_unchecked_store(vec, ptr, KE::simd_flag_aligned);
+    \end{minted}
+\end{frame}
+
 \begin{frame}[fragile]{What about GPUs?}
     \begin{itemize}
         \item We said previously that we cannot use vectorized CPU instructions on GPU
