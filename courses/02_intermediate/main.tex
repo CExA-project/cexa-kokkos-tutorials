@@ -1459,6 +1459,64 @@
     \end{columns}
 \end{exerciseframe}
 
+\section{Compiler explorer}
+
+\begin{frame}{Kokkos on Compiler explorer}
+    \begin{description}[Compiler explorer]
+        \item[Compiler explorer] A tool to compile code online with various compilers
+        \item[URL] \awesomelink{globe}{\url{http://godbolt.org/}}
+        \item[Kokkos versions] Most of them
+        \item[Backends] Serial and CUDA
+    \end{description}
+\end{frame}
+
+\begin{frame}{Select a version of Kokkos with the Serial backend}
+    \begin{columns}
+        \begin{column}{0.6\linewidth}
+            \begin{enumerate}
+                \item Select C++ language
+                \item Click on Libraries
+                \item Search for Kokkos
+                \item Select desired version of Kokkos
+                \begin{itemize}
+                    \item 5.2.0
+                    \item 5.1.1
+                    \item 4.7.4
+                    \item ...
+                \end{itemize}
+            \end{enumerate}
+        \end{column}
+        \begin{column}{0.4\linewidth}
+            \begin{enumerate}
+                \item[2.] \includegraphics[scale=0.25]{godbold_libraries}
+                \item[3.] \includegraphics[scale=0.25]{godbold_libraries_search}
+                \item[4.] \includegraphics[scale=0.25]{godbold_libraries_version}
+            \end{enumerate}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Select the CUDA backend}
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            \begin{enumerate}
+                \item Select CUDA C++ language
+                \item Click on Libraries
+                \item Search for Kokkos
+                \item Select desired version of Kokkos (only the latest ones are available)
+                \item Select NVCC $\geq$ 13.0
+                \item Add \texttt{-std=c++20 --extended-lambda} compiler flags (limitation of Compiler explorer)
+            \end{enumerate}
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            \begin{enumerate}
+                \item \includegraphics[scale=0.25]{godbold_cuda}
+                \item[5., 6.] \includegraphics[scale=0.25]{godbold_cuda_flags}
+            \end{enumerate}
+        \end{column}
+    \end{columns}
+\end{frame}
+
 \section{Kokkos ecosystem}
 
 \begin{frame}{Kokkos ekosystem}
