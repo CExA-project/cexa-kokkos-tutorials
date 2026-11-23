@@ -18,7 +18,7 @@ This course is part of the [CExA project](https://cexa-project.github.io/).
 ### Courses
 
 - [Course 1: Beginners course](courses/01_beginners/README.md)
-- [Course 1: Intermediate course](courses/02_intermediate/README.md)
+- [Course 2: Intermediate course](courses/02_intermediate/README.md)
 
 > [!NOTE]
 > You can get the slides from the [releases](https://github.com/CExA-project/cexa-kokkos-tutorials/releases) page.
@@ -31,6 +31,7 @@ This course is part of the [CExA project](https://cexa-project.github.io/).
 - [Exercise 4: Parallel Loop](exercises/04_parallel_loop/README.md)
 - [Exercise 5: Parallel Reduce](exercises/05_parallel_reduce/README.md)
 - [Exercise 10: Debugging and profiling](exercises/10_profiling/README.md)
+- [Exercise 11: Atomics](exercises/11_atomics/README.md)
 
 ### Projects
 

@@ -15,7 +15,7 @@ You can either clone the Kokkos repository, download a release archive, or use t
 Use the following command to clone the repository into a directory called `kokkos` and use the latest release.
 
 ```sh
-git clone https://github.com/kokkos/kokkos.git --branch 4.5.01
+git clone https://github.com/kokkos/kokkos.git --branch 5.2.2
 ```
 
 ### Download a release archive
@@ -23,9 +23,9 @@ git clone https://github.com/kokkos/kokkos.git --branch 4.5.01
 Alternatively, you can download the source code from the release page on GitHub [here](https://github.com/kokkos/kokkos/releases).
 
 ```sh
-wget https://github.com/kokkos/kokkos/archive/refs/tags/4.5.01.tar.gz
-tar xvf 4.5.01.tar.gz
-mv kokkos-4.5.01 kokkos
+wget https://github.com/kokkos/kokkos/archive/refs/tags/5.2.2.tar.gz
+tar xvf 5.2.2.tar.gz
+mv kokkos-5.2.2 kokkos
 ```
 
 ### Use the submodule

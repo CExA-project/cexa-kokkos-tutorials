@@ -159,6 +159,9 @@ int main(int argc, char* argv[]) {
             ? 1
             : static_cast<unsigned int>(std::log10(number_of_iteration)) + 1;
 
+    Kokkos::initialize(argc, argv);
+    {
+
     // __________________________________________________________________________
     // Print summary of parameters
 
@@ -191,9 +194,6 @@ int main(int argc, char* argv[]) {
 
     // __________________________________________________________________________
     // Initialize the grids using a Gaussian perturbation
-
-    Kokkos::initialize(argc, argv);
-    {
 
     Kokkos::Timer timer;
 
