@@ -1362,6 +1362,7 @@
 \begin{frame}[fragile]{Copy and assignation}
     \begin{columns}
         \begin{column}{0.5\linewidth}
+            \vspace{1em}
             \begin{uncoverenv}<1->
                 \begin{minted}{C++}
                     Kokkos::View<int*[5]> a("a", 10),
@@ -1395,9 +1396,11 @@
         \begin{column}{0.5\linewidth}
             \centering
 
-            \only<1 | handout: 0>{\includegraphics[width=0.9\textwidth]{shallow_copy1.png}}
-            \only<2 | handout: 0>{\includegraphics[width=0.9\textwidth]{shallow_copy2.png}}
-            \only<3- | handout: 1>{\includegraphics[width=0.9\textwidth]{shallow_copy3.png}}
+            \only<1 | handout: 0>{\includegraphics[width=0.8\textwidth]{shallow_copy1.png}}
+
+            \only<2 | handout: 0>{\includegraphics[width=0.8\textwidth]{shallow_copy2.png}}
+
+            \only<3- | handout: 1>{\includegraphics[width=0.8\textwidth]{shallow_copy3.png}}
         \end{column}
     \end{columns}
 \end{frame}
